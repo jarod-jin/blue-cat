@@ -1,0 +1,62 @@
+apply from: rootProject.rootDir.getAbsolutePath() + "/gradle/ext.gradle"
+
+subprojects {
+    apply from: gradlePath + "spring.gradle"
+
+    //JVM 版本
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = "UTF-8"
+
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = "sources"
+        from sourceSets.main.allSource
+    }
+
+    task deleteOut(type: Delete) {
+        delete 'out'
+    }
+
+    task jarWithoutResources(type: Jar) {
+        baseName project.name
+        from("$buildDir/classes/main")
+    }
+
+    artifacts {
+        archives sourcesJar
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    configurations {
+        all*.exclude group: "org.slf4j", module: "slf4j-log4j12"
+        all*.exclude group: "log4j", module: "log4j"
+        all*.exclude group: "junit", module: "junit"
+    }
+}
+
+allprojects {
+    group "cn.jarod"
+    version "1.0-SNAPSHOT"
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: 'application'
+
+
+    repositories {
+        mavenLocal()
+        maven { url "https://maven.aliyun.com/repository/spring/" }
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url 'http://maven.springframework.org/release' }
+        maven { url 'http://maven.springframework.org/milestone' }
+        maven { url 'https://projectlombok.org/edge-releases' }
+        mavenCentral()
+    }
+}

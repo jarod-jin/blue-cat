@@ -1,0 +1,57 @@
+ext {
+    gradlePath = rootProject.rootDir.getAbsolutePath() + "/gradle/"
+}
+
+ext {
+
+    fastjsonVersion = "1.2.53"
+
+    guavaVersion = "27.0-jre"
+
+    lombokVersion = '1.18.4'
+
+    junitVersion = '5.3.1'
+
+    jjwtVersion = '0.9.1'
+
+    slf4jVersion = '1.7.25'
+
+    logbackVersion = '1.2.3'
+
+    jmockitVersion = '1.43'
+
+    mysqlVersion = '8.0.17'
+
+    druidVersion = "1.1.10"
+
+    mariadbVersion = "2.4.3"
+
+    javaxInterceptorVersion = "1.2"
+
+    hibernateVersion = "5.3.7.Final"
+
+    jjwtVersion = "0.9.1"
+
+    fastdfsVersion = "1.26.4"
+
+    poolVersion = "2.6.0"
+
+    springBootAdminVersion = "2.1.1"
+
+    springCloudVersion = "Greenwich.RELEASE"
+
+    easyexcelVersion = "1.1.2-beta5"
+
+    beanutilsVersion = "1.9.3"
+
+    jasyptVersion = "2.1.1"
+
+    pinyin4jVersion = "2.5.0"
+
+    cxfVersion = "3.3.1"
+
+    springBootVersion = "2.1.7.RELEASE"
+
+    springPluginVersion = "1.0.8.RELEASE"
+
+}

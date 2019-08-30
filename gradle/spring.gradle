@@ -1,0 +1,7 @@
+apply from: gradlePath + "ext.gradle"
+apply from: gradlePath + "dependency.gradle"
+
+plugins {
+    id 'org.springframework.boot' version("${springBootVersion}")
+    id 'io.spring.dependency-management' version("${springPluginVersion}")
+}
