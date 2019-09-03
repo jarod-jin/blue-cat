@@ -50,8 +50,6 @@ ext {
 
     cxfVersion = "3.3.1"
 
-    springBootVersion = "2.1.7.RELEASE"
-
-    springPluginVersion = "1.0.8.RELEASE"
+    nacosVersion = "2.1.0.RELEASE"
 
 }

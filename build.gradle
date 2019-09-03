@@ -1,6 +1,15 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
 apply from: rootProject.rootDir.getAbsolutePath() + "/gradle/ext.gradle"
 
 subprojects {
+    apply plugin: 'application'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
     apply from: gradlePath + "spring.gradle"
 
     //JVM 版本
@@ -46,8 +55,6 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'maven'
-    apply plugin: 'application'
-
 
     repositories {
         mavenLocal()
