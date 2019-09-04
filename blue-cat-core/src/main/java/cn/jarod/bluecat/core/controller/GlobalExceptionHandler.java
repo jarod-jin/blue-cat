@@ -1,5 +1,7 @@
 package cn.jarod.bluecat.core.controller;
 
+import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,7 +29,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultVO defaultErrorHandler(HttpServletRequest req, BaseException e) {
         log.warn("defaultErrorHandler {}, {}", req.getRequestURI(), e.getErrorMessage());
-        return new ResultDTO(e.getErrorCode(), e.getErrorMessage(), "");
+        return new ResultVO(e.getErrorCode(), e.getErrorMessage(), "");
     }
 
 

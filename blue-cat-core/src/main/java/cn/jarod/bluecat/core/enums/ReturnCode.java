@@ -1,5 +1,7 @@
 package cn.jarod.bluecat.core.enums;
 
+import lombok.Getter;
+
 /**
  * @auther jarod.jin 2019/9/3
  */
@@ -31,21 +33,14 @@ public enum ReturnCode {
 
     R503("503","服务器连接超时，请稍后重试");
 
+    @Getter
     String code;
 
+    @Getter
     String msg;
 
     ReturnCode(String code,String msg){
         this.code = code;
         this.msg = msg;
     }
-
-    public String getCode(){
-        return code;
-    }
-
-    public String getMsg(){
-        return msg;
-    }
-
 }

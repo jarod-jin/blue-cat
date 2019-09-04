@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.exception;
 
-import com.dahua.tech.easywork.common.common.ReturnCode;
+import cn.jarod.bluecat.core.enums.ReturnCode;
 import lombok.Getter;
 
 public class BaseException extends RuntimeException {
