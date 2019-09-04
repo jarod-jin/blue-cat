@@ -3,14 +3,12 @@ package cn.jarod.bluecat.core.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 /**
  * @auther jarod.jin 2019/9/4
  */
 @Setter
 @Getter
-public class BaseVO {
+public class BaseDTO {
 
     //唯一标识
     private Long id;

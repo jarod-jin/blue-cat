@@ -17,11 +17,15 @@ import java.util.Random;
 @Slf4j
 public class EncryptUtil {
 
-    public static final String SHA_256 = "SHA-256";
+    private static final String SHA_256 = "SHA-256";
 
-    public static final String MD5 = "MD5";
+    private static final String MD5 = "MD5";
 
-    public static final String ROOT = "0";
+    private static final String ROOT = "0";
+
+    private static final String DIGIT = "0123456789";
+
+    private static final String LETTER = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
     /**
@@ -94,9 +98,9 @@ public class EncryptUtil {
 
 
     public static String getRandomCode(int length, boolean hasLetter){
-        String str="0123456789";
+        String str= DIGIT;
         if (hasLetter)
-            str += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            str += LETTER;
         char[]arr=new char[length];//定义一个长度是4的char型数组
         Random sj=new Random();
         for(int i=0;i<length;i++)

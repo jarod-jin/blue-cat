@@ -1,3 +1,5 @@
 rootProject.name = 'blue-cat'
 include 'blue-cat-core'
+include 'blue-cat-auth'
+include 'blue-cat-gateway'
 

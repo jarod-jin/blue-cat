@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.exception;
 
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.enums.*;
 import lombok.Getter;
 
 public class BaseException extends RuntimeException {

@@ -3,8 +3,6 @@ package cn.jarod.bluecat.core.utils;
 import cn.jarod.bluecat.core.enums.CommonPattern;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

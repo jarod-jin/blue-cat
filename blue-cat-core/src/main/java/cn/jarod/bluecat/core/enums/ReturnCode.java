@@ -1,9 +1,7 @@
 package cn.jarod.bluecat.core.enums;
 
-import lombok.Getter;
-
 /**
- * @auther jarod.jin 2019/9/3
+ * @auther jarod.jin 2019/9/4
  */
 public enum ReturnCode {
 
@@ -29,18 +27,25 @@ public enum ReturnCode {
 
     D400("400","删除条件有误"),
 
-    R500("500","服务器内部错误"),
+    R500("500","服务器内部错误，请联系管理员"),
 
     R503("503","服务器连接超时，请稍后重试");
 
-    @Getter
-    String code;
+    private String code;
 
-    @Getter
-    String msg;
+    private String msg;
 
     ReturnCode(String code,String msg){
         this.code = code;
         this.msg = msg;
     }
+
+    public String getCode(){
+        return code;
+    }
+
+    public String getMsg(){
+        return msg;
+    }
+
 }

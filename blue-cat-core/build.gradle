@@ -1,7 +1,5 @@
 jar.enabled = true
 
-mainClassName = 'cn.jarod.bluecat.core.BlueCatCoreApplication'
-
 dependencies {
 
 }

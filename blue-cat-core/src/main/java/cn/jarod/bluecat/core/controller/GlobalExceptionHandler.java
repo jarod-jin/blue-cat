@@ -2,7 +2,8 @@ package cn.jarod.bluecat.core.controller;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.ResultVO;
+import cn.jarod.bluecat.core.model.MessageDTO;
+import cn.jarod.bluecat.core.model.ResultDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,23 +21,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseBody
-    public ResultVO validErrorHandler(MethodArgumentNotValidException e) {
-        log.warn("数据校验不通过 validErrorHandler {}", e.getMessage());
-        return new ResultVO(ReturnCode.S400.getCode(), ReturnCode.S400.getMsg(), e.getMessage());
+    public ResultDTO<MessageDTO> validErrorHandler(HttpServletRequest req, MethodArgumentNotValidException e) {
+        log.warn("数据校验不通过: {},{}",req.getRequestURI(), e.getMessage());
+        return new ResultDTO<>(ReturnCode.S400.getCode(), ReturnCode.S400.getMsg(),new MessageDTO( e.getMessage()));
     }
 
     @ExceptionHandler(value = BaseException.class)
     @ResponseBody
-    public ResultVO defaultErrorHandler(HttpServletRequest req, BaseException e) {
-        log.warn("defaultErrorHandler {}, {}", req.getRequestURI(), e.getErrorMessage());
-        return new ResultVO(e.getErrorCode(), e.getErrorMessage(), "");
+    public ResultDTO<MessageDTO> defaultErrorHandler(HttpServletRequest req, BaseException e) {
+        log.warn("接口调用不正确： {}, {}", req.getRequestURI(), e.getErrorMessage());
+        return new ResultDTO<>(e.getErrorCode(), e.getErrorMessage(), new MessageDTO( e.getMessage()));
     }
 
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ResultVO errorHandler(Exception ex) {
-        log.error("异常信息为 {}",  ex);
-        return new ResultVO(ReturnCode.R500.getCode(),ReturnCode.R500.getMsg(),ex.getMessage());
+    public ResultDTO<MessageDTO> errorHandler(HttpServletRequest req, Exception ex) {
+        log.error("接口异常：{}，{}", req.getRequestURI(), ex.getMessage());
+        return new ResultDTO<>(ReturnCode.R500.getCode(),ReturnCode.R500.getMsg(),new MessageDTO(ex.getMessage()));
     }
 }
