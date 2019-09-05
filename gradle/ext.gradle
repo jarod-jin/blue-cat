@@ -50,6 +50,6 @@ ext {
 
     cxfVersion = "3.3.1"
 
-    nacosVersion = "2.1.0.RELEASE"
+    springAlibabaVersion = "2.1.0.RELEASE"
 
 }

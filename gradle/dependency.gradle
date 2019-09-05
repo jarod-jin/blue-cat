@@ -36,8 +36,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-hystrix")
 
-    implementation("com.alibaba.cloud:spring-cloud-alibaba-nacos-config:${nacosVersion}")
-    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${nacosVersion}")
+    implementation("com.alibaba.cloud:spring-cloud-alibaba-nacos-config")
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
 
 
     //junit5
@@ -52,5 +52,6 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springAlibabaVersion}"
     }
 }

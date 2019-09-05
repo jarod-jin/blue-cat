@@ -1,0 +1,23 @@
+server:
+  port: 8090
+
+management:
+  server:
+    port: 9090
+    # address: 127.0.0.1
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  redis:
+    database: 0
+    host: 10.1.248.137
+    port: 6379
+    password: redis@123456#
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+useLocalCache: lisi
