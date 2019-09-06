@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @auther jarod.jin 2019/5/17
@@ -33,7 +34,6 @@ import java.util.Map;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"cn.jarod.bluecat.*.repository"})
 public class DataSourceConfig {
-
 
     public static final String MASTER = "master";
 
@@ -56,9 +56,9 @@ public class DataSourceConfig {
         DruidDataSource abstractDataSource = new DruidDataSource();
         abstractDataSource.setDriverClassName(props.getProperty("datasource.driver-class-name"));
         abstractDataSource.setValidationQuery(props.getProperty("datasource.validation-query"));
-        abstractDataSource.setMaxActive(Integer.parseInt(props.getProperty("datasource.max-active")));
-        abstractDataSource.setMinIdle(Integer.parseInt(props.getProperty("datasource.min-idle")));
-        abstractDataSource.setInitialSize(Integer.parseInt(props.getProperty("datasource.initial-size")));
+        abstractDataSource.setMaxActive(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.max-active"))));
+        abstractDataSource.setMinIdle(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.min-idle"))));
+        abstractDataSource.setInitialSize(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.initial-size"))));
         abstractDataSource.setTestOnBorrow(true);
         abstractDataSource.setTestWhileIdle(true);
         abstractDataSource.setMinEvictableIdleTimeMillis(30000);

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.service;
+package cn.jarod.bluecat.core.config;
 
 import org.hibernate.dialect.MySQL57Dialect;
 
@@ -8,6 +8,6 @@ import org.hibernate.dialect.MySQL57Dialect;
 public class MySQL5DialectUTF8 extends MySQL57Dialect {
     @Override
     public String getTableTypeString() {
-        return " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_unicode_ci";
+        return " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
     }
 }

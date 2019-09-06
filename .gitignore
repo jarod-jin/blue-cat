@@ -1,2 +1,7 @@
 .gradle/
 .idea/
+blue-cat-auth/out/
+blue-cat-core/out/
+*.class
+*.kotlin_module
+blue-cat-gateway/out/
