@@ -5,11 +5,12 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * @auther jarod.jin 2019/9/3
+ * @auther jarod.jin 2019/9/6
  */
 @Getter
 @Setter
