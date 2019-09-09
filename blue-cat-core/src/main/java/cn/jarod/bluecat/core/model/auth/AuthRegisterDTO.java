@@ -1,15 +1,23 @@
 package cn.jarod.bluecat.core.model.auth;
 
 import cn.jarod.bluecat.core.model.BaseDTO;
-import org.springframework.util.StringUtils;
+import cn.jarod.bluecat.core.utils.CommonUtil;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.validation.constraints.NotBlank;
-import static cn.jarod.bluecat.core.enums.CommonPattern.CN_PHONE_NUMBER;
-import static cn.jarod.bluecat.core.enums.CommonPattern.EMAIL;
+import java.io.Serializable;
 
 /**
  * @auther jarod.jin 2019/9/9
  */
-public class AuthRegisterDTO extends BaseDTO {
+@Getter
+@Setter
+@ToString
+public class AuthRegisterDTO extends BaseDTO implements Serializable {
+
+    private static final long serialVersionUID = -3611398577384632971L;
 
     //用户唯一标识
     @NotBlank
@@ -40,16 +48,9 @@ public class AuthRegisterDTO extends BaseDTO {
     //用户类型
     private Integer credentialType;
 
-    public boolean validTel(){
-        return StringUtils.hasText(tel) && tel.matches(CN_PHONE_NUMBER.getPattern());
-    }
-
-    public boolean validEmail(){
-        return StringUtils.hasText(email) && email.matches(EMAIL.getPattern());
-    }
 
     public boolean hasTelOrEmail(){
-        return validTel() || validEmail();
+        return CommonUtil.validTel(tel) || CommonUtil.validEmail(email);
     }
 
 

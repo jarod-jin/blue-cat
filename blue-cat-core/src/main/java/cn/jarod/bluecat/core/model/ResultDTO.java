@@ -11,17 +11,17 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
-public class ResultDTO<T extends BaseDTO> implements Serializable {
+public class ResultDTO implements Serializable {
     private static final long serialVersionUID = -5288702993752277282L;
 
     private String resultCode;
     private String resultMessage;
-    private T data;
+    private Object data;
 
     public ResultDTO() {
     }
 
-    public ResultDTO(String resultCode, String resultMessage, T data) {
+    public ResultDTO(String resultCode, String resultMessage, Object data) {
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
         this.data = data;
@@ -36,6 +36,12 @@ public class ResultDTO<T extends BaseDTO> implements Serializable {
     public ResultDTO(ReturnCode returnCode) {
         this.resultCode = returnCode.getCode();
         this.resultMessage = returnCode.getMsg();
+    }
+
+    public ResultDTO(ReturnCode returnCode, Object data) {
+        this.resultCode = returnCode.getCode();
+        this.resultMessage = returnCode.getMsg();
+        this.data = data;
     }
 
 }

@@ -8,5 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface AuthorityInfoRepository extends JpaRepository<AuthorityInfoDO,Long> {
 
-    boolean existsByTelOrEmail(String tel, String email);
 }

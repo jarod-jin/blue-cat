@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
+import cn.jarod.bluecat.auth.model.ValidAuthBO;
 import cn.jarod.bluecat.auth.repository.AuthorityInfoRepository;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -8,7 +9,10 @@ import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.AuthRegisterDTO;
 import cn.jarod.bluecat.core.model.auth.AuthorityDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
+import cn.jarod.bluecat.core.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
 
@@ -30,15 +34,24 @@ public class CredentialService implements ICredentialService {
 
 
     @Override
-    public ResultDTO validAuthority(AuthRegisterDTO credDTO) {
-        AuthorityInfoDO auth = BeanHelperUtil.getCopyBean(credDTO, AuthorityInfoDO.class);
-        if (credDTO.validTel()){
-
+    public ResultDTO validAuthority(ValidAuthBO authBO) {
+        AuthorityInfoDO auth;
+        if (StringUtils.hasText(authBO.getAuthority())){
+            auth = new AuthorityInfoDO();
+            auth.setAuthority(authBO.getAuthority());
+            authBO.setCanAuthority(!authorityInfoRepository.exists(Example.of(auth)));
         }
-        if (credDTO.validTel()){
-
+        if (StringUtils.hasText(authBO.getTel())){
+            auth = new AuthorityInfoDO();
+            auth.setTel(authBO.getTel());
+            authBO.setCanTel(CommonUtil.validTel(auth.getTel())  && !authorityInfoRepository.exists(Example.of(auth)));
         }
-        return new ResultDTO(ReturnCode.S400);
+        if (StringUtils.hasText(authBO.getEmail())){
+            auth = new AuthorityInfoDO();
+            auth.setEmail(authBO.getEmail());
+            authBO.setCanEmail(CommonUtil.validEmail(auth.getEmail())  && !authorityInfoRepository.exists(Example.of(auth)));
+        }
+        return new ResultDTO(ReturnCode.Q200,authBO);
     }
 
 
