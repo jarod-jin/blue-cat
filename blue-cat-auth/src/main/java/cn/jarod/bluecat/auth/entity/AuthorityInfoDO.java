@@ -27,13 +27,21 @@ import javax.persistence.Table;
         @Index(columnList ="email", name="EmailIndex", unique = true)})
 public class AuthorityInfoDO extends DataBase {
 
-    //登录名
-    @Column(nullable = false, columnDefinition=("varchar(50) comment '登录名'"))
+    //用户唯一标识
+    @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))
     private String authority;
 
     //用户名
     @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '用户名'"))
     private String nickname;
+
+    //性别
+    @Column(nullable = false, columnDefinition=("varchar(6) default 'male' comment '性别'"))
+    private String gender;
+
+    //照片
+    @Column(nullable = false, columnDefinition=("varchar(300) default '' comment '照片'"))
+    private String photoUrl;
 
     //电话
     @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '电话'"))

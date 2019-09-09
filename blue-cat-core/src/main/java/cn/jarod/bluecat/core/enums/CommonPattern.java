@@ -13,7 +13,13 @@ public enum CommonPattern {
 
     LETTER_DIGIT("[a-zA-Z0-9]+","只含有英文数字"),
 
-    CHINESE_LETTER("[\\u4e00-\\u9fa5]+","中文字");
+    CHINESE_LETTER("[\\u4e00-\\u9fa5]+","中文字"),
+
+    EMAIL("^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$","邮箱"),
+
+    CN_PHONE_NUMBER("^(1[3-9])\\d{9}$","国内手机");
+
+
 
     @Getter
     String pattern;

@@ -24,8 +24,8 @@ import javax.persistence.Table;
 @Table(name = "access_log", indexes = {@Index(columnList ="authority", name="AuthorityIndex")})
 public class AccessLogDO extends SimpleBase {
 
-    //登录名
-    @Column(nullable = false, columnDefinition=("varchar(50) comment '登录名'"))
+    //用户唯一标识
+    @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))
     private String authority;
 
     //登录Ip

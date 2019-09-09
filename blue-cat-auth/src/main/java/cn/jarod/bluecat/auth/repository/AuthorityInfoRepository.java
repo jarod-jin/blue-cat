@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @auther jarod.jin 2019/9/9
  */
 public interface AuthorityInfoRepository extends JpaRepository<AuthorityInfoDO,Long> {
+
+    boolean existsByTelOrEmail(String tel, String email);
 }

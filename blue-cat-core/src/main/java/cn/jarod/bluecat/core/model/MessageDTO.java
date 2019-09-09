@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MessageDTO extends BaseDTO {
+
     private String message;
 
     public MessageDTO(String msg){

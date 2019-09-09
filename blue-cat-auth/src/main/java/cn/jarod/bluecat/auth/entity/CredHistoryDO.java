@@ -24,8 +24,8 @@ import javax.persistence.Table;
 @Table(name = "cred_history", indexes = {@Index(columnList ="authority", name="AuthorityIndex")})
 public class CredHistoryDO extends SimpleBase {
 
-    //登录名
-    @Column(nullable = false, columnDefinition=("varchar(50) comment '登录名'"))
+    //用户唯一标识
+    @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))
     private String authority;
 
     //密码验证串
