@@ -10,8 +10,11 @@ import cn.jarod.bluecat.core.model.auth.AuthRegisterDTO;
 import cn.jarod.bluecat.core.model.auth.AuthorityDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
+import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
@@ -19,6 +22,8 @@ import javax.validation.Valid;
 /**
  * @auther jarod.jin 2019/9/9
  */
+@Slf4j
+@Service
 public class CredentialService implements ICredentialService {
 
     @Autowired
@@ -34,7 +39,8 @@ public class CredentialService implements ICredentialService {
 
 
     @Override
-    public ResultDTO validAuthority(ValidAuthBO authBO) {
+    public ValidAuthBO validAuthority(ValidAuthBO authBO) {
+        log.info("validAuthority校验参数为：{}", JSON.toJSONString(authBO));
         AuthorityInfoDO auth;
         if (StringUtils.hasText(authBO.getAuthority())){
             auth = new AuthorityInfoDO();
@@ -51,7 +57,7 @@ public class CredentialService implements ICredentialService {
             auth.setEmail(authBO.getEmail());
             authBO.setCanEmail(CommonUtil.validEmail(auth.getEmail())  && !authorityInfoRepository.exists(Example.of(auth)));
         }
-        return new ResultDTO(ReturnCode.Q200,authBO);
+        return authBO;
     }
 
 

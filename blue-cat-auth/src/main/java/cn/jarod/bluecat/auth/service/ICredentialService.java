@@ -16,5 +16,5 @@ public interface ICredentialService {
 
     ResultDTO modifyAuthority(@Valid AuthorityDTO credDTO);
 
-    ResultDTO validAuthority(ValidAuthBO authBO);
+    ValidAuthBO validAuthority(ValidAuthBO authBO);
 }

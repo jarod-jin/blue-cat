@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Setter
 @Getter
-public class BaseQuery {
+public class BaseQO {
 
     @NotNull
     private Integer pageNum;

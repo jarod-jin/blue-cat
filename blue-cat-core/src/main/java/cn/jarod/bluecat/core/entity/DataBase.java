@@ -35,7 +35,6 @@ public class DataBase {
 
     //创建时间
     @Column(nullable = false, columnDefinition=("timestamp default current_timestamp comment '创建时间'"),updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private LocalDateTime createDate;
 
