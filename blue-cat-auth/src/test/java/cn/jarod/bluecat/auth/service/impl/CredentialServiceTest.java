@@ -47,7 +47,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
     @Test
     @DisplayName("创建账号_没有电话和邮箱")
-    void registerAuthority_admin() {
+    void registerAuthority_no_tel_and_email() {
         AuthRegisterDTO credDTO = new AuthRegisterDTO();
         credDTO.setAuthority("junit_test");
         credDTO.setPassword("junit_test");
@@ -56,6 +56,18 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         }catch (BaseException e){
             assertEquals("电话和邮箱不能同时为空",e.getErrorMessage());
         }
+    }
+
+
+    @Test
+    @DisplayName("创建账号_没有电话和邮箱")
+    void registerAuthority_junit() {
+        AuthRegisterDTO credDTO = new AuthRegisterDTO();
+        credDTO.setAuthority("junit_test");
+        credDTO.setPassword("junit_test");
+        credDTO.setTel("18158105518");
+        AuthorityInfoDO authDO = iCredentialService.registerAuthority(credDTO);
+        assertNotNull(authDO.getId());
     }
 
     @Test

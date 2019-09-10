@@ -29,7 +29,7 @@ public class CredHistoryDO extends SimpleBase {
     private String authority;
 
     //密码验证串
-    @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '密码验证串'"))
+    @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '密码验证串'"))
     private String password;
 
 }

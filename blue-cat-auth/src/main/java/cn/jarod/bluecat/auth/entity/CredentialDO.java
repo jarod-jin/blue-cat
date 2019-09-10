@@ -26,7 +26,7 @@ public class CredentialDO extends DataBase {
     private String authority;
 
     //密码
-    @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '登录密码'"))
+    @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '登录密码'"))
     private String password;
 
     //账号类型
