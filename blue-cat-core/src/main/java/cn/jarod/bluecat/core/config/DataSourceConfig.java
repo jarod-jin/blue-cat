@@ -117,7 +117,7 @@ public class DataSourceConfig {
     }
 
     @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder) throws IOException {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder)  {
         return  builder
                 .dataSource(dataSource())
                 .packages("cn.jarod.bluecat.*.entity")
@@ -132,7 +132,7 @@ public class DataSourceConfig {
 
     @Bean(name = "transactionManager")
     public JpaTransactionManager transactionManager(EntityManagerFactoryBuilder builder) throws IOException {
-        return new JpaTransactionManager(entityManagerFactory(builder).getObject());
+        return new JpaTransactionManager(Objects.requireNonNull(entityManagerFactory(builder).getObject()));
     }
 
 

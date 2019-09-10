@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.bp;
+package cn.jarod.bluecat.auth.business;
 
 import cn.jarod.bluecat.auth.model.ValidAuthBO;
 import cn.jarod.bluecat.auth.service.ICredentialService;

@@ -1,6 +1,5 @@
 package cn.jarod.bluecat.core.model.auth;
 
-import cn.jarod.bluecat.core.model.BaseDTO;
 import cn.jarod.bluecat.core.utils.CommonUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class AuthRegisterDTO extends BaseDTO implements Serializable {
+public class AuthRegisterDTO implements Serializable {
 
     private static final long serialVersionUID = -3611398577384632971L;
 
@@ -52,7 +51,5 @@ public class AuthRegisterDTO extends BaseDTO implements Serializable {
     public boolean hasTelOrEmail(){
         return CommonUtil.validTel(tel) || CommonUtil.validEmail(email);
     }
-
-
 
 }
