@@ -8,7 +8,6 @@ import cn.jarod.bluecat.auth.repository.CredentialRepository;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.AuthRegisterDTO;
 import cn.jarod.bluecat.core.model.auth.AuthorityDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
@@ -21,8 +20,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import javax.validation.Valid;
 
 /**
  * @auther jarod.jin 2019/9/9
@@ -37,9 +34,15 @@ public class CredentialService implements ICredentialService {
     @Autowired
     private CredentialRepository credentialRepository;
 
+    /**
+     * 注册账号
+     * @param authDTO
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public AuthorityInfoDO registerAuthority(@Valid AuthRegisterDTO authDTO) {
+    public AuthorityInfoDO registerAuthority(AuthRegisterDTO authDTO) {
+        log.info("registerAuthority 参数为：{}", JSON.toJSONString(authDTO));
         AuthorityInfoDO authDO = BeanHelperUtil.getCopyBean(authDTO, AuthorityInfoDO.class);
         if (!authDTO.hasTelOrEmail())
             throw new BaseException(ReturnCode.S400.getCode(), "电话和邮箱不能同时为空");
@@ -57,11 +60,28 @@ public class CredentialService implements ICredentialService {
         return authDO;
     }
 
+    /**
+     * 删除账号
+     * @param authDTO
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteAuthority(AuthRegisterDTO authDTO) {
+        BaseException baseException = new BaseException(ReturnCode.S400.getCode(), "找不到该用户");
+        authorityInfoRepository.delete(authorityInfoRepository.findByAuthority(authDTO.getAuthority()).orElseThrow(() -> baseException));
+        credentialRepository.delete(credentialRepository.findByAuthority(authDTO.getAuthority()).orElseThrow(()-> baseException));
+    }
 
+    /**
+     * 注册账号前校验
+     * @param authBO
+     * @return
+     */
     @Override
     @Transactional(readOnly = true)
     public ValidAuthBO validAuthority(ValidAuthBO authBO) {
-        log.info("validAuthority校验参数为：{}", JSON.toJSONString(authBO));
+        log.info("validAuthority 参数为：{}", JSON.toJSONString(authBO));
         AuthorityInfoDO auth;
         if (StringUtils.hasText(authBO.getAuthority())){
             auth = new AuthorityInfoDO();
@@ -83,9 +103,13 @@ public class CredentialService implements ICredentialService {
 
 
     @Override
-    public ResultDTO modifyAuthority(@Valid AuthorityDTO credDTO) {
-        AuthorityInfoDO auth = BeanHelperUtil.getCopyBean(credDTO, AuthorityInfoDO.class);
-        return null;
+    @Transactional
+    public AuthorityInfoDO modifyAuthority(AuthorityDTO authDTO) {
+        log.info("modifyAuthority 参数为：{}", JSON.toJSONString(authDTO));
+        AuthorityInfoDO target = BeanHelperUtil.getCopyBean(authDTO, AuthorityInfoDO.class);
+        authorityInfoRepository.findByAuthority(authDTO.getAuthority()).ifPresent(
+                s -> BeanHelperUtil.copyNullProperties(s, target));
+        return authorityInfoRepository.save(target);
     }
 
 }

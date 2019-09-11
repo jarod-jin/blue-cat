@@ -55,6 +55,15 @@ public class AuthorityInfoDO extends DataBase {
     @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '说明'"))
     private String memo;
 
+    public AuthorityInfoDO (){
+        super();
+    }
+
+    public AuthorityInfoDO (String authority){
+        super();
+        this.authority = authority;
+    }
+
 
 }
 

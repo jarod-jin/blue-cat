@@ -6,6 +6,9 @@ import cn.jarod.bluecat.auth.model.ValidAuthBO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.AuthRegisterDTO;
+import cn.jarod.bluecat.core.model.auth.AuthorityDTO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +24,33 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     ICredentialService iCredentialService;
 
+    AuthRegisterDTO authRegDTO;
+
+    AuthorityDTO authDTO;
+
+    @BeforeEach
+    public void setUp()  {
+        authRegDTO = new AuthRegisterDTO();
+        authRegDTO.setAuthority("junit_test");
+        authRegDTO.setPassword("junit_test");
+
+        authDTO = new AuthorityDTO();
+        authDTO.setAuthority("admin");
+
+    }
+
+    @AfterEach
+    public void tearDown()  {
+        iCredentialService.deleteAuthority(authRegDTO);
+        authRegDTO = null;
+        authDTO = null;
+    }
+
+
 
     @Test
     @DisplayName("内容为null")
-    void validAuthority_no_text() {
+    void validAuthorityNullText() {
         ValidAuthBO authBO = new ValidAuthBO();
         authBO = iCredentialService.validAuthority(authBO);
         assertFalse(authBO.isCanAuthority());
@@ -34,7 +60,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
     @Test
     @DisplayName("内容为空白")
-    void validAuthority_empty_text() {
+    void validAuthorityEmptyText() {
         ValidAuthBO authBO = new ValidAuthBO();
         authBO.setAuthority("");
         authBO.setTel("");
@@ -47,12 +73,9 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
     @Test
     @DisplayName("创建账号_没有电话和邮箱")
-    void registerAuthority_no_tel_and_email() {
-        AuthRegisterDTO credDTO = new AuthRegisterDTO();
-        credDTO.setAuthority("junit_test");
-        credDTO.setPassword("junit_test");
+    void registerAuthorityNoParams() {
         try{
-            AuthorityInfoDO authDO = iCredentialService.registerAuthority(credDTO);
+            iCredentialService.registerAuthority(authRegDTO);
         }catch (BaseException e){
             assertEquals("电话和邮箱不能同时为空",e.getErrorMessage());
         }
@@ -60,17 +83,21 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
 
     @Test
-    @DisplayName("创建账号_没有电话和邮箱")
-    void registerAuthority_junit() {
-        AuthRegisterDTO credDTO = new AuthRegisterDTO();
-        credDTO.setAuthority("junit_test");
-        credDTO.setPassword("junit_test");
-        credDTO.setTel("18158105518");
-        AuthorityInfoDO authDO = iCredentialService.registerAuthority(credDTO);
+    @DisplayName("创建账号_测试账号")
+    void registerAuthorityJunitTest() {
+        authRegDTO.setTel("13105818757");
+        AuthorityInfoDO authDO = iCredentialService.registerAuthority(authRegDTO);
         assertNotNull(authDO.getId());
     }
 
     @Test
-    void modifyAuthority() {
+    @DisplayName("修改admin账号数据")
+    void modifyAuthorityAdmin() {
+        authDTO.setNickname("金亦冰");
+        authDTO.setEmail("kira277@163.com");
+        AuthorityInfoDO authDO = iCredentialService.modifyAuthority(authDTO);
+        assertEquals(authDTO.getNickname(),authDO.getNickname());
     }
+
+
 }

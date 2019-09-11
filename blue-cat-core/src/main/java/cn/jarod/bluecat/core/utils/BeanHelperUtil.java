@@ -116,6 +116,7 @@ public class BeanHelperUtil {
         BeanUtils.copyProperties(source, target, getNoNullProperties(target));
     }
 
+
     /**
      * @param target 目标源数据
      * @return 将目标源中不为空的字段取出
@@ -131,6 +132,8 @@ public class BeanHelperUtil {
         String[] result = new String[noEmptyName.size()];
         return noEmptyName.toArray(result);
     }
+
+
 
 
 

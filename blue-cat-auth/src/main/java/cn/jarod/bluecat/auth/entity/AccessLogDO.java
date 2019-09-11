@@ -25,7 +25,7 @@ import javax.persistence.Table;
 public class AccessLogDO extends SimpleBase {
 
     //用户唯一标识
-    @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))
+    @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识 '"))
     private String authority;
 
     //登录Ip

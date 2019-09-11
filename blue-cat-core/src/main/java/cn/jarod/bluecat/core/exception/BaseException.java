@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.exception;
 
-import cn.jarod.bluecat.core.enums.*;
+import cn.jarod.bluecat.core.enums.ReturnCode;
 import lombok.Getter;
 
 public class BaseException extends RuntimeException {
@@ -22,4 +22,6 @@ public class BaseException extends RuntimeException {
 		this.errorCode = returnCode.getCode();
 		this.errorMessage = returnCode.getMsg();
 	}
+
+
 }
