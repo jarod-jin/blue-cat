@@ -24,8 +24,8 @@ import java.time.LocalDateTime;
 @Component
 public class TimeDiffAop {
 
-    ThreadLocal<Long> time = new ThreadLocal<>();
-
+    //创建的时间变量只能被当前线程访问
+    private ThreadLocal<Long> time = new ThreadLocal<>();
 
     /**
      * 在方法前记录时间并根据注解，是否打印参数
@@ -64,11 +64,10 @@ public class TimeDiffAop {
 
     private Method getObjMethod(JoinPoint joinPoint) throws ClassNotFoundException, NoSuchMethodException {
         String targetName = joinPoint.getTarget().getClass().getName();
-        Class targetClass = Class.forName(targetName);
         MethodSignature ms= (MethodSignature)joinPoint.getSignature();
         String methodName = ms.getMethod().getName();
         Class<?>[] par=ms.getParameterTypes();
-        return targetClass.getMethod(methodName,par);
+        return Class.forName(targetName).getMethod(methodName, par);
     }
 
 
