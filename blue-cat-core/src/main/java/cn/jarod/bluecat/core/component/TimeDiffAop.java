@@ -57,7 +57,7 @@ public class TimeDiffAop {
                 log.info("{}请求参数：{}",name, JSON.toJSON(args));
             }
         } catch (ClassNotFoundException | NoSuchMethodException e) {
-            log.error(e.getMessage());
+            log.error("打印开始时间和参数时出现异常：{}", e.getMessage());
         }
         return pjp.proceed();
     }
