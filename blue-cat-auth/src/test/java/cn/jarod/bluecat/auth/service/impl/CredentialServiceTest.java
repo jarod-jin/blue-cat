@@ -52,9 +52,8 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
 
     @Test
-    @DisplayName("内容为null")
+    @DisplayName("校验内容为null")
     void validAuthorityNullText() {
-        ValidAuthBO authBO = new ValidAuthBO();
         authBO = iCredentialService.validAuthority(authBO);
         assertFalse(authBO.isCanAuthority());
         assertFalse(authBO.isCanTel());
@@ -62,14 +61,34 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     }
 
     @Test
-    @DisplayName("内容为空白")
+    @DisplayName("校验内容为空白")
     void validAuthorityEmptyText() {
-        ValidAuthBO authBO = new ValidAuthBO();
         authBO.setAuthority("");
         authBO.setTel("");
         authBO.setEmail("");
         authBO = iCredentialService.validAuthority(authBO);
         assertFalse(authBO.isCanAuthority());
+        assertFalse(authBO.isCanTel());
+        assertFalse(authBO.isCanEmail());
+    }
+
+
+    @Test
+    @DisplayName("校验Authority为admin")
+    void validAuthorityAdmin() {
+        authBO.setAuthority("admin");
+        authBO = iCredentialService.validAuthority(authBO);
+        assertFalse(authBO.isCanAuthority());
+        assertFalse(authBO.isCanTel());
+        assertFalse(authBO.isCanEmail());
+    }
+
+    @Test
+    @DisplayName("校验Authority为junit_test")
+    void validAuthorityJunit() {
+        authBO.setAuthority("junit_test");
+        authBO = iCredentialService.validAuthority(authBO);
+        assertTrue(authBO.isCanAuthority());
         assertFalse(authBO.isCanTel());
         assertFalse(authBO.isCanEmail());
     }
