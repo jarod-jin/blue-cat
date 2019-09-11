@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.service;
+package cn.jarod.bluecat.core.component;
 
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;

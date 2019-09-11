@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.gateway.controller;
 
-import cn.jarod.bluecat.core.service.api.BlueCatAuthService;
+import cn.jarod.bluecat.core.api.BlueCatAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;

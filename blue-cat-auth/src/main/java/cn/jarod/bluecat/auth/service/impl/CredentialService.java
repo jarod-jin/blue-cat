@@ -6,6 +6,7 @@ import cn.jarod.bluecat.auth.model.ValidAuthBO;
 import cn.jarod.bluecat.auth.repository.AuthorityInfoRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
 import cn.jarod.bluecat.auth.service.ICredentialService;
+import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.AuthRegisterDTO;
@@ -13,7 +14,6 @@ import cn.jarod.bluecat.core.model.auth.AuthorityDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -40,9 +40,9 @@ public class CredentialService implements ICredentialService {
      * @return
      */
     @Override
+    @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public AuthorityInfoDO registerAuthority(AuthRegisterDTO authDTO) {
-        log.info("registerAuthority 参数为：{}", JSON.toJSONString(authDTO));
         AuthorityInfoDO authDO = BeanHelperUtil.getCopyBean(authDTO, AuthorityInfoDO.class);
         if (!authDTO.hasTelOrEmail())
             throw new BaseException(ReturnCode.S400.getCode(), "电话和邮箱不能同时为空");
@@ -65,6 +65,7 @@ public class CredentialService implements ICredentialService {
      * @param authDTO
      * @return
      */
+    @TimeDiff
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteAuthority(AuthRegisterDTO authDTO) {
@@ -79,9 +80,9 @@ public class CredentialService implements ICredentialService {
      * @return
      */
     @Override
+    @TimeDiff
     @Transactional(readOnly = true)
     public ValidAuthBO validAuthority(ValidAuthBO authBO) {
-        log.info("validAuthority 参数为：{}", JSON.toJSONString(authBO));
         AuthorityInfoDO auth;
         if (StringUtils.hasText(authBO.getAuthority())){
             auth = new AuthorityInfoDO();
@@ -103,9 +104,9 @@ public class CredentialService implements ICredentialService {
 
 
     @Override
+    @TimeDiff
     @Transactional
     public AuthorityInfoDO modifyAuthority(AuthorityDTO authDTO) {
-        log.info("modifyAuthority 参数为：{}", JSON.toJSONString(authDTO));
         AuthorityInfoDO target = BeanHelperUtil.getCopyBean(authDTO, AuthorityInfoDO.class);
         authorityInfoRepository.findByAuthority(authDTO.getAuthority()).ifPresent(
                 s -> BeanHelperUtil.copyNullProperties(s, target));

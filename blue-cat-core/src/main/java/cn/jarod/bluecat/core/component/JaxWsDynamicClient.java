@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.service;
+package cn.jarod.bluecat.core.component;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.endpoint.Client;

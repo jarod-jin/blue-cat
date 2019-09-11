@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableHystrix
 @EnableDiscoveryClient
 @EnableTransactionManagement
-@EnableFeignClients(basePackages = {"cn.jarod.bluecat.core.service.api"})
+@EnableFeignClients(basePackages = {"cn.jarod.bluecat.core.api"})
 @SpringBootApplication(scanBasePackages = {"cn.jarod.bluecat.*"})
 public class BlueCatAuthApplication {
     public static void main(String args[]) {

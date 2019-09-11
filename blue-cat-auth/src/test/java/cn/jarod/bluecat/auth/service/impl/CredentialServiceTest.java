@@ -28,6 +28,8 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
     AuthorityDTO authDTO;
 
+    ValidAuthBO authBO;
+
     @BeforeEach
     public void setUp()  {
         authRegDTO = new AuthRegisterDTO();
@@ -37,11 +39,12 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         authDTO = new AuthorityDTO();
         authDTO.setAuthority("admin");
 
+        authBO = new ValidAuthBO();
+
     }
 
     @AfterEach
     public void tearDown()  {
-        iCredentialService.deleteAuthority(authRegDTO);
         authRegDTO = null;
         authDTO = null;
     }
@@ -88,6 +91,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         authRegDTO.setTel("13105818757");
         AuthorityInfoDO authDO = iCredentialService.registerAuthority(authRegDTO);
         assertNotNull(authDO.getId());
+        iCredentialService.deleteAuthority(authRegDTO);
     }
 
     @Test

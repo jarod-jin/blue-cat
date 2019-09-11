@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.service.api;
+package cn.jarod.bluecat.core.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
