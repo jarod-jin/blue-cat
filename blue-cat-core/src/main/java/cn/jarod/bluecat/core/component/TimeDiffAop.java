@@ -46,17 +46,17 @@ public class TimeDiffAop {
     @Around("@annotation(cn.jarod.bluecat.core.annotation.TimeDiff)")
     public Object aroundMethod(ProceedingJoinPoint pjp) throws Throwable {
         time.set(System.currentTimeMillis());
-        //获取TimeDiff注解中是否需要打印参数
         try {
             Method method = getObjMethod(pjp);
             String name = StringUtils.isEmpty(method.getAnnotation(TimeDiff.class).name())?
                     method.getName() : method.getAnnotation(TimeDiff.class).name();
             log.info("{}开始执行，开始时间：{}",name, LocalDateTime.now());
+            //获取TimeDiff注解中是否需要打印参数
             if (method.getAnnotation(TimeDiff.class).printParams()){
                 Object[] args = pjp.getArgs();
                 log.info("{}请求参数：{}",name, JSON.toJSON(args));
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
             log.error(e.getMessage());
         }
         return pjp.proceed();
