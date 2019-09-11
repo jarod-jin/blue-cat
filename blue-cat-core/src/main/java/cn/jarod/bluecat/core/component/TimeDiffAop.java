@@ -27,64 +27,69 @@ public class TimeDiffAop {
     //创建的时间变量只能被当前线程访问
     private ThreadLocal<Long> time = new ThreadLocal<>();
 
+    //打印方法名
+    private ThreadLocal<String> name = new ThreadLocal<>();
+
+
     /**
      * 在方法前记录时间并根据注解，是否打印参数
-     * @param joinPoint
      * @return
      */
     @Before("@annotation(cn.jarod.bluecat.core.annotation.TimeDiff)")
-    public void beforeMethod(JoinPoint joinPoint){
+    public void beforeMethod(){
 
     }
 
 
     /**
      * 方法执行前后拦截
-     * @param pjp
+     * @param joinPoint
      * @return
      */
     @Around("@annotation(cn.jarod.bluecat.core.annotation.TimeDiff)")
-    public Object aroundMethod(ProceedingJoinPoint pjp) throws Throwable {
+    public Object aroundMethod(ProceedingJoinPoint joinPoint) throws Throwable {
         time.set(System.currentTimeMillis());
         try {
-            Method method = getObjMethod(pjp);
-            String name = StringUtils.isEmpty(method.getAnnotation(TimeDiff.class).name())?
-                    method.getName() : method.getAnnotation(TimeDiff.class).name();
-            log.info("{}开始执行，开始时间：{}",name, LocalDateTime.now());
+            Method method = getObjMethod(joinPoint);
+            name.set(StringUtils.isEmpty(method.getAnnotation(TimeDiff.class).name())?
+                    method.getName() : method.getAnnotation(TimeDiff.class).name());
             //获取TimeDiff注解中是否需要打印参数
+            log.info("{}开始执行，开始时间：{}",name.get(), LocalDateTime.now());
             if (method.getAnnotation(TimeDiff.class).printParams()){
-                Object[] args = pjp.getArgs();
-                log.info("{}请求参数：{}",name, JSON.toJSON(args));
+                Object[] args = joinPoint.getArgs();
+                log.info("{}请求参数：{}",name.get(), JSON.toJSON(args));
             }
         } catch (ClassNotFoundException | NoSuchMethodException e) {
-            log.error("打印开始时间和参数时出现异常：{}", e.getMessage());
+            log.error("打印方法开始时间时出现异常：{}", e.getMessage());
         }
-        return pjp.proceed();
-    }
-
-    private Method getObjMethod(JoinPoint joinPoint) throws ClassNotFoundException, NoSuchMethodException {
-        String targetName = joinPoint.getTarget().getClass().getName();
-        MethodSignature ms= (MethodSignature)joinPoint.getSignature();
-        String methodName = ms.getMethod().getName();
-        Class<?>[] par=ms.getParameterTypes();
-        return Class.forName(targetName).getMethod(methodName, par);
+        return joinPoint.proceed();
     }
 
 
     /**
      * 在方法后打印总耗时
-     * @param joinPoint
      */
     @After("@annotation(cn.jarod.bluecat.core.annotation.TimeDiff)")
-    public void afterMethod(JoinPoint joinPoint){
-        try {
-            Method method = getObjMethod(joinPoint);
-            String name = method.getAnnotation(TimeDiff.class).name();
-            log.info("{}执行结束，结束时间：{}，总耗时：{}ms",name, LocalDateTime.now(), System.currentTimeMillis()-time.get());
-        }  catch (Exception e) {
-            log.error("打印总耗时出现异常：{}",e.getMessage());
-        }
+    public void afterMethod(){
+        log.info("{}执行结束，结束时间：{}，总耗时：{}ms",name.get(), LocalDateTime.now(), System.currentTimeMillis()-time.get());
     }
+
+
+    /**
+     * 获取注解方法
+     * @param joinPoint
+     * @return
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     */
+    private Method getObjMethod(JoinPoint joinPoint) throws ClassNotFoundException, NoSuchMethodException {
+        String targetName = joinPoint.getTarget().getClass().getName();
+        MethodSignature ms= (MethodSignature)joinPoint.getSignature();
+        String methodName = ms.getMethod().getName();
+        Class<?>[] par=ms.getParameterTypes();
+        return Class.forName(targetName).getMethod(methodName,par);
+    }
+
 
 
 
