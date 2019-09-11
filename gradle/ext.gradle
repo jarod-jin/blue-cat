@@ -4,9 +4,9 @@ ext {
 
 ext {
 
-    fastjsonVersion = "1.2.53"
+    fastjsonVersion = "1.2.60"
 
-    guavaVersion = "27.0-jre"
+    guavaVersion = "28.1-jre"
 
     lombokVersion = '1.18.4'
 

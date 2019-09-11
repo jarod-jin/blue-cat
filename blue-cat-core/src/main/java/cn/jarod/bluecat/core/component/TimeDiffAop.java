@@ -49,10 +49,10 @@ public class TimeDiffAop {
         //获取TimeDiff注解中是否需要打印参数
         try {
             Method method = getObjMethod(pjp);
-            String name = StringUtils.isEmpty(method.getAnnotation(TimeDiff.class).name())?method.getName():method.getAnnotation(TimeDiff.class).name();
+            String name = StringUtils.isEmpty(method.getAnnotation(TimeDiff.class).name())?
+                    method.getName() : method.getAnnotation(TimeDiff.class).name();
             log.info("{}开始执行，开始时间：{}",name, LocalDateTime.now());
-            boolean isCheckParams = method.getAnnotation(TimeDiff.class).printParams();
-            if (isCheckParams){
+            if (method.getAnnotation(TimeDiff.class).printParams()){
                 Object[] args = pjp.getArgs();
                 log.info("{}请求参数：{}",name, JSON.toJSON(args));
             }
