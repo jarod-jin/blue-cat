@@ -35,18 +35,16 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         authRegDTO = new AuthRegisterDTO();
         authRegDTO.setAuthority("junit_test");
         authRegDTO.setPassword("junit_test");
-
         authDTO = new AuthorityDTO();
         authDTO.setAuthority("admin");
-
         authBO = new ValidAuthBO();
-
     }
 
     @AfterEach
     public void tearDown()  {
         authRegDTO = null;
         authDTO = null;
+        authBO = null;
     }
 
 
@@ -116,7 +114,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("修改admin账号数据")
     void modifyAuthorityAdmin() {
-        authDTO.setNickname("金亦冰");
+        authDTO.setNickname("Jarod");
         authDTO.setEmail("kira277@163.com");
         AuthorityInfoDO authDO = iCredentialService.modifyAuthority(authDTO);
         assertEquals(authDTO.getNickname(),authDO.getNickname());
