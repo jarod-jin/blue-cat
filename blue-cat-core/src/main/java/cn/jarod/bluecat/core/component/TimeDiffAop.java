@@ -53,8 +53,8 @@ public class TimeDiffAop {
             Method method = getObjMethod(joinPoint);
             name.set(StringUtils.isEmpty(method.getAnnotation(TimeDiff.class).name())?
                     method.getName() : method.getAnnotation(TimeDiff.class).name());
-            //获取TimeDiff注解中是否需要打印参数
             log.info("{}开始执行，开始时间：{}",name.get(), LocalDateTime.now());
+            //获取TimeDiff注解中是否需要打印参数
             if (method.getAnnotation(TimeDiff.class).printParams()){
                 Object[] args = joinPoint.getArgs();
                 log.info("{}请求参数：{}",name.get(), JSON.toJSON(args));
@@ -89,9 +89,5 @@ public class TimeDiffAop {
         Class<?>[] par=ms.getParameterTypes();
         return Class.forName(targetName).getMethod(methodName,par);
     }
-
-
-
-
 
 }
