@@ -113,4 +113,10 @@ public class CredentialService implements ICredentialService {
         return authorityInfoRepository.save(target);
     }
 
+
+    @Override
+    public void modifyPassword(CredentialDO credDO) {
+
+    }
+
 }
