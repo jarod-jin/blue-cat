@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.model;
+package cn.jarod.bluecat.auth.model.bo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +19,6 @@ public class CredModifyBO implements Serializable {
     private String currentPassword;
 
     private String modifiedPassword;
+
+    private String validCode;
 }

@@ -1,9 +1,12 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
+import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
-import cn.jarod.bluecat.auth.model.ValidAuthBO;
+import cn.jarod.bluecat.auth.model.bo.ValidAuthBO;
+import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
 import cn.jarod.bluecat.auth.repository.AuthorityInfoRepository;
+import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
@@ -16,10 +19,14 @@ import cn.jarod.bluecat.core.utils.CommonUtil;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @auther jarod.jin 2019/9/9
@@ -34,6 +41,12 @@ public class CredentialService implements ICredentialService {
     @Autowired
     private CredentialRepository credentialRepository;
 
+    @Autowired
+    private CredHistoryRepository credHistoryRepository;
+
+    @Value("${security.password.number:3}")
+    private Integer passNumber;
+
     /**
      * 注册账号
      * @param authDTO
@@ -46,17 +59,19 @@ public class CredentialService implements ICredentialService {
         AuthorityInfoDO authDO = BeanHelperUtil.getCopyBean(authDTO, AuthorityInfoDO.class);
         if (!authDTO.hasTelOrEmail())
             throw new BaseException(ReturnCode.S400.getCode(), "电话和邮箱不能同时为空");
-        String operator = authDO.getAuthority();
-        authDO.setCreator(operator);
-        authDO.setModifier(operator);
+        authDO.setCreator(authDO.getAuthority());
+        authDO.setModifier(authDO.getAuthority());
         authDO = authorityInfoRepository.save(authDO);
         CredentialDO credDO = new CredentialDO();
         credDO.setAuthority(authDTO.getAuthority());
         credDO.setCredentialType(authDTO.getCredentialType());
         credDO.setPassword(EncryptUtil.stringEncodeSHA256(authDTO.getPassword()));
-        credDO.setCreator(operator);
-        credDO.setModifier(operator);
+        credDO.setCreator(authDO.getAuthority());
+        credDO.setModifier(authDO.getAuthority());
         credentialRepository.save(credDO);
+        CredHistoryDO chDO = new CredHistoryDO(authDTO.getAuthority(),EncryptUtil.stringEncodeSHA256(authDTO.getPassword()));
+        chDO.setCreator(authDTO.getAuthority());
+        credHistoryRepository.save(chDO);
         return authDO;
     }
 
@@ -72,6 +87,7 @@ public class CredentialService implements ICredentialService {
         BaseException baseException = new BaseException(ReturnCode.S400.getCode(), "找不到该用户");
         authorityInfoRepository.delete(authorityInfoRepository.findByAuthority(authDTO.getAuthority()).orElseThrow(() -> baseException));
         credentialRepository.delete(credentialRepository.findByAuthority(authDTO.getAuthority()).orElseThrow(()-> baseException));
+        credHistoryRepository.deleteAll(credHistoryRepository.findAllByAuthority(authDTO.getAuthority()));
     }
 
     /**
@@ -114,9 +130,36 @@ public class CredentialService implements ICredentialService {
     }
 
 
+    /**
+     * 修改密码
+     * @param credDTO
+     */
     @Override
-    public void modifyPassword(CredentialDO credDO) {
-
+    @TimeDiff
+    @Transactional
+    public void modifyPassword(CredModifyDTO credDTO) {
+        credentialRepository.findByAuthority(credDTO.getAuthority()).ifPresent(
+                c -> {
+                    if (!c.getPassword().equals(credDTO.getCurrentPassword()))
+                        throw new BaseException(ReturnCode.S400.getCode(),"原密码错误");
+                    CredHistoryDO chDO = new CredHistoryDO(credDTO.getAuthority(),credDTO.getModifiedPassword());
+                    if (!credHistoryRepository.exists(Example.of(chDO)))
+                        throw new BaseException(ReturnCode.S400.getCode(),"密码不能和前"+ passNumber +"相同");
+                    c.setPassword(credDTO.getModifiedPassword());
+                    chDO.setCreator(credDTO.getAuthority());
+                    credHistoryRepository.save(chDO);
+                    handleCredPassword(chDO);
+                }
+        );
     }
 
+    /**
+     * 如果数据库密码数量超过设定值那么最早的密码被删除
+     * @param chDO
+     */
+    private void handleCredPassword(CredHistoryDO chDO) {
+        List<CredHistoryDO> list = credHistoryRepository.findAllByAuthority(chDO.getAuthority());
+        if (list.size()> passNumber)
+            list.stream().min(Comparator.comparing(CredHistoryDO::getCreateDate)).ifPresent(e -> credHistoryRepository.delete(e));
+    }
 }

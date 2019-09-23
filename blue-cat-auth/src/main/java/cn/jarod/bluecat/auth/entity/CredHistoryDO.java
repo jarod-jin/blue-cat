@@ -32,4 +32,11 @@ public class CredHistoryDO extends SimpleBase {
     @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '密码验证串'"))
     private String password;
 
+    public CredHistoryDO (){}
+
+    public CredHistoryDO (String authority, String password){
+        this.authority = authority;
+        this.password = password;
+    }
+
 }

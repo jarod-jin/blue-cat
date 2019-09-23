@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.business;
 
-import cn.jarod.bluecat.auth.model.ValidAuthBO;
+import cn.jarod.bluecat.auth.model.bo.ValidAuthBO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;

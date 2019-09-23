@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
-import cn.jarod.bluecat.auth.entity.CredentialDO;
-import cn.jarod.bluecat.auth.model.ValidAuthBO;
+import cn.jarod.bluecat.auth.model.bo.ValidAuthBO;
+import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
 import cn.jarod.bluecat.core.model.auth.AuthRegisterDTO;
 import cn.jarod.bluecat.core.model.auth.AuthorityDTO;
 
@@ -19,6 +19,6 @@ public interface ICredentialService {
 
     ValidAuthBO validAuthority(ValidAuthBO authBO);
 
-    void modifyPassword(CredentialDO credDO);
+    void modifyPassword(CredModifyDTO credDTO);
 
 }
