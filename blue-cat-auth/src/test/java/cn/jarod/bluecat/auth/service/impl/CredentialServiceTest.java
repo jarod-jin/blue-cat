@@ -2,15 +2,14 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
+import cn.jarod.bluecat.auth.model.bo.CredModifyBO;
 import cn.jarod.bluecat.auth.model.bo.ValidAuthBO;
+import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.AuthRegisterDTO;
 import cn.jarod.bluecat.core.model.auth.AuthorityDTO;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,29 +21,37 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
 
     @Autowired
-    ICredentialService iCredentialService;
+    private ICredentialService iCredentialService;
 
-    AuthRegisterDTO authRegDTO;
+    private AuthRegisterDTO authRegDTO;
 
-    AuthorityDTO authDTO;
+    private AuthorityDTO authDTO;
 
-    ValidAuthBO authBO;
+    private ValidAuthBO authBO;
+
+    private CredModifyBO credBO;
 
     @BeforeEach
-    public void setUp()  {
+    void setUp()  {
         authRegDTO = new AuthRegisterDTO();
         authRegDTO.setAuthority("junit_test");
         authRegDTO.setPassword("junit_test");
         authDTO = new AuthorityDTO();
         authDTO.setAuthority("admin");
         authBO = new ValidAuthBO();
+        credBO = new CredModifyBO();
+        credBO.setAuthority("admin");
+        credBO.setCurrentPassword("admin123");
+        credBO.setModifiedPassword("admin123");
+
     }
 
     @AfterEach
-    public void tearDown()  {
+    void tearDown()  {
         authRegDTO = null;
         authDTO = null;
         authBO = null;
+        credBO = null;
     }
 
 
@@ -92,7 +99,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     }
 
     @Test
-    @DisplayName("创建账号_没有电话和邮箱")
+    @DisplayName("创建账号时没有电话和邮箱")
     void registerAuthorityNoParams() {
         try{
             iCredentialService.registerAuthority(authRegDTO);
@@ -103,7 +110,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
 
     @Test
-    @DisplayName("创建账号_测试账号")
+    @DisplayName("创建测试账号")
     void registerAuthorityJunitTest() {
         authRegDTO.setTel("13105818757");
         AuthorityInfoDO authDO = iCredentialService.registerAuthority(authRegDTO);
@@ -114,10 +121,45 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("修改admin账号数据")
     void modifyAuthorityAdmin() {
-        authDTO.setNickname("Jarod");
         authDTO.setEmail("kira277@163.com");
+        authDTO.setNickname("超级管理员");
         AuthorityInfoDO authDO = iCredentialService.modifyAuthority(authDTO);
         assertEquals(authDTO.getNickname(),authDO.getNickname());
+    }
+
+    @Test
+    @DisplayName("修改密码时原始密码错误")
+    void modifyPasswordOne() {
+        credBO.setCurrentPassword("123456");
+        try{
+            iCredentialService.modifyPassword(new CredModifyDTO(credBO));
+        }catch (BaseException e){
+            assertEquals("原密码错误",e.getErrorMessage());
+        }
+    }
+
+
+    @Test
+    @DisplayName("修改密码时密码和前次相同")
+    void modifyPasswordTwo() {
+        credBO.setModifiedPassword("admin12");
+        try{
+            iCredentialService.modifyPassword(new CredModifyDTO(credBO));
+        }catch (BaseException e){
+            assertEquals("密码不能和前3次相同",e.getErrorMessage());
+        }
+    }
+
+
+    @Test
+    @DisplayName("修改密码成功")
+    void modifyPasswordThree() {
+        try{
+            iCredentialService.modifyPassword(new CredModifyDTO(credBO));
+        }catch (BaseException e){
+            fail();
+        }
+
     }
 
 
