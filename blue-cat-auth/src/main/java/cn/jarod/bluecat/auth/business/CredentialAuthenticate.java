@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.business;
 
-import cn.jarod.bluecat.auth.model.bo.ValidAuthBO;
+import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
@@ -23,7 +23,7 @@ public class CredentialAuthenticate {
     private ICredentialService credentialService;
 
 
-    public ResultDTO validAuthority(@Valid ValidAuthBO authBO) {
+    public ResultDTO validAuthority(@Valid ValidAuthDTO authBO) {
         log.info("validAuthority校验参数为：{}", JSON.toJSONString(authBO));
         credentialService.validAuthority(authBO);
         return new ResultDTO(ReturnCode.Q200, authBO);

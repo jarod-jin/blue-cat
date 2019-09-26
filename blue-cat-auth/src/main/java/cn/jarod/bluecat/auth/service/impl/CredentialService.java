@@ -3,8 +3,9 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
 import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
-import cn.jarod.bluecat.auth.model.bo.ValidAuthBO;
+import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
 import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
+import cn.jarod.bluecat.auth.model.dto.SignInDTO;
 import cn.jarod.bluecat.auth.repository.AuthorityInfoRepository;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
@@ -56,7 +57,7 @@ public class CredentialService implements ICredentialService {
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public AuthorityInfoDO registerAuthority(AuthRegisterDTO authDTO) {
-        AuthorityInfoDO authDO = BeanHelperUtil.getCopyBean(authDTO, AuthorityInfoDO.class);
+        AuthorityInfoDO authDO = BeanHelperUtil.createCopyBean(authDTO, AuthorityInfoDO.class);
         if (!authDTO.hasTelOrEmail())
             throw new BaseException(ReturnCode.S400.getCode(), "电话和邮箱不能同时为空");
         authDO.setCreator(authDO.getAuthority());
@@ -98,7 +99,7 @@ public class CredentialService implements ICredentialService {
     @Override
     @TimeDiff
     @Transactional(readOnly = true)
-    public ValidAuthBO validAuthority(ValidAuthBO authBO) {
+    public ValidAuthDTO validAuthority(ValidAuthDTO authBO) {
         AuthorityInfoDO auth;
         if (StringUtils.hasText(authBO.getAuthority())){
             auth = new AuthorityInfoDO();
@@ -121,11 +122,10 @@ public class CredentialService implements ICredentialService {
 
     @Override
     @TimeDiff
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public AuthorityInfoDO modifyAuthority(AuthorityDTO authDTO) {
-        AuthorityInfoDO target = BeanHelperUtil.getCopyBean(authDTO, AuthorityInfoDO.class);
-        authorityInfoRepository.findByAuthority(authDTO.getAuthority()).ifPresent(
-                s -> BeanHelperUtil.copyNullProperties(s, target));
+        AuthorityInfoDO target = BeanHelperUtil.createCopyBean(authDTO, AuthorityInfoDO.class);
+        authorityInfoRepository.findByAuthority(authDTO.getAuthority()).ifPresent(s -> BeanHelperUtil.copyNullProperties(s, target));
         return authorityInfoRepository.save(target);
     }
 
@@ -136,22 +136,23 @@ public class CredentialService implements ICredentialService {
      */
     @Override
     @TimeDiff
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void modifyPassword(CredModifyDTO credDTO) {
         credentialRepository.findByAuthority(credDTO.getAuthority()).ifPresent(
-                c -> {
-                    if (!c.getPassword().equals(credDTO.getCurrentPassword()))
-                        throw new BaseException(ReturnCode.S400.getCode(),"原密码错误");
-                    CredHistoryDO chDO = new CredHistoryDO(credDTO.getAuthority(),credDTO.getModifiedPassword());
-                    if (credHistoryRepository.exists(Example.of(chDO)))
-                        throw new BaseException(ReturnCode.S400.getCode(),"密码不能和前"+ passNumber +"次相同");
-                    c.setPassword(credDTO.getModifiedPassword());
-                    chDO.setCreator(credDTO.getAuthority());
-                    credHistoryRepository.save(chDO);
-                    handleCredPassword(chDO);
-                }
+            c -> {
+                if (!c.getPassword().equals(credDTO.getCurrentPassword()))
+                    throw new BaseException(ReturnCode.S400.getCode(),"原密码错误");
+                CredHistoryDO chDO = new CredHistoryDO(credDTO.getAuthority(),credDTO.getModifiedPassword());
+                if (credHistoryRepository.exists(Example.of(chDO)))
+                    throw new BaseException(ReturnCode.S400.getCode(),"密码不能和前"+ passNumber +"次相同");
+                c.setPassword(credDTO.getModifiedPassword());
+                chDO.setCreator(credDTO.getAuthority());
+                credHistoryRepository.save(chDO);
+                handleCredPassword(chDO);
+            }
         );
     }
+
 
     /**
      * 如果数据库密码数量超过设定值那么最早的密码被删除
@@ -161,5 +162,15 @@ public class CredentialService implements ICredentialService {
         List<CredHistoryDO> list = credHistoryRepository.findAllByAuthority(chDO.getAuthority());
         if (list.size()> passNumber)
             list.stream().min(Comparator.comparing(CredHistoryDO::getCreateDate)).ifPresent(e -> credHistoryRepository.delete(e));
+    }
+
+    /**
+     * 登录密码校验
+     * @param signIn
+     * @return
+     */
+    @Override
+    public boolean validCredential(SignInDTO signIn) {
+        return credentialRepository.exists(Example.of(BeanHelperUtil.createCopyBean(signIn,CredentialDO.class)));
     }
 }

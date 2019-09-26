@@ -95,7 +95,7 @@ public class BeanHelperUtil {
      * @param <T>
      * @return
      */
-    public static <T> T getCopyBean(Object source, Class<T> clazz) {
+    public static <T> T createCopyBean(Object source, Class<T> clazz) {
         T t = null;
         try {
             t = clazz.newInstance();

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.model.bo;
+package cn.jarod.bluecat.auth.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
-public class ValidAuthBO implements Serializable {
+public class ValidAuthDTO implements Serializable {
 
     private static final long serialVersionUID = 7222495133332935145L;
 
