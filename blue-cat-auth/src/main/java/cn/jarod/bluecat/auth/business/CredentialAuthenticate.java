@@ -3,7 +3,7 @@ package cn.jarod.bluecat.auth.business;
 import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.model.ResultBO;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ public class CredentialAuthenticate {
     private ICredentialService credentialService;
 
 
-    public ResultDTO validAuthority(@Valid ValidAuthDTO authBO) {
+    public ResultBO validAuthority(@Valid ValidAuthDTO authBO) {
         log.info("validAuthority校验参数为：{}", JSON.toJSONString(authBO));
         credentialService.validAuthority(authBO);
-        return new ResultDTO(ReturnCode.Q200, authBO);
+        return new ResultBO(ReturnCode.Q200, authBO);
     }
 }

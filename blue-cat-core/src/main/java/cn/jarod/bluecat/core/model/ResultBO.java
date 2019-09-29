@@ -11,34 +11,34 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
-public class ResultDTO implements Serializable {
+public class ResultBO implements Serializable {
     private static final long serialVersionUID = -5288702993752277282L;
 
     private String resultCode;
     private String resultMessage;
     private Object data;
 
-    public ResultDTO() {
+    public ResultBO() {
     }
 
-    public ResultDTO(String resultCode, String resultMessage, Object data) {
+    public ResultBO(String resultCode, String resultMessage, Object data) {
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
         this.data = data;
     }
 
 
-    public ResultDTO(String code, String msg) {
+    public ResultBO(String code, String msg) {
         this.resultCode = code;
         this.resultMessage = msg;
     }
 
-    public ResultDTO(ReturnCode returnCode) {
+    public ResultBO(ReturnCode returnCode) {
         this.resultCode = returnCode.getCode();
         this.resultMessage = returnCode.getMsg();
     }
 
-    public ResultDTO(ReturnCode returnCode, Object data) {
+    public ResultBO(ReturnCode returnCode, Object data) {
         this.resultCode = returnCode.getCode();
         this.resultMessage = returnCode.getMsg();
         this.data = data;

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.config;
+package cn.jarod.bluecat.core.component;
 
 import org.hibernate.dialect.MySQL57Dialect;
 
