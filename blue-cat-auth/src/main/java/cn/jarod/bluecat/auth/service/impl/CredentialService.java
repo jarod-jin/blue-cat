@@ -5,7 +5,7 @@ import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
 import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
-import cn.jarod.bluecat.auth.model.dto.SignInDTO;
+import cn.jarod.bluecat.core.model.auth.CredentialsDTO;
 import cn.jarod.bluecat.auth.repository.AuthorityInfoRepository;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
@@ -170,7 +170,7 @@ public class CredentialService implements ICredentialService {
      * @return
      */
     @Override
-    public boolean validCredential(SignInDTO signIn) {
+    public boolean validCredential(CredentialsDTO signIn) {
         return credentialRepository.exists(Example.of(BeanHelperUtil.createCopyBean(signIn,CredentialDO.class)));
     }
 }

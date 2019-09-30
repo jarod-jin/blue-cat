@@ -3,7 +3,7 @@ package cn.jarod.bluecat.auth.service;
 import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
 import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
 import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
-import cn.jarod.bluecat.auth.model.dto.SignInDTO;
+import cn.jarod.bluecat.core.model.auth.CredentialsDTO;
 import cn.jarod.bluecat.auth.model.dto.AuthRegisterDTO;
 import cn.jarod.bluecat.auth.model.dto.AuthorityDTO;
 
@@ -22,6 +22,6 @@ public interface ICredentialService {
 
     void modifyPassword(CredModifyDTO credDTO);
 
-    boolean validCredential(SignInDTO signIn);
+    boolean validCredential(CredentialsDTO signIn);
 
 }

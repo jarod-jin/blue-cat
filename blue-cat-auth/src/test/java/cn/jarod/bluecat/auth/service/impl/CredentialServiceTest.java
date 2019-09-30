@@ -5,7 +5,7 @@ import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
 import cn.jarod.bluecat.auth.model.bo.CredModifyBO;
 import cn.jarod.bluecat.auth.model.bo.SignInBO;
 import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
-import cn.jarod.bluecat.auth.model.dto.SignInDTO;
+import cn.jarod.bluecat.core.model.auth.CredentialsDTO;
 import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
@@ -180,7 +180,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验登录名密码")
     void validCredential() {
-        assertTrue(iCredentialService.validCredential(new SignInDTO(signInBO)));
+        assertTrue(iCredentialService.validCredential(new CredentialsDTO(signInBO)));
     }
 
 
