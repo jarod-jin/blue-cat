@@ -21,6 +21,7 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-data-redis',
             'org.springframework.boot:spring-boot-configuration-processor',
             'org.springframework.boot:spring-boot-starter-data-jpa',
+            'org.springframework.boot:spring-boot-starter-security',
             'org.springframework.boot:spring-boot-starter-test')
 
     runtimeOnly "org.springframework.boot:spring-boot-devtools"
@@ -28,6 +29,8 @@ dependencies {
     implementation "org.apache.cxf:cxf-spring-boot-starter-jaxws:${cxfVersion}"
     implementation "de.codecentric:spring-boot-admin-starter-client:${springBootAdminVersion}"
     implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:${jasyptVersion}"
+
+    implementation("io.jsonwebtoken:jjwt:${jjwtVersion}")
 
     //spring cloud
     implementation("org.springframework.cloud:spring-cloud-starter")

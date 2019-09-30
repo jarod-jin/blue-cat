@@ -4,8 +4,8 @@ import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
 import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
 import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
 import cn.jarod.bluecat.auth.model.dto.SignInDTO;
-import cn.jarod.bluecat.core.model.auth.AuthRegisterDTO;
-import cn.jarod.bluecat.core.model.auth.AuthorityDTO;
+import cn.jarod.bluecat.auth.model.dto.AuthRegisterDTO;
+import cn.jarod.bluecat.auth.model.dto.AuthorityDTO;
 
 /**
  * @auther jarod.jin 2019/9/9

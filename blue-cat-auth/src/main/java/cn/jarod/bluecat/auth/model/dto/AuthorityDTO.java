@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.model.auth;
+package cn.jarod.bluecat.auth.model.dto;
 
 import cn.jarod.bluecat.core.model.BaseDTO;
 import lombok.Getter;
