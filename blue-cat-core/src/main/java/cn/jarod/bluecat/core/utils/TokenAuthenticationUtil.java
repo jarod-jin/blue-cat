@@ -45,8 +45,6 @@ public class TokenAuthenticationUtil {
 
     public static final String USER_INFO= "info";
 
-    public static final String IS_ACTIVE = "isActive";
-
     public static final String AUTH = "token";
 
     public static void addAuthentication(HttpServletResponse response, Authentication auth) {
@@ -73,7 +71,7 @@ public class TokenAuthenticationUtil {
         return Jwts.builder()
                 // 保存权限（角色）
                 .claim(AUTHORITIES,role)
-                .claim(USER_INFO, JSON.toJSONString(auth.getDetails()))
+//                .claim(USER_INFO, JSON.toJSONString(auth.getDetails()))
                 // 用户名写入标题
                 .setSubject(auth.getName())
                 // 有效期设置
