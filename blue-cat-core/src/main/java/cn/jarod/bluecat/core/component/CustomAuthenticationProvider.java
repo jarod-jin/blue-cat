@@ -51,11 +51,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     public static final String WITHOUT_TYPE = "缺少用户类型~";
 
-//    @Value("${security.key.server}")
-//    private String server_key;
-//
-//    @Value("${security.key.default}")
-//    private String default_key;
+    @Value("${security.key.server:123456}")
+    private String server_key;
+
+    @Value("${security.key.default:123456}")
+    private String default_key;
 
     @Autowired
     private UserDetailsService userDetailsService;

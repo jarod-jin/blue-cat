@@ -1,5 +1,8 @@
 package cn.jarod.bluecat.core.filter;
 
+import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.model.ResultBO;
+import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
 import com.netflix.zuul.context.RequestContext;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -23,35 +26,43 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
+    private static final String SIGN_FALSE = "签名校验失败 ";
+
+    private static final String TOKEN_EXPIRE = "认证已过期 ";
+
+    private static final String LOGIN_FAIL = "认证验证失败 ";
+
+    private static final String BRACE = "{} ";
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
         Authentication authentication;
         try {
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-            authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) request);
+            authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request);
         } catch (SignatureException e) {
-            log.info("签名校验失败 ", e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(AuthReturnCode.AU413.name(), AuthReturnCode.AU411.getMsg())));
+            log.info(SIGN_FALSE + BRACE , e.getMessage());
+            response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q400.getCode(), SIGN_FALSE)));
             response.getWriter().close();
             return;
         }catch (ExpiredJwtException e){
-            log.info("Token已过期 ", e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(AuthReturnCode.AU413.name(), AuthReturnCode.AU412.getMsg())));
+            log.info(TOKEN_EXPIRE + BRACE, e.getMessage());
+            response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q400.getCode(), TOKEN_EXPIRE)));
             response.getWriter().close();
             return;
         }catch (Exception e){
-            log.info("权限验证失败 ", e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(AuthReturnCode.AU413.name(), AuthReturnCode.AU413.getMsg())));
+            log.info(LOGIN_FAIL + BRACE, e.getMessage());
+            response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q400.getCode(), LOGIN_FAIL)));
             response.getWriter().close();
             return;
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         if (authentication!=null){
             RequestContext requestContext = RequestContext.getCurrentContext();
-            requestContext.addZuulRequestHeader(Const.AUTHENTICATION, JSON.toJSONString(authentication.getDetails()));
-            String token = ((HttpServletRequest) request).getHeader(Const.HEADER_STRING);
-            requestContext.addZuulRequestHeader(Const.HEADER_STRING, token);
+            requestContext.addZuulRequestHeader("token", JSON.toJSONString(authentication.getDetails()));
+            String token = ((HttpServletRequest) request).getHeader("token");
+            requestContext.addZuulRequestHeader("token", token);
         }
         filterChain.doFilter(request, response);
     }
