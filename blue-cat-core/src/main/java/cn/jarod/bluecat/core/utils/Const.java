@@ -13,6 +13,8 @@ public class Const {
 
     public static final String SQL_LIKE = "%";
 
+    public static final String BRACE = "{}";
+
     public static final Integer NOT_DEL = 0;
 
     public static final Integer DEL = 1;

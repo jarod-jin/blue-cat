@@ -20,6 +20,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+import static cn.jarod.bluecat.core.utils.Const.BRACE;
+
 /**
  * @auther jarod.jin 2018/12/3
  */
@@ -32,7 +34,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private static final String LOGIN_FAIL = "认证验证失败 ";
 
-    private static final String BRACE = "{} ";
+
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)

@@ -1,13 +1,13 @@
 package cn.jarod.bluecat.core.config;
 
 
-import cn.jarod.bluecat.core.component.CustomAuthenticationProvider;
 import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
 import cn.jarod.bluecat.core.filter.JwtLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,15 +22,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    WebUrlConfig webUrlConfig;
+    private WebUrlConfig webUrlConfig;
 
 
     @Autowired
-    CustomAuthenticationProvider customAuthenticationProvider;
+    private AuthenticationProvider customAuthenticationProvider;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-
         // auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
         // 使用自定义身份验证组件
         auth.authenticationProvider(customAuthenticationProvider);

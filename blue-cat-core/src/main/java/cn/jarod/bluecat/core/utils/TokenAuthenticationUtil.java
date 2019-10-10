@@ -54,7 +54,7 @@ public class TokenAuthenticationUtil {
             // 将 JWT 写入 Map
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setStatus(HttpServletResponse.SC_OK);
-            log.info("授权返回："+ JSON.toJSONString(auth)+" 令牌为：" + jwt);
+//            log.info("授权返回："+ JSON.toJSONString(auth)+" 令牌为：" + jwt);
             response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q200.name(), "登录成功", ImmutableMap.<String, Object> builder()
                     .put(AUTH,jwt)
                     .build())));

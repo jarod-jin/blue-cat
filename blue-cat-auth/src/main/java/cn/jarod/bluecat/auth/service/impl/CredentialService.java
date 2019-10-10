@@ -3,9 +3,7 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
 import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
-import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
-import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
-import cn.jarod.bluecat.core.model.auth.CredentialsDTO;
+import cn.jarod.bluecat.auth.model.dto.*;
 import cn.jarod.bluecat.auth.repository.AuthorityInfoRepository;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
@@ -13,8 +11,6 @@ import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.auth.model.dto.AuthRegisterDTO;
-import cn.jarod.bluecat.auth.model.dto.AuthorityDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
@@ -123,7 +119,7 @@ public class CredentialService implements ICredentialService {
     @Override
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
-    public AuthorityInfoDO modifyAuthority(AuthorityDTO authDTO) {
+    public AuthorityInfoDO modifyAuthority(AuthModifyDTO authDTO) {
         AuthorityInfoDO target = BeanHelperUtil.createCopyBean(authDTO, AuthorityInfoDO.class);
         authorityInfoRepository.findByAuthority(authDTO.getAuthority()).ifPresent(s -> BeanHelperUtil.copyNullProperties(s, target));
         return authorityInfoRepository.save(target);
@@ -170,7 +166,15 @@ public class CredentialService implements ICredentialService {
      * @return
      */
     @Override
-    public boolean validCredential(CredentialsDTO signIn) {
-        return credentialRepository.exists(Example.of(BeanHelperUtil.createCopyBean(signIn,CredentialDO.class)));
+    public boolean validCredential(String signIn, String password) {
+        CredentialDO credentialDO = new CredentialDO();
+        credentialDO.setAuthority(signIn);
+        credentialDO.setPassword(password);
+        return credentialRepository.exists(Example.of(credentialDO));
+    }
+
+    @Override
+    public AuthorityDTO findAuthorities(String name) {
+        return null;
     }
 }
