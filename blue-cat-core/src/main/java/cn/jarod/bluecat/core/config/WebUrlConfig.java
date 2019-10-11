@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Component
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "security.jwt.url")
+@ConfigurationProperties(prefix = "security.url")
 public class WebUrlConfig {
 
     private  String login;

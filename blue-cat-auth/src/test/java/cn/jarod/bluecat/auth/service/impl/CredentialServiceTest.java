@@ -3,14 +3,12 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
 import cn.jarod.bluecat.auth.model.bo.CredModifyBO;
-import cn.jarod.bluecat.auth.model.bo.SignInBO;
+import cn.jarod.bluecat.auth.model.dto.AuthModifyDTO;
+import cn.jarod.bluecat.auth.model.dto.AuthRegisterDTO;
 import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
-import cn.jarod.bluecat.core.model.auth.CredentialsDTO;
 import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.auth.model.dto.AuthRegisterDTO;
-import cn.jarod.bluecat.auth.model.dto.AuthorityDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,13 +28,12 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
     private AuthRegisterDTO authRegDTO;
 
-    private AuthorityDTO authDTO;
+    private AuthModifyDTO authDTO;
 
     private ValidAuthDTO authBO;
 
     private CredModifyBO credBO;
 
-    private SignInBO signInBO;
 
     @BeforeEach
     void setUp()  {
@@ -44,17 +41,13 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         authRegDTO = new AuthRegisterDTO();
         authRegDTO.setAuthority("junit_test");
         authRegDTO.setPassword("junit_test");
-        authDTO = new AuthorityDTO();
+        authDTO = new AuthModifyDTO();
         authDTO.setAuthority("admin");
         //密码修改数据
         credBO = new CredModifyBO();
         credBO.setAuthority("admin");
         credBO.setCurrentPassword("admin123");
         credBO.setModifiedPassword("admin123");
-        //密码校验数据
-        signInBO = new SignInBO();
-        signInBO.setAuthority(credBO.getAuthority());
-        signInBO.setPassword(credBO.getModifiedPassword());
 
         authBO = new ValidAuthDTO();
     }
@@ -65,7 +58,6 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         authDTO = null;
         authBO = null;
         credBO = null;
-        signInBO = null;
     }
 
 
@@ -180,7 +172,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验登录名密码")
     void validCredential() {
-        assertTrue(iCredentialService.validCredential(new CredentialsDTO(signInBO)));
+        assertTrue(iCredentialService.validCredential(credBO.getAuthority(),credBO.getModifiedPassword()));
     }
 
 

@@ -4,7 +4,6 @@ import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultBO;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import cn.jarod.bluecat.core.model.auth.AuthGrantedAuthority;
-import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -31,7 +30,7 @@ import java.io.IOException;
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 
-    public static final String LOGIN_INFO_MISS = "登录信息填写不完善 ";
+    public static final String LOGIN_INFO_MISS = "登录信息不完善";
 
     public JwtLoginFilter(String url, AuthenticationManager authManager) {
         super(new AntPathRequestMatcher(url, RequestMethod.POST.toString()));
@@ -43,8 +42,8 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
             throws IOException {
         // JSON反序列化成 User
         AuthCredentials credentials = JSON.parseObject(req.getInputStream(), AuthCredentials.class);
-        if (credentials.loginValid()){
-            log.info(LOGIN_INFO_MISS + Const.BRACE, credentials.getLoginName());
+        if (credentials==null || credentials.loginValid()){
+            log.info(LOGIN_INFO_MISS);
             throw new BadCredentialsException(LOGIN_INFO_MISS);
         }
         // 返回一个验证令牌
