@@ -32,7 +32,7 @@ public class TokenAuthenticationUtil {
     /**
      * JWT 密码
      */
-    static final String SECRET = "dahua.isdp";
+    static final String SECRET = "jarod.jin";
     /**
      * TOKEN前缀
      */
