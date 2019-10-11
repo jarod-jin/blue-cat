@@ -55,7 +55,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String pwd = EncryptUtil.stringEncodeSHA256(authentication.getCredentials().toString());
         // 外包商人员认证逻辑
         if (pwd.equals(findDefaultKey()) || credentialService.validCredential(name,pwd)) {
-            log.info("登录成功：用户为{}，终端为：{}", name, Lists.newArrayList(authentication.getAuthorities()).get(0));
+            log.info("登录成功：用户为{}，终端为：{}", name, Lists.newArrayList(authentication.getAuthorities()).get(0).getAuthority());
             return createUsernamePasswordAuthentication(name, pwd);
         }
         log.info(AUTH_ERROR_MSG + Const.BRACE , name);
