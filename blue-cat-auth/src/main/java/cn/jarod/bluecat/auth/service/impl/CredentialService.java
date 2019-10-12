@@ -58,10 +58,10 @@ public class CredentialService implements ICredentialService {
             throw new BaseException(ReturnCode.S400.getCode(), "电话和邮箱不能同时为空");
         authDO.setCreator(authDO.getAuthority());
         authDO.setModifier(authDO.getAuthority());
+        authDO.setCredentialType(authDTO.getCredentialType());
         authDO = authorityInfoRepository.save(authDO);
         CredentialDO credDO = new CredentialDO();
         credDO.setAuthority(authDTO.getAuthority());
-        credDO.setCredentialType(authDTO.getCredentialType());
         credDO.setPassword(EncryptUtil.stringEncodeSHA256(authDTO.getPassword()));
         credDO.setCreator(authDO.getAuthority());
         credDO.setModifier(authDO.getAuthority());

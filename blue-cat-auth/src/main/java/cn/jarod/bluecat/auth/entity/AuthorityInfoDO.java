@@ -51,6 +51,10 @@ public class AuthorityInfoDO extends DataBase {
     @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '邮箱'"))
     private String email;
 
+    //账号类型
+    @Column(nullable = false, columnDefinition=("tinyint default 0 comment '是否删除, 0个人级用户，1系统级用户'"))
+    private Integer credentialType;
+
     //说明
     @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '说明'"))
     private String memo;

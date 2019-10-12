@@ -29,7 +29,4 @@ public class CredentialDO extends DataBase {
     @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '登录密码'"))
     private String password;
 
-    //账号类型
-    @Column(nullable = false, columnDefinition=("tinyint default 0 comment '是否删除, 0个人级用户，1系统级用户'"))
-    private Integer credentialType;
 }
