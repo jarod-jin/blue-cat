@@ -12,7 +12,9 @@ import java.util.List;
 @Setter
 public class TreeDTO extends BaseDTO{
 
-    private Long parentId;
+    private String node;
+
+    private String pNode;
 
     private List<? extends TreeDTO> children;
 }

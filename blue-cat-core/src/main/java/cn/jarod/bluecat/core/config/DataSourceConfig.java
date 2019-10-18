@@ -101,9 +101,7 @@ public class DataSourceConfig {
         AbstractRoutingDataSource dynamicDataSource = new AbstractRoutingDataSource() {
             @Override
             protected Object determineCurrentLookupKey() {
-                String lookupKey = TransactionSynchronizationManager.isCurrentTransactionReadOnly() ? SLAVE : MASTER;
-                log.info("connected DataSource :" + lookupKey);
-                return lookupKey;
+                return TransactionSynchronizationManager.isCurrentTransactionReadOnly() ? SLAVE : MASTER;
             }
         };
         dynamicDataSource.setDefaultTargetDataSource(targetDataSources.get(MASTER));
