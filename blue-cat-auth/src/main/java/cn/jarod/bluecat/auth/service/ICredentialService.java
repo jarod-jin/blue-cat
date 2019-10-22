@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.auth.service;
 
-import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
+import cn.jarod.bluecat.auth.entity.UserInfoDO;
+import cn.jarod.bluecat.auth.model.bo.SignUpBO;
 import cn.jarod.bluecat.auth.model.dto.*;
 
 /**
@@ -8,18 +9,18 @@ import cn.jarod.bluecat.auth.model.dto.*;
  */
 public interface ICredentialService {
 
-    AuthorityInfoDO registerAuthority(AuthRegisterDTO credDTO);
+    UserInfoDO registerUser(SignUpBO credDTO);
 
-    void deleteAuthority(AuthRegisterDTO authDTO);
+    void deleteUser(UserInfoDTO authDTO);
 
-    AuthorityInfoDO modifyAuthority(AuthModifyDTO authDTO);
+    UserInfoDO modifyUser(UserModifyDTO authDTO);
 
-    ValidAuthDTO validAuthority(ValidAuthDTO authBO);
+    ValidSignUpDTO validSignUp(ValidSignUpDTO authBO);
 
     void modifyPassword(CredModifyDTO credDTO);
 
     boolean validCredential(String signIn, String password);
 
-    AuthorityDTO findAuthorities(String name);
+    UserInfoDTO findAuthorities(String name);
 
 }

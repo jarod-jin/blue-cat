@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "resource", indexes = {@Index(columnList ="resourceCode", name="ResourceCodeIndex", unique = true)})
+@Table(name = "sys_resource", indexes = {@Index(columnList ="resourceCode", name="ResourceCodeIndex", unique = true)})
 public class ResourceDO extends DataBase {
 
     //资源编码

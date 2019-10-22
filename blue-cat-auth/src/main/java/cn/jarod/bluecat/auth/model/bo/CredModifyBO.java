@@ -14,7 +14,7 @@ public class CredModifyBO implements Serializable {
 
     private static final long serialVersionUID = 2148576680600970064L;
 
-    private String authority;
+    private String username;
 
     private String currentPassword;
 

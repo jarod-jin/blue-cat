@@ -12,6 +12,8 @@ import java.util.List;
 @Setter
 public class TreeDTO extends BaseDTO{
 
+    private Long id;
+
     private String node;
 
     private String pNode;

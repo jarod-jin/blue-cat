@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.auth.service.impl;
 
-import cn.jarod.bluecat.auth.model.bo.CustomGrantedAuthority;
-import cn.jarod.bluecat.auth.model.dto.AuthRoleDTO;
-import cn.jarod.bluecat.auth.model.dto.AuthorityDTO;
+import cn.jarod.bluecat.auth.model.bo.GrantedAuthorityBO;
+import cn.jarod.bluecat.auth.model.dto.RoleResourceDTO;
+import cn.jarod.bluecat.auth.model.dto.UserInfoDTO;
 import cn.jarod.bluecat.auth.service.IAuthorityService;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.utils.Const;
@@ -64,16 +64,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
     private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String name , String pwd) {
-        List<AuthRoleDTO> listAuth = authorityService.findAuthorities(name);
+        List<RoleResourceDTO> listAuth = authorityService.findAuthorities(name);
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(name, pwd, getAuthorities(listAuth));
-        AuthorityDTO authDTO =  credentialService.findAuthorities(name);
+        UserInfoDTO authDTO =  credentialService.findAuthorities(name);
         authentication.setDetails(authDTO);
         return authentication;
     }
 
-    private Collection<GrantedAuthority> getAuthorities(List<AuthRoleDTO> roleList) {
-      return roleList.stream().map(e -> new CustomGrantedAuthority(e.toString())).collect(Collectors.toList());
+    private Collection<GrantedAuthority> getAuthorities(List<RoleResourceDTO> roleList) {
+      return roleList.stream().map(e -> new GrantedAuthorityBO(e.toString())).collect(Collectors.toList());
     }
 
 

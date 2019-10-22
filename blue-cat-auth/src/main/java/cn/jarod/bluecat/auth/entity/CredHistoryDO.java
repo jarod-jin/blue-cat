@@ -26,7 +26,7 @@ public class CredHistoryDO extends SimpleBase {
 
     //用户唯一标识
     @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))
-    private String authority;
+    private String username;
 
     //密码验证串
     @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '密码验证串'"))
@@ -34,8 +34,8 @@ public class CredHistoryDO extends SimpleBase {
 
     public CredHistoryDO (){}
 
-    public CredHistoryDO (String authority, String password){
-        this.authority = authority;
+    public CredHistoryDO (String username, String password){
+        this.username = username;
         this.password = password;
     }
 

@@ -17,8 +17,8 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "org_auth", indexes = {@Index(columnList ="orgRoleId", name="OrgRoleIndex")})
-public class OrgAuthDO extends DataBase {
+@Table(name = "role_user", indexes = {@Index(columnList ="orgRoleId", name="OrgRoleIndex")})
+public class RoleUserDO extends DataBase {
 
     //组织角色ID
     @Column(nullable = false, columnDefinition=("bigint(19) comment '组织角色ID'"))
@@ -26,7 +26,7 @@ public class OrgAuthDO extends DataBase {
 
     //用户标识
     @Column(nullable = false, columnDefinition=("varchar(50) comment '用户标识'"))
-    private String authority;
+    private String username;
 
 
 }

@@ -26,6 +26,9 @@ public class OrganizationDTO extends TreeDTO {
     //组织类型
     private String orgType;
 
+    //版本号
+    private Integer version;
+
     //关联编号
     private String businessCode;
 }

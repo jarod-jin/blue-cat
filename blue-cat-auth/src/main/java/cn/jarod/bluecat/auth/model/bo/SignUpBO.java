@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.model.dto;
+package cn.jarod.bluecat.auth.model.bo;
 
 import cn.jarod.bluecat.core.utils.CommonUtil;
 import lombok.Getter;
@@ -14,20 +14,17 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class AuthRegisterDTO implements Serializable {
+public class SignUpBO implements Serializable {
 
     private static final long serialVersionUID = -3611398577384632971L;
 
     //用户唯一标识
     @NotBlank
-    private String authority;
+    private String loginName;
 
     //密码
     @NotBlank
     private String password;
-
-    //用户名
-    private String nickname;
 
     //电话
     private String tel;
@@ -35,21 +32,12 @@ public class AuthRegisterDTO implements Serializable {
     //邮箱
     private String email;
 
-    //性别
-    private String gender;
-
-    //照片
-    private String photoUrl;
-
-    //说明
-    private String memo;
-
     //用户类型
     private Integer credentialType;
-
 
     public boolean hasTelOrEmail(){
         return CommonUtil.validTel(tel) || CommonUtil.validEmail(email);
     }
+
 
 }

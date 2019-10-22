@@ -1,12 +1,12 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
-import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
+import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.model.bo.CredModifyBO;
-import cn.jarod.bluecat.auth.model.dto.AuthModifyDTO;
-import cn.jarod.bluecat.auth.model.dto.AuthRegisterDTO;
+import cn.jarod.bluecat.auth.model.dto.UserModifyDTO;
+import cn.jarod.bluecat.auth.model.bo.SignUpBO;
 import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
-import cn.jarod.bluecat.auth.model.dto.ValidAuthDTO;
+import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import org.junit.jupiter.api.AfterEach;
@@ -26,11 +26,11 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     private ICredentialService iCredentialService;
 
-    private AuthRegisterDTO authRegDTO;
+    private SignUpBO authRegDTO;
 
-    private AuthModifyDTO authDTO;
+    private UserModifyDTO authDTO;
 
-    private ValidAuthDTO authBO;
+    private ValidSignUpDTO authBO;
 
     private CredModifyBO credBO;
 
@@ -38,18 +38,18 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @BeforeEach
     void setUp()  {
         //注册数据
-        authRegDTO = new AuthRegisterDTO();
-        authRegDTO.setAuthority("junit_test");
+        authRegDTO = new SignUpBO();
+        authRegDTO.setLoginName("junit_test");
         authRegDTO.setPassword("junit_test");
-        authDTO = new AuthModifyDTO();
-        authDTO.setAuthority("admin");
+        authDTO = new UserModifyDTO();
+        authDTO.setUsername("admin");
         //密码修改数据
         credBO = new CredModifyBO();
-        credBO.setAuthority("admin");
+        credBO.setUsername("admin");
         credBO.setCurrentPassword("admin123");
         credBO.setModifiedPassword("admin123");
 
-        authBO = new ValidAuthDTO();
+        authBO = new ValidSignUpDTO();
     }
 
     @AfterEach
@@ -65,8 +65,8 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验内容为null")
     void validAuthorityNullText() {
-        authBO = iCredentialService.validAuthority(authBO);
-        assertFalse(authBO.isCanAuthority());
+        authBO = iCredentialService.validSignUp(authBO);
+        assertFalse(authBO.isCanUsername());
         assertFalse(authBO.isCanTel());
         assertFalse(authBO.isCanEmail());
     }
@@ -74,11 +74,11 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验内容为空白")
     void validAuthorityEmptyText() {
-        authBO.setAuthority("");
+        authBO.setUsername("");
         authBO.setTel("");
         authBO.setEmail("");
-        authBO = iCredentialService.validAuthority(authBO);
-        assertFalse(authBO.isCanAuthority());
+        authBO = iCredentialService.validSignUp(authBO);
+        assertFalse(authBO.isCanUsername());
         assertFalse(authBO.isCanTel());
         assertFalse(authBO.isCanEmail());
     }
@@ -87,9 +87,9 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验Authority为admin")
     void validAuthorityAdmin() {
-        authBO.setAuthority("admin");
-        authBO = iCredentialService.validAuthority(authBO);
-        assertFalse(authBO.isCanAuthority());
+        authBO.setUsername("admin");
+        authBO = iCredentialService.validSignUp(authBO);
+        assertFalse(authBO.isCanUsername());
         assertFalse(authBO.isCanTel());
         assertFalse(authBO.isCanEmail());
     }
@@ -97,9 +97,9 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验Authority为junit_test")
     void validAuthorityJunit() {
-        authBO.setAuthority("junit_test");
-        authBO = iCredentialService.validAuthority(authBO);
-        assertTrue(authBO.isCanAuthority());
+        authBO.setUsername("junit_test");
+        authBO = iCredentialService.validSignUp(authBO);
+        assertTrue(authBO.isCanUsername());
         assertFalse(authBO.isCanTel());
         assertFalse(authBO.isCanEmail());
     }
@@ -108,7 +108,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("创建账号时没有电话和邮箱")
     void registerAuthorityNoParams() {
         try{
-            iCredentialService.registerAuthority(authRegDTO);
+            iCredentialService.registerUser(authRegDTO);
         }catch (BaseException e){
             assertEquals("电话和邮箱不能同时为空",e.getErrorMessage());
         }
@@ -119,9 +119,9 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("创建测试账号")
     void registerAuthorityJunitTest() {
         authRegDTO.setTel("13105818757");
-        AuthorityInfoDO authDO = iCredentialService.registerAuthority(authRegDTO);
+        UserInfoDO authDO = iCredentialService.registerUser(authRegDTO);
         assertNotNull(authDO.getId());
-        iCredentialService.deleteAuthority(authRegDTO);
+        iCredentialService.deleteUser(authRegDTO);
     }
 
     @Test
@@ -129,7 +129,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     void modifyAuthorityAdmin() {
         authDTO.setEmail("kira277@163.com");
         authDTO.setNickname("超级管理员");
-        AuthorityInfoDO authDO = iCredentialService.modifyAuthority(authDTO);
+        UserInfoDO authDO = iCredentialService.modifyUser(authDTO);
         assertEquals(authDTO.getNickname(),authDO.getNickname());
     }
 
@@ -172,7 +172,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验登录名密码")
     void validCredential() {
-        assertTrue(iCredentialService.validCredential(credBO.getAuthority(),credBO.getModifiedPassword()));
+        assertTrue(iCredentialService.validCredential(credBO.getUsername(),credBO.getModifiedPassword()));
     }
 
 

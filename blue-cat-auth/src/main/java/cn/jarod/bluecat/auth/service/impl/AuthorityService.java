@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.service.impl;
 
-import cn.jarod.bluecat.auth.model.dto.AuthRoleDTO;
+import cn.jarod.bluecat.auth.model.dto.RoleResourceDTO;
 import cn.jarod.bluecat.auth.service.IAuthorityService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class AuthorityService implements IAuthorityService {
 
-    public List<AuthRoleDTO> findAuthorities(String name) {
+    public List<RoleResourceDTO> findAuthorities(String name) {
         return Lists.newArrayList();
     }
 }

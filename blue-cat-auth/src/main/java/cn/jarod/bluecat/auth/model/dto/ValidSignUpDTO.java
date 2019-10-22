@@ -10,15 +10,15 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
-public class ValidAuthDTO implements Serializable {
+public class ValidSignUpDTO implements Serializable {
 
     private static final long serialVersionUID = 7222495133332935145L;
 
     //登录标识
-    private String authority;
+    private String username;
 
     //登录标识可用 true为可用
-    private boolean canAuthority = false;
+    private boolean canUsername = false;
 
     //电话
     private String tel;

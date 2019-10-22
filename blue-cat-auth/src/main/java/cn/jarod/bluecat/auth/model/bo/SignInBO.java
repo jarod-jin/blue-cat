@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 public class SignInBO {
 
-    private String authority;
+    private String loginName;
 
     private String password;
 

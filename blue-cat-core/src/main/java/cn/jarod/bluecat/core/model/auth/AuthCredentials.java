@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 public class AuthCredentials {
 
     //登录名
-    private String loginName;
+    private String signIn;
 
     //密码
     private String password;
@@ -22,7 +22,7 @@ public class AuthCredentials {
 
 
     public boolean loginValid(){
-        return StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password) || StringUtils.isEmpty(terminalVersion);
+        return StringUtils.isEmpty(signIn) || StringUtils.isEmpty(password) || StringUtils.isEmpty(terminalVersion);
     }
 
 

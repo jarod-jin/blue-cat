@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "organization", indexes = {@Index(columnList ="orgCode", name="OrgCodeIndex", unique = true)})
+@Table(name = "sys_org", indexes = {@Index(columnList ="orgCode", name="OrgCodeIndex", unique = true)})
 public class OrganizationDO extends DataBase {
 
     //组织编码

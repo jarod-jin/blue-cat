@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "role", indexes = {@Index(columnList ="roleCode", name="RoleCodeIndex", unique = true)})
+@Table(name = "sys_role", indexes = {@Index(columnList ="roleCode", name="RoleCodeIndex", unique = true)})
 public class RoleDO extends DataBase {
 
     //角色编码

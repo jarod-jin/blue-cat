@@ -1,12 +1,16 @@
 package cn.jarod.bluecat.auth.service.impl;
 
-import cn.jarod.bluecat.auth.entity.AuthorityInfoDO;
 import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
-import cn.jarod.bluecat.auth.model.dto.*;
-import cn.jarod.bluecat.auth.repository.AuthorityInfoRepository;
+import cn.jarod.bluecat.auth.entity.UserInfoDO;
+import cn.jarod.bluecat.auth.model.bo.SignUpBO;
+import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
+import cn.jarod.bluecat.auth.model.dto.UserInfoDTO;
+import cn.jarod.bluecat.auth.model.dto.UserModifyDTO;
+import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
+import cn.jarod.bluecat.auth.repository.UserInfoRepository;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -33,7 +37,7 @@ import java.util.List;
 public class CredentialService implements ICredentialService {
 
     @Autowired
-    private AuthorityInfoRepository authorityInfoRepository;
+    private UserInfoRepository userInfoRepository;
 
     @Autowired
     private CredentialRepository credentialRepository;
@@ -52,22 +56,22 @@ public class CredentialService implements ICredentialService {
     @Override
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
-    public AuthorityInfoDO registerAuthority(AuthRegisterDTO authDTO) {
-        AuthorityInfoDO authDO = BeanHelperUtil.createCopyBean(authDTO, AuthorityInfoDO.class);
+    public UserInfoDO registerUser(SignUpBO authDTO) {
+        UserInfoDO authDO = BeanHelperUtil.createCopyBean(authDTO, UserInfoDO.class);
         if (!authDTO.hasTelOrEmail())
             throw new BaseException(ReturnCode.S400.getCode(), "电话和邮箱不能同时为空");
-        authDO.setCreator(authDO.getAuthority());
-        authDO.setModifier(authDO.getAuthority());
+        authDO.setCreator(authDTO.getLoginName());
+        authDO.setModifier(authDTO.getLoginName());
         authDO.setCredentialType(authDTO.getCredentialType());
-        authDO = authorityInfoRepository.save(authDO);
+        authDO = userInfoRepository.save(authDO);
         CredentialDO credDO = new CredentialDO();
-        credDO.setAuthority(authDTO.getAuthority());
+        credDO.setUsername(authDO.getUsername());
         credDO.setPassword(EncryptUtil.stringEncodeSHA256(authDTO.getPassword()));
-        credDO.setCreator(authDO.getAuthority());
-        credDO.setModifier(authDO.getAuthority());
+        credDO.setCreator(authDO.getUsername());
+        credDO.setModifier(authDO.getUsername());
         credentialRepository.save(credDO);
-        CredHistoryDO chDO = new CredHistoryDO(authDTO.getAuthority(),EncryptUtil.stringEncodeSHA256(authDTO.getPassword()));
-        chDO.setCreator(authDTO.getAuthority());
+        CredHistoryDO chDO = new CredHistoryDO(authDO.getUsername(),EncryptUtil.stringEncodeSHA256(authDTO.getPassword()));
+        chDO.setCreator(authDO.getUsername());
         credHistoryRepository.save(chDO);
         return authDO;
     }
@@ -80,11 +84,11 @@ public class CredentialService implements ICredentialService {
     @TimeDiff
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteAuthority(AuthRegisterDTO authDTO) {
+    public void deleteUser(UserInfoDTO authDTO) {
         BaseException baseException = new BaseException(ReturnCode.S400.getCode(), "找不到该用户");
-        authorityInfoRepository.delete(authorityInfoRepository.findByAuthority(authDTO.getAuthority()).orElseThrow(() -> baseException));
-        credentialRepository.delete(credentialRepository.findByAuthority(authDTO.getAuthority()).orElseThrow(()-> baseException));
-        credHistoryRepository.deleteAll(credHistoryRepository.findAllByAuthority(authDTO.getAuthority()));
+        userInfoRepository.delete(userInfoRepository.findByUsername(authDTO.getUsername()).orElseThrow(() -> baseException));
+        credentialRepository.delete(credentialRepository.findByAuthority(authDTO.getUsername()).orElseThrow(()-> baseException));
+        credHistoryRepository.deleteAll(credHistoryRepository.findAllByAuthority(authDTO.getUsername()));
     }
 
     /**
@@ -95,22 +99,22 @@ public class CredentialService implements ICredentialService {
     @Override
     @TimeDiff
     @Transactional(readOnly = true)
-    public ValidAuthDTO validAuthority(ValidAuthDTO authBO) {
-        AuthorityInfoDO auth;
-        if (StringUtils.hasText(authBO.getAuthority())){
-            auth = new AuthorityInfoDO();
-            auth.setAuthority(authBO.getAuthority());
-            authBO.setCanAuthority(!authorityInfoRepository.exists(Example.of(auth)));
+    public ValidSignUpDTO validSignUp(ValidSignUpDTO authBO) {
+        UserInfoDO auth;
+        if (StringUtils.hasText(authBO.getUsername())){
+            auth = new UserInfoDO();
+            auth.setUsername(authBO.getUsername());
+            authBO.setCanUsername(!userInfoRepository.exists(Example.of(auth)));
         }
         if (StringUtils.hasText(authBO.getTel())){
-            auth = new AuthorityInfoDO();
+            auth = new UserInfoDO();
             auth.setTel(authBO.getTel());
-            authBO.setCanTel(CommonUtil.validTel(auth.getTel())  && !authorityInfoRepository.exists(Example.of(auth)));
+            authBO.setCanTel(CommonUtil.validTel(auth.getTel())  && !userInfoRepository.exists(Example.of(auth)));
         }
         if (StringUtils.hasText(authBO.getEmail())){
-            auth = new AuthorityInfoDO();
+            auth = new UserInfoDO();
             auth.setEmail(authBO.getEmail());
-            authBO.setCanEmail(CommonUtil.validEmail(auth.getEmail())  && !authorityInfoRepository.exists(Example.of(auth)));
+            authBO.setCanEmail(CommonUtil.validEmail(auth.getEmail())  && !userInfoRepository.exists(Example.of(auth)));
         }
         return authBO;
     }
@@ -119,10 +123,10 @@ public class CredentialService implements ICredentialService {
     @Override
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
-    public AuthorityInfoDO modifyAuthority(AuthModifyDTO authDTO) {
-        AuthorityInfoDO target = BeanHelperUtil.createCopyBean(authDTO, AuthorityInfoDO.class);
-        authorityInfoRepository.findByAuthority(authDTO.getAuthority()).ifPresent(s -> BeanHelperUtil.copyNullProperties(s, target));
-        return authorityInfoRepository.save(target);
+    public UserInfoDO modifyUser(UserModifyDTO authDTO) {
+        UserInfoDO target = BeanHelperUtil.createCopyBean(authDTO, UserInfoDO.class);
+        userInfoRepository.findByUsername(authDTO.getUsername()).ifPresent(s -> BeanHelperUtil.copyNullProperties(s, target));
+        return userInfoRepository.save(target);
     }
 
 
@@ -155,7 +159,7 @@ public class CredentialService implements ICredentialService {
      * @param chDO
      */
     private void handleCredPassword(CredHistoryDO chDO) {
-        List<CredHistoryDO> list = credHistoryRepository.findAllByAuthority(chDO.getAuthority());
+        List<CredHistoryDO> list = credHistoryRepository.findAllByAuthority(chDO.getUsername());
         if (list.size()> passNumber)
             list.stream().min(Comparator.comparing(CredHistoryDO::getCreateDate)).ifPresent(e -> credHistoryRepository.delete(e));
     }
@@ -168,13 +172,13 @@ public class CredentialService implements ICredentialService {
     @Override
     public boolean validCredential(String signIn, String password) {
         CredentialDO credentialDO = new CredentialDO();
-        credentialDO.setAuthority(signIn);
+        credentialDO.setUsername(signIn);
         credentialDO.setPassword(password);
         return credentialRepository.exists(Example.of(credentialDO));
     }
 
     @Override
-    public AuthorityDTO findAuthorities(String name) {
+    public UserInfoDTO findAuthorities(String name) {
         return null;
     }
 }

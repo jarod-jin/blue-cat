@@ -19,7 +19,7 @@ public class CredModifyDTO {
     private String modifiedPassword;
 
     public CredModifyDTO(CredModifyBO credBO){
-        this.authority = credBO.getAuthority();
+        this.authority = credBO.getUsername();
         this.currentPassword = EncryptUtil.stringEncodeSHA256(credBO.getCurrentPassword());
         this.modifiedPassword = EncryptUtil.stringEncodeSHA256(credBO.getModifiedPassword());
     }

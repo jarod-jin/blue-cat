@@ -23,7 +23,7 @@ public class CredentialDO extends DataBase {
 
     //用户唯一标识
     @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))
-    private String authority;
+    private String username;
 
     //密码
     @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '登录密码'"))

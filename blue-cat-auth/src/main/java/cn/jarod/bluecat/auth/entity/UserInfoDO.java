@@ -21,15 +21,15 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "authority_info",
-        indexes = {@Index(columnList ="authority", name="AuthorityIndex" , unique = true),
+@Table(name = "user_info",
+        indexes = {@Index(columnList ="username", name="UsernameIndex" , unique = true),
         @Index(columnList ="tel", name="TelIndex", unique = true),
         @Index(columnList ="email", name="EmailIndex", unique = true)})
-public class AuthorityInfoDO extends DataBase {
+public class UserInfoDO extends DataBase {
 
     //用户唯一标识
     @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))
-    private String authority;
+    private String username;
 
     //用户名
     @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '用户名'"))
@@ -59,13 +59,13 @@ public class AuthorityInfoDO extends DataBase {
     @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '说明'"))
     private String memo;
 
-    public AuthorityInfoDO (){
+    public UserInfoDO (){
         super();
     }
 
-    public AuthorityInfoDO (String authority){
+    public UserInfoDO (String username){
         super();
-        this.authority = authority;
+        this.username = username;
     }
 
 
