@@ -48,7 +48,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         }
         // 返回一个验证令牌
         return getAuthenticationManager().authenticate(
-                new UsernamePasswordAuthenticationToken(credentials.getLoginName(),credentials.getPassword(),
+                new UsernamePasswordAuthenticationToken(credentials.getSignIn(),credentials.getPassword(),
                         Lists.newArrayList(new AuthGrantedAuthority(credentials.getTerminalVersion()))));
     }
 

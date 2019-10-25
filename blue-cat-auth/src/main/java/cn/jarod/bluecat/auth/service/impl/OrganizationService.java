@@ -4,7 +4,6 @@ import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
-import cn.jarod.bluecat.core.model.auth.UserDetailBO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,24 @@ public class OrganizationService implements IOrganizationService {
      * @return
      */
     @Override
-    public OrganizationDTO saveOrganization(OrganizationDTO orgDTO, UserDetailBO user) {
+    public OrganizationDTO saveOrganization(OrganizationDTO orgDTO) {
         OrganizationDO orgDO = BeanHelperUtil.createCopyBean(orgDTO, OrganizationDO.class);
         orgDO.setOrgCode(orgDTO.getNode());
         orgDO.setParentCode(orgDTO.getPNode());
-        organizationRepository.findByOrgCode(orgDO.getOrgCode());
-        return null;
+        orgDO.setModifier(orgDTO.getOperator());
+        orgDO.setCreator(orgDTO.getOperator());
+        organizationRepository.findByOrgCode(orgDO.getOrgCode()).ifPresent(
+                e -> BeanHelperUtil.copyNullProperties(e,orgDO)
+        );
+        OrganizationDO result = organizationRepository.save(orgDO);
+        orgDTO = BeanHelperUtil.createCopyBean(result, OrganizationDTO.class);
+        orgDTO.setNode(result.getOrgCode());
+        orgDTO.setPNode(result.getParentCode());
+        return orgDTO;
+    }
+
+    @Override
+    public void delOrganization(OrganizationDTO orgDTO) {
+        organizationRepository.findByOrgCode(orgDTO.getNode()).ifPresent(e -> organizationRepository.delete(e));
     }
 }

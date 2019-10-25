@@ -3,6 +3,8 @@ package cn.jarod.bluecat.core.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -12,10 +14,10 @@ import java.util.List;
 @Setter
 public class TreeDTO extends BaseDTO{
 
-    private Long id;
-
+    @NotBlank
     private String node;
 
+    @NotNull
     private String pNode;
 
     private List<? extends TreeDTO> children;

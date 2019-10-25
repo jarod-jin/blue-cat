@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.service.impl;
 
-import cn.jarod.bluecat.auth.model.bo.GrantedAuthorityBO;
+import cn.jarod.bluecat.core.model.auth.AuthGrantedAuthority;
 import cn.jarod.bluecat.auth.model.dto.RoleResourceDTO;
 import cn.jarod.bluecat.auth.model.dto.UserInfoDTO;
 import cn.jarod.bluecat.auth.service.IAuthorityService;
@@ -73,7 +73,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     private Collection<GrantedAuthority> getAuthorities(List<RoleResourceDTO> roleList) {
-      return roleList.stream().map(e -> new GrantedAuthorityBO(e.toString())).collect(Collectors.toList());
+      return roleList.stream().map(e -> new AuthGrantedAuthority(e.toString())).collect(Collectors.toList());
     }
 
 

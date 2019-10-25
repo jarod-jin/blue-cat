@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "cred_history", indexes = {@Index(columnList ="authority", name="AuthorityIndex")})
+@Table(name = "cred_history", indexes = {@Index(columnList ="username", name="UsernameIndex")})
 public class CredHistoryDO extends SimpleBase {
 
     //用户唯一标识
@@ -29,7 +29,7 @@ public class CredHistoryDO extends SimpleBase {
     private String username;
 
     //密码验证串
-    @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '密码验证串'"))
+    @Column(nullable = false, columnDefinition=("varchar(250) default '' comment '密码验证串'"))
     private String password;
 
     public CredHistoryDO (){}

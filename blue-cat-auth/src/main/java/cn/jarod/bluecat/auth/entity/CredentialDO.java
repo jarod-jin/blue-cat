@@ -18,7 +18,7 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "credential", indexes = {@Index(columnList ="authority", name="AuthorityIndex", unique = true)})
+@Table(name = "credential", indexes = {@Index(columnList ="username", name="UsernameIndex", unique = true)})
 public class CredentialDO extends DataBase {
 
     //用户唯一标识
@@ -26,7 +26,7 @@ public class CredentialDO extends DataBase {
     private String username;
 
     //密码
-    @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '登录密码'"))
+    @Column(nullable = false, columnDefinition=("varchar(250) default '' comment '登录密码'"))
     private String password;
 
 }

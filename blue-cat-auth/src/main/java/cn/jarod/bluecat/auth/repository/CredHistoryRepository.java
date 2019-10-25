@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface CredHistoryRepository extends JpaRepository<CredHistoryDO,Long> {
 
-    List<CredHistoryDO> findAllByAuthority(String authority);
+    List<CredHistoryDO> findAllByUsername(String username);
 
 }

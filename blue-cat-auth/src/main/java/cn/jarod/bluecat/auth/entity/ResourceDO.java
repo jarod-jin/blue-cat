@@ -8,12 +8,14 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
  * @auther jarod.jin 2019/10/15
  */
+@Entity
 @Getter
 @Setter
 @DynamicInsert
@@ -27,7 +29,7 @@ public class ResourceDO extends DataBase {
     private String resourceCode;
 
     //资源名称
-    @Column(nullable = false, columnDefinition=("varchar(256) default '' comment '资源名称'"))
+    @Column(nullable = false, columnDefinition=("varchar(250) default '' comment '资源名称'"))
     private String resourceName;
 
     //上级编码

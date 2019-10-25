@@ -1,6 +1,5 @@
-package cn.jarod.bluecat.auth.model.bo;
+package cn.jarod.bluecat.core.model.auth;
 
-import cn.jarod.bluecat.core.model.auth.UserOrgBO;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 /**
  * @auther jarod.jin 2018/12/3
  */
-public class GrantedAuthorityBO implements GrantedAuthority {
+public class AuthGrantedAuthority implements GrantedAuthority {
 
     private static final long serialVersionUID = 306732587010819016L;
 
@@ -16,7 +15,7 @@ public class GrantedAuthorityBO implements GrantedAuthority {
 
     private List<UserOrgBO> roleList;
 
-    public GrantedAuthorityBO(String authority) {
+    public AuthGrantedAuthority(String authority) {
         this.authority = authority;
     }
 

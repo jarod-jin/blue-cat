@@ -28,4 +28,8 @@ public class CredentialAuthenticate {
         credentialService.validSignUp(authBO);
         return new ResultBO(ReturnCode.Q200, authBO);
     }
+
+
+
+
 }

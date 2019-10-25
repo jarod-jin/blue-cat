@@ -87,8 +87,8 @@ public class CredentialService implements ICredentialService {
     public void deleteUser(UserInfoDTO authDTO) {
         BaseException baseException = new BaseException(ReturnCode.S400.getCode(), "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authDTO.getUsername()).orElseThrow(() -> baseException));
-        credentialRepository.delete(credentialRepository.findByAuthority(authDTO.getUsername()).orElseThrow(()-> baseException));
-        credHistoryRepository.deleteAll(credHistoryRepository.findAllByAuthority(authDTO.getUsername()));
+        credentialRepository.delete(credentialRepository.findByUsername(authDTO.getUsername()).orElseThrow(()-> baseException));
+        credHistoryRepository.deleteAll(credHistoryRepository.findAllByUsername(authDTO.getUsername()));
     }
 
     /**
@@ -138,7 +138,7 @@ public class CredentialService implements ICredentialService {
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public void modifyPassword(CredModifyDTO credDTO) {
-        credentialRepository.findByAuthority(credDTO.getAuthority()).ifPresent(
+        credentialRepository.findByUsername(credDTO.getAuthority()).ifPresent(
             c -> {
                 if (!c.getPassword().equals(credDTO.getCurrentPassword()))
                     throw new BaseException(ReturnCode.S400.getCode(),"原密码错误");
@@ -159,7 +159,7 @@ public class CredentialService implements ICredentialService {
      * @param chDO
      */
     private void handleCredPassword(CredHistoryDO chDO) {
-        List<CredHistoryDO> list = credHistoryRepository.findAllByAuthority(chDO.getUsername());
+        List<CredHistoryDO> list = credHistoryRepository.findAllByUsername(chDO.getUsername());
         if (list.size()> passNumber)
             list.stream().min(Comparator.comparing(CredHistoryDO::getCreateDate)).ifPresent(e -> credHistoryRepository.delete(e));
     }

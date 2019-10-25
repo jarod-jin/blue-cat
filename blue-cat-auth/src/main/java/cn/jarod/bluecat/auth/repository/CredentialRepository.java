@@ -10,6 +10,6 @@ import java.util.Optional;
  */
 public interface CredentialRepository extends JpaRepository<CredentialDO,Long> {
 
-    Optional<CredentialDO> findByAuthority(String authority);
+    Optional<CredentialDO> findByUsername(String username);
 
 }
