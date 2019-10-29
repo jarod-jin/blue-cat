@@ -4,8 +4,10 @@ import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
+import cn.jarod.bluecat.core.model.TreeDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
+import cn.jarod.bluecat.core.utils.TreeUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -74,7 +76,7 @@ public class OrganizationService implements IOrganizationService {
     }
 
     @Override
-    public List<OrganizationDTO> findOrgTreeByFullCode(String fullCode) {
+    public List<TreeDTO> findOrgTreeByFullCode(String fullCode) {
         List<OrganizationDTO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
             OrganizationDTO orgDTO = new OrganizationDTO();
             BeanUtils.copyProperties(e,orgDTO);
@@ -83,6 +85,6 @@ public class OrganizationService implements IOrganizationService {
             return orgDTO;
         }).collect(Collectors.toList());
         log.info(JSON.toJSONString(list));
-        return list;
+        return TreeUtil.getTree(list);
     }
 }

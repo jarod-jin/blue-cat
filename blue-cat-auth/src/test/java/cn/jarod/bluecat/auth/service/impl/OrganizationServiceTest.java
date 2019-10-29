@@ -3,6 +3,7 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
+import cn.jarod.bluecat.core.model.TreeDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -93,7 +94,8 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("根据给定组织代码查询该组织下的组织树")
     void findOrgTreeByOrgCode() {
-        List<OrganizationDTO> orgList = organizationService.findOrgTreeByFullCode("SYS100001");
+        List<TreeDTO> orgList = organizationService.findOrgTreeByFullCode("SYS100001");
         assertFalse(orgList.isEmpty());
+        assertFalse(orgList.get(0).getChildren().isEmpty());
     }
 }
