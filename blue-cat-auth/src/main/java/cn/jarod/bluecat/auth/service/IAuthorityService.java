@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.auth.service;
 
+import cn.jarod.bluecat.auth.model.dto.OrgRoleDTO;
 import cn.jarod.bluecat.auth.model.dto.RoleResourceDTO;
 
 import java.util.List;
@@ -10,4 +11,6 @@ import java.util.List;
 public interface IAuthorityService {
 
     List<RoleResourceDTO> findAuthorities(String name);
+
+    OrgRoleDTO saveOrgRole(OrgRoleDTO dto);
 }

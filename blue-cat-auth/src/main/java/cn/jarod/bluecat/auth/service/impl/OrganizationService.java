@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
+import cn.jarod.bluecat.auth.model.dto.OrgRoleDTO;
 import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
@@ -75,6 +76,11 @@ public class OrganizationService implements IOrganizationService {
         return orgDTO;
     }
 
+    /**
+     * 根据当前部门节点查询下属所有部门树
+     * @param fullCode
+     * @return
+     */
     @Override
     public List<TreeDTO> findOrgTreeByFullCode(String fullCode) {
         List<OrganizationDTO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
@@ -87,4 +93,8 @@ public class OrganizationService implements IOrganizationService {
         log.info(JSON.toJSONString(list));
         return TreeUtil.getTree(list);
     }
+
+
+
+
 }
