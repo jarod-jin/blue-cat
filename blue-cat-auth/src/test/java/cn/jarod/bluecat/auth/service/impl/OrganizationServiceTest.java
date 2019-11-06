@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
+import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
 import cn.jarod.bluecat.core.model.TreeDTO;
@@ -44,6 +45,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         newOrg.setDisOrder(999);
         newOrg.setFullCode("SYS100001/SYS99999");
         newOrg.setFullName("系统管理/系统测试");
+        newOrg.setOperator("admin");
         newOrg.setOrgType(0);
     }
 
@@ -56,6 +58,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         modifyOrg.setFullCode("SYS100001/SYS100002");
         modifyOrg.setFullName("系统管理/系统开发部");
         modifyOrg.setOrgType(0);
+        modifyOrg.setOperator("admin");
     }
 
     private void initSysOrg (){
@@ -65,6 +68,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         sysOrg.setDisOrder(1);
         sysOrg.setFullCode("SYS100001");
         sysOrg.setFullName("系统管理");
+        sysOrg.setOperator("admin");
         sysOrg.setOrgType(0);
     }
 
@@ -78,16 +82,17 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("保存新的组织")
     void saveOrganizationNewOne() {
-        OrganizationDTO rOrg = organizationService.saveOrganization(newOrg);
+        OrganizationDO rOrg = organizationService.saveOrganization(newOrg);
         assertNotNull(rOrg.getId());
-        organizationService.delOrganization(rOrg);
+        newOrg.setId(rOrg.getId());
+        organizationService.delOrganization(newOrg);
     }
 
     @Test
     @DisplayName("修改已有的组织")
     void saveOrganizationModifyOne() {
         modifyOrg.setDisOrder(100);
-        OrganizationDTO rOrg = organizationService.saveOrganization(modifyOrg);
+        OrganizationDO rOrg = organizationService.saveOrganization(modifyOrg);
         assertEquals(modifyOrg.getDisOrder(),rOrg.getDisOrder());
     }
 

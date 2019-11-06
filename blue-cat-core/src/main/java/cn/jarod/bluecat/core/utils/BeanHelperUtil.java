@@ -107,31 +107,49 @@ public class BeanHelperUtil {
     }
 
     /**
+     * 将目标源中为空的字段过滤，将数据库中查出的数据源复制到提交的目标源中
+     *
+     * @param source 用id从数据库中查出来的数据源
+     * @param target 提交的实体，目标源
+     */
+    public static void copyNotNullProperties(Object source, Object target) {
+        BeanUtils.copyProperties(source, target, getProperties(source,true));
+    }
+
+
+    /**
      * 将目标源中不为空的字段过滤，将数据库中查出的数据源复制到提交的目标源中
      *
      * @param source 用id从数据库中查出来的数据源
      * @param target 提交的实体，目标源
      */
     public static void copyNullProperties(Object source, Object target) {
-        BeanUtils.copyProperties(source, target, getNoNullProperties(target));
+        BeanUtils.copyProperties(source, target, getProperties(target,false));
     }
 
 
     /**
-     * @param target 目标源数据
-     * @return 将目标源中不为空的字段取出
+     * @param object 源数据
+     * @param isNull 是否为空
+     * @return 将目标源中为空或者不为空的字段取出
      */
-    private static String[] getNoNullProperties(Object target) {
-        BeanWrapper srcBean = new BeanWrapperImpl(target);
+    private static String[] getProperties(Object object, Boolean isNull) {
+        BeanWrapper srcBean = new BeanWrapperImpl(object);
         PropertyDescriptor[] pds = srcBean.getPropertyDescriptors();
         Set<String> noEmptyName = Sets.newHashSet();
+        Set<String> emptyName = Sets.newHashSet();
         for (PropertyDescriptor p : pds) {
             Object value = srcBean.getPropertyValue(p.getName());
-            if (value != null) noEmptyName.add(p.getName());
+            if (value == null)
+                emptyName.add(p.getName());
+            else
+                noEmptyName.add(p.getName());
         }
-        String[] result = new String[noEmptyName.size()];
-        return noEmptyName.toArray(result);
+        if (isNull)
+            return emptyName.toArray(new String[0]);
+        return noEmptyName.toArray(new String[0]);
     }
+
 
 
 

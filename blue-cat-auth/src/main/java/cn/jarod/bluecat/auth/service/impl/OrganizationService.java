@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
-import cn.jarod.bluecat.auth.model.dto.OrgRoleDTO;
 import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
@@ -35,20 +34,15 @@ public class OrganizationService implements IOrganizationService {
      * @return
      */
     @Override
-    public OrganizationDTO saveOrganization(OrganizationDTO orgDTO) {
-        OrganizationDO orgDO = BeanHelperUtil.createCopyBean(orgDTO, OrganizationDO.class);
+    public OrganizationDO saveOrganization(OrganizationDTO orgDTO) {
+        orgDTO.clearId();
+        OrganizationDO orgDO = organizationRepository.findByOrgCode(orgDTO.getNode()).orElse(new OrganizationDO());
         orgDO.setOrgCode(orgDTO.getNode());
         orgDO.setParentCode(orgDTO.getPNode());
         orgDO.setModifier(orgDTO.getOperator());
         orgDO.setCreator(orgDTO.getOperator());
-        organizationRepository.findByOrgCode(orgDO.getOrgCode()).ifPresent(
-                e -> BeanHelperUtil.copyNullProperties(e,orgDO)
-        );
-        OrganizationDO result = organizationRepository.save(orgDO);
-        orgDTO = BeanHelperUtil.createCopyBean(result, OrganizationDTO.class);
-        orgDTO.setNode(result.getOrgCode());
-        orgDTO.setPNode(result.getParentCode());
-        return orgDTO;
+        BeanHelperUtil.copyNotNullProperties(orgDTO,orgDO);
+        return organizationRepository.save(orgDO);
     }
 
     /**

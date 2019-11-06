@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.auth.service;
 
+import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.dto.RoleDTO;
 
 /**
@@ -7,5 +8,5 @@ import cn.jarod.bluecat.auth.model.dto.RoleDTO;
  */
 public interface IRoleService {
 
-    RoleDTO saveRole(RoleDTO dto);
+    RoleDO saveRole(RoleDTO dto);
 }

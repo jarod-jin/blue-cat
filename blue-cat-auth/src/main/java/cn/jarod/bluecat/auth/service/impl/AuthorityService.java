@@ -50,7 +50,7 @@ public class AuthorityService implements IAuthorityService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public OrgRoleDTO saveOrgRole(OrgRoleDTO dto) {
+    public OrgRoleDO saveOrgRole(OrgRoleDTO dto) {
         OrgRoleDO orgRole = new OrgRoleDO();
         orgRole.setOrgCode(dto.getOrgCode());
         orgRole.setRoleCode(dto.getRoleCode());
@@ -58,10 +58,7 @@ public class AuthorityService implements IAuthorityService {
             throw new BaseException(ReturnCode.S401);
         orgRole.setModifier(dto.getOperator());
         orgRole.setCreator(dto.getOperator());
-        orgRole = orgRoleRepository.save(orgRole);
-        dto.setId(orgRole.getId());
-        dto.setVersion(orgRole.getVersion());
-        return dto;
+        return orgRoleRepository.save(orgRole);
     }
 
 }

@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 /**
  * @auther jarod.jin 2019/11/5
  */
@@ -21,13 +23,20 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
     @BeforeEach
     void setUp() {
         roleDTO = new RoleDTO();
+        roleDTO.setRoleName("超级管理员");
+        roleDTO.setRoleCode("admin");
+        roleDTO.setMemo("本系统的超级管理员，拥有无上权力");
+        roleDTO.setDisOrder(1);
+        roleDTO.setOperator("admin");
     }
 
     @AfterEach
     void tearDown() {
+        roleDTO = null;
     }
 
     @Test
     void saveRole() {
+        assertNotNull(roleService.saveRole(roleDTO).getId());
     }
 }

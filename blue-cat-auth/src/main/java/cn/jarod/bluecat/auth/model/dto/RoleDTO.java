@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.auth.model.dto;
 
+import cn.jarod.bluecat.core.model.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,5 +9,14 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class RoleDTO {
+public class RoleDTO extends BaseDTO {
+
+    private String roleCode;
+
+    private String roleName;
+
+    private Integer disOrder;
+
+    private String memo;
+
 }
