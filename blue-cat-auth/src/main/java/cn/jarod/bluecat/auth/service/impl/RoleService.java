@@ -1,10 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
-import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
-import cn.jarod.bluecat.auth.model.dto.OrgRoleDTO;
 import cn.jarod.bluecat.auth.model.dto.RoleDTO;
-import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.repository.RoleRepository;
 import cn.jarod.bluecat.auth.service.IRoleService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -14,7 +11,10 @@ import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +29,6 @@ public class RoleService implements IRoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
-    private OrgRoleRepository orgRoleRepository;
 
     /**
      * 保存一个角色
@@ -87,21 +84,5 @@ public class RoleService implements IRoleService {
     }
 
 
-    /**
-     * 保存组织角色关系
-     * @param dto
-     * @return
-     */
-    @Override
-    @Transactional
-    public OrgRoleDO saveOrgRole(OrgRoleDTO dto){
-        OrgRoleDO orgRoleDO = new OrgRoleDO();
-        orgRoleDO.setOrgCode(dto.getOrgCode());
-        orgRoleDO.setRoleCode(dto.getRoleCode());
-        if (orgRoleRepository.exists(Example.of(orgRoleDO)))
-            throw new BaseException(ReturnCode.S401);
-        orgRoleDO.setCreator(dto.getOperator());
-        orgRoleDO.setModifier(dto.getOperator());
-        return orgRoleRepository.save(orgRoleDO);
-    }
+
 }

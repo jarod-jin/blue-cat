@@ -1,9 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
-import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
-import cn.jarod.bluecat.auth.model.dto.OrgRoleDTO;
 import cn.jarod.bluecat.auth.model.dto.RoleDTO;
 import cn.jarod.bluecat.auth.service.IRoleService;
 import cn.jarod.bluecat.core.exception.BaseException;
@@ -52,6 +50,7 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
     @AfterEach
     void tearDown() {
         adminDTO = null;
+        tmpDTO = null;
     }
 
     @Test
@@ -92,18 +91,5 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
         );
     }
 
-    @Test
-    @DisplayName("分页查询所有角色")
-    void saveOrgRole() {
-        OrgRoleDTO orgRoleDTO = new OrgRoleDTO();
-        orgRoleDTO.setRoleCode("admin");
-        orgRoleDTO.setOrgCode("SYS100001");
-        OrgRoleDO orgRoleDO = roleService.saveOrgRole(orgRoleDTO);
-        assertAll("检验返回结果",
-                ()-> assertNotNull(orgRoleDO.getId()),
-                ()-> assertEquals("admin",orgRoleDO.getRoleCode()),
-                ()-> assertEquals("SYS100001",orgRoleDO.getOrgCode())
-        );
-    }
 
 }

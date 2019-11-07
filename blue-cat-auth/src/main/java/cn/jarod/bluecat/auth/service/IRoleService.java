@@ -1,8 +1,6 @@
 package cn.jarod.bluecat.auth.service;
 
-import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
-import cn.jarod.bluecat.auth.model.dto.OrgRoleDTO;
 import cn.jarod.bluecat.auth.model.dto.RoleDTO;
 import cn.jarod.bluecat.core.model.BaseQO;
 import org.springframework.data.domain.Page;
@@ -22,6 +20,4 @@ public interface IRoleService {
     Map<String,RoleDO> queryRoleMapByCodes(List<String> codes);
 
     Page<RoleDO> queryRolePage(BaseQO qo);
-
-    OrgRoleDO saveOrgRole(OrgRoleDTO dto);
 }
