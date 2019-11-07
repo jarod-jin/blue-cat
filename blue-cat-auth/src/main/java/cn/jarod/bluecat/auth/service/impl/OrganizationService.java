@@ -4,6 +4,8 @@ import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
+import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.TreeDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
@@ -51,7 +53,7 @@ public class OrganizationService implements IOrganizationService {
      */
     @Override
     public void delOrganization(OrganizationDTO orgDTO) {
-        organizationRepository.findByOrgCode(orgDTO.getNode()).ifPresent(e -> organizationRepository.delete(e));
+        organizationRepository.delete(organizationRepository.findByOrgCode(orgDTO.getNode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
     }
 
     /**

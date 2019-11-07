@@ -19,6 +19,8 @@ public class Const {
 
     public static final Integer DEL = 1;
 
+    public static final String CREATE_DATE = "createDate";
+
     /** 默认日期时间格式 */
     public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 

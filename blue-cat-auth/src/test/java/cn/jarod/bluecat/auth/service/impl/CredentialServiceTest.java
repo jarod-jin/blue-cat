@@ -68,9 +68,11 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("校验内容为null")
     void validAuthorityNullText() {
         upDTO = credentialService.validSignUp(upDTO);
-        assertFalse(upDTO.isCanUsername());
-        assertFalse(upDTO.isCanTel());
-        assertFalse(upDTO.isCanEmail());
+        assertAll("检验返回结果",
+                ()->  assertFalse(upDTO.isCanUsername()),
+                ()->  assertFalse(upDTO.isCanTel()),
+                ()->  assertFalse(upDTO.isCanEmail())
+        );
     }
 
     @Test
@@ -80,9 +82,11 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         upDTO.setTel("");
         upDTO.setEmail("");
         upDTO = credentialService.validSignUp(upDTO);
-        assertFalse(upDTO.isCanUsername());
-        assertFalse(upDTO.isCanTel());
-        assertFalse(upDTO.isCanEmail());
+        assertAll("检验返回结果",
+                ()->  assertFalse(upDTO.isCanUsername()),
+                ()->  assertFalse(upDTO.isCanTel()),
+                ()->  assertFalse(upDTO.isCanEmail())
+        );
     }
 
 
@@ -91,9 +95,11 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     void validAuthorityAdmin() {
         upDTO.setUsername("admin");
         upDTO = credentialService.validSignUp(upDTO);
-        assertFalse(upDTO.isCanUsername());
-        assertFalse(upDTO.isCanTel());
-        assertFalse(upDTO.isCanEmail());
+        assertAll("检验返回结果",
+                ()->  assertFalse(upDTO.isCanUsername()),
+                ()->  assertFalse(upDTO.isCanTel()),
+                ()->  assertFalse(upDTO.isCanEmail())
+        );
     }
 
     @Test
@@ -101,9 +107,12 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     void validAuthorityJunit() {
         upDTO.setUsername("junit_test");
         upDTO = credentialService.validSignUp(upDTO);
-        assertTrue(upDTO.isCanUsername());
-        assertFalse(upDTO.isCanTel());
-        assertFalse(upDTO.isCanEmail());
+        assertAll("检验返回结果",
+                ()->  assertTrue(upDTO.isCanUsername()),
+                ()->  assertFalse(upDTO.isCanTel()),
+                ()->  assertFalse(upDTO.isCanEmail())
+        );
+
     }
 
     @Test

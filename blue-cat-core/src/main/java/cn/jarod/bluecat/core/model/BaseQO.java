@@ -18,4 +18,13 @@ public class BaseQO {
     @NotNull
     private Integer pageCount;
 
+    @NotNull
+    private boolean isASC;
+
+    public BaseQO(){
+        pageNum = 1;
+        pageCount = 5;
+        isASC = true;
+    }
+
 }
