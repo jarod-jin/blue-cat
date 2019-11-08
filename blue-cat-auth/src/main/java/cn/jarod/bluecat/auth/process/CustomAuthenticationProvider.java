@@ -1,10 +1,12 @@
 package cn.jarod.bluecat.auth.process;
 
-import cn.jarod.bluecat.core.model.auth.AuthGrantedAuthority;
 import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
+import cn.jarod.bluecat.auth.model.bo.RequestAuthorityBO;
 import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
-import cn.jarod.bluecat.auth.service.IUserLocationService;
 import cn.jarod.bluecat.auth.service.ICredentialService;
+import cn.jarod.bluecat.auth.service.IOrgRoleService;
+import cn.jarod.bluecat.auth.service.IUserLocationService;
+import cn.jarod.bluecat.core.model.auth.AuthGrantedAuthority;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.google.common.collect.Lists;
@@ -45,7 +47,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
     @Autowired
-    private IUserLocationService authorityService;
+    private IUserLocationService userLocationService;
+
+    @Autowired
+    private IOrgRoleService orgRoleService;
 
 
     @Override
@@ -63,11 +68,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
 
-    private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String name , String pwd) {
-//        List<RoleResourceDTO> listAuth = authorityService.findAuthorities(name);
+    private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username , String pwd) {
+        List<Long> orgRoleIds = userLocationService.findOrgRoleIdsByUsername(username);
+        List<RequestAuthorityBO> orgRoleMap =  orgRoleService.queryOrgRoleByIds(orgRoleIds);
+
+
         UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(name, pwd, getAuthorities(Lists.newArrayList()));
-        SaveUserInfoBO authDTO =  credentialService.findAuthorities(name);
+                new UsernamePasswordAuthenticationToken(username, pwd, getAuthorities(Lists.newArrayList()));
+        SaveUserInfoBO authDTO =  credentialService.findAuthorities(username);
         authentication.setDetails(authDTO);
         return authentication;
     }

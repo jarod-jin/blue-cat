@@ -2,6 +2,7 @@ package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
+import cn.jarod.bluecat.auth.model.bo.RequestAuthorityBO;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface IOrgRoleService {
     void delOrgRole(LinkOrgRoleBO linkOrgRoleBO);
 
     List<String> queryRoleCodesByOrg(LinkOrgRoleBO linkOrgRoleBO);
+
+    List<RequestAuthorityBO> queryOrgRoleByIds(List<Long> ids);
 }

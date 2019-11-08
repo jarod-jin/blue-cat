@@ -2,6 +2,7 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
+import cn.jarod.bluecat.auth.model.bo.RequestAuthorityBO;
 import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.service.IOrgRoleService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -67,6 +69,23 @@ public class OrgRoleService implements IOrgRoleService {
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
         return orgRoleRepository.findAll(Example.of(orgRoleDO)).stream().map(OrgRoleDO::getRoleCode).collect(Collectors.toList());
+    }
+
+
+    /**
+     * 查询指定id列表中的角色返回对应对应角色位置
+     * @param ids
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<RequestAuthorityBO> queryOrgRoleByIds(List<Long> ids) {
+        return orgRoleRepository.findAllById(ids).stream().map( e->{
+            RequestAuthorityBO authorityBO = new RequestAuthorityBO();
+            authorityBO.setOrgCode(e.getOrgCode());
+            authorityBO.setRoleCode(e.getRoleCode());
+            return authorityBO;
+        }).collect(Collectors.toList());
     }
 
 }

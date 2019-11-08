@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.UserLocationDO;
+import cn.jarod.bluecat.auth.model.bo.LinkUserLocationBO;
 
 import java.util.List;
 
@@ -11,5 +12,7 @@ public interface IUserLocationService {
 
     List<Long> findOrgRoleIdsByUsername(String name);
 
-    UserLocationDO saveUserLocation(UserLocationDO adminLocationDO);
+    UserLocationDO saveUserLocation(LinkUserLocationBO userLocationBO);
+
+    void delUserLocation(LinkUserLocationBO userLocationBO);
 }
