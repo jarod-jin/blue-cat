@@ -2,7 +2,7 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.RoleDO;
-import cn.jarod.bluecat.auth.model.dto.RoleDTO;
+import cn.jarod.bluecat.auth.model.bo.SaveRoleBO;
 import cn.jarod.bluecat.auth.service.IRoleService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQO;
@@ -26,20 +26,20 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     private IRoleService roleService;
 
-    private RoleDTO adminDTO;
+    private SaveRoleBO adminDTO;
 
-    private RoleDTO tmpDTO;
+    private SaveRoleBO tmpDTO;
 
     @BeforeEach
     void setUp() {
-        adminDTO = new RoleDTO();
+        adminDTO = new SaveRoleBO();
         adminDTO.setRoleName("超级管理员");
         adminDTO.setRoleCode("admin");
         adminDTO.setMemo("本系统的超级管理员，拥有无上权力");
         adminDTO.setDisOrder(1);
         adminDTO.setOperator("sys");
 
-        tmpDTO = new RoleDTO();
+        tmpDTO = new SaveRoleBO();
         tmpDTO.setRoleName("测试用");
         tmpDTO.setRoleCode("test");
         tmpDTO.setMemo("测试用");

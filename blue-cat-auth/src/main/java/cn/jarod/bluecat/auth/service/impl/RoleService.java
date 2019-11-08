@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.RoleDO;
-import cn.jarod.bluecat.auth.model.dto.RoleDTO;
+import cn.jarod.bluecat.auth.model.bo.SaveRoleBO;
 import cn.jarod.bluecat.auth.repository.RoleRepository;
 import cn.jarod.bluecat.auth.service.IRoleService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -37,7 +37,7 @@ public class RoleService implements IRoleService {
      */
     @Override
     @Transactional
-    public RoleDO saveRole(RoleDTO dto) {
+    public RoleDO saveRole(SaveRoleBO dto) {
         dto.clearId();
         RoleDO roleDO = roleRepository.findByRoleCode(dto.getRoleCode()).orElse(new RoleDO());
         roleDO.setModifier(dto.getOperator());
@@ -53,7 +53,7 @@ public class RoleService implements IRoleService {
      */
     @Override
     @Transactional
-    public void delRole(RoleDTO dto) {
+    public void delRole(SaveRoleBO dto) {
         roleRepository.delete(roleRepository.findByRoleCode(dto.getRoleCode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
     }
 
@@ -82,7 +82,5 @@ public class RoleService implements IRoleService {
         Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(), sort);
         return roleRepository.findAll(pageable);
     }
-
-
 
 }

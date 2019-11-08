@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.RoleDO;
-import cn.jarod.bluecat.auth.model.dto.RoleDTO;
+import cn.jarod.bluecat.auth.model.bo.SaveRoleBO;
 import cn.jarod.bluecat.core.model.BaseQO;
 import org.springframework.data.domain.Page;
 
@@ -13,9 +13,9 @@ import java.util.Map;
  */
 public interface IRoleService {
 
-    RoleDO saveRole(RoleDTO dto);
+    RoleDO saveRole(SaveRoleBO dto);
 
-    void delRole(RoleDTO dto);
+    void delRole(SaveRoleBO dto);
 
     Map<String,RoleDO> queryRoleMapByCodes(List<String> codes);
 

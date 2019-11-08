@@ -1,6 +1,6 @@
-package cn.jarod.bluecat.auth.model.dto;
+package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.BaseDTO;
+import cn.jarod.bluecat.core.model.BaseBO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class UserModifyDTO extends BaseDTO {
+public class UpdateUserBO extends BaseBO {
 
     //用户唯一标识
     @NotBlank

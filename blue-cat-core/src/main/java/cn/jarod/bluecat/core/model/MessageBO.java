@@ -8,11 +8,11 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MessageDTO extends BaseDTO {
+public class MessageBO extends BaseBO {
 
     private String message;
 
-    public MessageDTO(String msg){
+    public MessageBO(String msg){
         this.message = msg;
     }
 }

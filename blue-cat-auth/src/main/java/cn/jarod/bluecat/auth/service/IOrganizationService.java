@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
-import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
-import cn.jarod.bluecat.core.model.TreeDTO;
+import cn.jarod.bluecat.auth.model.bo.SaveOrganizationBO;
+import cn.jarod.bluecat.core.model.TreeBO;
 
 import java.util.List;
 
@@ -11,11 +11,11 @@ import java.util.List;
  */
 public interface IOrganizationService {
 
-    OrganizationDO saveOrganization(OrganizationDTO orgDTO);
+    OrganizationDO saveOrganization(SaveOrganizationBO orgBO);
 
-    void delOrganization(OrganizationDTO orgDTO);
+    void delOrganization(SaveOrganizationBO orgBO);
 
-    OrganizationDTO findOneByOrgCode(String orgCode);
+    SaveOrganizationBO findOneByOrgCode(String orgCode);
 
-    List<TreeDTO> findOrgTreeByFullCode(String fullCode);
+    List<TreeBO> findOrgTreeByFullCode(String fullCode);
 }

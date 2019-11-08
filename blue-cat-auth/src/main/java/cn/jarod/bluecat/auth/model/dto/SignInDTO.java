@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.model.bo;
+package cn.jarod.bluecat.auth.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class SignInBO {
+public class SignInDTO {
 
     private String loginName;
 

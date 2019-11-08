@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.OrgRoleDO;
-import cn.jarod.bluecat.auth.model.dto.OrgRoleDTO;
+import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.service.IOrgRoleService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @auther jarod.jin 2019/11/4
@@ -22,37 +25,48 @@ public class OrgRoleService implements IOrgRoleService {
 
     /**
      * 保存组织角色关系
-     * @param dto
+     * @param linkOrgRoleBO
      * @return
      */
     @Override
     @Transactional
-    public OrgRoleDO saveOrgRole(OrgRoleDTO dto){
+    public OrgRoleDO saveOrgRole(LinkOrgRoleBO linkOrgRoleBO){
         OrgRoleDO orgRoleDO = new OrgRoleDO();
-        orgRoleDO.setOrgCode(dto.getOrgCode());
-        orgRoleDO.setRoleCode(dto.getRoleCode());
+        orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
+        orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
         if (orgRoleRepository.exists(Example.of(orgRoleDO)))
             throw new BaseException(ReturnCode.S401);
-        orgRoleDO.setCreator(dto.getOperator());
-        orgRoleDO.setModifier(dto.getOperator());
+        orgRoleDO.setCreator(linkOrgRoleBO.getOperator());
+        orgRoleDO.setModifier(linkOrgRoleBO.getOperator());
         return orgRoleRepository.save(orgRoleDO);
     }
 
 
     /**
      * 删除一个角色
-     * @param dto
+     * @param linkOrgRoleBO
      * @return
      */
     @Override
     @Transactional
-    public void delOrgRole(OrgRoleDTO dto) {
+    public void delOrgRole(LinkOrgRoleBO linkOrgRoleBO) {
         OrgRoleDO orgRoleDO = new OrgRoleDO();
-        orgRoleDO.setOrgCode(dto.getOrgCode());
-        orgRoleDO.setRoleCode(dto.getRoleCode());
+        orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
+        orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
         orgRoleRepository.delete(orgRoleRepository.findOne(Example.of(orgRoleDO)).orElseThrow(()->new BaseException(ReturnCode.D400)));
     }
 
-
+    /**
+     * 查询指定组织下的角色代码列表
+     * @param linkOrgRoleBO
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> queryRoleCodesByOrg(LinkOrgRoleBO linkOrgRoleBO) {
+        OrgRoleDO orgRoleDO = new OrgRoleDO();
+        orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
+        return orgRoleRepository.findAll(Example.of(orgRoleDO)).stream().map(OrgRoleDO::getRoleCode).collect(Collectors.toList());
+    }
 
 }

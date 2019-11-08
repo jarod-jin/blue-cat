@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.utils;
 
 
-import cn.jarod.bluecat.core.model.TreeDTO;
+import cn.jarod.bluecat.core.model.TreeBO;
 import com.google.common.collect.Lists;
 import org.springframework.util.StringUtils;
 
@@ -19,16 +19,16 @@ public class TreeUtil {
      * @param elements
      * @return
      */
-    public static List<TreeDTO> getTree(List<? extends TreeDTO> elements) {
-        List<TreeDTO> baseLists = Lists.newArrayList();
+    public static List<TreeBO> getTree(List<? extends TreeBO> elements) {
+        List<TreeBO> baseLists = Lists.newArrayList();
         // 总菜单，出一级菜单，一级菜单没有父节点
-        for (TreeDTO e: elements) {
+        for (TreeBO e: elements) {
             if (StringUtils.isEmpty(e.getPNode())) {
                 baseLists.add(e);
             }
         }
         // 遍历一级菜单
-        for (TreeDTO m : baseLists) {
+        for (TreeBO m : baseLists) {
             // 将子元素 set进一级菜单里面
             m.setChildren(getChild(m.getNode(),elements) );
         }
@@ -41,16 +41,16 @@ public class TreeUtil {
      * @param elements
      * @return
      */
-    private static List<TreeDTO> getChild(String pNode, List<? extends TreeDTO> elements) {
-        List<TreeDTO> children = Lists.newArrayList();
-        for (TreeDTO e: elements) {
+    private static List<TreeBO> getChild(String pNode, List<? extends TreeBO> elements) {
+        List<TreeBO> children = Lists.newArrayList();
+        for (TreeBO e: elements) {
             if(StringUtils.hasText(e.getPNode()) && e.getPNode().equals(pNode)){
                 // 子菜单的下级菜单
                 children.add(e);
             }
         }
         // 把子菜单的子菜单再循环一遍
-        for (TreeDTO m: children) {
+        for (TreeBO m: children) {
             // 继续添加子元素
             m.setChildren(getChild(m.getNode(), elements));
         }

@@ -2,11 +2,11 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
-import cn.jarod.bluecat.auth.model.bo.CredModifyBO;
-import cn.jarod.bluecat.auth.model.bo.SignUpBO;
-import cn.jarod.bluecat.auth.model.dto.CredModifyDTO;
-import cn.jarod.bluecat.auth.model.dto.UserInfoDTO;
-import cn.jarod.bluecat.auth.model.dto.UserModifyDTO;
+import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;
+import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
+import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
+import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
+import cn.jarod.bluecat.auth.model.bo.UpdateUserBO;
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
@@ -28,25 +28,25 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     private ICredentialService credentialService;
 
-    private SignUpBO upBO;
+    private SignUpDTO upBO;
 
-    private UserModifyDTO userDTO;
+    private UpdateUserBO userDTO;
 
     private ValidSignUpDTO upDTO;
 
-    private CredModifyBO credBO;
+    private UpdateCredDTO credBO;
 
 
     @BeforeEach
     void setUp()  {
         //注册数据
-        upBO = new SignUpBO();
+        upBO = new SignUpDTO();
         upBO.setLoginName("junit_test");
         upBO.setPassword("junit_test");
-        userDTO = new UserModifyDTO();
+        userDTO = new UpdateUserBO();
         userDTO.setUsername("admin");
         //密码修改数据
-        credBO = new CredModifyBO();
+        credBO = new UpdateCredDTO();
         credBO.setUsername("admin");
         credBO.setCurrentPassword("admin123");
         credBO.setModifiedPassword("admin123");
@@ -132,7 +132,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         upBO.setTel("13105818757");
         UserInfoDO userInfoDO = credentialService.registerUser(upBO);
         assertNotNull(userInfoDO.getId());
-        credentialService.deleteUser(BeanHelperUtil.createCopyBean(userInfoDO, UserInfoDTO.class));
+        credentialService.deleteUser(BeanHelperUtil.createCopyBean(userInfoDO, SaveUserInfoBO.class));
     }
 
     @Test
@@ -149,7 +149,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     void modifyPasswordOne() {
         credBO.setCurrentPassword("123456");
         try{
-            credentialService.modifyPassword(new CredModifyDTO(credBO));
+            credentialService.modifyPassword(new UpdateCredBO(credBO));
         }catch (BaseException e){
             assertEquals("原密码错误",e.getErrorMessage());
         }
@@ -161,7 +161,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     void modifyPasswordTwo() {
         credBO.setModifiedPassword("admin12");
         try{
-            credentialService.modifyPassword(new CredModifyDTO(credBO));
+            credentialService.modifyPassword(new UpdateCredBO(credBO));
         }catch (BaseException e){
             assertEquals("密码不能和前3次相同",e.getErrorMessage());
         }
@@ -172,7 +172,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("修改密码成功")
     void modifyPasswordThree() {
         try{
-            credentialService.modifyPassword(new CredModifyDTO(credBO));
+            credentialService.modifyPassword(new UpdateCredBO(credBO));
         }catch (BaseException e){
             fail();
         }

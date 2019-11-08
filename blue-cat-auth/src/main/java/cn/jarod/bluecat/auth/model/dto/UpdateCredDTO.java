@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.model.bo;
+package cn.jarod.bluecat.auth.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class CredModifyBO implements Serializable {
+public class UpdateCredDTO implements Serializable {
 
     private static final long serialVersionUID = 2148576680600970064L;
 

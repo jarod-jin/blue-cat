@@ -1,9 +1,9 @@
-package cn.jarod.bluecat.auth.service.impl;
+package cn.jarod.bluecat.auth.process;
 
 import cn.jarod.bluecat.core.model.auth.AuthGrantedAuthority;
-import cn.jarod.bluecat.auth.model.dto.RoleResourceDTO;
-import cn.jarod.bluecat.auth.model.dto.UserInfoDTO;
-import cn.jarod.bluecat.auth.service.IAuthorityService;
+import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
+import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
+import cn.jarod.bluecat.auth.service.IUserLocationService;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
@@ -45,7 +45,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
     @Autowired
-    private IAuthorityService authorityService;
+    private IUserLocationService authorityService;
 
 
     @Override
@@ -64,15 +64,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
     private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String name , String pwd) {
-        List<RoleResourceDTO> listAuth = authorityService.findAuthorities(name);
+//        List<RoleResourceDTO> listAuth = authorityService.findAuthorities(name);
         UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(name, pwd, getAuthorities(listAuth));
-        UserInfoDTO authDTO =  credentialService.findAuthorities(name);
+                new UsernamePasswordAuthenticationToken(name, pwd, getAuthorities(Lists.newArrayList()));
+        SaveUserInfoBO authDTO =  credentialService.findAuthorities(name);
         authentication.setDetails(authDTO);
         return authentication;
     }
 
-    private Collection<GrantedAuthority> getAuthorities(List<RoleResourceDTO> roleList) {
+    private Collection<GrantedAuthority> getAuthorities(List<LinkRoleResourceBO> roleList) {
       return roleList.stream().map(e -> new AuthGrantedAuthority(e.toString())).collect(Collectors.toList());
     }
 

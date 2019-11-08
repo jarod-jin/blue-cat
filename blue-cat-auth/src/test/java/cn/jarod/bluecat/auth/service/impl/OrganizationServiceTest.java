@@ -2,9 +2,9 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
-import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
+import cn.jarod.bluecat.auth.model.bo.SaveOrganizationBO;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
-import cn.jarod.bluecat.core.model.TreeDTO;
+import cn.jarod.bluecat.core.model.TreeBO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,11 +23,11 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     private IOrganizationService organizationService;
 
-    private OrganizationDTO newOrg;
+    private SaveOrganizationBO newOrg;
 
-    private OrganizationDTO modifyOrg;
+    private SaveOrganizationBO modifyOrg;
 
-    private OrganizationDTO sysOrg;
+    private SaveOrganizationBO sysOrg;
 
 
     @BeforeEach
@@ -38,7 +38,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     }
 
     private void initNewOrg(){
-        newOrg = new OrganizationDTO();
+        newOrg = new SaveOrganizationBO();
         newOrg.setNode("SYS99999");
         newOrg.setOrgName("系统测试");
         newOrg.setPNode("SYS100001");
@@ -50,7 +50,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     }
 
     private void initModifyOrg (){
-        modifyOrg = new OrganizationDTO();
+        modifyOrg = new SaveOrganizationBO();
         modifyOrg.setNode("SYS100002");
         modifyOrg.setPNode("SYS100001");
         modifyOrg.setOrgName("系统开发部");
@@ -62,7 +62,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     }
 
     private void initSysOrg (){
-        sysOrg = new OrganizationDTO();
+        sysOrg = new SaveOrganizationBO();
         sysOrg.setNode("SYS100001");
         sysOrg.setOrgName("系统管理");
         sysOrg.setDisOrder(1);
@@ -99,7 +99,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("根据给定组织代码查询该组织下的组织树")
     void findOrgTreeByOrgCode() {
-        List<TreeDTO> orgList = organizationService.findOrgTreeByFullCode("SYS100001");
+        List<TreeBO> orgList = organizationService.findOrgTreeByFullCode("SYS100001");
         assertFalse(orgList.isEmpty());
         assertFalse(orgList.get(0).getChildren().isEmpty());
     }

@@ -2,7 +2,7 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.OrgRoleDO;
-import cn.jarod.bluecat.auth.model.dto.OrgRoleDTO;
+import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.service.IOrgRoleService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import org.junit.jupiter.api.AfterEach;
@@ -21,18 +21,18 @@ class OrgRoleServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     private IOrgRoleService orgRoleService;
 
-    private OrgRoleDTO sysAdminDTO;
+    private LinkOrgRoleBO sysAdminDTO;
 
-    private OrgRoleDTO tmpDTO;
+    private LinkOrgRoleBO tmpDTO;
 
 
     @BeforeEach
     void setUp() {
-        sysAdminDTO = new OrgRoleDTO();
+        sysAdminDTO = new LinkOrgRoleBO();
         sysAdminDTO.setRoleCode("admin");
         sysAdminDTO.setOrgCode("SYS100001");
 
-        tmpDTO = new OrgRoleDTO();
+        tmpDTO = new LinkOrgRoleBO();
         tmpDTO.setRoleCode("test");
         tmpDTO.setOrgCode("SYS99999");
     }

@@ -2,7 +2,7 @@ package cn.jarod.bluecat.core.controller;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.MessageDTO;
+import cn.jarod.bluecat.core.model.MessageBO;
 import cn.jarod.bluecat.core.model.ResultBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,14 +23,14 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultBO validErrorHandler(HttpServletRequest req, MethodArgumentNotValidException e) {
         log.warn("数据校验不通过: {},{}",req.getRequestURI(), e.getMessage());
-        return new ResultBO(ReturnCode.S400.getCode(), ReturnCode.S400.getMsg(),new MessageDTO( e.getMessage()));
+        return new ResultBO(ReturnCode.S400.getCode(), ReturnCode.S400.getMsg(),new MessageBO( e.getMessage()));
     }
 
     @ExceptionHandler(value = BaseException.class)
     @ResponseBody
     public ResultBO defaultErrorHandler(HttpServletRequest req, BaseException e) {
         log.warn("接口调用不正确： {}, {}", req.getRequestURI(), e.getErrorMessage());
-        return new ResultBO(e.getErrorCode(), e.getErrorMessage(), new MessageDTO( e.getMessage()));
+        return new ResultBO(e.getErrorCode(), e.getErrorMessage(), new MessageBO( e.getMessage()));
     }
 
 
@@ -38,6 +38,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultBO errorHandler(HttpServletRequest req, Exception ex) {
         log.error("接口异常：{}，{}", req.getRequestURI(), ex.getMessage());
-        return new ResultBO(ReturnCode.R500.getCode(),ReturnCode.R500.getMsg(),new MessageDTO(ex.getMessage()));
+        return new ResultBO(ReturnCode.R500.getCode(),ReturnCode.R500.getMsg(),new MessageBO(ex.getMessage()));
     }
 }

@@ -1,6 +1,6 @@
-package cn.jarod.bluecat.auth.model.dto;
+package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.BaseDTO;
+import cn.jarod.bluecat.core.model.BaseBO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Slf4j
 @Getter
 @Setter
-public class UserInfoDTO extends BaseDTO {
+public class SaveUserInfoBO extends BaseBO {
 
     //用户唯一标识
     @NotBlank

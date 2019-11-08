@@ -1,6 +1,6 @@
-package cn.jarod.bluecat.auth.model.dto;
+package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.TreeDTO;
+import cn.jarod.bluecat.core.model.TreeBO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class OrganizationDTO extends TreeDTO {
+public class SaveOrganizationBO extends TreeBO {
 
     //组织名称
     private String orgName;

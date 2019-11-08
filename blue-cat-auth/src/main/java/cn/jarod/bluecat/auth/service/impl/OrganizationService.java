@@ -1,12 +1,12 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
-import cn.jarod.bluecat.auth.model.dto.OrganizationDTO;
+import cn.jarod.bluecat.auth.model.bo.SaveOrganizationBO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.TreeDTO;
+import cn.jarod.bluecat.core.model.TreeBO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.TreeUtil;
@@ -32,28 +32,28 @@ public class OrganizationService implements IOrganizationService {
 
     /**
      * 保存组织数据
-     * @param orgDTO
+     * @param orgBO
      * @return
      */
     @Override
-    public OrganizationDO saveOrganization(OrganizationDTO orgDTO) {
-        orgDTO.clearId();
-        OrganizationDO orgDO = organizationRepository.findByOrgCode(orgDTO.getNode()).orElse(new OrganizationDO());
-        orgDO.setOrgCode(orgDTO.getNode());
-        orgDO.setParentCode(orgDTO.getPNode());
-        orgDO.setModifier(orgDTO.getOperator());
-        orgDO.setCreator(orgDTO.getOperator());
-        BeanHelperUtil.copyNotNullProperties(orgDTO,orgDO);
+    public OrganizationDO saveOrganization(SaveOrganizationBO orgBO) {
+        orgBO.clearId();
+        OrganizationDO orgDO = organizationRepository.findByOrgCode(orgBO.getNode()).orElse(new OrganizationDO());
+        orgDO.setOrgCode(orgBO.getNode());
+        orgDO.setParentCode(orgBO.getPNode());
+        orgDO.setModifier(orgBO.getOperator());
+        orgDO.setCreator(orgBO.getOperator());
+        BeanHelperUtil.copyNotNullProperties(orgBO,orgDO);
         return organizationRepository.save(orgDO);
     }
 
     /**
      * 删除Org
-     * @param orgDTO
+     * @param orgBO
      */
     @Override
-    public void delOrganization(OrganizationDTO orgDTO) {
-        organizationRepository.delete(organizationRepository.findByOrgCode(orgDTO.getNode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
+    public void delOrganization(SaveOrganizationBO orgBO) {
+        organizationRepository.delete(organizationRepository.findByOrgCode(orgBO.getNode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
     }
 
     /**
@@ -62,8 +62,8 @@ public class OrganizationService implements IOrganizationService {
      * @return
      */
     @Override
-    public OrganizationDTO findOneByOrgCode(String orgCode) {
-        OrganizationDTO orgDTO = new OrganizationDTO();
+    public SaveOrganizationBO findOneByOrgCode(String orgCode) {
+        SaveOrganizationBO orgDTO = new SaveOrganizationBO();
         organizationRepository.findByOrgCode(orgDTO.getNode()).ifPresent(e -> {
             BeanUtils.copyProperties(e,orgDTO);
             orgDTO.setNode(e.getOrgCode());
@@ -78,9 +78,9 @@ public class OrganizationService implements IOrganizationService {
      * @return
      */
     @Override
-    public List<TreeDTO> findOrgTreeByFullCode(String fullCode) {
-        List<OrganizationDTO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
-            OrganizationDTO orgDTO = new OrganizationDTO();
+    public List<TreeBO> findOrgTreeByFullCode(String fullCode) {
+        List<SaveOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
+            SaveOrganizationBO orgDTO = new SaveOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);
             orgDTO.setNode(e.getOrgCode());
             orgDTO.setPNode(e.getParentCode());

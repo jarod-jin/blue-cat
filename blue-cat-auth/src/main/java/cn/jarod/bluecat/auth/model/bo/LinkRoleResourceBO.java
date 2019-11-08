@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.model.dto;
+package cn.jarod.bluecat.auth.model.bo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class RoleResourceDTO {
+public class LinkRoleResourceBO {
 
     private String resourceCode;
 

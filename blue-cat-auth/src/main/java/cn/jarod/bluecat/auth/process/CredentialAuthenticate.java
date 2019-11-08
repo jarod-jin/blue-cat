@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.business;
+package cn.jarod.bluecat.auth.process;
 
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
@@ -7,7 +7,7 @@ import cn.jarod.bluecat.core.model.ResultBO;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 
@@ -15,7 +15,7 @@ import javax.validation.Valid;
  * @auther jarod.jin 2019/9/10
  */
 @Slf4j
-@Component
+@Service
 public class CredentialAuthenticate {
 
 

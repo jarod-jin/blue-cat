@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TreeDTO extends BaseDTO{
+public class TreeBO extends BaseBO {
 
     @NotBlank
     private String node;
@@ -20,5 +20,5 @@ public class TreeDTO extends BaseDTO{
     @NotNull
     private String pNode;
 
-    private List<? extends TreeDTO> children;
+    private List<? extends TreeBO> children;
 }
