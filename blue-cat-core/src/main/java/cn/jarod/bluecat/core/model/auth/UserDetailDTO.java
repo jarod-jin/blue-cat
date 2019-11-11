@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class UserDetailBO implements Serializable {
+public class UserDetailDTO implements Serializable {
 
     private static final long serialVersionUID = -4928838767439027864L;
 
@@ -34,6 +34,6 @@ public class UserDetailBO implements Serializable {
     private String photoUrl;
 
     //组织列表
-    private List<UserOrgBO> roleList;
+    private List<ReqGrantedAuthority> roleList;
 
 }

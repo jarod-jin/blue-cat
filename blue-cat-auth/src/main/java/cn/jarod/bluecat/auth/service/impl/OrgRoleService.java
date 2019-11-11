@@ -2,7 +2,7 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
-import cn.jarod.bluecat.auth.model.bo.RequestAuthorityBO;
+import cn.jarod.bluecat.core.model.auth.ReqGrantedAuthority;
 import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.service.IOrgRoleService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -79,9 +78,9 @@ public class OrgRoleService implements IOrgRoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<RequestAuthorityBO> queryOrgRoleByIds(List<Long> ids) {
+    public List<ReqGrantedAuthority> queryOrgRoleByIds(List<Long> ids) {
         return orgRoleRepository.findAllById(ids).stream().map( e->{
-            RequestAuthorityBO authorityBO = new RequestAuthorityBO();
+            ReqGrantedAuthority authorityBO = new ReqGrantedAuthority();
             authorityBO.setOrgCode(e.getOrgCode());
             authorityBO.setRoleCode(e.getRoleCode());
             return authorityBO;

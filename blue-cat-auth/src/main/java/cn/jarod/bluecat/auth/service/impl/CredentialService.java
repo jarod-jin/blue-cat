@@ -178,7 +178,7 @@ public class CredentialService implements ICredentialService {
     }
 
     @Override
-    public SaveUserInfoBO findAuthorities(String name) {
+    public SaveUserInfoBO findUserInfo(String name) {
         return null;
     }
 }

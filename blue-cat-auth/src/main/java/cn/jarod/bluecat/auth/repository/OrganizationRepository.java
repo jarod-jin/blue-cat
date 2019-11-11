@@ -14,4 +14,6 @@ public interface OrganizationRepository extends JpaRepository<OrganizationDO,Lon
     Optional<OrganizationDO> findByOrgCode(String orgCode);
 
     List<OrganizationDO> findAllByFullCodeLike(String fullCode);
+
+    List<OrganizationDO> findAllByOrgCodeIn(List<String> codes);
 }

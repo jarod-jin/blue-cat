@@ -21,3 +21,4 @@ public interface IRoleService {
 
     Page<RoleDO> queryRolePage(BaseQO qo);
 }
+

@@ -22,6 +22,6 @@ public interface ICredentialService {
 
     boolean validCredential(String signIn, String password);
 
-    SaveUserInfoBO findAuthorities(String name);
+    SaveUserInfoBO findUserInfo(String name);
 
 }

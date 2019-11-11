@@ -5,6 +5,7 @@ import cn.jarod.bluecat.auth.model.bo.SaveOrganizationBO;
 import cn.jarod.bluecat.core.model.TreeBO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @auther jarod.jin 2019/10/16
@@ -18,4 +19,6 @@ public interface IOrganizationService {
     SaveOrganizationBO findOneByOrgCode(String orgCode);
 
     List<TreeBO> findOrgTreeByFullCode(String fullCode);
+
+    Map<String, OrganizationDO> queryOrgMapByCodes(List<String> collect);
 }

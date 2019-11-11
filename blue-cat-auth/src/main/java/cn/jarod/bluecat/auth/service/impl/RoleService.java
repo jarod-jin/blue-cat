@@ -9,7 +9,6 @@ import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
-import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @auther jarod.jin 2019/11/4
@@ -65,9 +66,7 @@ public class RoleService implements IRoleService {
     @Override
     @Transactional(readOnly = true)
     public Map<String,RoleDO> queryRoleMapByCodes(List<String> codes) {
-        Map<String,RoleDO> dtoMap = Maps.newHashMap();
-        roleRepository.findAllByRoleCodeIn(codes).forEach(e-> dtoMap.put(e.getRoleCode(),e));
-        return dtoMap;
+        return roleRepository.findAllByRoleCodeIn(codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
     }
 
     /**
@@ -82,5 +81,6 @@ public class RoleService implements IRoleService {
         Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(), sort);
         return roleRepository.findAll(pageable);
     }
+
 
 }

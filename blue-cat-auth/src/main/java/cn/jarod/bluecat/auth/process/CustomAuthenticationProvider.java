@@ -1,12 +1,10 @@
 package cn.jarod.bluecat.auth.process;
 
-import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
-import cn.jarod.bluecat.auth.model.bo.RequestAuthorityBO;
+import cn.jarod.bluecat.auth.entity.OrganizationDO;
+import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
-import cn.jarod.bluecat.auth.service.ICredentialService;
-import cn.jarod.bluecat.auth.service.IOrgRoleService;
-import cn.jarod.bluecat.auth.service.IUserLocationService;
-import cn.jarod.bluecat.core.model.auth.AuthGrantedAuthority;
+import cn.jarod.bluecat.auth.service.*;
+import cn.jarod.bluecat.core.model.auth.ReqGrantedAuthority;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.google.common.collect.Lists;
@@ -18,12 +16,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +49,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private IOrgRoleService orgRoleService;
 
+    @Autowired
+    private IOrganizationService organizationService;
+
+    @Autowired
+    private IRoleService roleService;
+
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -70,19 +74,42 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username , String pwd) {
         List<Long> orgRoleIds = userLocationService.findOrgRoleIdsByUsername(username);
-        List<RequestAuthorityBO> orgRoleMap =  orgRoleService.queryOrgRoleByIds(orgRoleIds);
-
-
+        List<ReqGrantedAuthority> authorityBOList =  orgRoleService.queryOrgRoleByIds(orgRoleIds);
+        takeRoleForAuthorityBO(authorityBOList);
+        takeOrgInfoForAuthorityBO(authorityBOList);
         UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(username, pwd, getAuthorities(Lists.newArrayList()));
-        SaveUserInfoBO authDTO =  credentialService.findAuthorities(username);
+                new UsernamePasswordAuthenticationToken(username, pwd, authorityBOList);
+        SaveUserInfoBO authDTO =  credentialService.findUserInfo(username);
         authentication.setDetails(authDTO);
         return authentication;
     }
 
-    private Collection<GrantedAuthority> getAuthorities(List<LinkRoleResourceBO> roleList) {
-      return roleList.stream().map(e -> new AuthGrantedAuthority(e.toString())).collect(Collectors.toList());
+
+    private void takeOrgInfoForAuthorityBO(List<ReqGrantedAuthority> authorityBOList){
+        Map<String, OrganizationDO> orgMap = organizationService.queryOrgMapByCodes(authorityBOList.stream()
+                .map(ReqGrantedAuthority::getOrgCode).collect(Collectors.toList()));
+        authorityBOList.forEach(o->{
+            OrganizationDO tmp = orgMap.get(o.getOrgCode());
+            o.setOrgCode(tmp.getOrgCode());
+            o.setOrgName(tmp.getOrgName());
+            o.setFullCode(tmp.getFullCode());
+            o.setFullName(tmp.getFullName());
+        });
     }
+
+
+    private void takeRoleForAuthorityBO(List<ReqGrantedAuthority> authorityBOList){
+        Map<String, RoleDO> roleMap = roleService.queryRoleMapByCodes(authorityBOList.stream()
+                .map(ReqGrantedAuthority::getRoleCode).collect(Collectors.toList()));
+        authorityBOList.forEach(r->{
+            RoleDO tmp = roleMap.get(r.getRoleCode());
+            r.setDisOrder(tmp.getDisOrder());
+            r.setRoleName(tmp.getRoleName());
+            r.setDisOrder(tmp.getDisOrder());
+        });
+    }
+
+
 
 
 
