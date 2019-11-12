@@ -1,20 +1,19 @@
-package cn.jarod.bluecat.auth.model.bo;
+package cn.jarod.bluecat.core.model.auth;
 
-import cn.jarod.bluecat.core.model.BaseBO;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
- * @auther jarod.jin 2019/9/9
+ * @auther jarod.jin 2019/11/12
  */
-@Slf4j
 @Getter
 @Setter
-public class SaveUserInfoBO extends BaseBO {
+public class UserInfoDTO implements Serializable {
 
+    private static final long serialVersionUID = -8117552658775023461L;
     //用户唯一标识
     @NotBlank
     private String username;
@@ -36,5 +35,4 @@ public class SaveUserInfoBO extends BaseBO {
 
     //系统编号
     private String sysCode;
-
 }

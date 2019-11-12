@@ -4,6 +4,7 @@ import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.bo.*;
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
+import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 
 /**
  * @auther jarod.jin 2019/9/9
@@ -12,7 +13,7 @@ public interface ICredentialService {
 
     UserInfoDO registerUser(SignUpDTO credDTO);
 
-    void deleteUser(SaveUserInfoBO authBO);
+    void deleteUser(UserInfoDTO authBO);
 
     UserInfoDO modifyUser(UpdateUserBO authBO);
 
@@ -22,6 +23,6 @@ public interface ICredentialService {
 
     boolean validCredential(String signIn, String password);
 
-    SaveUserInfoBO findUserInfo(String name);
+    UserInfoDTO findUserInfo(String name);
 
 }

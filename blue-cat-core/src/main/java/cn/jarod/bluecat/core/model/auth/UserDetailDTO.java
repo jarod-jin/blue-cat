@@ -33,6 +33,9 @@ public class UserDetailDTO implements Serializable {
     //照片
     private String photoUrl;
 
+    //系统编号
+    private String sysCode;
+
     //组织列表
     private List<UserAuthority> roleList;
 

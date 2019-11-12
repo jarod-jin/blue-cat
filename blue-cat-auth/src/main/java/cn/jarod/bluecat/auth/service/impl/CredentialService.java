@@ -5,7 +5,6 @@ import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
-import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateUserBO;
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
@@ -15,6 +14,7 @@ import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
@@ -84,7 +84,7 @@ public class CredentialService implements ICredentialService {
     @TimeDiff
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteUser(SaveUserInfoBO authBO) {
+    public void deleteUser(UserInfoDTO authBO) {
         BaseException baseException = new BaseException(ReturnCode.S400.getCode(), "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> baseException));
         credentialRepository.delete(credentialRepository.findByUsername(authBO.getUsername()).orElseThrow(()-> baseException));
@@ -183,8 +183,8 @@ public class CredentialService implements ICredentialService {
      * @return
      */
     @Override
-    public SaveUserInfoBO findUserInfo(String name) {
+    public UserInfoDTO findUserInfo(String name) {
         UserInfoDO userInfoDO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.Q400));
-        return BeanHelperUtil.createCopyBean(userInfoDO,SaveUserInfoBO.class);
+        return BeanHelperUtil.createCopyBean(userInfoDO,UserInfoDTO.class);
     }
 }

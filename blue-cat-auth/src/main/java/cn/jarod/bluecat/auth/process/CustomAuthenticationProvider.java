@@ -2,10 +2,10 @@ package cn.jarod.bluecat.auth.process;
 
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
-import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
 import cn.jarod.bluecat.auth.service.*;
-import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
+import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
+import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.google.common.collect.Lists;
@@ -82,7 +82,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, pwd,
                 authorityBOList.stream().filter(UserAuthority::isAuth).map(e->
                         new UserGrantedAuthority(grantedAuthority.getSysCode(),grantedAuthority.getTerminalVersion(),e)).collect(Collectors.toList()));
-        SaveUserInfoBO authDTO =  credentialService.findUserInfo(username);
+        UserInfoDTO authDTO =  credentialService.findUserInfo(username);
         authDTO.setSysCode(grantedAuthority.getSysCode());
         authentication.setDetails(authDTO);
         return authentication;

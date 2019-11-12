@@ -2,6 +2,7 @@ package cn.jarod.bluecat.core.utils;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultBO;
+import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import io.jsonwebtoken.Claims;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @auther jarod.jin 2018/12/3
@@ -44,6 +46,8 @@ public class TokenAuthenticationUtil {
 
     public static final String AUTH = "token";
 
+    private static final String USER_INFO = "userInfo";
+
     public static void addAuthentication(HttpServletResponse response, Authentication auth) {
         // 生成JWT
         try {
@@ -68,7 +72,7 @@ public class TokenAuthenticationUtil {
         return Jwts.builder()
                 // 保存权限（角色）
                 .claim(AUTHORITIES,role)
-//                .claim(USER_INFO, JSON.toJSONString(auth.getDetails()))
+                .claim(USER_INFO, JSON.toJSONString(auth.getDetails()))
                 // 用户名写入标题
                 .setSubject(auth.getName())
                 // 有效期设置
@@ -95,8 +99,8 @@ public class TokenAuthenticationUtil {
             // 得到 权限（角色）
             List<GrantedAuthority> authorities =  AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get(AUTHORITIES));
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null, authorities);
-//            PersonInfoVO details = JSON.parseObject((String)claims.get(USER_INFO), PersonInfoVO.class);
-//            authenticationToken.setDetails(details);
+            UserInfoDTO userInfo = JSON.parseObject((String)claims.get(USER_INFO), UserInfoDTO.class);
+            authenticationToken.setDetails(userInfo);
             // 返回验证令牌
             return user != null ? authenticationToken : null;
         }
@@ -105,11 +109,8 @@ public class TokenAuthenticationUtil {
 
 
     public static String getRolesFromAuthority(Authentication auth){
-        StringBuilder builder = new StringBuilder();
-        for (GrantedAuthority authority : auth.getAuthorities()) {
-            builder.append(authority.getAuthority()).append(",");
-        }
-        return builder.toString().substring(0, builder.length() - 1);
+        List<String> authStrList = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        return JSON.toJSONString(authStrList);
     }
 
 
