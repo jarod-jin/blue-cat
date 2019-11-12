@@ -25,9 +25,7 @@ public class UserGrantedAuthority implements GrantedAuthority {
         this.terminalVersion = version;
     }
 
-    public UserGrantedAuthority(String sysCode, String version, UserAuthority userAuthority){
-        this.sysCode = sysCode;
-        this.terminalVersion = version;
+    public UserGrantedAuthority(UserAuthority userAuthority){
         this.userAuthority = userAuthority;
     }
 

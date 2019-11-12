@@ -2,8 +2,11 @@ package cn.jarod.bluecat.core.utils;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.model.auth.UserAuthority;
+import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.ImmutableMap;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -97,8 +99,12 @@ public class TokenAuthenticationUtil {
             // 拿用户名
             String user = claims.getSubject();
             // 得到 权限（角色）
-            List<GrantedAuthority> authorities =  AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get(AUTHORITIES));
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null, authorities);
+            JSONArray authArray =  JSON.parseArray((String) claims.get(AUTHORITIES));
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,
+                    authArray.stream().map(m->{
+                        UserAuthority userAuthority = JSON.parseObject(String.valueOf(m),UserAuthority.class);
+                        return new UserGrantedAuthority(userAuthority);
+                    }).collect(Collectors.toList()));
             UserInfoDTO userInfo = JSON.parseObject((String)claims.get(USER_INFO), UserInfoDTO.class);
             authenticationToken.setDetails(userInfo);
             // 返回验证令牌

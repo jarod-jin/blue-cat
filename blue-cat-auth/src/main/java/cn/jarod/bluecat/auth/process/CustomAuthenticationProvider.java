@@ -79,8 +79,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         takeRoleForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         takeOrgInfoForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, pwd,
-                authorityBOList.stream().filter(UserAuthority::isAuth).map(e->
-                        new UserGrantedAuthority(grantedAuthority.getSysCode(),grantedAuthority.getTerminalVersion(),e)).collect(Collectors.toList()));
+                authorityBOList.stream().filter(UserAuthority::isAuth).map(UserGrantedAuthority::new).collect(Collectors.toList()));
         UserInfoDTO authDTO =  credentialService.findUserInfo(username);
         authDTO.setSysCode(grantedAuthority.getSysCode());
         authentication.setDetails(authDTO);
