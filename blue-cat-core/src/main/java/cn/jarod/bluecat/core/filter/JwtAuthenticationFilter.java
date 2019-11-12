@@ -4,7 +4,6 @@ import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
-import com.netflix.zuul.context.RequestContext;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
@@ -60,12 +59,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             return;
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        if (authentication!=null){
-            RequestContext requestContext = RequestContext.getCurrentContext();
-            requestContext.addZuulRequestHeader("token", JSON.toJSONString(authentication.getDetails()));
-            String token = ((HttpServletRequest) request).getHeader("token");
-            requestContext.addZuulRequestHeader("token", token);
-        }
+//        if (authentication!=null){
+//            RequestContext requestContext = RequestContext.getCurrentContext();
+//            requestContext.addZuulRequestHeader("token", JSON.toJSONString(authentication.getDetails()));
+//            String token = ((HttpServletRequest) request).getHeader("token");
+//            requestContext.addZuulRequestHeader("token", token);
+//        }
         filterChain.doFilter(request, response);
     }
 
