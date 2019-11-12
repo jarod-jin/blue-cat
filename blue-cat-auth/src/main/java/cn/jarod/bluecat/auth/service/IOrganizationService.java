@@ -20,5 +20,5 @@ public interface IOrganizationService {
 
     List<TreeBO> findOrgTreeByFullCode(String fullCode);
 
-    Map<String, OrganizationDO> queryOrgMapByCodes(List<String> collect);
+    Map<String, OrganizationDO> queryOrgMapByCodesAndSys(List<String> codes,String sys);
 }

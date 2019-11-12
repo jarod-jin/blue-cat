@@ -13,7 +13,7 @@ public interface RoleRepository extends JpaRepository<RoleDO,Long> {
 
     Optional<RoleDO> findByRoleCode(String roleCode);
 
-    List<RoleDO> findAllByRoleCodeIn(List<String> codes);
+    List<RoleDO> findAllBySysCodeInAndRoleCodeIn(List<String> sys, List<String> codes);
 
 }
 

@@ -53,6 +53,6 @@ public class OrganizationDO extends DataBase {
     private Integer orgType;
 
     //关联编号
-    @Column(nullable = false, columnDefinition=("varchar(30) default '' comment '关联编号'"))
-    private String businessCode;
+    @Column(nullable = false, columnDefinition=("varchar(30) default '' comment '关联系统编号'"))
+    private String sysCode;
 }

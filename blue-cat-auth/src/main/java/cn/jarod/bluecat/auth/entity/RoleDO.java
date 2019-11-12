@@ -36,9 +36,14 @@ public class RoleDO extends DataBase {
     @Column(nullable = false, columnDefinition=("smallint(5) default 99 comment '显示顺序'"))
     private Integer disOrder;
 
+    //关联系统编号
+    @Column(nullable = false, columnDefinition=("varchar(30) default '' comment '关联系统编号'"))
+    private String sysCode;
+
     //角色描述
     @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '角色描述'"))
     private String memo;
+
 
 
 }

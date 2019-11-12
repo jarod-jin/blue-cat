@@ -19,6 +19,8 @@ public class Const {
 
     public static final Integer DEL = 1;
 
+    public static final String SYS_ROOT = "root";
+
     public static final String CREATE_DATE = "createDate";
 
     /** 默认日期时间格式 */

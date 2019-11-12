@@ -5,6 +5,7 @@ import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
 import cn.jarod.bluecat.auth.service.*;
 import cn.jarod.bluecat.core.model.auth.ReqGrantedAuthority;
+import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.google.common.collect.Lists;
@@ -62,56 +63,58 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // 获取认证的用户名 & 密码
         String name = authentication.getName();
         String pwd = EncryptUtil.stringEncodeSHA256(authentication.getCredentials().toString());
-        // 外包商人员认证逻辑
+        // 登录外包商人员认证逻辑
         if (pwd.equals(findDefaultKey()) || credentialService.validCredential(name,pwd)) {
-            log.info("登录成功：用户为{}，终端为：{}", name, Lists.newArrayList(authentication.getAuthorities()).get(0).getAuthority());
-            return createUsernamePasswordAuthentication(name, pwd);
+            ReqGrantedAuthority req = (ReqGrantedAuthority) Lists.newArrayList(authentication.getAuthorities()).get(0);
+            log.info("{}系统登录成功：用户为{}，终端为：{}", req.getSysCode(), name, req.getTerminalVersion());
+            return createUsernamePasswordAuthentication(name, pwd, req.getSysCode());
         }
         log.info(AUTH_ERROR_MSG + Const.BRACE , name);
         throw new BadCredentialsException(AUTH_ERROR_MSG);
     }
 
 
-    private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username , String pwd) {
+    private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username , String pwd, String sys) {
         List<Long> orgRoleIds = userLocationService.findOrgRoleIdsByUsername(username);
-        List<ReqGrantedAuthority> authorityBOList =  orgRoleService.queryOrgRoleByIds(orgRoleIds);
-        takeRoleForAuthorityBO(authorityBOList);
-        takeOrgInfoForAuthorityBO(authorityBOList);
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(username, pwd, authorityBOList);
+        List<UserGrantedAuthority> authorityBOList =  orgRoleService.queryOrgRoleByIds(orgRoleIds);
+        takeRoleForAuthorityBO(authorityBOList,sys);
+        takeOrgInfoForAuthorityBO(authorityBOList,sys);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, pwd,
+                authorityBOList.stream().filter(UserGrantedAuthority::isAuth).collect(Collectors.toList()));
         SaveUserInfoBO authDTO =  credentialService.findUserInfo(username);
         authentication.setDetails(authDTO);
         return authentication;
     }
 
 
-    private void takeOrgInfoForAuthorityBO(List<ReqGrantedAuthority> authorityBOList){
-        Map<String, OrganizationDO> orgMap = organizationService.queryOrgMapByCodes(authorityBOList.stream()
-                .map(ReqGrantedAuthority::getOrgCode).collect(Collectors.toList()));
+    private void takeOrgInfoForAuthorityBO(List<UserGrantedAuthority> authorityBOList, String sys){
+        Map<String, OrganizationDO> orgMap = organizationService.queryOrgMapByCodesAndSys(authorityBOList.stream()
+                .map(UserGrantedAuthority::getOrgCode).collect(Collectors.toList()), sys);
         authorityBOList.forEach(o->{
             OrganizationDO tmp = orgMap.get(o.getOrgCode());
-            o.setOrgCode(tmp.getOrgCode());
-            o.setOrgName(tmp.getOrgName());
-            o.setFullCode(tmp.getFullCode());
-            o.setFullName(tmp.getFullName());
+            if (tmp !=null){
+                o.setOrgType(tmp.getOrgType());
+                o.setSysCode(tmp.getSysCode());
+                o.setOrgName(tmp.getOrgName());
+                o.setOrgCode(tmp.getFullCode());
+                o.setOrgName(tmp.getFullName());
+            }
         });
     }
 
 
-    private void takeRoleForAuthorityBO(List<ReqGrantedAuthority> authorityBOList){
+    private void takeRoleForAuthorityBO(List<UserGrantedAuthority> authorityBOList, String sys){
         Map<String, RoleDO> roleMap = roleService.queryRoleMapByCodes(authorityBOList.stream()
-                .map(ReqGrantedAuthority::getRoleCode).collect(Collectors.toList()));
+                .map(UserGrantedAuthority::getRoleCode).collect(Collectors.toList()),sys);
         authorityBOList.forEach(r->{
             RoleDO tmp = roleMap.get(r.getRoleCode());
-            r.setDisOrder(tmp.getDisOrder());
-            r.setRoleName(tmp.getRoleName());
-            r.setDisOrder(tmp.getDisOrder());
+            if (tmp !=null){
+                r.setDisOrder(tmp.getDisOrder());
+                r.setRoleName(tmp.getRoleName());
+                r.setDisOrder(tmp.getDisOrder());
+            }
         });
     }
-
-
-
-
 
 
     // 是否可以提供输入类型的认证服务

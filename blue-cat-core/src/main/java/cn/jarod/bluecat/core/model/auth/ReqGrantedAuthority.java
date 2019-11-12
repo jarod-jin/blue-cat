@@ -12,24 +12,20 @@ import org.springframework.security.core.GrantedAuthority;
 @Setter
 public class ReqGrantedAuthority implements GrantedAuthority {
 
-    private static final long serialVersionUID = 8394858769801484423L;
+    private static final long serialVersionUID = -256491946697712588L;
 
-    private String orgCode;
+    private String sysCode;
 
-    private String orgName;
+    private String terminalVersion;
 
-    private String fullCode;
-
-    private String fullName;
-
-    private String roleCode;
-
-    private String roleName;
-
-    private Integer disOrder;
+    public ReqGrantedAuthority(String sysCode, String version){
+        this.sysCode = sysCode;
+        this.terminalVersion = version;
+    }
 
     @Override
     public String getAuthority() {
         return JSON.toJSONString(this);
     }
+
 }

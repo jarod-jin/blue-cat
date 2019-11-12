@@ -17,7 +17,7 @@ public interface IRoleService {
 
     void delRole(SaveRoleBO dto);
 
-    Map<String,RoleDO> queryRoleMapByCodes(List<String> codes);
+    Map<String,RoleDO> queryRoleMapByCodes(List<String> codes, String sys);
 
     Page<RoleDO> queryRolePage(BaseQO qo);
 }

@@ -12,6 +12,7 @@ import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.TreeUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class OrganizationService implements IOrganizationService {
-
 
     @Autowired
     private OrganizationRepository organizationRepository;
@@ -98,8 +98,9 @@ public class OrganizationService implements IOrganizationService {
      * @return
      */
     @Override
-    public Map<String, OrganizationDO> queryOrgMapByCodes(List<String> codes) {
-        return organizationRepository.findAllByOrgCodeIn(codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
+    public Map<String, OrganizationDO> queryOrgMapByCodesAndSys(List<String> codes,String sys) {
+        return organizationRepository.findAllBySysCodeInAndOrgCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
     }
 
 }
+

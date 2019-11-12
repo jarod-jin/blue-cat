@@ -9,6 +9,7 @@ import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,8 +66,8 @@ public class RoleService implements IRoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Map<String,RoleDO> queryRoleMapByCodes(List<String> codes) {
-        return roleRepository.findAllByRoleCodeIn(codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
+    public Map<String,RoleDO> queryRoleMapByCodes(List<String> codes,String sys) {
+        return roleRepository.findAllBySysCodeInAndRoleCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
     }
 
     /**
