@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.filter;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.model.ResultBO;
+import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
@@ -64,7 +64,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
                                               AuthenticationException failed) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q400.getCode(), failed.getMessage())));
+        response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), failed.getMessage())));
         response.getWriter().close();
     }
 }

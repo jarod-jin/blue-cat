@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.filter;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.model.ResultBO;
+import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
 import com.netflix.zuul.context.RequestContext;
@@ -45,17 +45,17 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request);
         } catch (SignatureException e) {
             log.info(SIGN_FALSE + BRACE , e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q400.getCode(), SIGN_FALSE)));
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), SIGN_FALSE)));
             response.getWriter().close();
             return;
         }catch (ExpiredJwtException e){
             log.info(TOKEN_EXPIRE + BRACE, e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q400.getCode(), TOKEN_EXPIRE)));
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), TOKEN_EXPIRE)));
             response.getWriter().close();
             return;
         }catch (Exception e){
             log.info(LOGIN_FAIL + BRACE, e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q400.getCode(), LOGIN_FAIL)));
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), LOGIN_FAIL)));
             response.getWriter().close();
             return;
         }

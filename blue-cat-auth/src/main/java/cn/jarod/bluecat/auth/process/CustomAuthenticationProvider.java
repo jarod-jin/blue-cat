@@ -34,15 +34,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public static final String AUTH_ERROR_MSG = "用户名/密码错误~";
 
     @Value("${security.key.server:123456}")
-    private String server_key;
+    private String serverKey;
 
     @Value("${security.key.default:123456}")
-    private String default_key;
+    private String defaultKey;
 
 
     @Autowired
     private ICredentialService credentialService;
-
 
     @Autowired
     private IUserLocationService userLocationService;
@@ -124,6 +123,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private String findDefaultKey(){
         LocalDate now = LocalDate.now();
-        return EncryptUtil.stringEncodeSHA256(default_key + now.getMonthValue() + now.getDayOfMonth());
+        return EncryptUtil.stringEncodeSHA256(defaultKey + now.getMonthValue() + now.getDayOfMonth());
     }
 }

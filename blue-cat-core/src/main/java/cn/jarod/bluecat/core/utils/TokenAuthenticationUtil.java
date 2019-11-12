@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.utils;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.model.ResultBO;
+import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
@@ -56,7 +56,7 @@ public class TokenAuthenticationUtil {
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setStatus(HttpServletResponse.SC_OK);
 //            log.info("授权返回："+ JSON.toJSONString(auth)+" 令牌为：" + jwt);
-            response.getWriter().print(JSON.toJSONString(new ResultBO(ReturnCode.Q200.name(), "登录成功", ImmutableMap.<String, Object> builder()
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q200.name(), "登录成功", ImmutableMap.<String, Object> builder()
                     .put(AUTH,jwt)
                     .build())));
             response.getWriter().close();
