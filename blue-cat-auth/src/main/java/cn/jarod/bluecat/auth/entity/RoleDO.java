@@ -37,7 +37,7 @@ public class RoleDO extends DataBase {
     private Integer disOrder;
 
     //关联系统编号
-    @Column(nullable = false, columnDefinition=("varchar(30) default '' comment '关联系统编号'"))
+    @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
     private String sysCode;
 
     //角色描述

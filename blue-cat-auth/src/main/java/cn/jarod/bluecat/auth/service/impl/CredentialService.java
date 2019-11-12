@@ -60,8 +60,8 @@ public class CredentialService implements ICredentialService {
         UserInfoDO authDO = BeanHelperUtil.createCopyBean(authDTO, UserInfoDO.class);
         if (!authDTO.hasTelOrEmail())
             throw new BaseException(ReturnCode.S400.getCode(), "电话和邮箱不能同时为空");
-        authDO.setCreator(authDTO.getLoginName());
-        authDO.setModifier(authDTO.getLoginName());
+        authDO.setCreator(authDTO.getUsername());
+        authDO.setModifier(authDTO.getUsername());
         authDO.setCredentialType(authDTO.getCredentialType());
         authDO = userInfoRepository.save(authDO);
         CredentialDO credDO = new CredentialDO();
@@ -177,8 +177,14 @@ public class CredentialService implements ICredentialService {
         return credentialRepository.exists(Example.of(credentialDO));
     }
 
+    /**
+     * 根据用户名查询信息
+     * @param name
+     * @return
+     */
     @Override
     public SaveUserInfoBO findUserInfo(String name) {
-        return null;
+        UserInfoDO userInfoDO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.Q400));
+        return BeanHelperUtil.createCopyBean(userInfoDO,SaveUserInfoBO.class);
     }
 }

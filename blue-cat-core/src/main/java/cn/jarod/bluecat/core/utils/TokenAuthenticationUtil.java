@@ -40,10 +40,7 @@ public class TokenAuthenticationUtil {
     /**
      * 存放Token的Header Key
      */
-
     static final String AUTHORITIES = "authorities";
-
-    public static final String USER_INFO= "info";
 
     public static final String AUTH = "token";
 

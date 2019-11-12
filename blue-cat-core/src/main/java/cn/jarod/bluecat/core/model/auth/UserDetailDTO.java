@@ -34,6 +34,6 @@ public class UserDetailDTO implements Serializable {
     private String photoUrl;
 
     //组织列表
-    private List<UserGrantedAuthority> roleList;
+    private List<UserAuthority> roleList;
 
 }

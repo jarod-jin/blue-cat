@@ -4,8 +4,8 @@ import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
 import cn.jarod.bluecat.auth.service.*;
-import cn.jarod.bluecat.core.model.auth.ReqGrantedAuthority;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
+import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.google.common.collect.Lists;
@@ -65,36 +65,37 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String pwd = EncryptUtil.stringEncodeSHA256(authentication.getCredentials().toString());
         // 登录外包商人员认证逻辑
         if (pwd.equals(findDefaultKey()) || credentialService.validCredential(name,pwd)) {
-            ReqGrantedAuthority req = (ReqGrantedAuthority) Lists.newArrayList(authentication.getAuthorities()).get(0);
+            UserGrantedAuthority req = (UserGrantedAuthority) Lists.newArrayList(authentication.getAuthorities()).get(0);
             log.info("{}系统登录成功：用户为{}，终端为：{}", req.getSysCode(), name, req.getTerminalVersion());
-            return createUsernamePasswordAuthentication(name, pwd, req.getSysCode());
+            return createUsernamePasswordAuthentication(name, pwd, req);
         }
         log.info(AUTH_ERROR_MSG + Const.BRACE , name);
         throw new BadCredentialsException(AUTH_ERROR_MSG);
     }
 
 
-    private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username , String pwd, String sys) {
+    private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username, String pwd, UserGrantedAuthority grantedAuthority) {
         List<Long> orgRoleIds = userLocationService.findOrgRoleIdsByUsername(username);
-        List<UserGrantedAuthority> authorityBOList =  orgRoleService.queryOrgRoleByIds(orgRoleIds);
-        takeRoleForAuthorityBO(authorityBOList,sys);
-        takeOrgInfoForAuthorityBO(authorityBOList,sys);
+        List<UserAuthority> authorityBOList =  orgRoleService.queryOrgRoleByIds(orgRoleIds);
+        takeRoleForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
+        takeOrgInfoForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, pwd,
-                authorityBOList.stream().filter(UserGrantedAuthority::isAuth).collect(Collectors.toList()));
+                authorityBOList.stream().filter(UserAuthority::isAuth).map(e->
+                        new UserGrantedAuthority(grantedAuthority.getSysCode(),grantedAuthority.getTerminalVersion(),e)).collect(Collectors.toList()));
         SaveUserInfoBO authDTO =  credentialService.findUserInfo(username);
+        authDTO.setSysCode(grantedAuthority.getSysCode());
         authentication.setDetails(authDTO);
         return authentication;
     }
 
 
-    private void takeOrgInfoForAuthorityBO(List<UserGrantedAuthority> authorityBOList, String sys){
+    private void takeOrgInfoForAuthorityBO(List<UserAuthority> authorityBOList, String sys){
         Map<String, OrganizationDO> orgMap = organizationService.queryOrgMapByCodesAndSys(authorityBOList.stream()
-                .map(UserGrantedAuthority::getOrgCode).collect(Collectors.toList()), sys);
+                .map(UserAuthority::getOrgCode).collect(Collectors.toList()), sys);
         authorityBOList.forEach(o->{
             OrganizationDO tmp = orgMap.get(o.getOrgCode());
             if (tmp !=null){
                 o.setOrgType(tmp.getOrgType());
-                o.setSysCode(tmp.getSysCode());
                 o.setOrgName(tmp.getOrgName());
                 o.setOrgCode(tmp.getFullCode());
                 o.setOrgName(tmp.getFullName());
@@ -103,15 +104,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
 
-    private void takeRoleForAuthorityBO(List<UserGrantedAuthority> authorityBOList, String sys){
+    private void takeRoleForAuthorityBO(List<UserAuthority> authorityBOList, String sys){
         Map<String, RoleDO> roleMap = roleService.queryRoleMapByCodes(authorityBOList.stream()
-                .map(UserGrantedAuthority::getRoleCode).collect(Collectors.toList()),sys);
+                .map(UserAuthority::getRoleCode).collect(Collectors.toList()),sys);
         authorityBOList.forEach(r->{
             RoleDO tmp = roleMap.get(r.getRoleCode());
             if (tmp !=null){
-                r.setDisOrder(tmp.getDisOrder());
                 r.setRoleName(tmp.getRoleName());
-                r.setDisOrder(tmp.getDisOrder());
             }
         });
     }

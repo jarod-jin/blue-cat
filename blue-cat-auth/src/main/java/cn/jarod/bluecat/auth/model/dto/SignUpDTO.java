@@ -20,7 +20,7 @@ public class SignUpDTO implements Serializable {
 
     //用户唯一标识
     @NotBlank
-    private String loginName;
+    private String username;
 
     //密码
     @NotBlank

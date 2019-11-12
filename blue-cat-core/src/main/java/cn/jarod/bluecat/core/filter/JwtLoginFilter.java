@@ -3,7 +3,7 @@ package cn.jarod.bluecat.core.filter;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultBO;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
-import cn.jarod.bluecat.core.model.auth.ReqGrantedAuthority;
+import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -49,7 +49,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         // 返回一个验证令牌
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(credentials.getSignIn(), credentials.getPassword(),
-                        Lists.newArrayList(new ReqGrantedAuthority(credentials.getSysCode(), credentials.getTerminalVersion()))));
+                        Lists.newArrayList(new UserGrantedAuthority(credentials.getSysCode(), credentials.getTerminalVersion()))));
     }
 
     @Override

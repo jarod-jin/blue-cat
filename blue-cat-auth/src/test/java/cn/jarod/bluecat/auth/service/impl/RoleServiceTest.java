@@ -73,7 +73,7 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("查询指定Code列表角色的散列表")
     void queryRoleMapByCodes() {
-        Map<String, RoleDO> map = roleService.queryRoleMapByCodes(Lists.newArrayList("admin"));
+        Map<String, RoleDO> map = roleService.queryRoleMapByCodes(Lists.newArrayList("admin"),"sys");
         assertAll("检验返回结果",
                 ()-> assertTrue(map.size()>0),
                 ()-> assertNotNull(map.get("admin"))

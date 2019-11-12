@@ -34,4 +34,7 @@ public class SaveUserInfoBO extends BaseBO {
     //照片
     private String photoUrl;
 
+    //系统编号
+    private String sysCode;
+
 }

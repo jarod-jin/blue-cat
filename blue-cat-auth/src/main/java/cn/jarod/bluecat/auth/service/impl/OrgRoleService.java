@@ -2,7 +2,7 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
-import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
+import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.service.IOrgRoleService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -78,9 +78,9 @@ public class OrgRoleService implements IOrgRoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<UserGrantedAuthority> queryOrgRoleByIds(List<Long> ids) {
+    public List<UserAuthority> queryOrgRoleByIds(List<Long> ids) {
         return orgRoleRepository.findAllById(ids).stream().map( e->{
-            UserGrantedAuthority authorityBO = new UserGrantedAuthority();
+            UserAuthority authorityBO = new UserAuthority();
             authorityBO.setOrgCode(e.getOrgCode());
             authorityBO.setRoleCode(e.getRoleCode());
             return authorityBO;
