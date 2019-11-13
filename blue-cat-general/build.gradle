@@ -1,0 +1,5 @@
+mainClassName = 'cn.jarod.bluecat.general.BlueCatGeneralApplication'
+
+dependencies {
+    implementation project(':blue-cat-core')
+}

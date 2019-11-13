@@ -33,15 +33,13 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private static final String LOGIN_FAIL = "认证验证失败 ";
 
-
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-        Authentication authentication;
         try {
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-            authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request);
+            Authentication authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (SignatureException e) {
             log.info(SIGN_FALSE + BRACE , e.getMessage());
             response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), SIGN_FALSE)));
@@ -58,13 +56,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             response.getWriter().close();
             return;
         }
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        if (authentication!=null){
-//            RequestContext requestContext = RequestContext.getCurrentContext();
-//            requestContext.addZuulRequestHeader("token", JSON.toJSONString(authentication.getDetails()));
-//            String token = ((HttpServletRequest) request).getHeader("token");
-//            requestContext.addZuulRequestHeader("token", token);
-//        }
         filterChain.doFilter(request, response);
     }
 

@@ -35,4 +35,7 @@ public class UserInfoDTO implements Serializable {
 
     //系统编号
     private String sysCode;
+
+    //终端编号
+    private String terminalVersion;
 }

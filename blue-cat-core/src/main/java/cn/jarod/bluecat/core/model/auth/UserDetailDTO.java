@@ -36,6 +36,8 @@ public class UserDetailDTO implements Serializable {
     //系统编号
     private String sysCode;
 
+    private String terminalVersion;
+
     //组织列表
     private List<UserAuthority> roleList;
 

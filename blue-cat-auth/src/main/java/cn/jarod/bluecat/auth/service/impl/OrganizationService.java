@@ -93,12 +93,12 @@ public class OrganizationService implements IOrganizationService {
     }
 
     /**
-     *
+     * 根据编号和系统编码获取组织 散列表
      * @param codes
      * @return
      */
     @Override
-    public Map<String, OrganizationDO> queryOrgMapByCodesAndSys(List<String> codes,String sys) {
+    public Map<String, OrganizationDO> queryOrgMapByCodesAndSys(List<String> codes, String sys) {
         return organizationRepository.findAllBySysCodeInAndOrgCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
     }
 

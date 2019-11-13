@@ -34,17 +34,17 @@ public class RoleService implements IRoleService {
 
     /**
      * 保存一个角色
-     * @param dto
+     * @param roleBO
      * @return
      */
     @Override
     @Transactional
-    public RoleDO saveRole(SaveRoleBO dto) {
-        dto.clearId();
-        RoleDO roleDO = roleRepository.findByRoleCode(dto.getRoleCode()).orElse(new RoleDO());
-        roleDO.setModifier(dto.getOperator());
-        roleDO.setCreator(dto.getOperator());
-        BeanHelperUtil.copyNotNullProperties(dto,roleDO);
+    public RoleDO saveRole(SaveRoleBO roleBO) {
+        roleBO.clearId();
+        RoleDO roleDO = roleRepository.findByRoleCode(roleBO.getRoleCode()).orElse(new RoleDO());
+        roleDO.setModifier(roleBO.getOperator());
+        roleDO.setCreator(roleBO.getOperator());
+        BeanHelperUtil.copyNotNullProperties(roleBO,roleDO);
         return roleRepository.save(roleDO);
     }
 

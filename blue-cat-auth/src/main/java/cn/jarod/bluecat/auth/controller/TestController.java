@@ -14,9 +14,9 @@ public class TestController extends BaseController {
 
 
     @PostMapping(value = "/hello")
-    public String hello(String name) {
-        takeUserDetailInfo();
-        return "hello : " + name;
+    public String hello() {
+        takeUserAuthInfo();
+        return "hello : " + takeUserAuthInfo().getUsername();
     }
 
 }

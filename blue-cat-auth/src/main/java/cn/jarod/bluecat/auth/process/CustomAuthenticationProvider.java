@@ -82,6 +82,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 authorityBOList.stream().filter(UserAuthority::isAuth).map(UserGrantedAuthority::new).collect(Collectors.toList()));
         UserInfoDTO authDTO =  credentialService.findUserInfo(username);
         authDTO.setSysCode(grantedAuthority.getSysCode());
+        authDTO.setTerminalVersion(grantedAuthority.getTerminalVersion());
         authentication.setDetails(authDTO);
         return authentication;
     }

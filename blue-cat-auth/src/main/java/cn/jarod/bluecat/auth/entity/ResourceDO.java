@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "sys_resource", indexes = {@Index(columnList ="resourceCode", name="ResourceCodeIndex", unique = true)})
+@Table(name = "sys_resource", indexes = {@Index(columnList ="resourceType,resourceCode", name="ResourceCodeIndex", unique = true)})
 public class ResourceDO extends DataBase {
 
     //资源编码
@@ -51,5 +51,9 @@ public class ResourceDO extends DataBase {
     //说明
     @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '说明'"))
     private Integer memo;
+
+    //关联系统编号
+    @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
+    private String sysCode;
 
 }
