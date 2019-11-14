@@ -30,7 +30,7 @@ public class SaveResourceBO extends BaseBO {
     private String resourcePath;
 
     //说明
-    private Integer memo;
+    private String memo;
 
     //关联系统编号
     private String sysCode;

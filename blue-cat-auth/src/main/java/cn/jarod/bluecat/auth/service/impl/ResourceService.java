@@ -1,15 +1,20 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.ResourceDO;
+import cn.jarod.bluecat.auth.entity.RoleResourceDO;
+import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
 import cn.jarod.bluecat.auth.model.bo.SaveResourceBO;
 import cn.jarod.bluecat.auth.repository.ResourceRepository;
+import cn.jarod.bluecat.auth.repository.RoleResourceRepository;
 import cn.jarod.bluecat.auth.service.IResourceService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -19,8 +24,13 @@ import java.util.List;
 @Service
 public class ResourceService implements IResourceService {
 
+    private static final String START_NO = "10001";
+
     @Autowired
     private ResourceRepository resourceRepository;
+
+    @Autowired
+    private RoleResourceRepository roleResourceRepository;
 
     /**
      * 保存资源
@@ -31,11 +41,23 @@ public class ResourceService implements IResourceService {
     @Transactional
     public ResourceDO saveResource(SaveResourceBO resourceBO) {
         resourceBO.clearId();
+        if (StringUtils.isEmpty(resourceBO.getResourceCode()))
+            createResourceCode(resourceBO);
         ResourceDO resourceDO = resourceRepository.findByResourceCode(resourceBO.getResourceCode()).orElse(new ResourceDO());
         resourceDO.setModifier(resourceBO.getOperator());
         resourceDO.setCreator(resourceBO.getOperator());
         BeanHelperUtil.copyNotNullProperties(resourceBO,resourceDO);
         return resourceRepository.save(resourceDO);
+    }
+
+    /**
+     * 创建ResourceCode
+     * @param resourceBO
+     */
+    private void createResourceCode(SaveResourceBO resourceBO) {
+        String codePrefix = resourceBO.getSysCode().substring(0,2).toUpperCase();
+        String codeNo = resourceRepository.findMaxResourceCodeBySys(codePrefix, resourceBO.getSysCode());
+        resourceBO.setResourceCode(codePrefix + (StringUtils.hasText(codeNo)? Integer.parseInt(codeNo)+1 : START_NO));
     }
 
     /**
@@ -45,12 +67,15 @@ public class ResourceService implements IResourceService {
     @Override
     @Transactional
     public void delResource(SaveResourceBO resourceBO) {
+        RoleResourceDO roleResourceDO = new RoleResourceDO();
+        roleResourceDO.setResourceCode(resourceBO.getResourceCode());
+        if (roleResourceRepository.exists(Example.of(roleResourceDO)))
+            throw new BaseException(ReturnCode.D400.getCode(),"存在绑定权限，无法删除资源");
         resourceRepository.delete(resourceRepository.findByResourceCode(resourceBO.getResourceCode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
     }
 
-
     /**
-     *
+     * 根据资源编码和系统查询
      * @param codes
      * @param sys
      * @return
@@ -59,5 +84,45 @@ public class ResourceService implements IResourceService {
     @Transactional(readOnly = true)
     public List<ResourceDO> queryResourceListByCodes(List<String> codes, String sys) {
         return resourceRepository.findAllBySysCodeAndResourceCodeIn(sys,codes);
+    }
+
+    /**
+     * 保存对象
+     * @param linkBO
+     * @return
+     */
+    @Override
+    @Transactional
+    public RoleResourceDO saveRoleResource(LinkRoleResourceBO linkBO){
+        RoleResourceDO roleResourceDO = new RoleResourceDO();
+        roleResourceDO.setResourceCode(linkBO.getResourceCode());
+        roleResourceDO.setRoleCode(linkBO.getRoleCode());
+        if (roleResourceRepository.exists(Example.of(roleResourceDO)))
+            throw new BaseException(ReturnCode.S400);
+        roleResourceDO.setModifier(linkBO.getOperator());
+        roleResourceDO.setCreator(linkBO.getOperator());
+        return roleResourceRepository.save(roleResourceDO);
+    }
+
+    /**
+     * 删除角色资源对应关系
+     * @param linkBO
+     */
+    @Override
+    @Transactional
+    public void delRoleResource(LinkRoleResourceBO linkBO) {
+        roleResourceRepository.delete(roleResourceRepository.findByResourceCodeAndRoleCode(linkBO.getResourceCode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
+    }
+
+    /**
+     * 根据角色编号检查是否有关联数据，删除角色时判断使用
+     * @param roleCode
+     * @return
+     */
+    @Override
+    public boolean hasLinkByRoleCode(String roleCode) {
+        RoleResourceDO roleResourceDO = new RoleResourceDO();
+        roleResourceDO.setRoleCode(roleCode);
+        return roleResourceRepository.exists(Example.of(roleResourceDO));
     }
 }

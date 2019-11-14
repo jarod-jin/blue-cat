@@ -2,7 +2,6 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
-import cn.jarod.bluecat.auth.model.bo.SaveUserInfoBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateUserBO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
@@ -10,6 +9,7 @@ import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -137,7 +137,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         tmpDTO.setTel("13105818757");
         UserInfoDO userInfoDO = credentialService.registerUser(tmpDTO);
         assertNotNull(userInfoDO.getId());
-        credentialService.deleteUser(BeanHelperUtil.createCopyBean(userInfoDO, SaveUserInfoBO.class));
+        credentialService.deleteUser(BeanHelperUtil.createCopyBean(userInfoDO, UserInfoDTO.class));
     }
 
     @Test

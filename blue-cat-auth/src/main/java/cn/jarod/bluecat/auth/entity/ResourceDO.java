@@ -36,10 +36,6 @@ public class ResourceDO extends DataBase {
     @Column(nullable = false, columnDefinition=("varchar(20) default '' comment '上级编码'"))
     private String parentCode;
 
-    //显示顺序
-    @Column(nullable = false, columnDefinition=("smallint(5) default 99 comment '显示顺序'"))
-    private Integer disOrder;
-
     //资源类型
     @Column(nullable = false, columnDefinition=("varchar(10) default '' comment '资源类型'"))
     private String resourceType;
@@ -50,10 +46,14 @@ public class ResourceDO extends DataBase {
 
     //说明
     @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '说明'"))
-    private Integer memo;
+    private String memo;
 
     //关联系统编号
     @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
     private String sysCode;
+
+    //显示顺序
+    @Column(nullable = false, columnDefinition=("smallint(5) default 99 comment '显示顺序'"))
+    private Integer disOrder;
 
 }

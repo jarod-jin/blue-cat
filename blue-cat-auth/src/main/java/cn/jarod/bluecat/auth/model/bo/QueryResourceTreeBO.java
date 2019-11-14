@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.BaseBO;
+import cn.jarod.bluecat.core.model.TreeBO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +9,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class LinkRoleResourceBO extends BaseBO {
+public class QueryResourceTreeBO extends TreeBO {
 
     private String resourceCode;
 
-    private String roleCode;
+    private String resourceName;
 
 }

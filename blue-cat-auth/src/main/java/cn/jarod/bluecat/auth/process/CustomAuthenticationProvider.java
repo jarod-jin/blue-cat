@@ -47,9 +47,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private IUserLocationService userLocationService;
 
     @Autowired
-    private IOrgRoleService orgRoleService;
-
-    @Autowired
     private IOrganizationService organizationService;
 
     @Autowired
@@ -75,7 +72,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username, String pwd, UserGrantedAuthority grantedAuthority) {
         List<Long> orgRoleIds = userLocationService.findOrgRoleIdsByUsername(username);
-        List<UserAuthority> authorityBOList =  orgRoleService.queryOrgRoleByIds(orgRoleIds);
+        List<UserAuthority> authorityBOList =  roleService.queryOrgRoleByIds(orgRoleIds);
         takeRoleForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         takeOrgInfoForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, pwd,

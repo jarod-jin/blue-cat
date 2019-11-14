@@ -1,0 +1,6 @@
+//评价模块
+mainClassName = 'cn.jarod.bluecat.estimate.BlueCatEstimateApplication'
+
+dependencies {
+    implementation project(':blue-cat-core')
+}

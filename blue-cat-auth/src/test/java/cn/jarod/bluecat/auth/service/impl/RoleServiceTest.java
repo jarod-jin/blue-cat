@@ -1,7 +1,9 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
+import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
+import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.SaveRoleBO;
 import cn.jarod.bluecat.auth.service.IRoleService;
 import cn.jarod.bluecat.core.exception.BaseException;
@@ -26,6 +28,12 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     private IRoleService roleService;
 
+
+    private LinkOrgRoleBO sysAdminDTO;
+
+    private LinkOrgRoleBO tmpLinkDTO;
+
+
     private SaveRoleBO adminDTO;
 
     private SaveRoleBO tmpDTO;
@@ -45,12 +53,22 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
         tmpDTO.setMemo("测试用");
         tmpDTO.setDisOrder(1);
         tmpDTO.setOperator("sys");
+
+        sysAdminDTO = new LinkOrgRoleBO();
+        sysAdminDTO.setRoleCode("admin");
+        sysAdminDTO.setOrgCode("SYS100001");
+
+        tmpLinkDTO = new LinkOrgRoleBO();
+        tmpLinkDTO.setRoleCode("test");
+        tmpLinkDTO.setOrgCode("SYS99999");
     }
 
     @AfterEach
     void tearDown() {
         adminDTO = null;
         tmpDTO = null;
+        tmpLinkDTO = null;
+        sysAdminDTO = null;
     }
 
     @Test
@@ -89,6 +107,22 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
                 ()-> assertFalse(page.isEmpty()),
                 ()-> assertEquals("admin",page.getContent().get(0).getRoleCode())
         );
+    }
+
+    @Test
+    @DisplayName("保存组织下角色")
+    void saveOrgRole() {
+        OrgRoleDO orgRoleDO = roleService.saveOrgRole(tmpLinkDTO);
+        assertAll("检验返回结果",
+                ()-> assertNotNull(orgRoleDO.getId()),
+                ()-> assertEquals("test",orgRoleDO.getRoleCode()),
+                ()-> assertEquals("SYS99999",orgRoleDO.getOrgCode())
+        );
+        try{
+            roleService.delOrgRole(tmpLinkDTO);
+        }catch (BaseException e){
+            fail();
+        }
     }
 
 

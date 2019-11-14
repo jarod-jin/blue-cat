@@ -1,20 +1,21 @@
 package cn.jarod.bluecat.auth.service.impl;
 
+import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
+import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.SaveRoleBO;
+import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.repository.RoleRepository;
 import cn.jarod.bluecat.auth.service.IRoleService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQO;
+import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,10 @@ public class RoleService implements IRoleService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private OrgRoleRepository orgRoleRepository;
+
 
     /**
      * 保存一个角色
@@ -56,6 +61,10 @@ public class RoleService implements IRoleService {
     @Override
     @Transactional
     public void delRole(SaveRoleBO dto) {
+        OrgRoleDO orgRoleDO = new OrgRoleDO();
+        orgRoleDO.setRoleCode(dto.getRoleCode());
+        if (orgRoleRepository.exists(Example.of(orgRoleDO)))
+            throw new BaseException(ReturnCode.D400.getCode(),"存在绑定组织，无法删除角色");
         roleRepository.delete(roleRepository.findByRoleCode(dto.getRoleCode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
     }
 
@@ -82,6 +91,70 @@ public class RoleService implements IRoleService {
         Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(), sort);
         return roleRepository.findAll(pageable);
     }
+
+    /**
+     * 保存组织角色关系
+     * @param linkOrgRoleBO
+     * @return
+     */
+    @Override
+    @Transactional
+    public OrgRoleDO saveOrgRole(LinkOrgRoleBO linkOrgRoleBO){
+        OrgRoleDO orgRoleDO = new OrgRoleDO();
+        orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
+        orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
+        if (orgRoleRepository.exists(Example.of(orgRoleDO)))
+            throw new BaseException(ReturnCode.S401);
+        orgRoleDO.setCreator(linkOrgRoleBO.getOperator());
+        orgRoleDO.setModifier(linkOrgRoleBO.getOperator());
+        return orgRoleRepository.save(orgRoleDO);
+    }
+
+
+    /**
+     * 删除一个角色
+     * @param linkOrgRoleBO
+     * @return
+     */
+    @Override
+    @Transactional
+    public void delOrgRole(LinkOrgRoleBO linkOrgRoleBO) {
+        OrgRoleDO orgRoleDO = new OrgRoleDO();
+        orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
+        orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
+        orgRoleRepository.delete(orgRoleRepository.findOne(Example.of(orgRoleDO)).orElseThrow(()->new BaseException(ReturnCode.D400)));
+    }
+
+    /**
+     * 查询指定组织下的角色代码列表
+     * @param linkOrgRoleBO
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> queryRoleCodesByOrg(LinkOrgRoleBO linkOrgRoleBO) {
+        OrgRoleDO orgRoleDO = new OrgRoleDO();
+        orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
+        return orgRoleRepository.findAll(Example.of(orgRoleDO)).stream().map(OrgRoleDO::getRoleCode).collect(Collectors.toList());
+    }
+
+
+    /**
+     * 查询指定id列表中的角色返回对应对应角色位置
+     * @param ids
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserAuthority> queryOrgRoleByIds(List<Long> ids) {
+        return orgRoleRepository.findAllById(ids).stream().map( e->{
+            UserAuthority authorityBO = new UserAuthority();
+            authorityBO.setOrgCode(e.getOrgCode());
+            authorityBO.setRoleCode(e.getRoleCode());
+            return authorityBO;
+        }).collect(Collectors.toList());
+    }
+
 
 
 }

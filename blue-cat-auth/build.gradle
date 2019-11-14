@@ -1,3 +1,4 @@
+//鉴权认证
 mainClassName = 'cn.jarod.bluecat.auth.BlueCatAuthApplication'
 
 dependencies {
