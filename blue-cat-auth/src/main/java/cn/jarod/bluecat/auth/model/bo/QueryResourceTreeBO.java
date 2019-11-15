@@ -11,8 +11,25 @@ import lombok.Setter;
 @Setter
 public class QueryResourceTreeBO extends TreeBO {
 
-    private String resourceCode;
-
+    //名称
     private String resourceName;
+
+    //图标
+    private String resourceIcon;
+
+    //资源类型
+    private String resourceType;
+
+    //资源地址
+    private String resourceRoute;
+
+    //说明
+    private String memo;
+
+    //显示顺序
+    private Integer disOrder;
+
+    //是否拥有权限
+    private boolean access;
 
 }

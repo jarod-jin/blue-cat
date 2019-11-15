@@ -27,7 +27,10 @@ public class SaveResourceBO extends BaseBO {
     private String resourceType;
 
     //资源地址
-    private String resourcePath;
+    private String resourceRoute;
+
+    //资源图标
+    private String resourceIcon;
 
     //说明
     private String memo;

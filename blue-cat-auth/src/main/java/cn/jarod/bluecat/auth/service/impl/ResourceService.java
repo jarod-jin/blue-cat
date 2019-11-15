@@ -3,6 +3,7 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.entity.ResourceDO;
 import cn.jarod.bluecat.auth.entity.RoleResourceDO;
 import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
+import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
 import cn.jarod.bluecat.auth.model.bo.SaveResourceBO;
 import cn.jarod.bluecat.auth.repository.ResourceRepository;
 import cn.jarod.bluecat.auth.repository.RoleResourceRepository;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @auther jarod.jin 2019/11/13
@@ -75,18 +78,6 @@ public class ResourceService implements IResourceService {
     }
 
     /**
-     * 根据资源编码和系统查询
-     * @param codes
-     * @param sys
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<ResourceDO> queryResourceListByCodes(List<String> codes, String sys) {
-        return resourceRepository.findAllBySysCodeAndResourceCodeIn(sys,codes);
-    }
-
-    /**
      * 保存对象
      * @param linkBO
      * @return
@@ -111,7 +102,8 @@ public class ResourceService implements IResourceService {
     @Override
     @Transactional
     public void delRoleResource(LinkRoleResourceBO linkBO) {
-        roleResourceRepository.delete(roleResourceRepository.findByResourceCodeAndRoleCode(linkBO.getResourceCode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
+        roleResourceRepository.delete(roleResourceRepository.findByResourceCodeAndRoleCode(linkBO.getResourceCode(),linkBO.getRoleCode())
+                .orElseThrow(()->new BaseException(ReturnCode.D400)));
     }
 
     /**
@@ -124,5 +116,24 @@ public class ResourceService implements IResourceService {
         RoleResourceDO roleResourceDO = new RoleResourceDO();
         roleResourceDO.setRoleCode(roleCode);
         return roleResourceRepository.exists(Example.of(roleResourceDO));
+    }
+
+
+    /**
+     * 根据系统和对应的角色，查询所有资源
+     * @param sys
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<QueryResourceTreeBO> queryResourceTreeBySysAndRoleCodes(String sys, List<String> roleCodes) {
+        Set<String> resourceSets = roleResourceRepository.findAllByRoleCodeIn(roleCodes).stream().map(RoleResourceDO::getResourceCode).collect(Collectors.toSet());
+        return resourceRepository.findAllBySysCodeOrderByDisOrder(sys).stream().map(e->{
+            QueryResourceTreeBO qrtBO = BeanHelperUtil.createCopyBean(e,QueryResourceTreeBO.class);
+            qrtBO.setNode(e.getResourceCode());
+            qrtBO.setPNode(e.getParentCode());
+            qrtBO.setAccess(resourceSets.contains(e.getResourceCode()));
+            return qrtBO;
+        }).collect(Collectors.toList());
     }
 }
