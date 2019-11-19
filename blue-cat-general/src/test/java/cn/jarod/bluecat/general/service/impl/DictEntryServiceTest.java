@@ -30,6 +30,7 @@ class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
         newDictBO.setEntryJson(ImmutableMap.<String, Object>builder()
                 .put("t1","测试1")
                 .put("t2","测试2")
+                .put("t3","测试3")
                 .build());
         newDictBO.setOperator("admin");
     }

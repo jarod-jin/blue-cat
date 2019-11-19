@@ -30,9 +30,9 @@ public class DictEntryDO extends BaseEntity {
     @Column(nullable = false, columnDefinition=("varchar(20) comment '字典类别编码'"))
     private String dictCode;
 
-    //角色名称
+    //字典键-值
     @Type(type = "json")
-    @Column(nullable = false, columnDefinition=("json comment '字典键'"))
+    @Column(nullable = false, columnDefinition=("json comment '字典键-值'"))
     private Map<String,Object> entryJson;
 
     //显示顺序
