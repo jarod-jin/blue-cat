@@ -1,10 +1,10 @@
 package cn.jarod.bluecat.core.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,7 +17,11 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 @MappedSuperclass
-public class DataBase {
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonStringType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
+public class BaseEntity {
 
     //主键
     @Id

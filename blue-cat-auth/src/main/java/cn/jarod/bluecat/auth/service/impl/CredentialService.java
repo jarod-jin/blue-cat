@@ -70,8 +70,7 @@ public class CredentialService implements ICredentialService {
         credDO.setCreator(authDO.getUsername());
         credDO.setModifier(authDO.getUsername());
         credentialRepository.save(credDO);
-        CredHistoryDO chDO = new CredHistoryDO(authDO.getUsername(),EncryptUtil.stringEncodeSHA256(authDTO.getPassword()));
-        chDO.setCreator(authDO.getUsername());
+        CredHistoryDO chDO = new CredHistoryDO(authDO.getUsername(),EncryptUtil.stringEncodeSHA256(authDTO.getPassword()),authDO.getUsername());
         credHistoryRepository.save(chDO);
         return authDO;
     }
@@ -142,11 +141,10 @@ public class CredentialService implements ICredentialService {
             c -> {
                 if (!c.getPassword().equals(credBO.getCurrentPassword()))
                     throw new BaseException(ReturnCode.S400.getCode(),"原密码错误");
-                CredHistoryDO chDO = new CredHistoryDO(credBO.getAuthority(), credBO.getModifiedPassword());
-                if (credHistoryRepository.exists(Example.of(chDO)))
+                if (credHistoryRepository.existsByUsernameAndPassword(credBO.getAuthority(), credBO.getModifiedPassword()))
                     throw new BaseException(ReturnCode.S400.getCode(),"密码不能和前"+ passNumber +"次相同");
                 c.setPassword(credBO.getModifiedPassword());
-                chDO.setCreator(credBO.getAuthority());
+                CredHistoryDO chDO = new CredHistoryDO(credBO.getAuthority(), credBO.getModifiedPassword(),credBO.getAuthority());
                 credHistoryRepository.save(chDO);
                 handleCredPassword(chDO);
             }

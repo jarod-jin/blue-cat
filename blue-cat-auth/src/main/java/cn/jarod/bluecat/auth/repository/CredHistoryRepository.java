@@ -12,4 +12,6 @@ public interface CredHistoryRepository extends JpaRepository<CredHistoryDO,Long>
 
     List<CredHistoryDO> findAllByUsername(String username);
 
+    boolean existsByUsernameAndPassword(String authority, String modifiedPassword);
 }
+

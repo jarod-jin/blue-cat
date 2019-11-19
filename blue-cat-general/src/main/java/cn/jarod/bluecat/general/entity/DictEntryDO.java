@@ -1,0 +1,47 @@
+package cn.jarod.bluecat.general.entity;
+
+import cn.jarod.bluecat.core.entity.BaseEntity;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @auther jarod.jin 2019/10/14
+ */
+@Entity
+@Getter
+@Setter
+@DynamicInsert
+@DynamicUpdate
+@EqualsAndHashCode(callSuper=true)
+@Table(name = "dict_entry", indexes = {@Index(columnList ="classifyCode", name="ClassifyCodeIndex")})
+public class DictEntryDO extends BaseEntity {
+
+    //字典类别
+    @Column(nullable = false, columnDefinition=("varchar(20) comment '字典类别编码'"))
+    private String dictCode;
+
+    //角色名称
+    @Type(type = "json")
+    @Column(nullable = false, columnDefinition=("json comment '字典键'"))
+    private List<Map<String,Object>> entry;
+
+    //显示顺序
+    @Column(nullable = false, columnDefinition=("smallint(5) default 99 comment '显示顺序'"))
+    private Integer disOrder;
+
+    //描述
+    @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '描述'"))
+    private String memo;
+
+}

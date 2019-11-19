@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.entity;
 
-import cn.jarod.bluecat.core.entity.DataBase;
+import cn.jarod.bluecat.core.entity.BaseEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "role_resource", indexes = {@Index(columnList ="roleCode", name="OrgCodeIndex")})
-public class RoleResourceDO extends DataBase {
+public class RoleResourceDO extends BaseEntity {
 
     //角色编码
     @Column(nullable = false, columnDefinition=("varchar(20) comment '角色编码'"))

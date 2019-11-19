@@ -53,7 +53,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         //密码修改数据
         credBO = new UpdateCredDTO();
         credBO.setUsername("admin");
-        credBO.setCurrentPassword("admin123");
+        credBO.setCurrentPassword("admin12");
         credBO.setModifiedPassword("admin1234");
 
         upDTO = new ValidSignUpDTO();
@@ -164,7 +164,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("修改密码时密码和前次相同")
     void modifyPasswordTwo() {
-        credBO.setModifiedPassword("admin12");
+        credBO.setModifiedPassword("admin123");
         try{
             credentialService.modifyPassword(new UpdateCredBO(credBO));
         }catch (BaseException e){

@@ -52,4 +52,6 @@ ext {
 
     springAlibabaVersion = "2.1.0.RELEASE"
 
+    hibernateTypeVersion = "2.7.1"
+
 }
