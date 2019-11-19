@@ -1,0 +1,61 @@
+info:
+  app:
+    name: general-server
+    version: 1.0.0
+
+spring:
+  messages:
+    basename: BindingErrorMessages
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 200MB
+    tomcat:
+      max-wait: 50000
+  jpa:
+    show-sql: true
+    database: mysql
+    properties:
+      hibernate:
+        default_catalog: general
+        hbm2ddl:
+          auto: update
+    database-platform: cn.jarod.bluecat.core.component.MySQL5DialectUTF8
+
+management:
+  endpoints:
+    web:
+      base-path: /monitor
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+
+datasource:
+  validation-query: SELECT 1
+  driver-class-name: org.mariadb.jdbc.Driver
+  #  driver-class-name: com.mysql.cj.jdbc.Driver
+  max-active: 20
+  min-idle: 1
+  initial-size: 10
+
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 60000
+
+
+security:
+  url:
+    login: /api/login
+    permitAll:
+      - /monitor/*
+      - /api/register
+

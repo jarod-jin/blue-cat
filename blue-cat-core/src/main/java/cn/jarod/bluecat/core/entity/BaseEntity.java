@@ -17,10 +17,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 @MappedSuperclass
-@TypeDefs({
-        @TypeDef(name = "json", typeClass = JsonStringType.class),
-        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
-})
+@TypeDefs({@TypeDef(name = "json", typeClass = JsonStringType.class), @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)})
 public class BaseEntity {
 
     //主键
