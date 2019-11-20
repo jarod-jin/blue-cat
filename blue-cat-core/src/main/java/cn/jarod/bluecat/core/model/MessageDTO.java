@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MessageDTO extends BaseBO {
+public class MessageDTO extends BaseModel {
 
     private String message;
 

@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.BaseBO;
+import cn.jarod.bluecat.core.model.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SaveRoleBO extends BaseBO {
+public class SaveRoleBO extends BaseModel {
 
     private String roleCode;
 

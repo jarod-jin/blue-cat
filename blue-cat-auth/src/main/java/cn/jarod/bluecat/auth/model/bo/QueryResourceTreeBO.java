@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.TreeBO;
+import cn.jarod.bluecat.core.model.TreeModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class QueryResourceTreeBO extends TreeBO {
+public class QueryResourceTreeBO extends TreeModel {
 
     //名称
     private String resourceName;

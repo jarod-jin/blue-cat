@@ -6,7 +6,7 @@ import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.TreeBO;
+import cn.jarod.bluecat.core.model.TreeModel;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.TreeUtil;
@@ -80,7 +80,7 @@ public class OrganizationService implements IOrganizationService {
      * @return
      */
     @Override
-    public List<TreeBO> findOrgTreeByFullCode(String fullCode) {
+    public List<TreeModel> findOrgTreeByFullCode(String fullCode) {
         List<SaveOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
             SaveOrganizationBO orgDTO = new SaveOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);

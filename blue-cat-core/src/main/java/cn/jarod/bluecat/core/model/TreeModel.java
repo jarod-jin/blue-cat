@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TreeBO extends BaseBO {
+public class TreeModel extends BaseModel {
 
     @NotBlank
     private String node;
@@ -20,5 +20,5 @@ public class TreeBO extends BaseBO {
     @NotNull
     private String pNode;
 
-    private List<? extends TreeBO> children;
+    private List<? extends TreeModel> children;
 }

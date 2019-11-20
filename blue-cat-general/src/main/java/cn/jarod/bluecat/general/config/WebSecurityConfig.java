@@ -1,9 +1,7 @@
 package cn.jarod.bluecat.general.config;
 
 
-import cn.jarod.bluecat.core.config.WebUrlConfig;
 import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,18 +17,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private WebUrlConfig webUrlConfig;
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
+            .csrf().disable()//默认关闭csrf过滤
             // 对请求进行认证
             .authorizeRequests()
-            //注册的所有请求 都放行
-            .antMatchers(webUrlConfig.getPermitAll()).permitAll()
             // 对Rest请求需要身份认证, 放行OPTIONS
             .antMatchers(HttpMethod.POST).authenticated()
             .antMatchers(HttpMethod.PUT).authenticated()

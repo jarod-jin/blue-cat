@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class SaveDictEntryBO extends BaseModel {
+public class ModifyDictEntryBO extends BaseModel {
 
     //字典类别
     private String dictCode;
@@ -19,9 +19,4 @@ public class SaveDictEntryBO extends BaseModel {
     //角色名称
     private Map<String,Object> entryJson;
 
-    //显示顺序
-    private Integer disOrder;
-
-    //描述
-    private String memo;
 }
