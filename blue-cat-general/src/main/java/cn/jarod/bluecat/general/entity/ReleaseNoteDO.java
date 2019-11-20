@@ -12,7 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @auther jarod.jin 2019/10/14
@@ -23,25 +24,25 @@ import java.util.Map;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "dict_entry", indexes = {@Index(columnList ="dictCode", name="DictCodeIndex", unique = true)})
-public class DictEntryDO extends BaseEntity {
+@Table(name = "release_note", indexes = {@Index(columnList ="terminalType,releaseVersion", name="ReleaseVersionIndex")})
+public class ReleaseNoteDO extends BaseEntity {
 
-    //字典类别
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '字典类别编码'"))
-    private String dictCode;
+    //版本号
+    @Column(nullable = false, columnDefinition=("varchar(50) comment '版本号'"))
+    private String releaseVersion;
 
     //字典键-值
     @Type(type = "json")
-    @Column(nullable = false, columnDefinition=("json comment '字典键-值'"))
-    private Map<String,Object> entryJson;
+    @Column(nullable = false, columnDefinition=("json comment '发布内容'"))
+    private List<String> releaseNote;
 
-    //显示顺序
-    @Column(nullable = false, columnDefinition=("smallint(5) default 99 comment '显示顺序'"))
-    private Integer disOrder;
+    //版本序号
+    @Column(nullable = false, columnDefinition=("decimal(10,1) default 99 comment '版本序号'"))
+    private BigDecimal releaseNo;
 
     //描述
-    @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '描述'"))
-    private String memo;
+    @Column(nullable = false, columnDefinition=("varchar(20) default 'pc' comment '终端类型'"))
+    private String terminalType;
 
     //关联系统编号
     @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
