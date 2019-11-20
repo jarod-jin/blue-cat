@@ -1,10 +1,11 @@
 package cn.jarod.bluecat.general.service.impl;
 
+import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.general.entity.DictEntryDO;
-import cn.jarod.bluecat.general.model.bo.ModifyDictEntryBO;
+import cn.jarod.bluecat.general.model.bo.UpdateDictEntryBO;
 import cn.jarod.bluecat.general.model.bo.SaveDictEntryBO;
 import cn.jarod.bluecat.general.repository.DictEntryRepository;
 import cn.jarod.bluecat.general.service.IDictEntryService;
@@ -35,6 +36,7 @@ public class DictEntryService implements IDictEntryService {
      */
     @Override
     @Transactional
+    @TimeDiff
     public DictEntryDO saveDict(SaveDictEntryBO entryBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(entryBO.getDictCode()).orElse(new DictEntryDO());
         BeanHelperUtil.copyNotNullProperties(entryBO,entryDO);
@@ -49,7 +51,9 @@ public class DictEntryService implements IDictEntryService {
      * @return
      */
     @Override
-    public DictEntryDO modifyDictEntry(ModifyDictEntryBO modifyDictBO) {
+    @Transactional
+    @TimeDiff
+    public DictEntryDO modifyDictEntry(UpdateDictEntryBO modifyDictBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.S400));
         entryDO.getEntryJson().putAll(modifyDictBO.getEntryJson());
         entryDO.setModifier(modifyDictBO.getOperator());
@@ -64,7 +68,9 @@ public class DictEntryService implements IDictEntryService {
      * @return
      */
     @Override
-    public DictEntryDO delDictEntry(ModifyDictEntryBO modifyDictBO) {
+    @Transactional
+    @TimeDiff
+    public DictEntryDO delDictEntry(UpdateDictEntryBO modifyDictBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.D400));
         modifyDictBO.getEntryJson().forEach((k,v)-> entryDO.getEntryJson().remove(k));
         entryDO.setModifier(modifyDictBO.getOperator());

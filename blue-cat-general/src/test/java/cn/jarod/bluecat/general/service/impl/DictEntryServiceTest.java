@@ -2,7 +2,7 @@ package cn.jarod.bluecat.general.service.impl;
 
 import cn.jarod.bluecat.general.BlueCatGeneralApplicationTest;
 import cn.jarod.bluecat.general.entity.DictEntryDO;
-import cn.jarod.bluecat.general.model.bo.ModifyDictEntryBO;
+import cn.jarod.bluecat.general.model.bo.UpdateDictEntryBO;
 import cn.jarod.bluecat.general.model.bo.SaveDictEntryBO;
 import cn.jarod.bluecat.general.service.IDictEntryService;
 import com.google.common.collect.ImmutableMap;
@@ -24,9 +24,9 @@ class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
 
     private SaveDictEntryBO newDictBO;
 
-    private ModifyDictEntryBO modifyDictBO;
+    private UpdateDictEntryBO modifyDictBO;
 
-    private ModifyDictEntryBO delDictBO;
+    private UpdateDictEntryBO delDictBO;
 
 
     @BeforeEach
@@ -42,7 +42,7 @@ class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
         newDictBO.setOperator("admin");
 
 
-        modifyDictBO = new ModifyDictEntryBO();
+        modifyDictBO = new UpdateDictEntryBO();
         modifyDictBO.setDictCode("test01");
         modifyDictBO.setEntryJson(ImmutableMap.<String, Object>builder()
                 .put("t4","测试4")
@@ -51,7 +51,7 @@ class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
         modifyDictBO.setOperator("admin");
 
 
-        delDictBO = new ModifyDictEntryBO();
+        delDictBO = new UpdateDictEntryBO();
         delDictBO.setDictCode("test01");
         delDictBO.setEntryJson(ImmutableMap.<String, Object>builder()
                 .put("t4","测试4")

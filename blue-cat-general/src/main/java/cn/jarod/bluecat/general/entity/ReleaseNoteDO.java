@@ -38,7 +38,7 @@ public class ReleaseNoteDO extends BaseEntity {
 
     //版本序号
     @Column(nullable = false, columnDefinition=("decimal(10,1) default 99 comment '版本序号'"))
-    private BigDecimal releaseNo;
+    private BigDecimal buildNo;
 
     //描述
     @Column(nullable = false, columnDefinition=("varchar(20) default 'pc' comment '终端类型'"))

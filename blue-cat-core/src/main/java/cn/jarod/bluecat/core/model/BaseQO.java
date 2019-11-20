@@ -13,18 +13,15 @@ import javax.validation.constraints.NotNull;
 public class BaseQO {
 
     @NotNull
-    private Integer pageNum;
+    private Integer pageNum = 1;
 
     @NotNull
-    private Integer pageCount;
+    private Integer pageCount = 5;
 
     @NotNull
-    private boolean isASC;
+    private boolean isASC = true;
 
-    public BaseQO(){
-        pageNum = 1;
-        pageCount = 5;
-        isASC = true;
-    }
+    private String[] orderProperty;
+
 
 }
