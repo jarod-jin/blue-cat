@@ -50,3 +50,12 @@ datasource:
 ribbon:
   ReadTimeout: 120000
   ConnectTimeout: 60000
+
+security:
+  expirationTime: 1000 * 60 * 60 * 8
+  tokenSalt: jarod.jin
+  tokenPrefix: Bearer
+  loginUrl: /api/login
+  permitAllUrl:
+    - /monitor/*
+    - /api/register

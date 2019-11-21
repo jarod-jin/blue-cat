@@ -13,10 +13,22 @@ import org.springframework.stereotype.Component;
 @Getter
 @Component
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "security.url")
-public class WebUrlConfig {
+@ConfigurationProperties(prefix = "security")
+public class SecurityPropertyConfig {
 
-    private  String login;
+    /**登录url*/
+    private  String loginUrl;
 
-    private  String[] permitAll;
+    /**允许访问的url*/
+    private  String[] permitAllUrl;
+
+    /**过期时间 */
+    private long expirationTime;
+
+    /**JWT 密码*/
+    private String tokenSalt;
+
+    /**TOKEN前缀*/
+    private String tokenPrefix;
+
 }

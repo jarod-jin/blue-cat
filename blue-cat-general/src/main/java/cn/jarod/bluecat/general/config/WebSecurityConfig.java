@@ -1,7 +1,9 @@
 package cn.jarod.bluecat.general.config;
 
 
+import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
 import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private SecurityPropertyConfig securityConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,6 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET).authenticated()
             .and()
             // 添加一个过滤器验证其他请求的Token是否合法
-            .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JwtAuthenticationFilter(securityConfig), UsernamePasswordAuthenticationFilter.class);
     }
 }

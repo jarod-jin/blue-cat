@@ -32,4 +32,7 @@ public class Const {
     /** 默认时间格式 */
     public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
 
+    /**存放Token的Header Key*/
+    public static final String ACCESS_TOKEN = "Access-Token";
+
 }

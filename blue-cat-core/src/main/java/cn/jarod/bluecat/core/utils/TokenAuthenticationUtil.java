@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.utils;
 
+import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
@@ -29,37 +30,21 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class TokenAuthenticationUtil {
-    /**
-     * 过期时间 8小时
-     */
-    static final long EXPIRATIONTIME = 1000 * 60 * 60 * 8;
-    /**
-     * JWT 密码
-     */
-    static final String SECRET = "jarod.jin";
-    /**
-     * TOKEN前缀
-     */
-    static final String TOKEN_PREFIX = "Bearer";
-    /**
-     * 存放Token的Header Key
-     */
-    static final String AUTHORITIES = "authorities";
 
-    public static final String AUTH = "token";
+    private static final String AUTHORITIES = "authorities";
 
     private static final String USER_INFO = "userInfo";
 
-    public static void addAuthentication(HttpServletResponse response, Authentication auth) {
+    public static void addAuthentication(HttpServletResponse response, Authentication auth, SecurityPropertyConfig config) {
         // 生成JWT
         try {
-            String jwt = getJWTString(auth);
+            String jwt = getJWTString(auth, config.getExpirationTime(), config.getTokenSalt());
             // 将 JWT 写入 Map
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setStatus(HttpServletResponse.SC_OK);
 //            log.info("授权返回："+ JSON.toJSONString(auth)+" 令牌为：" + jwt);
             response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q200.name(), "登录成功", ImmutableMap.<String, Object> builder()
-                    .put(AUTH,jwt)
+                    .put(Const.ACCESS_TOKEN,jwt)
                     .build())));
             response.getWriter().close();
         } catch (IOException e) {
@@ -68,7 +53,7 @@ public class TokenAuthenticationUtil {
     }
 
 
-    public static String getJWTString(Authentication auth){
+    public static String getJWTString(Authentication auth, long expirationTime, String salt){
         String role = getRolesFromAuthority(auth);
         // 生成JWT
         return Jwts.builder()
@@ -78,22 +63,22 @@ public class TokenAuthenticationUtil {
                 // 用户名写入标题
                 .setSubject(auth.getName())
                 // 有效期设置
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime ))
                 // 签名设置
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(SignatureAlgorithm.HS512, salt)
                 .compact();
     }
 
-    public static Authentication getAuthentication(HttpServletRequest request) {
+    public static Authentication getAuthentication(HttpServletRequest request, SecurityPropertyConfig config) {
         // 从Header中拿到token
-        String token = request.getHeader(AUTH);
+        String token = request.getHeader(Const.ACCESS_TOKEN);
         if (token != null) {
             // 解析 Token
             Claims claims = Jwts.parser()
                     // 验签
-                    .setSigningKey(SECRET)
+                    .setSigningKey(config.getTokenSalt())
                     // 去掉 Bearer
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                    .parseClaimsJws(token.replace(config.getTokenPrefix(), ""))
                     .getBody();
 
             // 拿用户名

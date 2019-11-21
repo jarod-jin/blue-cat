@@ -32,12 +32,12 @@ class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
     @BeforeEach
     void setUp()  {
         newDictBO = new SaveDictEntryBO();
-        newDictBO.setDictCode("test01");
+        newDictBO.setDictCode("test02");
         newDictBO.setMemo("测试字典");
         newDictBO.setEntryJson(ImmutableMap.<String, Object>builder()
-                .put("t1","测试1")
-                .put("t2","测试2")
-                .put("t3","测试3")
+                .put("t1","测试1-2")
+                .put("t2","测试2-2")
+                .put("t3","测试3-2")
                 .build());
         newDictBO.setOperator("admin");
 

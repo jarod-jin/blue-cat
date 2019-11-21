@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.auth.config;
 
 
-import cn.jarod.bluecat.core.config.WebUrlConfig;
+import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
 import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
 import cn.jarod.bluecat.core.filter.JwtLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private WebUrlConfig webUrlConfig;
+    private SecurityPropertyConfig propertyConfig;
 
     @Autowired
     private AuthenticationProvider customAuthenticationProvider;
@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // 对请求进行认证
             .authorizeRequests()
             //注册的所有请求 都放行
-            .antMatchers(webUrlConfig.getPermitAll()).permitAll()
+            .antMatchers(propertyConfig.getPermitAllUrl()).permitAll()
             // 对Rest请求需要身份认证, 放行OPTIONS
             .antMatchers(HttpMethod.POST).authenticated()
             .antMatchers(HttpMethod.PUT).authenticated()
@@ -49,9 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET).authenticated()
             .and()
             // 添加一个过滤器 所有访问 /login 的请求交给 JWTLoginFilter 来处理 这个类处理所有的JWT相关内容
-            .addFilterBefore(new JwtLoginFilter(webUrlConfig.getLogin(), authenticationManager()),
-                    UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JwtLoginFilter(authenticationManager(), propertyConfig), UsernamePasswordAuthenticationFilter.class)
             // 添加一个过滤器验证其他请求的Token是否合法
-            .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JwtAuthenticationFilter(propertyConfig), UsernamePasswordAuthenticationFilter.class);
     }
 }

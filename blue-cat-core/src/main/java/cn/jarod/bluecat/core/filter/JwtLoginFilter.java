@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.filter;
 
+import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
@@ -8,6 +9,7 @@ import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,12 +31,15 @@ import java.io.IOException;
 @Slf4j
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
+    @Autowired
+    private SecurityPropertyConfig securityConfig;
 
     public static final String LOGIN_INFO_MISS = "登录信息不完善";
 
-    public JwtLoginFilter(String url, AuthenticationManager authManager) {
-        super(new AntPathRequestMatcher(url, RequestMethod.POST.toString()));
+    public JwtLoginFilter(AuthenticationManager authManager, SecurityPropertyConfig config) {
+        super(new AntPathRequestMatcher(config.getLoginUrl(), RequestMethod.POST.toString()));
         setAuthenticationManager(authManager);
+        this.securityConfig = config;
     }
 
     @Override
@@ -47,15 +52,15 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
             throw new BadCredentialsException(LOGIN_INFO_MISS);
         }
         // 返回一个验证令牌
-        return getAuthenticationManager().authenticate(
-                new UsernamePasswordAuthenticationToken(credentials.getSignIn(), credentials.getPassword(),
-                        Lists.newArrayList(new UserGrantedAuthority(credentials.getSysCode(), credentials.getTerminalVersion()))));
+        return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(credentials.getSignIn(),
+                credentials.getPassword(), Lists.newArrayList(new UserGrantedAuthority(credentials.getSysCode(), credentials.getTerminalVersion()))));
     }
+
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res,
                                             FilterChain chain, Authentication auth) {
-        TokenAuthenticationUtil.addAuthentication(res, auth);
+        TokenAuthenticationUtil.addAuthentication(res, auth, securityConfig);
     }
 
 
