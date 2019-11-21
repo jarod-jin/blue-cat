@@ -53,9 +53,11 @@ ribbon:
 
 
 security:
-  url:
-    login: /api/login
-    permitAll:
-      - /monitor/*
-      - /api/register
+  expirationTime: 28800000
+  tokenSalt: jarod.jin
+  tokenPrefix: Bearer
+  loginUrl: /api/login
+  permitAllUrl:
+    - /monitor/*
+    - /api/register
 
