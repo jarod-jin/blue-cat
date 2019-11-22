@@ -3,7 +3,6 @@ package cn.jarod.bluecat.core.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -20,7 +19,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Map;
@@ -35,18 +33,21 @@ import java.util.Objects;
 @EnableJpaRepositories(basePackages = {"cn.jarod.bluecat.*.repository"})
 public class DataSourceConfig {
 
-    public static final String MASTER = "master";
+    private static final String MASTER = "master";
 
-    public static final String SLAVE = "slave";
+    private static final String SLAVE = "slave";
 
-    @Autowired
-    private Environment props;
+    private final Environment props;
 
-    @Resource
-    private JpaProperties jpaProperties;
+    private final JpaProperties jpaProperties;
 
-    @Resource
-    private HibernateProperties hibernateProperties;
+    private final HibernateProperties hibernateProperties;
+
+    public DataSourceConfig(Environment props, JpaProperties jpaProperties, HibernateProperties hibernateProperties) {
+        this.props = props;
+        this.jpaProperties = jpaProperties;
+        this.hibernateProperties = hibernateProperties;
+    }
 
 
     /**
