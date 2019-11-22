@@ -53,7 +53,7 @@ public class TokenAuthenticationUtil {
     }
 
 
-    public static String getJWTString(Authentication auth, long expirationTime, String salt){
+    private static String getJWTString(Authentication auth, long expirationTime, String salt){
         String role = getRolesFromAuthority(auth);
         // 生成JWT
         return Jwts.builder()
@@ -86,12 +86,8 @@ public class TokenAuthenticationUtil {
             // 得到 权限（角色）
             JSONArray authArray =  JSON.parseArray((String) claims.get(AUTHORITIES));
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,
-                    authArray.stream().map(m->{
-                        UserAuthority userAuthority = JSON.parseObject(String.valueOf(m),UserAuthority.class);
-                        return new UserGrantedAuthority(userAuthority);
-                    }).collect(Collectors.toList()));
-            UserInfoDTO userInfo = JSON.parseObject((String)claims.get(USER_INFO), UserInfoDTO.class);
-            authenticationToken.setDetails(userInfo);
+                    authArray.stream().map(m-> new UserGrantedAuthority(JSON.parseObject(String.valueOf(m),UserAuthority.class))).collect(Collectors.toList()));
+            authenticationToken.setDetails(JSON.parseObject((String)claims.get(USER_INFO), UserInfoDTO.class));
             // 返回验证令牌
             return user != null ? authenticationToken : null;
         }
@@ -99,7 +95,7 @@ public class TokenAuthenticationUtil {
     }
 
 
-    public static String getRolesFromAuthority(Authentication auth){
+    private static String getRolesFromAuthority(Authentication auth){
         List<String> authStrList = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         return JSON.toJSONString(authStrList);
     }

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.general.config;
+package cn.jarod.bluecat.estimate.config;
 
 
 import cn.jarod.bluecat.core.config.SecurityPropertyConfig;

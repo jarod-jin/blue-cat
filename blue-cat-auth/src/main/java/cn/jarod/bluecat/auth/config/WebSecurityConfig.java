@@ -4,7 +4,6 @@ package cn.jarod.bluecat.auth.config;
 import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
 import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
 import cn.jarod.bluecat.core.filter.JwtLoginFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,11 +21,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private SecurityPropertyConfig propertyConfig;
+    private final SecurityPropertyConfig propertyConfig;
 
-    @Autowired
-    private AuthenticationProvider customAuthenticationProvider;
+    private final AuthenticationProvider customAuthenticationProvider;
+
+    public WebSecurityConfig(SecurityPropertyConfig propertyConfig, AuthenticationProvider customAuthenticationProvider) {
+        this.propertyConfig = propertyConfig;
+        this.customAuthenticationProvider = customAuthenticationProvider;
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
