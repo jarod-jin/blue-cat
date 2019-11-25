@@ -21,8 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DictEntryService implements IDictEntryService {
 
+    private final DictEntryRepository dictEntryRepository;
+
     @Autowired
-    private DictEntryRepository dictEntryRepository;
+    public DictEntryService(DictEntryRepository dictEntryRepository) {
+        this.dictEntryRepository = dictEntryRepository;
+    }
 
     @Override
     public DictEntryDO queryByDictCode(String dictCode) {

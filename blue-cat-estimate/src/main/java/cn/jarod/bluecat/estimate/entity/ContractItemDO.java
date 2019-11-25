@@ -43,6 +43,10 @@ public class ContractItemDO extends BaseEntity {
     @Column(nullable = false, columnDefinition=("decimal(5,2) default 0.00 comment '得分'"))
     private BigDecimal itemScore;
 
+    //选项头
+    @Column(nullable = false, columnDefinition=("tinyint default 0 comment '选项头 0-数字 1-字母'"))
+    private Integer conditionMark;
+
     //选项列
     @Type(type = "json")
     @Column(nullable = false, columnDefinition=("json comment '选项列'"))

@@ -29,11 +29,15 @@ public class ResourceService implements IResourceService {
 
     private static final String START_NO = "10001";
 
-    @Autowired
-    private ResourceRepository resourceRepository;
+    private final ResourceRepository resourceRepository;
+
+    private final RoleResourceRepository roleResourceRepository;
 
     @Autowired
-    private RoleResourceRepository roleResourceRepository;
+    public ResourceService(ResourceRepository resourceRepository, RoleResourceRepository roleResourceRepository) {
+        this.resourceRepository = resourceRepository;
+        this.roleResourceRepository = roleResourceRepository;
+    }
 
     /**
      * 保存资源

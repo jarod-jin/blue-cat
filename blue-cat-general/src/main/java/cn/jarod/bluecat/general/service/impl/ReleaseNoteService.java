@@ -24,8 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ReleaseNoteService implements IReleaseNoteService {
 
+    private final ReleaseNoteRepository releaseNoteRepository;
+
     @Autowired
-    private ReleaseNoteRepository releaseNoteRepository;
+    public ReleaseNoteService(ReleaseNoteRepository releaseNoteRepository) {
+        this.releaseNoteRepository = releaseNoteRepository;
+    }
 
     /**
      *

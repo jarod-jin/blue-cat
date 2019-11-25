@@ -22,8 +22,12 @@ import java.util.stream.Collectors;
 @Service
 public class UserLocationService implements IUserLocationService {
 
+    private final UserLocationRepository userLocationRepository;
+
     @Autowired
-    private UserLocationRepository userLocationRepository;
+    public UserLocationService(UserLocationRepository userLocationRepository) {
+        this.userLocationRepository = userLocationRepository;
+    }
 
 
     @Override

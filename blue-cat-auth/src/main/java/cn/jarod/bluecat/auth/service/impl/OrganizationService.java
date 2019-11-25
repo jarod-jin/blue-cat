@@ -29,8 +29,12 @@ import java.util.stream.Collectors;
 @Service
 public class OrganizationService implements IOrganizationService {
 
+    private final OrganizationRepository organizationRepository;
+
     @Autowired
-    private OrganizationRepository organizationRepository;
+    public OrganizationService(OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
+    }
 
     /**
      * 保存组织数据

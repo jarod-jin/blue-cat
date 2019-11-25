@@ -3,9 +3,9 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
-import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateUserBO;
+import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
@@ -36,17 +36,21 @@ import java.util.List;
 @Service
 public class CredentialService implements ICredentialService {
 
-    @Autowired
-    private UserInfoRepository userInfoRepository;
+    private final UserInfoRepository userInfoRepository;
 
-    @Autowired
-    private CredentialRepository credentialRepository;
+    private final CredentialRepository credentialRepository;
 
-    @Autowired
-    private CredHistoryRepository credHistoryRepository;
+    private final CredHistoryRepository credHistoryRepository;
 
     @Value("${security.password.number:3}")
     private Integer passNumber;
+
+    @Autowired
+    public CredentialService(UserInfoRepository userInfoRepository, CredentialRepository credentialRepository, CredHistoryRepository credHistoryRepository) {
+        this.userInfoRepository = userInfoRepository;
+        this.credentialRepository = credentialRepository;
+        this.credHistoryRepository = credHistoryRepository;
+    }
 
     /**
      * 注册账号

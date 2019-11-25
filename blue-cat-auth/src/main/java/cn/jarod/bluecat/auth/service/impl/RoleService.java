@@ -30,11 +30,15 @@ import java.util.stream.Collectors;
 @Service
 public class RoleService implements IRoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    private final OrgRoleRepository orgRoleRepository;
 
     @Autowired
-    private OrgRoleRepository orgRoleRepository;
+    public RoleService(RoleRepository roleRepository, OrgRoleRepository orgRoleRepository) {
+        this.roleRepository = roleRepository;
+        this.orgRoleRepository = orgRoleRepository;
+    }
 
 
     /**
