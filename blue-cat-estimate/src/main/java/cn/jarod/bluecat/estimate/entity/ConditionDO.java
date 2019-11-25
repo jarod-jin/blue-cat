@@ -7,6 +7,9 @@ import java.math.BigDecimal;
  */
 public class ConditionDO {
 
+    //积分项编码或者对应值
+    private String conditionKey;
+
     //积分项内容
     private String conditionText;
 

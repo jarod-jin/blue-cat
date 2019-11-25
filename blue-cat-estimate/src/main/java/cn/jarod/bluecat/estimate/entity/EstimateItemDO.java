@@ -24,29 +24,25 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "contract_item", indexes = {@Index(columnList ="serialNo", name="SerialNoIndex")})
-public class ContractItemDO extends BaseEntity {
+@Table(name = "estimate_sheet", indexes = {@Index(columnList ="serialNo", name="SerialNoIndex")})
+public class EstimateItemDO extends BaseEntity {
 
     //合约编号
     @Column(nullable = false, columnDefinition=("varchar(20) comment '合约编号'"))
     private String serialNo;
 
-    //条目序号
-    @Column(nullable = false, columnDefinition=("int(5) default 99 comment '条目序号'"))
+    //评估编号
+    @Column(nullable = false, columnDefinition=("int(5) default 99 comment '评估编号'"))
     private Integer itemNo;
-
-    //选项内容
-    @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '选项内容'"))
-    private String itemText;
 
     //得分
     @Column(nullable = false, columnDefinition=("decimal(5,2) default 0.00 comment '得分'"))
     private BigDecimal itemScore;
 
-    //选项列
+    //回答列
     @Type(type = "json")
-    @Column(nullable = false, columnDefinition=("json comment '选项列'"))
-    private List<ConditionDO> conditionJson;
+    @Column(nullable = false, columnDefinition=("json comment '回答列'"))
+    private List<AnswerDO> answerJson;
 
     //关联系统编号
     @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))

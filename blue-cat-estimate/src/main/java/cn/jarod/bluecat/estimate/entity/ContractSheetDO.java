@@ -21,8 +21,8 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "smart_contract", indexes = {@Index(columnList ="serialNo", name="SerialNoIndex", unique = true)})
-public class SmartContractDO extends BaseEntity {
+@Table(name = "contract_sheet", indexes = {@Index(columnList ="serialNo", name="SerialNoIndex", unique = true)})
+public class ContractSheetDO extends BaseEntity {
 
     //合约编号
     @Column(nullable = false, columnDefinition=("varchar(20) comment '合约编号'"))
@@ -36,9 +36,9 @@ public class SmartContractDO extends BaseEntity {
     @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '合约名称'"))
     private String contractName;
 
-    //描述
-    @Column(nullable = false, columnDefinition=("varchar(255) default '' comment '描述'"))
-    private String memo;
+    //合约内容
+    @Column(columnDefinition=("text comment '合约内容'"))
+    private String contractText;
 
     //关联系统编号
     @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
