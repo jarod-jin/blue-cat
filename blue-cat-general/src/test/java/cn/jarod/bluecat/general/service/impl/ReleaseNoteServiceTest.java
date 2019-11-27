@@ -34,7 +34,7 @@ class ReleaseNoteServiceTest extends BlueCatGeneralApplicationTest {
         crudReleaseNoteBO.setSysCode("root");
         crudReleaseNoteBO.setTerminalType("pc");
         crudReleaseNoteBO.setReleaseNote(Lists.newArrayList("完成基础平台搭建","完成数据库和注册中心搭建"));
-        crudReleaseNoteBO.setOperator("admin");
+        crudReleaseNoteBO.setModifier("admin");
         crudReleaseNoteBO.setBuildNo(new BigDecimal(10001.0));
     }
 

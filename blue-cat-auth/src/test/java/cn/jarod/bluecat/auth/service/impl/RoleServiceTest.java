@@ -45,14 +45,14 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
         adminDTO.setRoleCode("admin");
         adminDTO.setMemo("本系统的超级管理员，拥有无上权力");
         adminDTO.setDisOrder(1);
-        adminDTO.setOperator("sys");
+        adminDTO.setModifier("sys");
 
         tmpDTO = new CrudRoleBO();
         tmpDTO.setRoleName("测试用");
         tmpDTO.setRoleCode("test");
         tmpDTO.setMemo("测试用");
         tmpDTO.setDisOrder(1);
-        tmpDTO.setOperator("sys");
+        tmpDTO.setModifier("sys");
 
         sysAdminDTO = new LinkOrgRoleBO();
         sysAdminDTO.setRoleCode("admin");

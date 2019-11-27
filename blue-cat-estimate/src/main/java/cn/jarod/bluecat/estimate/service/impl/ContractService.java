@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.estimate.service.impl;
 
+import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
@@ -50,8 +51,7 @@ public class ContractService implements IContractService {
         ContractSheetDO contractSheetDO =  contractSheetRepository.findBySerialNoAndSysCode(sheetBO.getSerialNo(),sheetBO.getSysCode()).orElse(new ContractSheetDO());
         sheetBO.reset();
         BeanHelperUtil.copyNotNullProperties(sheetBO,contractSheetDO);
-        contractSheetDO.setModifier(sheetBO.getOperator());
-        contractSheetDO.setCreator(sheetBO.getOperator());
+        contractSheetDO.setCreator(sheetBO.getModifier());
         return contractSheetRepository.save(contractSheetDO);
     }
 
@@ -74,8 +74,7 @@ public class ContractService implements IContractService {
                 i.reset();
             }
             BeanHelperUtil.copyNotNullProperties(i,tmp);
-            tmp.setModifier(i.getOperator());
-            tmp.setCreator(i.getOperator());
+            tmp.setCreator(i.getModifier());
             return tmp;
         }).collect(Collectors.toList());
         return contractItemRepository.saveAll(saveList);
@@ -87,10 +86,10 @@ public class ContractService implements IContractService {
      * @return
      */
     @Override
+    @TimeDiff
     public CrudContractSheetBO findContract(@Valid CrudContractSheetBO queryBO) {
         ContractSheetDO sheetDO = contractSheetRepository.findBySerialNoAndSysCode(queryBO.getSerialNo(),queryBO.getSysCode()).orElseThrow(()->new BaseException(ReturnCode.Q401));
         CrudContractSheetBO contractSheetBO = BeanHelperUtil.createCopyBean(sheetDO, CrudContractSheetBO.class);
-        contractSheetBO.setOperator(sheetDO.getModifier());
         List<CrudContractItemBO> itemList = contractItemRepository.findAllBySerialNoAndSysCode(queryBO.getSerialNo(),queryBO.getSysCode())
                 .stream().map(i->BeanHelperUtil.createCopyBean(i,CrudContractItemBO.class)).collect(Collectors.toList());
         contractSheetBO.setContractItemBOList(itemList);

@@ -47,13 +47,12 @@ public class ResourceService implements IResourceService {
     @Override
     @Transactional
     public ResourceDO saveResource(CrudResourceBO resourceBO) {
-        resourceBO.clearId();
+        resourceBO.reset();
         if (StringUtils.isEmpty(resourceBO.getResourceCode()))
             createResourceCode(resourceBO);
         ResourceDO resourceDO = resourceRepository.findByResourceCode(resourceBO.getResourceCode()).orElse(new ResourceDO());
-        resourceDO.setModifier(resourceBO.getOperator());
-        resourceDO.setCreator(resourceBO.getOperator());
         BeanHelperUtil.copyNotNullProperties(resourceBO,resourceDO);
+        resourceDO.setCreator(resourceBO.getModifier());
         return resourceRepository.save(resourceDO);
     }
 
@@ -94,8 +93,8 @@ public class ResourceService implements IResourceService {
         roleResourceDO.setRoleCode(linkBO.getRoleCode());
         if (roleResourceRepository.exists(Example.of(roleResourceDO)))
             throw new BaseException(ReturnCode.S400);
-        roleResourceDO.setModifier(linkBO.getOperator());
-        roleResourceDO.setCreator(linkBO.getOperator());
+        roleResourceDO.setModifier(linkBO.getModifier());
+        roleResourceDO.setCreator(linkBO.getModifier());
         return roleResourceRepository.save(roleResourceDO);
     }
 

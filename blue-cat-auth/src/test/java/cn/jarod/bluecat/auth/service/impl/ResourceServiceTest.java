@@ -40,7 +40,7 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
         tmpResourceBO.setMemo("基础菜单，测试用");
         tmpResourceBO.setParentCode("");
         tmpResourceBO.setSysCode("root");
-        tmpResourceBO.setOperator("sys");
+        tmpResourceBO.setModifier("sys");
 
         linkRoleResourceBO = new LinkRoleResourceBO();
     }
@@ -55,7 +55,7 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
     void saveResource_modify() {
         CrudResourceBO rootResourceBO = new CrudResourceBO();
         rootResourceBO.setResourceCode("RO10001");
-        rootResourceBO.setOperator("test");
+        rootResourceBO.setModifier("test");
         rootResourceBO.setMemo("基础菜单，请勿删除");
         ResourceDO rDO = resourceService.saveResource(rootResourceBO);
         assertEquals(rootResourceBO.getMemo(),rDO.getMemo());

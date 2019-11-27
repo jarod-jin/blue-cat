@@ -31,12 +31,12 @@ class UserLocationServiceTest extends BlueCatAuthApplicationTest {
         adminLocationBO = new LinkUserLocationBO();
         adminLocationBO.setOrgRoleId(1L);
         adminLocationBO.setUsername("admin");
-        adminLocationBO.setOperator("sys");
+        adminLocationBO.setModifier("sys");
 
         tmpLocationBO = new LinkUserLocationBO();
         tmpLocationBO.setOrgRoleId(0L);
         tmpLocationBO.setUsername("tmp");
-        tmpLocationBO.setOperator("sys");
+        tmpLocationBO.setModifier("sys");
     }
 
     @AfterEach

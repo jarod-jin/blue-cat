@@ -44,8 +44,7 @@ public class DictEntryService implements IDictEntryService {
     public DictEntryDO saveDict(CrudDictEntryBO entryBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(entryBO.getDictCode()).orElse(new DictEntryDO());
         BeanHelperUtil.copyNotNullProperties(entryBO,entryDO);
-        entryDO.setModifier(entryBO.getOperator());
-        entryDO.setCreator(entryBO.getOperator());
+        entryDO.setCreator(entryBO.getModifier());
         return dictEntryRepository.save(entryDO);
     }
 
@@ -60,7 +59,7 @@ public class DictEntryService implements IDictEntryService {
     public DictEntryDO modifyDictEntry(UpdateEntryItemBO modifyDictBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.S400));
         entryDO.getEntryJson().putAll(modifyDictBO.getEntryJson());
-        entryDO.setModifier(modifyDictBO.getOperator());
+        entryDO.setModifier(modifyDictBO.getModifier());
         if (modifyDictBO.getVersion()!=null)
             entryDO.setVersion(modifyDictBO.getVersion());
         return dictEntryRepository.save(entryDO);
@@ -77,7 +76,7 @@ public class DictEntryService implements IDictEntryService {
     public DictEntryDO delDictEntry(UpdateEntryItemBO modifyDictBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.D400));
         modifyDictBO.getEntryJson().forEach((k,v)-> entryDO.getEntryJson().remove(k));
-        entryDO.setModifier(modifyDictBO.getOperator());
+        entryDO.setModifier(modifyDictBO.getModifier());
         if (modifyDictBO.getVersion()!=null)
             entryDO.setVersion(modifyDictBO.getVersion());
         return dictEntryRepository.save(entryDO);

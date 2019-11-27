@@ -39,7 +39,7 @@ class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
                 .put("t2","测试2-2")
                 .put("t3","测试3-2")
                 .build());
-        newDictBO.setOperator("admin");
+        newDictBO.setModifier("admin");
 
 
         modifyDictBO = new UpdateEntryItemBO();
@@ -48,7 +48,7 @@ class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
                 .put("t4","测试4")
                 .put("t3","测试3-1")
                 .build());
-        modifyDictBO.setOperator("admin");
+        modifyDictBO.setModifier("admin");
 
 
         delDictBO = new UpdateEntryItemBO();
@@ -56,7 +56,7 @@ class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
         delDictBO.setEntryJson(ImmutableMap.<String, Object>builder()
                 .put("t4","测试4")
                 .build());
-        delDictBO.setOperator("admin");
+        delDictBO.setModifier("admin");
     }
 
     @AfterEach

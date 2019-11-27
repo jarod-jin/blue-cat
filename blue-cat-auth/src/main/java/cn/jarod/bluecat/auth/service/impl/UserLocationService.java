@@ -48,8 +48,8 @@ public class UserLocationService implements IUserLocationService {
         userLocationDO.setOrgRoleId(userLocationBO.getOrgRoleId());
         if (userLocationRepository.exists(Example.of(userLocationDO)))
             throw new BaseException(ReturnCode.S401);
-        userLocationDO.setCreator(userLocationBO.getOperator());
-        userLocationDO.setModifier(userLocationBO.getOperator());
+        userLocationDO.setCreator(userLocationBO.getModifier());
+        userLocationDO.setModifier(userLocationBO.getModifier());
         return userLocationRepository.save(userLocationDO);
     }
 

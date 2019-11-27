@@ -43,12 +43,12 @@ public class OrganizationService implements IOrganizationService {
      */
     @Override
     public OrganizationDO saveOrganization(CrudOrganizationBO orgBO) {
-        orgBO.clearId();
+        orgBO.reset();
         OrganizationDO orgDO = organizationRepository.findByOrgCode(orgBO.getNode()).orElse(new OrganizationDO());
         orgDO.setOrgCode(orgBO.getNode());
         orgDO.setParentCode(orgBO.getPNode());
-        orgDO.setModifier(orgBO.getOperator());
-        orgDO.setCreator(orgBO.getOperator());
+        orgDO.setModifier(orgBO.getModifier());
+        orgDO.setCreator(orgBO.getModifier());
         BeanHelperUtil.copyNotNullProperties(orgBO,orgDO);
         return organizationRepository.save(orgDO);
     }

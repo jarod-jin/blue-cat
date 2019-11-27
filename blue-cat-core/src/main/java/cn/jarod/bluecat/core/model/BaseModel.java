@@ -20,7 +20,7 @@ public class BaseModel {
     //是否删除(默认为0,1表示删除)
     private Integer isDel;
 
-    private String operator;
+    private String modifier;
 
     public boolean isNew(){
         return id == null;

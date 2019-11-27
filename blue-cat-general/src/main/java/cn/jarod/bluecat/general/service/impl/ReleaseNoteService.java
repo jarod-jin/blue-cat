@@ -53,8 +53,7 @@ public class ReleaseNoteService implements IReleaseNoteService {
     public ReleaseNoteDO saveReleaseNote(CrudReleaseNoteBO releaseNoteBO) {
         ReleaseNoteDO releaseNoteDO = releaseNoteBO.isNew()? new ReleaseNoteDO():releaseNoteRepository.findById(releaseNoteBO.getId()).orElseThrow(()->new BaseException(ReturnCode.S400));
         BeanHelperUtil.copyNotNullProperties(releaseNoteBO,releaseNoteDO);
-        releaseNoteDO.setModifier(releaseNoteBO.getOperator());
-        releaseNoteDO.setCreator(releaseNoteBO.getOperator());
+        releaseNoteDO.setCreator(releaseNoteBO.getModifier());
         return releaseNoteRepository.save(releaseNoteDO);
     }
 }

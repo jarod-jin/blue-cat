@@ -45,7 +45,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         newOrg.setDisOrder(999);
         newOrg.setFullCode("SYS100001/SYS99999");
         newOrg.setFullName("系统管理/系统测试");
-        newOrg.setOperator("admin");
+        newOrg.setModifier("admin");
         newOrg.setOrgType(0);
     }
 
@@ -58,7 +58,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         modifyOrg.setFullCode("SYS100001/SYS100002");
         modifyOrg.setFullName("系统管理/系统开发部");
         modifyOrg.setOrgType(0);
-        modifyOrg.setOperator("admin");
+        modifyOrg.setModifier("admin");
     }
 
     private void initSysOrg (){
@@ -68,7 +68,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         sysOrg.setDisOrder(1);
         sysOrg.setFullCode("SYS100001");
         sysOrg.setFullName("系统管理");
-        sysOrg.setOperator("admin");
+        sysOrg.setModifier("admin");
         sysOrg.setOrgType(0);
     }
 

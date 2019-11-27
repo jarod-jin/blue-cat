@@ -49,10 +49,10 @@ public class RoleService implements IRoleService {
     @Override
     @Transactional
     public RoleDO saveRole(CrudRoleBO roleBO) {
-        roleBO.clearId();
+        roleBO.reset();
         RoleDO roleDO = roleRepository.findByRoleCode(roleBO.getRoleCode()).orElse(new RoleDO());
-        roleDO.setModifier(roleBO.getOperator());
-        roleDO.setCreator(roleBO.getOperator());
+        roleDO.setModifier(roleBO.getModifier());
+        roleDO.setCreator(roleBO.getModifier());
         BeanHelperUtil.copyNotNullProperties(roleBO,roleDO);
         return roleRepository.save(roleDO);
     }
@@ -109,8 +109,8 @@ public class RoleService implements IRoleService {
         orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
         if (orgRoleRepository.exists(Example.of(orgRoleDO)))
             throw new BaseException(ReturnCode.S401);
-        orgRoleDO.setCreator(linkOrgRoleBO.getOperator());
-        orgRoleDO.setModifier(linkOrgRoleBO.getOperator());
+        orgRoleDO.setCreator(linkOrgRoleBO.getModifier());
+        orgRoleDO.setModifier(linkOrgRoleBO.getModifier());
         return orgRoleRepository.save(orgRoleDO);
     }
 
