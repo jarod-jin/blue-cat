@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class SaveReleaseNoteBO extends BaseModel {
+public class CrudReleaseNoteBO extends BaseModel {
 
     //版本号
     private String releaseVersion;

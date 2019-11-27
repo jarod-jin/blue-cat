@@ -4,7 +4,7 @@ import cn.jarod.bluecat.auth.entity.ResourceDO;
 import cn.jarod.bluecat.auth.entity.RoleResourceDO;
 import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
 import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
-import cn.jarod.bluecat.auth.model.bo.SaveResourceBO;
+import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;
 import cn.jarod.bluecat.auth.repository.ResourceRepository;
 import cn.jarod.bluecat.auth.repository.RoleResourceRepository;
 import cn.jarod.bluecat.auth.service.IResourceService;
@@ -46,7 +46,7 @@ public class ResourceService implements IResourceService {
      */
     @Override
     @Transactional
-    public ResourceDO saveResource(SaveResourceBO resourceBO) {
+    public ResourceDO saveResource(CrudResourceBO resourceBO) {
         resourceBO.clearId();
         if (StringUtils.isEmpty(resourceBO.getResourceCode()))
             createResourceCode(resourceBO);
@@ -61,7 +61,7 @@ public class ResourceService implements IResourceService {
      * 创建ResourceCode
      * @param resourceBO
      */
-    private void createResourceCode(SaveResourceBO resourceBO) {
+    private void createResourceCode(CrudResourceBO resourceBO) {
         String codePrefix = resourceBO.getSysCode().substring(0,2).toUpperCase();
         String codeNo = resourceRepository.findMaxResourceCodeBySys(codePrefix, resourceBO.getSysCode());
         resourceBO.setResourceCode(codePrefix + (StringUtils.hasText(codeNo)? Integer.parseInt(codeNo)+1 : START_NO));
@@ -73,7 +73,7 @@ public class ResourceService implements IResourceService {
      */
     @Override
     @Transactional
-    public void delResource(SaveResourceBO resourceBO) {
+    public void delResource(CrudResourceBO resourceBO) {
         RoleResourceDO roleResourceDO = new RoleResourceDO();
         roleResourceDO.setResourceCode(resourceBO.getResourceCode());
         if (roleResourceRepository.exists(Example.of(roleResourceDO)))

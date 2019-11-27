@@ -4,7 +4,7 @@ import cn.jarod.bluecat.auth.entity.ResourceDO;
 import cn.jarod.bluecat.auth.entity.RoleResourceDO;
 import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
 import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
-import cn.jarod.bluecat.auth.model.bo.SaveResourceBO;
+import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface IResourceService {
 
-    ResourceDO saveResource(SaveResourceBO resourceBO);
+    ResourceDO saveResource(CrudResourceBO resourceBO);
 
-    void delResource(SaveResourceBO resourceBO);
+    void delResource(CrudResourceBO resourceBO);
 
     List<QueryResourceTreeBO> queryResourceTreeBySysAndRoleCodes(String sys, List<String> roleCodes);
 

@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class SaveDictEntryBO extends BaseModel {
+public class CrudDictEntryBO extends BaseModel {
 
     //字典类别
     private String dictCode;

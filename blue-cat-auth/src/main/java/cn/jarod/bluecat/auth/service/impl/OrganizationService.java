@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
-import cn.jarod.bluecat.auth.model.bo.SaveOrganizationBO;
+import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -42,7 +42,7 @@ public class OrganizationService implements IOrganizationService {
      * @return
      */
     @Override
-    public OrganizationDO saveOrganization(SaveOrganizationBO orgBO) {
+    public OrganizationDO saveOrganization(CrudOrganizationBO orgBO) {
         orgBO.clearId();
         OrganizationDO orgDO = organizationRepository.findByOrgCode(orgBO.getNode()).orElse(new OrganizationDO());
         orgDO.setOrgCode(orgBO.getNode());
@@ -58,7 +58,7 @@ public class OrganizationService implements IOrganizationService {
      * @param orgBO
      */
     @Override
-    public void delOrganization(SaveOrganizationBO orgBO) {
+    public void delOrganization(CrudOrganizationBO orgBO) {
         organizationRepository.delete(organizationRepository.findByOrgCode(orgBO.getNode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
     }
 
@@ -68,8 +68,8 @@ public class OrganizationService implements IOrganizationService {
      * @return
      */
     @Override
-    public SaveOrganizationBO findOneByOrgCode(String orgCode) {
-        SaveOrganizationBO orgDTO = new SaveOrganizationBO();
+    public CrudOrganizationBO findOneByOrgCode(String orgCode) {
+        CrudOrganizationBO orgDTO = new CrudOrganizationBO();
         organizationRepository.findByOrgCode(orgDTO.getNode()).ifPresent(e -> {
             BeanUtils.copyProperties(e,orgDTO);
             orgDTO.setNode(e.getOrgCode());
@@ -85,8 +85,8 @@ public class OrganizationService implements IOrganizationService {
      */
     @Override
     public List<TreeModel> findOrgTreeByFullCode(String fullCode) {
-        List<SaveOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
-            SaveOrganizationBO orgDTO = new SaveOrganizationBO();
+        List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
+            CrudOrganizationBO orgDTO = new CrudOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);
             orgDTO.setNode(e.getOrgCode());
             orgDTO.setPNode(e.getParentCode());

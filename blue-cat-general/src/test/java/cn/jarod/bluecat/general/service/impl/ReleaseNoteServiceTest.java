@@ -2,7 +2,7 @@ package cn.jarod.bluecat.general.service.impl;
 
 import cn.jarod.bluecat.general.BlueCatGeneralApplicationTest;
 import cn.jarod.bluecat.general.entity.ReleaseNoteDO;
-import cn.jarod.bluecat.general.model.bo.SaveReleaseNoteBO;
+import cn.jarod.bluecat.general.model.bo.CrudReleaseNoteBO;
 import cn.jarod.bluecat.general.model.dto.QueryReleaseDTO;
 import cn.jarod.bluecat.general.service.IReleaseNoteService;
 import org.assertj.core.util.Lists;
@@ -25,22 +25,22 @@ class ReleaseNoteServiceTest extends BlueCatGeneralApplicationTest {
     @Autowired
     private IReleaseNoteService releaseNoteService;
 
-    private SaveReleaseNoteBO saveReleaseNoteBO;
+    private CrudReleaseNoteBO crudReleaseNoteBO;
 
     @BeforeEach
     void setUp() {
-        saveReleaseNoteBO = new SaveReleaseNoteBO();
-        saveReleaseNoteBO.setReleaseVersion("ver 1.0.1");
-        saveReleaseNoteBO.setSysCode("root");
-        saveReleaseNoteBO.setTerminalType("pc");
-        saveReleaseNoteBO.setReleaseNote(Lists.newArrayList("完成基础平台搭建","完成数据库和注册中心搭建"));
-        saveReleaseNoteBO.setOperator("admin");
-        saveReleaseNoteBO.setBuildNo(new BigDecimal(10001.0));
+        crudReleaseNoteBO = new CrudReleaseNoteBO();
+        crudReleaseNoteBO.setReleaseVersion("ver 1.0.1");
+        crudReleaseNoteBO.setSysCode("root");
+        crudReleaseNoteBO.setTerminalType("pc");
+        crudReleaseNoteBO.setReleaseNote(Lists.newArrayList("完成基础平台搭建","完成数据库和注册中心搭建"));
+        crudReleaseNoteBO.setOperator("admin");
+        crudReleaseNoteBO.setBuildNo(new BigDecimal(10001.0));
     }
 
     @AfterEach
     void tearDown() {
-        saveReleaseNoteBO = null;
+        crudReleaseNoteBO = null;
     }
 
     @Test
@@ -55,7 +55,7 @@ class ReleaseNoteServiceTest extends BlueCatGeneralApplicationTest {
 
     @Test
     void saveReleaseNote() {
-        ReleaseNoteDO releaseDO = releaseNoteService.saveReleaseNote(saveReleaseNoteBO);
+        ReleaseNoteDO releaseDO = releaseNoteService.saveReleaseNote(crudReleaseNoteBO);
         assertNotNull(releaseDO.getId());
     }
 }

@@ -3,7 +3,7 @@ package cn.jarod.bluecat.auth.service;
 import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
-import cn.jarod.bluecat.auth.model.bo.SaveRoleBO;
+import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
 import cn.jarod.bluecat.core.model.BaseQO;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import org.springframework.data.domain.Page;
@@ -16,9 +16,9 @@ import java.util.Map;
  */
 public interface IRoleService {
 
-    RoleDO saveRole(SaveRoleBO dto);
+    RoleDO saveRole(CrudRoleBO dto);
 
-    void delRole(SaveRoleBO dto);
+    void delRole(CrudRoleBO dto);
 
     Map<String,RoleDO> queryRoleMapByCodes(List<String> codes, String sys);
 

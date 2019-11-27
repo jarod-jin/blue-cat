@@ -5,8 +5,8 @@ import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.general.entity.DictEntryDO;
-import cn.jarod.bluecat.general.model.bo.UpdateDictEntryBO;
-import cn.jarod.bluecat.general.model.bo.SaveDictEntryBO;
+import cn.jarod.bluecat.general.model.bo.UpdateEntryItemBO;
+import cn.jarod.bluecat.general.model.bo.CrudDictEntryBO;
 import cn.jarod.bluecat.general.repository.DictEntryRepository;
 import cn.jarod.bluecat.general.service.IDictEntryService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class DictEntryService implements IDictEntryService {
     @Override
     @Transactional
     @TimeDiff
-    public DictEntryDO saveDict(SaveDictEntryBO entryBO) {
+    public DictEntryDO saveDict(CrudDictEntryBO entryBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(entryBO.getDictCode()).orElse(new DictEntryDO());
         BeanHelperUtil.copyNotNullProperties(entryBO,entryDO);
         entryDO.setModifier(entryBO.getOperator());
@@ -57,7 +57,7 @@ public class DictEntryService implements IDictEntryService {
     @Override
     @Transactional
     @TimeDiff
-    public DictEntryDO modifyDictEntry(UpdateDictEntryBO modifyDictBO) {
+    public DictEntryDO modifyDictEntry(UpdateEntryItemBO modifyDictBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.S400));
         entryDO.getEntryJson().putAll(modifyDictBO.getEntryJson());
         entryDO.setModifier(modifyDictBO.getOperator());
@@ -74,7 +74,7 @@ public class DictEntryService implements IDictEntryService {
     @Override
     @Transactional
     @TimeDiff
-    public DictEntryDO delDictEntry(UpdateDictEntryBO modifyDictBO) {
+    public DictEntryDO delDictEntry(UpdateEntryItemBO modifyDictBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.D400));
         modifyDictBO.getEntryJson().forEach((k,v)-> entryDO.getEntryJson().remove(k));
         entryDO.setModifier(modifyDictBO.getOperator());

@@ -3,7 +3,7 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
-import cn.jarod.bluecat.auth.model.bo.SaveRoleBO;
+import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
 import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.repository.RoleRepository;
 import cn.jarod.bluecat.auth.service.IRoleService;
@@ -48,7 +48,7 @@ public class RoleService implements IRoleService {
      */
     @Override
     @Transactional
-    public RoleDO saveRole(SaveRoleBO roleBO) {
+    public RoleDO saveRole(CrudRoleBO roleBO) {
         roleBO.clearId();
         RoleDO roleDO = roleRepository.findByRoleCode(roleBO.getRoleCode()).orElse(new RoleDO());
         roleDO.setModifier(roleBO.getOperator());
@@ -64,7 +64,7 @@ public class RoleService implements IRoleService {
      */
     @Override
     @Transactional
-    public void delRole(SaveRoleBO dto) {
+    public void delRole(CrudRoleBO dto) {
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setRoleCode(dto.getRoleCode());
         if (orgRoleRepository.exists(Example.of(orgRoleDO)))

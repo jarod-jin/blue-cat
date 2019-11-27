@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class SaveOrganizationBO extends TreeModel {
+public class CrudOrganizationBO extends TreeModel {
 
     //组织名称
     private String orgName;

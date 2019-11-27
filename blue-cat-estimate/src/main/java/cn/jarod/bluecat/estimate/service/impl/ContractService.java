@@ -1,13 +1,28 @@
 package cn.jarod.bluecat.estimate.service.impl;
 
+import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.utils.BeanHelperUtil;
+import cn.jarod.bluecat.estimate.entity.ContractItemDO;
+import cn.jarod.bluecat.estimate.entity.ContractSheetDO;
+import cn.jarod.bluecat.estimate.model.bo.CrudContractItemBO;
+import cn.jarod.bluecat.estimate.model.bo.CrudContractSheetBO;
 import cn.jarod.bluecat.estimate.repository.ContractItemRepository;
 import cn.jarod.bluecat.estimate.repository.ContractSheetRepository;
 import cn.jarod.bluecat.estimate.service.IContractService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
+ * 由于Item不会单独存在，故整体作为一个Service
  * @auther jarod.jin 2019/11/25
  */
 @Slf4j
@@ -22,5 +37,63 @@ public class ContractService implements IContractService {
     public ContractService(ContractSheetRepository contractSheetRepository, ContractItemRepository contractItemRepository) {
         this.contractSheetRepository = contractSheetRepository;
         this.contractItemRepository = contractItemRepository;
+    }
+
+    /**
+     * 保存合约
+     * @param sheetBO
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ContractSheetDO saveSheet(CrudContractSheetBO sheetBO) {
+        ContractSheetDO contractSheetDO =  contractSheetRepository.findBySerialNoAndSysCode(sheetBO.getSerialNo(),sheetBO.getSysCode()).orElse(new ContractSheetDO());
+        sheetBO.reset();
+        BeanHelperUtil.copyNotNullProperties(sheetBO,contractSheetDO);
+        contractSheetDO.setModifier(sheetBO.getOperator());
+        contractSheetDO.setCreator(sheetBO.getOperator());
+        return contractSheetRepository.save(contractSheetDO);
+    }
+
+    /**
+     * 保存题目列表，可以分阶段提交用id做判定
+     * @param itemBOList
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<ContractItemDO> saveItemList(List<CrudContractItemBO> itemBOList) {
+        Map<Long, ContractItemDO> mapSourceDO = contractItemRepository.findAllById(itemBOList.stream().filter(e->e.getId()!=null).map(CrudContractItemBO::getId).collect(Collectors.toList()))
+                .stream().collect(Collectors.toConcurrentMap(ContractItemDO::getId, Function.identity()));
+        List<ContractItemDO>  saveList=  itemBOList.stream().map(i->{
+            ContractItemDO tmp;
+            if ((!i.isNew())&& mapSourceDO.containsKey(i.getId())) {
+                tmp = mapSourceDO.get(i.getId());
+            }else{
+                tmp = new ContractItemDO();
+                i.reset();
+            }
+            BeanHelperUtil.copyNotNullProperties(i,tmp);
+            tmp.setModifier(i.getOperator());
+            tmp.setCreator(i.getOperator());
+            return tmp;
+        }).collect(Collectors.toList());
+        return contractItemRepository.saveAll(saveList);
+    }
+
+    /**
+     * 查询合约/问卷以及条目
+     * @param queryBO
+     * @return
+     */
+    @Override
+    public CrudContractSheetBO findContract(@Valid CrudContractSheetBO queryBO) {
+        ContractSheetDO sheetDO = contractSheetRepository.findBySerialNoAndSysCode(queryBO.getSerialNo(),queryBO.getSysCode()).orElseThrow(()->new BaseException(ReturnCode.Q401));
+        CrudContractSheetBO contractSheetBO = BeanHelperUtil.createCopyBean(sheetDO, CrudContractSheetBO.class);
+        contractSheetBO.setOperator(sheetDO.getModifier());
+        List<CrudContractItemBO> itemList = contractItemRepository.findAllBySerialNoAndSysCode(queryBO.getSerialNo(),queryBO.getSysCode())
+                .stream().map(i->BeanHelperUtil.createCopyBean(i,CrudContractItemBO.class)).collect(Collectors.toList());
+        contractSheetBO.setContractItemBOList(itemList);
+        return contractSheetBO;
     }
 }

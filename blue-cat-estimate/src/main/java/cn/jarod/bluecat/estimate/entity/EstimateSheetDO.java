@@ -30,7 +30,7 @@ public class EstimateSheetDO extends BaseEntity {
     private String serialNo;
 
     //评估编号
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '合约编号'"))
+    @Column(nullable = false, columnDefinition=("varchar(20) comment '评估编号'"))
     private String estimateNo;
 
     //用户唯一标识

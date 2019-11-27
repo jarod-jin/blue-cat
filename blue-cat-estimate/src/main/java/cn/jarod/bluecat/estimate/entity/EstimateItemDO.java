@@ -24,7 +24,7 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "estimate_sheet", indexes = {@Index(columnList ="serialNo", name="SerialNoIndex")})
+@Table(name = "estimate_item", indexes = {@Index(columnList ="serialNo", name="SerialNoIndex")})
 public class EstimateItemDO extends BaseEntity {
 
     //合约编号
@@ -32,7 +32,11 @@ public class EstimateItemDO extends BaseEntity {
     private String serialNo;
 
     //评估编号
-    @Column(nullable = false, columnDefinition=("int(5) default 99 comment '评估编号'"))
+    @Column(nullable = false, columnDefinition=("varchar(20) comment '评估编号'"))
+    private String estimateNo;
+
+    //条目序号
+    @Column(nullable = false, columnDefinition=("int(5) default 99 comment '条目序号'"))
     private Integer itemNo;
 
     //得分

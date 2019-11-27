@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SaveResourceBO extends BaseModel {
+public class CrudResourceBO extends BaseModel {
 
     //资源编码
     private String resourceCode;

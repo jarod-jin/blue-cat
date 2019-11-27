@@ -4,7 +4,7 @@ import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.general.entity.ReleaseNoteDO;
-import cn.jarod.bluecat.general.model.bo.SaveReleaseNoteBO;
+import cn.jarod.bluecat.general.model.bo.CrudReleaseNoteBO;
 import cn.jarod.bluecat.general.model.dto.QueryReleaseDTO;
 import cn.jarod.bluecat.general.repository.ReleaseNoteRepository;
 import cn.jarod.bluecat.general.service.IReleaseNoteService;
@@ -50,7 +50,7 @@ public class ReleaseNoteService implements IReleaseNoteService {
      */
     @Override
     @Transactional
-    public ReleaseNoteDO saveReleaseNote(SaveReleaseNoteBO releaseNoteBO) {
+    public ReleaseNoteDO saveReleaseNote(CrudReleaseNoteBO releaseNoteBO) {
         ReleaseNoteDO releaseNoteDO = releaseNoteBO.isNew()? new ReleaseNoteDO():releaseNoteRepository.findById(releaseNoteBO.getId()).orElseThrow(()->new BaseException(ReturnCode.S400));
         BeanHelperUtil.copyNotNullProperties(releaseNoteBO,releaseNoteDO);
         releaseNoteDO.setModifier(releaseNoteBO.getOperator());

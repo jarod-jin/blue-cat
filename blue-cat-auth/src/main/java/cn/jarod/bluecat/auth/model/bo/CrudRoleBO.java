@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SaveRoleBO extends BaseModel {
+public class CrudRoleBO extends BaseModel {
 
     private String roleCode;
 

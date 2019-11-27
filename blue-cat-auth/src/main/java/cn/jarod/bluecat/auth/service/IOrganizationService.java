@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
-import cn.jarod.bluecat.auth.model.bo.SaveOrganizationBO;
+import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.core.model.TreeModel;
 
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.Map;
  */
 public interface IOrganizationService {
 
-    OrganizationDO saveOrganization(SaveOrganizationBO orgBO);
+    OrganizationDO saveOrganization(CrudOrganizationBO orgBO);
 
-    void delOrganization(SaveOrganizationBO orgBO);
+    void delOrganization(CrudOrganizationBO orgBO);
 
-    SaveOrganizationBO findOneByOrgCode(String orgCode);
+    CrudOrganizationBO findOneByOrgCode(String orgCode);
 
     List<TreeModel> findOrgTreeByFullCode(String fullCode);
 

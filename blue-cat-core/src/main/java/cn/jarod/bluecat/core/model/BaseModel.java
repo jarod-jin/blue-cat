@@ -26,11 +26,8 @@ public class BaseModel {
         return id == null;
     }
 
-    public void clearVersion(){
-        this.version = 0;
-    }
-
-    public void clearId(){
+    public void reset(){
         this.id = null;
+        this.version = 0;
     }
 }

@@ -5,7 +5,7 @@ import cn.jarod.bluecat.auth.entity.ResourceDO;
 import cn.jarod.bluecat.auth.entity.RoleResourceDO;
 import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
 import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
-import cn.jarod.bluecat.auth.model.bo.SaveResourceBO;
+import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;
 import cn.jarod.bluecat.auth.service.IResourceService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import org.assertj.core.util.Lists;
@@ -27,13 +27,13 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     private IResourceService resourceService;
 
-    private SaveResourceBO tmpResourceBO;
+    private CrudResourceBO tmpResourceBO;
 
     private LinkRoleResourceBO linkRoleResourceBO;
 
     @BeforeEach
     void setUp() {
-        tmpResourceBO = new SaveResourceBO();
+        tmpResourceBO = new CrudResourceBO();
         tmpResourceBO.setResourceName("测试菜单");
         tmpResourceBO.setResourceRoute("/tmp");
         tmpResourceBO.setResourceType("m");
@@ -53,7 +53,7 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("修改资源")
     void saveResource_modify() {
-        SaveResourceBO rootResourceBO = new SaveResourceBO();
+        CrudResourceBO rootResourceBO = new CrudResourceBO();
         rootResourceBO.setResourceCode("RO10001");
         rootResourceBO.setOperator("test");
         rootResourceBO.setMemo("基础菜单，请勿删除");

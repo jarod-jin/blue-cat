@@ -2,7 +2,7 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
-import cn.jarod.bluecat.auth.model.bo.SaveOrganizationBO;
+import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.auth.service.IOrganizationService;
 import cn.jarod.bluecat.core.model.TreeModel;
 import org.junit.jupiter.api.AfterEach;
@@ -23,11 +23,11 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     @Autowired
     private IOrganizationService organizationService;
 
-    private SaveOrganizationBO newOrg;
+    private CrudOrganizationBO newOrg;
 
-    private SaveOrganizationBO modifyOrg;
+    private CrudOrganizationBO modifyOrg;
 
-    private SaveOrganizationBO sysOrg;
+    private CrudOrganizationBO sysOrg;
 
 
     @BeforeEach
@@ -38,7 +38,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     }
 
     private void initNewOrg(){
-        newOrg = new SaveOrganizationBO();
+        newOrg = new CrudOrganizationBO();
         newOrg.setNode("SYS99999");
         newOrg.setOrgName("系统测试");
         newOrg.setPNode("SYS100001");
@@ -50,7 +50,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     }
 
     private void initModifyOrg (){
-        modifyOrg = new SaveOrganizationBO();
+        modifyOrg = new CrudOrganizationBO();
         modifyOrg.setNode("SYS100002");
         modifyOrg.setPNode("SYS100001");
         modifyOrg.setOrgName("系统开发部");
@@ -62,7 +62,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     }
 
     private void initSysOrg (){
-        sysOrg = new SaveOrganizationBO();
+        sysOrg = new CrudOrganizationBO();
         sysOrg.setNode("SYS100001");
         sysOrg.setOrgName("系统管理");
         sysOrg.setDisOrder(1);
