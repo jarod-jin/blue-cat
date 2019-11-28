@@ -47,7 +47,7 @@ public class ContractService implements IContractService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ContractSheetDO saveSheet(CrudContractSheetBO sheetBO) {
+    public ContractSheetDO saveContractSheet(CrudContractSheetBO sheetBO) {
         ContractSheetDO contractSheetDO =  contractSheetRepository.findBySerialNoAndSysCode(sheetBO.getSerialNo(),sheetBO.getSysCode()).orElse(new ContractSheetDO());
         sheetBO.reset();
         BeanHelperUtil.copyNotNullProperties(sheetBO,contractSheetDO);
@@ -62,7 +62,7 @@ public class ContractService implements IContractService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<ContractItemDO> saveItemList(List<CrudContractItemBO> itemBOList) {
+    public List<ContractItemDO> saveContractItemList(List<CrudContractItemBO> itemBOList) {
         Map<Long, ContractItemDO> mapSourceDO = contractItemRepository.findAllById(itemBOList.stream().filter(e->e.getId()!=null).map(CrudContractItemBO::getId).collect(Collectors.toList()))
                 .stream().collect(Collectors.toConcurrentMap(ContractItemDO::getId, Function.identity()));
         List<ContractItemDO>  saveList=  itemBOList.stream().map(i->{
@@ -90,7 +90,7 @@ public class ContractService implements IContractService {
     public CrudContractSheetBO findContract(@Valid CrudContractSheetBO queryBO) {
         ContractSheetDO sheetDO = contractSheetRepository.findBySerialNoAndSysCode(queryBO.getSerialNo(),queryBO.getSysCode()).orElseThrow(()->new BaseException(ReturnCode.Q401));
         CrudContractSheetBO contractSheetBO = BeanHelperUtil.createCopyBean(sheetDO, CrudContractSheetBO.class);
-        List<CrudContractItemBO> itemList = contractItemRepository.findAllBySerialNoAndSysCode(queryBO.getSerialNo(),queryBO.getSysCode())
+        List<CrudContractItemBO> itemList = contractItemRepository.findAllBySerialNoAndSysCodeOrderByItemNoAsc(queryBO.getSerialNo(),queryBO.getSysCode())
                 .stream().map(i->BeanHelperUtil.createCopyBean(i,CrudContractItemBO.class)).collect(Collectors.toList());
         contractSheetBO.setContractItemBOList(itemList);
         return contractSheetBO;

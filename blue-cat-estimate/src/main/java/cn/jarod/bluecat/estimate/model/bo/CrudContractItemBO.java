@@ -30,6 +30,9 @@ public class CrudContractItemBO extends BaseModel {
     //选项头 0-数字 1-字母
     private Integer conditionMark;
 
+    //关联系统编号
+    private String sysCode;
+
     //选项列
     private List<ConditionDO> conditionJson;
 

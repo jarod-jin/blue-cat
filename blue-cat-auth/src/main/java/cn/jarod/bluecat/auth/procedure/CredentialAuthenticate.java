@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.process;
+package cn.jarod.bluecat.auth.procedure;
 
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.service.ICredentialService;

@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface IContractService {
 
-    ContractSheetDO saveSheet(CrudContractSheetBO sheetBO);
+    ContractSheetDO saveContractSheet(CrudContractSheetBO sheetBO);
 
-    List<ContractItemDO> saveItemList(List<CrudContractItemBO> itemBOList);
+    List<ContractItemDO> saveContractItemList(List<CrudContractItemBO> itemBOList);
 
     CrudContractSheetBO findContract(CrudContractSheetBO queryBO);
 }

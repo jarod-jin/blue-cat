@@ -21,14 +21,11 @@ public class ConditionDO implements Serializable {
     //积分项内容
     private String conditionText;
 
-    //分数
-    private BigDecimal score;
+    //上限分值
+    private BigDecimal upperLimitScore;
 
-    //临界值
-    private BigDecimal minValue;
-
-    //最大值
-    private BigDecimal maxValue;
+    //单项分值
+    private BigDecimal perUnitScore;
 
     //判定正则
     private String decideRegex;
@@ -36,12 +33,11 @@ public class ConditionDO implements Serializable {
 
     public ConditionDO(){}
 
-    public ConditionDO(String conditionKey, String conditionText, BigDecimal score, BigDecimal minValue, BigDecimal maxValue, String decideRegex){
+    public ConditionDO(String conditionKey, String conditionText, BigDecimal upperLimitScore, BigDecimal perUnitScore, String decideRegex){
         this.conditionKey = conditionKey;
         this.conditionText = conditionText;
-        this.score = score;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
+        this.upperLimitScore = upperLimitScore;
+        this.perUnitScore = perUnitScore;
         this.decideRegex = decideRegex;
     }
 }

@@ -52,12 +52,13 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         itemA.setItemNo(1);
         itemA.setItemText("这是第一题");
         itemA.setModifier("admin");
+        itemA.setSysCode("root");
         List<ConditionDO> dos = Lists.newArrayList();
-        ConditionDO conditionA = new ConditionDO("A","选项A",new BigDecimal(10),new BigDecimal(10),new BigDecimal(10),"A");
+        ConditionDO conditionA = new ConditionDO("A","选项A",new BigDecimal(10),new BigDecimal(10),"x==A");
         dos.add(conditionA);
-        ConditionDO conditionB = new ConditionDO("B","选项B",new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),"");
+        ConditionDO conditionB = new ConditionDO("B","选项B",new BigDecimal(0),new BigDecimal(0),"");
         dos.add(conditionB);
-        ConditionDO conditionC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),"");
+        ConditionDO conditionC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(0),"");
         dos.add(conditionC);
         itemA.setConditionJson(dos);
         newItemList.add(itemA);
@@ -71,12 +72,13 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         itemB.setItemNo(2);
         itemB.setItemText("这是第二题");
         itemB.setModifier("admin");
+        itemB.setSysCode("root");
         List<ConditionDO> dosB = Lists.newArrayList();
-        ConditionDO condA = new ConditionDO("A","选项A",new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),"");
+        ConditionDO condA = new ConditionDO("A","选项A",new BigDecimal(0),new BigDecimal(0),"");
         dosB.add(condA);
-        ConditionDO condB = new ConditionDO("B","选项B",new BigDecimal(10),new BigDecimal(10),new BigDecimal(10),"B");
+        ConditionDO condB = new ConditionDO("B","选项B",new BigDecimal(10),new BigDecimal(10),"x==B");
         dosB.add(condB);
-        ConditionDO condC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),"");
+        ConditionDO condC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(0),"");
         dosB.add(condC);
         itemB.setConditionJson(dosB);
         newItemList.add(itemB);
@@ -91,22 +93,20 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
     @Test
     @DisplayName("新建Sheet")
     void saveSheet() {
-        ContractSheetDO sheetDO = contractService.saveSheet(newSheetBO);
+        ContractSheetDO sheetDO = contractService.saveContractSheet(newSheetBO);
         assertNotNull(sheetDO.getId());
     }
 
     @Test
     void saveItemList() {
-        List<ContractItemDO> itemList = contractService.saveItemList(newItemList);
+        List<ContractItemDO> itemList = contractService.saveContractItemList(newItemList);
         assertTrue(itemList.size()>0);
 
     }
 
     @Test
     void findContract() {
-        CrudContractSheetBO sheetBO = new CrudContractSheetBO();
-        sheetBO.setSerialNo("SC20191126");
-        sheetBO.setSysCode("root");
+        CrudContractSheetBO sheetBO = new CrudContractSheetBO("SC20191126","root");
         CrudContractSheetBO contractSheetBO = contractService.findContract(sheetBO);
         assertFalse(contractSheetBO.getContractItemBOList().isEmpty());
     }

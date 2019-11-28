@@ -96,7 +96,7 @@ public class BeanHelperUtil {
      * @return
      */
     public static <T> T createCopyBean(Object source, Class<T> clazz) {
-        T t = null;
+            T t = null;
         try {
             t = clazz.newInstance();
             BeanUtils.copyProperties(source,t);

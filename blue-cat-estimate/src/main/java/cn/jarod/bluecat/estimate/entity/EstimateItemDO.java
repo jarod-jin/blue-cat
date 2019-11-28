@@ -32,8 +32,8 @@ public class EstimateItemDO extends BaseEntity {
     private String serialNo;
 
     //评估编号
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '评估编号'"))
-    private String estimateNo;
+    @Column(nullable = false, columnDefinition=("bigint(19) comment '评估单Id'"))
+    private Long estimateSheetId;
 
     //条目序号
     @Column(nullable = false, columnDefinition=("int(5) default 99 comment '条目序号'"))
@@ -51,5 +51,6 @@ public class EstimateItemDO extends BaseEntity {
     //关联系统编号
     @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
     private String sysCode;
+
 
 }

@@ -123,11 +123,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("创建账号时没有电话和邮箱")
     void registerAuthorityNoParams() {
-        try{
-            credentialService.registerUser(tmpDTO);
-        }catch (BaseException e){
-            assertEquals("电话和邮箱不能同时为空",e.getErrorMessage());
-        }
+        assertThrows(BaseException.class, ()-> credentialService.registerUser(tmpDTO),"电话和邮箱不能同时为空");
     }
 
 
@@ -153,11 +149,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("修改密码时原始密码错误")
     void modifyPasswordOne() {
         credBO.setCurrentPassword("123456");
-        try{
-            credentialService.modifyPassword(new UpdateCredBO(credBO));
-        }catch (BaseException e){
-            assertEquals("原密码错误",e.getErrorMessage());
-        }
+        assertThrows(BaseException.class, ()-> credentialService.modifyPassword(new UpdateCredBO(credBO)),"原密码错误");
     }
 
 
@@ -165,11 +157,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("修改密码时密码和前次相同")
     void modifyPasswordTwo() {
         credBO.setModifiedPassword("admin123");
-        try{
-            credentialService.modifyPassword(new UpdateCredBO(credBO));
-        }catch (BaseException e){
-            assertEquals("密码不能和前3次相同",e.getErrorMessage());
-        }
+        assertThrows(BaseException.class, ()-> credentialService.modifyPassword(new UpdateCredBO(credBO)),"密码不能和前3次相同");
     }
 
 

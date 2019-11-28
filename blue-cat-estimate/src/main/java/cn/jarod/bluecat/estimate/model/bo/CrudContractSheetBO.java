@@ -34,4 +34,13 @@ public class CrudContractSheetBO extends BaseModel {
     //合同条目
     List<CrudContractItemBO> contractItemBOList;
 
+    public CrudContractSheetBO(){
+
+    }
+
+    public CrudContractSheetBO(String serialNo, String sysCode){
+        this.serialNo = serialNo;
+        this.sysCode = sysCode;
+    }
+
 }

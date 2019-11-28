@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * @auther jarod.jin 2019/11/25
@@ -17,18 +16,14 @@ public class AnswerDO implements Serializable {
     //积分项编码或者对应值
     private String conditionKey;
 
-    //分数
-    private BigDecimal score;
-
     //回答
     private String answerText;
 
     public AnswerDO(){}
 
 
-    public AnswerDO(String conditionKey, BigDecimal score, String answerText){
+    public AnswerDO(String conditionKey, String answerText){
         this.conditionKey = conditionKey;
-        this.score = score;
         this.answerText = answerText;
     }
 }

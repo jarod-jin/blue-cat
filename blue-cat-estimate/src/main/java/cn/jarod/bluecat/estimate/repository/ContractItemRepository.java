@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface ContractItemRepository extends JpaRepository<ContractItemDO,Long> {
 
-    List<ContractItemDO> findAllBySerialNoAndSysCode(String serialNo, String sysCode);
+    List<ContractItemDO> findAllBySerialNoAndSysCodeOrderByItemNoAsc(String serialNo, String sysCode);
 }

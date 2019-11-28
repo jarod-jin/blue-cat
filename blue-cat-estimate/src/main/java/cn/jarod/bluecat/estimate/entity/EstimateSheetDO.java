@@ -29,10 +29,6 @@ public class EstimateSheetDO extends BaseEntity {
     @Column(nullable = false, columnDefinition=("varchar(20) comment '合约编号'"))
     private String serialNo;
 
-    //评估编号
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '评估编号'"))
-    private String estimateNo;
-
     //用户唯一标识
     @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))
     private String username;
@@ -40,6 +36,10 @@ public class EstimateSheetDO extends BaseEntity {
     //用户名
     @Column(nullable = false, columnDefinition=("varchar(50) default '' comment '用户名'"))
     private String nickname;
+
+    //是否完成
+    @Column(nullable = false, columnDefinition=("tinyint(1) default 0 comment '是否完成 0-未完成 1-已完成'"))
+    private Integer finishMark;
 
     //总得分
     @Column(nullable = false, columnDefinition=("decimal(5,2) default 0.00 comment '得分'"))

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.process;
+package cn.jarod.bluecat.auth.procedure;
 
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Service
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    public static final String AUTH_ERROR_MSG = "用户名/密码错误~";
+    private static final String AUTH_ERROR_MSG = "用户名/密码错误~";
 
     @Value("${security.key.server:123456}")
     private String serverKey;
