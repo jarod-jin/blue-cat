@@ -59,9 +59,8 @@ public class ScoreEstimate {
             ).sum();
             e.setItemScore(tmpScore > contractItem.getItemScore().doubleValue() ? contractItem.getItemScore(): BigDecimal.valueOf(tmpScore));
         }).collect(Collectors.toList());
-        estimate.setCrudEstimateItemList(crudEstimateItemList);
-        estimate.setTotalScore(BigDecimal.valueOf(crudEstimateItemList.stream().mapToDouble(e->e.getItemScore().doubleValue()).sum()));
         estimateService.saveEstimateItemList(crudEstimateItemList);
+        estimate.setTotalScore(BigDecimal.valueOf(crudEstimateItemList.stream().mapToDouble(e->e.getItemScore().doubleValue()).sum()));
         estimateService.saveEstimateSheet(estimate);
     }
 
