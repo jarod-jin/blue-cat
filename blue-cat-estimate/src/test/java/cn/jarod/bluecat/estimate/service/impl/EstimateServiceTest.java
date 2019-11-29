@@ -57,9 +57,9 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
         List<AnswerDO> dos = Lists.newArrayList();
         AnswerDO answerA = new AnswerDO("A","");
         dos.add(answerA);
-        AnswerDO answerB = new AnswerDO("B","");
+        AnswerDO answerB = new AnswerDO("B","B");
         dos.add(answerB);
-        AnswerDO answerC = new AnswerDO("C","C");
+        AnswerDO answerC = new AnswerDO("C","");
         dos.add(answerC);
         itemA.setAnswerJson(dos);
         newItemList.add(itemA);
@@ -115,6 +115,8 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
         List<BigDecimal>  list = Lists.newArrayList(a,b);
         list.stream().peek(e -> e = e.add(BigDecimal.valueOf(2)));
         System.out.println(list);
+
+        System.out.println(Boolean.parseBoolean(String.valueOf("TruE")));
 
     }
 }

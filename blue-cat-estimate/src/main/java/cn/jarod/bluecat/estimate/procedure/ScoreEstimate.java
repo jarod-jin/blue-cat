@@ -45,9 +45,10 @@ public class ScoreEstimate {
     @Transactional(rollbackFor = Exception.class)
     public void countScoreByEstimateSheet(CrudEstimateSheetBO estimateSheet){
         CrudContractSheetBO contract = contractService.findContract(new CrudContractSheetBO(estimateSheet.getSerialNo(),estimateSheet.getSysCode()));
+        Map<Integer, CrudContractItemBO> itemMap = contract.getContractItemBOList().stream().collect(Collectors.toMap(CrudContractItemBO::getItemNo,Function.identity()));
         CrudEstimateSheetBO estimate = estimateService.findEstimate(new CrudEstimateSheetBO(estimateSheet.getSerialNo(),estimateSheet.getUsername(),estimateSheet.getSysCode(), Const.NOT_DEL));
         List<CrudEstimateItemBO> crudEstimateItemList = estimate.getCrudEstimateItemList().stream().peek(e->{
-            CrudContractItemBO contractItem =  contract.getContractItemBOList().get(e.getItemNo());
+            CrudContractItemBO contractItem = itemMap.get(e.getItemNo());
             Map<String, ConditionDO> conditionMap = contractItem.getConditionJson().stream().collect(Collectors.toMap(ConditionDO::getConditionKey, Function.identity()));
             double tmpScore = e.getAnswerJson().stream().mapToDouble(
                     a->{
@@ -56,7 +57,7 @@ public class ScoreEstimate {
                         return deltaScore.doubleValue();
                     }
             ).sum();
-            e.setItemScore(BigDecimal.valueOf(tmpScore));
+            e.setItemScore(tmpScore > contractItem.getItemScore().doubleValue() ? contractItem.getItemScore(): BigDecimal.valueOf(tmpScore));
         }).collect(Collectors.toList());
         estimate.setCrudEstimateItemList(crudEstimateItemList);
         estimate.setTotalScore(BigDecimal.valueOf(crudEstimateItemList.stream().mapToDouble(e->e.getItemScore().doubleValue()).sum()));
@@ -68,10 +69,10 @@ public class ScoreEstimate {
         ScriptEngine engine = manager.getEngineByName(JS);
         engine.put(A, answer.getAnswerText().trim());
         try {
-            if  (String.valueOf(engine.eval(standard.getDecideRegex())).equals("true")){
-                if (standard.getPerUnitScore().compareTo(new BigDecimal(0))>0){
+            if  (Boolean.parseBoolean(String.valueOf(engine.eval(standard.getDecideRegex())))){
+                if (standard.getPerUnitScore().doubleValue() > 0){
                     BigDecimal tmp = standard.getPerUnitScore().multiply(new BigDecimal(answer.getAnswerText().trim()));
-                    return tmp.compareTo(standard.getUpperLimitScore())>0 ? standard.getUpperLimitScore():tmp;
+                    return tmp.compareTo(standard.getUpperLimitScore()) > 0 ? standard.getUpperLimitScore() : tmp;
                 }else{
                     return standard.getUpperLimitScore();
                 }

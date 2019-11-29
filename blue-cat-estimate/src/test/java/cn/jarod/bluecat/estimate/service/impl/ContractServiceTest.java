@@ -45,7 +45,7 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         newItemList = Lists.newArrayList();
         //插入itemA
         CrudContractItemBO itemA = new CrudContractItemBO();
-        itemA.setId(1L);
+        itemA.setId(5L);
         itemA.setConditionMark(1);
         itemA.setSerialNo("SC20191126");
         itemA.setItemScore(new BigDecimal(10));
@@ -54,9 +54,9 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         itemA.setModifier("admin");
         itemA.setSysCode("root");
         List<ConditionDO> dos = Lists.newArrayList();
-        ConditionDO conditionA = new ConditionDO("A","选项A",new BigDecimal(10),new BigDecimal(10),"x==A");
+        ConditionDO conditionA = new ConditionDO("A","选项A",new BigDecimal(0),new BigDecimal(0),"");
         dos.add(conditionA);
-        ConditionDO conditionB = new ConditionDO("B","选项B",new BigDecimal(0),new BigDecimal(0),"");
+        ConditionDO conditionB = new ConditionDO("B","选项B",new BigDecimal(0),new BigDecimal(10),"a==B");
         dos.add(conditionB);
         ConditionDO conditionC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(0),"");
         dos.add(conditionC);
@@ -65,7 +65,7 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
 
         //itemB插入
         CrudContractItemBO itemB = new CrudContractItemBO();
-        itemB.setId(3L);
+        itemB.setId(6L);
         itemB.setConditionMark(1);
         itemB.setSerialNo("SC20191126");
         itemB.setItemScore(new BigDecimal(10));
@@ -76,9 +76,9 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         List<ConditionDO> dosB = Lists.newArrayList();
         ConditionDO condA = new ConditionDO("A","选项A",new BigDecimal(0),new BigDecimal(0),"");
         dosB.add(condA);
-        ConditionDO condB = new ConditionDO("B","选项B",new BigDecimal(10),new BigDecimal(10),"x==B");
+        ConditionDO condB = new ConditionDO("B","选项B",new BigDecimal(0),new BigDecimal(0),"");
         dosB.add(condB);
-        ConditionDO condC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(0),"");
+        ConditionDO condC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(10),"a==C");
         dosB.add(condC);
         itemB.setConditionJson(dosB);
         newItemList.add(itemB);
