@@ -61,6 +61,7 @@ public class ScoreEstimate {
         }).collect(Collectors.toList());
         estimate.setCrudEstimateItemList(crudEstimateItemList);
         estimate.setTotalScore(BigDecimal.valueOf(crudEstimateItemList.stream().mapToDouble(e->e.getItemScore().doubleValue()).sum()));
+        estimateService.saveEstimateItemList(crudEstimateItemList);
         estimateService.saveEstimateSheet(estimate);
     }
 

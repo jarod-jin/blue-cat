@@ -15,6 +15,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -109,14 +112,17 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
     }
 
     @Test
-    void testDemo() {
+    void testDemo() throws ScriptException {
         BigDecimal a = new BigDecimal("1");
         BigDecimal b = new BigDecimal("2");
         List<BigDecimal>  list = Lists.newArrayList(a,b);
         list.stream().peek(e -> e = e.add(BigDecimal.valueOf(2)));
         System.out.println(list);
 
-        System.out.println(Boolean.parseBoolean(String.valueOf("TruE")));
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+        engine.put("a", "B");
+        System.out.println( engine.eval("a=='B'"));
 
     }
 }

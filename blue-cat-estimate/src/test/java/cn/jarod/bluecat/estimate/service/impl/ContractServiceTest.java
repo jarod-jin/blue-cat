@@ -56,7 +56,7 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         List<ConditionDO> dos = Lists.newArrayList();
         ConditionDO conditionA = new ConditionDO("A","选项A",new BigDecimal(0),new BigDecimal(0),"");
         dos.add(conditionA);
-        ConditionDO conditionB = new ConditionDO("B","选项B",new BigDecimal(0),new BigDecimal(10),"a==B");
+        ConditionDO conditionB = new ConditionDO("B","选项B",new BigDecimal(0),new BigDecimal(10),"a=='B'");
         dos.add(conditionB);
         ConditionDO conditionC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(0),"");
         dos.add(conditionC);
@@ -78,7 +78,7 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         dosB.add(condA);
         ConditionDO condB = new ConditionDO("B","选项B",new BigDecimal(0),new BigDecimal(0),"");
         dosB.add(condB);
-        ConditionDO condC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(10),"a==C");
+        ConditionDO condC = new ConditionDO("C","选项C",new BigDecimal(0),new BigDecimal(10),"a=='C'");
         dosB.add(condC);
         itemB.setConditionJson(dosB);
         newItemList.add(itemB);
