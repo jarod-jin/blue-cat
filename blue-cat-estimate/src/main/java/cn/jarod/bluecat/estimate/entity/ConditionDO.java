@@ -27,7 +27,7 @@ public class ConditionDO implements Serializable {
     //单项分值
     private BigDecimal perUnitScore;
 
-    //判定正则
+    //JS判定
     private String decideRegex;
 
 

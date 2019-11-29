@@ -15,9 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -111,12 +109,12 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
     }
 
     @Test
-    void testDemo() throws ScriptException {
-        String str = "(a >= 0 && a <= 5)";
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("js");
-        engine.put("a", "4");
-        Object result = engine.eval(str);
-        System.out.println("结果类型:" + result.getClass().getName() + ",计算结果:" + result);
+    void testDemo() {
+        BigDecimal a = new BigDecimal("1");
+        BigDecimal b = new BigDecimal("2");
+        List<BigDecimal>  list = Lists.newArrayList(a,b);
+        list.stream().peek(e -> e = e.add(BigDecimal.valueOf(2)));
+        System.out.println(list);
+
     }
 }
