@@ -11,7 +11,6 @@ import cn.jarod.bluecat.estimate.model.bo.CrudEstimateSheetBO;
 import cn.jarod.bluecat.estimate.service.IContractService;
 import cn.jarod.bluecat.estimate.service.IEstimateService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,18 +34,25 @@ public class ScoreEstimate {
 
     private static final String A = "a";
 
-    @Autowired
-    private IContractService contractService;
+    private final IContractService contractService;
 
-    @Autowired
-    private IEstimateService estimateService;
+    private final IEstimateService estimateService;
 
+    public ScoreEstimate(IContractService contractService, IEstimateService estimateService) {
+        this.contractService = contractService;
+        this.estimateService = estimateService;
+    }
+
+    /**
+     * 根据回答计算得分
+     * @param estimateSheet
+     */
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public void countScoreByEstimateSheet(CrudEstimateSheetBO estimateSheet){
         CrudContractSheetBO contract = contractService.findContract(new CrudContractSheetBO(estimateSheet.getSerialNo(),estimateSheet.getSysCode()));
         Map<Integer, CrudContractItemBO> itemMap = contract.getContractItemBOList().stream().collect(Collectors.toMap(CrudContractItemBO::getItemNo,Function.identity()));
-        CrudEstimateSheetBO estimate = estimateService.findEstimate(new CrudEstimateSheetBO(estimateSheet.getSerialNo(),estimateSheet.getUsername(),estimateSheet.getSysCode(), Const.NOT_DEL));
+        CrudEstimateSheetBO estimate = estimateService.findEstimate(new CrudEstimateSheetBO(estimateSheet.getSerialNo(),estimateSheet.getUsername(),estimateSheet.getSysCode(), Const.DEL));
         List<CrudEstimateItemBO> crudEstimateItemList = estimate.getCrudEstimateItemList().stream().peek(e->{
             CrudContractItemBO contractItem = itemMap.get(e.getItemNo());
             Map<String, ConditionDO> conditionMap = contractItem.getConditionJson().stream().collect(Collectors.toMap(ConditionDO::getConditionKey, Function.identity()));
@@ -64,6 +70,12 @@ public class ScoreEstimate {
         estimateService.saveEstimateSheet(estimate);
     }
 
+    /**
+     * JS脚本积分标准判断
+     * @param standard
+     * @param answer
+     * @return
+     */
     private BigDecimal countScoreByAnswer(ConditionDO standard , AnswerDO answer){
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName(JS);

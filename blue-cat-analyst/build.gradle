@@ -1,0 +1,6 @@
+//文档分析模块
+mainClassName = 'cn.jarod.bluecat.analyst.BlueCatAnalystApplication'
+
+dependencies {
+    implementation project(':blue-cat-core')
+}

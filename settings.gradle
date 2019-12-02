@@ -4,4 +4,5 @@ include 'blue-cat-auth'
 include 'blue-cat-gateway'
 include 'blue-cat-general'
 include 'blue-cat-estimate'
+include 'blue-cat-analyst'
 
