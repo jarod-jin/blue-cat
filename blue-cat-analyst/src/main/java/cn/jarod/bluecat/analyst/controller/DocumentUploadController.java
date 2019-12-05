@@ -27,7 +27,6 @@ public class DocumentUploadController extends BaseController {
         if (file.isEmpty()) {
             throw new BaseException(ReturnCode.S400);
         }
-
         String fileName = file.getOriginalFilename();
         String filePath = "/Users/itinypocket/workspace/temp/";
         File dest = new File(filePath + fileName);

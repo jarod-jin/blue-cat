@@ -33,6 +33,6 @@ public class Const {
     public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
 
     /**存放Token的Header Key*/
-    public static final String ACCESS_TOKEN = "Access-Token";
+    public static final String ACCESS_TOKEN = "Authorization";
 
 }
