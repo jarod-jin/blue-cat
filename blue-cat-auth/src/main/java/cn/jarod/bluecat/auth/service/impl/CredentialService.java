@@ -63,7 +63,7 @@ public class CredentialService implements ICredentialService {
     public UserInfoDO registerUser(SignUpDTO authDTO) {
         UserInfoDO authDO = BeanHelperUtil.createCopyBean(authDTO, UserInfoDO.class);
         if (!authDTO.hasTelOrEmail())
-            throw new BaseException(ReturnCode.S400.getCode(), "电话和邮箱不能同时为空");
+            throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(), "电话和邮箱不能同时为空");
         authDO.setCreator(authDTO.getUsername());
         authDO.setModifier(authDTO.getUsername());
         authDO.setCredentialType(authDTO.getCredentialType());
@@ -88,7 +88,7 @@ public class CredentialService implements ICredentialService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteUser(UserInfoDTO authBO) {
-        BaseException baseException = new BaseException(ReturnCode.S400.getCode(), "找不到该用户");
+        BaseException baseException = new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(), "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> baseException));
         credentialRepository.delete(credentialRepository.findByUsername(authBO.getUsername()).orElseThrow(()-> baseException));
         credHistoryRepository.deleteAll(credHistoryRepository.findAllByUsername(authBO.getUsername()));
@@ -144,9 +144,9 @@ public class CredentialService implements ICredentialService {
         credentialRepository.findByUsername(credBO.getAuthority()).ifPresent(
             c -> {
                 if (!c.getPassword().equals(credBO.getCurrentPassword()))
-                    throw new BaseException(ReturnCode.S400.getCode(),"原密码错误");
+                    throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"原密码错误");
                 if (credHistoryRepository.existsByUsernameAndPassword(credBO.getAuthority(), credBO.getModifiedPassword()))
-                    throw new BaseException(ReturnCode.S400.getCode(),"密码不能和前"+ passNumber +"次相同");
+                    throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"密码不能和前"+ passNumber +"次相同");
                 c.setPassword(credBO.getModifiedPassword());
                 CredHistoryDO chDO = new CredHistoryDO(credBO.getAuthority(), credBO.getModifiedPassword(),credBO.getAuthority());
                 credHistoryRepository.save(chDO);
@@ -186,7 +186,7 @@ public class CredentialService implements ICredentialService {
      */
     @Override
     public UserInfoDTO findUserInfo(String name) {
-        UserInfoDO userInfoDO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.Q400));
+        UserInfoDO userInfoDO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.INVALID_REQUEST));
         return BeanHelperUtil.createCopyBean(userInfoDO,UserInfoDTO.class);
     }
 }

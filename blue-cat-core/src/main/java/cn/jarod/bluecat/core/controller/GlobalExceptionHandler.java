@@ -23,14 +23,14 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultDTO validErrorHandler(HttpServletRequest req, MethodArgumentNotValidException e) {
         log.warn("数据校验不通过: {},{}",req.getRequestURI(), e.getMessage());
-        return new ResultDTO(ReturnCode.S400.getCode(), ReturnCode.S400.getMsg(),new MessageDTO( e.getMessage()));
+        return new ResultDTO(ReturnCode.UNPROCESSABLE_ENTITY.getCode(), ReturnCode.UNPROCESSABLE_ENTITY.getMsg(),new MessageDTO( e.getMessage()));
     }
 
     @ExceptionHandler(value = BaseException.class)
     @ResponseBody
     public ResultDTO defaultErrorHandler(HttpServletRequest req, BaseException e) {
-        log.warn("接口调用不正确： {}, {}", req.getRequestURI(), e.getErrorMessage());
-        return new ResultDTO(e.getErrorCode(), e.getErrorMessage(), new MessageDTO( e.getMessage()));
+        log.warn("接口调用不正确： {}, {}", req.getRequestURI(), e.getMessage());
+        return new ResultDTO(e.getCode(), e.getMsg(), new MessageDTO( e.getMessage()));
     }
 
 
@@ -38,6 +38,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultDTO errorHandler(HttpServletRequest req, Exception ex) {
         log.error("接口异常：{}，{}", req.getRequestURI(), ex.getMessage());
-        return new ResultDTO(ReturnCode.R500.getCode(),ReturnCode.R500.getMsg(),new MessageDTO(ex.getMessage()));
+        return new ResultDTO(ReturnCode.SERVER_ERROR.getCode(),ReturnCode.SERVER_ERROR.getMsg(),new MessageDTO(ex.getMessage()));
     }
 }

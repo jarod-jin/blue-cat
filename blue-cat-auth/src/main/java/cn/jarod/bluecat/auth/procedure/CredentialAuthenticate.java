@@ -26,7 +26,7 @@ public class CredentialAuthenticate {
     public ResultDTO validAuthority(@Valid ValidSignUpDTO authBO) {
         log.info("validAuthority校验参数为：{}", JSON.toJSONString(authBO));
         credentialService.validSignUp(authBO);
-        return new ResultDTO(ReturnCode.Q200, authBO);
+        return new ResultDTO(ReturnCode.GET_SUCCESS, authBO);
     }
 
 

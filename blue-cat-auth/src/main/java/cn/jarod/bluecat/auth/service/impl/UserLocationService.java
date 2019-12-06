@@ -47,7 +47,7 @@ public class UserLocationService implements IUserLocationService {
         userLocationDO.setUsername(userLocationBO.getUsername());
         userLocationDO.setOrgRoleId(userLocationBO.getOrgRoleId());
         if (userLocationRepository.exists(Example.of(userLocationDO)))
-            throw new BaseException(ReturnCode.S401);
+            throw new BaseException(ReturnCode.NOT_FOUND);
         userLocationDO.setCreator(userLocationBO.getModifier());
         userLocationDO.setModifier(userLocationBO.getModifier());
         return userLocationRepository.save(userLocationDO);
@@ -61,7 +61,7 @@ public class UserLocationService implements IUserLocationService {
     @Override
     @Transactional
     public void delUserLocation(LinkUserLocationBO userLocationBO) {
-        userLocationRepository.delete(userLocationRepository.findById(userLocationBO.getId()).orElseThrow(()->new BaseException(ReturnCode.D400)));
+        userLocationRepository.delete(userLocationRepository.findById(userLocationBO.getId()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
 

@@ -69,7 +69,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
                                               AuthenticationException failed) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), failed.getMessage())));
+        response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), failed.getMessage())));
         response.getWriter().close();
     }
 }

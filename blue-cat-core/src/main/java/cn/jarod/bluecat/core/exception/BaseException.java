@@ -7,20 +7,20 @@ public class BaseException extends RuntimeException {
 
 	private static final long serialVersionUID = -1686070930470829087L;
 	@Getter
-	private String errorCode;
+	private Integer code;
 	@Getter
-	private String errorMessage;
+	private String msg;
 
-	public BaseException(String errorCode, String errorMessage) {
+	public BaseException(Integer errorCode, String errorMessage) {
 		super(errorMessage);
-		this.errorCode = errorCode;
-		this.errorMessage = errorMessage;
+		this.code = errorCode;
+		this.msg = errorMessage;
 	}
 
 	public BaseException(ReturnCode returnCode) {
 		super(returnCode.getMsg());
-		this.errorCode = returnCode.getCode();
-		this.errorMessage = returnCode.getMsg();
+		this.code = returnCode.getCode();
+		this.msg = returnCode.getMsg();
 	}
 
 

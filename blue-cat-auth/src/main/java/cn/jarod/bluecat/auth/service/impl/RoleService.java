@@ -68,8 +68,8 @@ public class RoleService implements IRoleService {
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setRoleCode(dto.getRoleCode());
         if (orgRoleRepository.exists(Example.of(orgRoleDO)))
-            throw new BaseException(ReturnCode.D400.getCode(),"存在绑定组织，无法删除角色");
-        roleRepository.delete(roleRepository.findByRoleCode(dto.getRoleCode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
+            throw new BaseException(ReturnCode.INVALID_REQUEST.getCode(),"存在绑定组织，无法删除角色");
+        roleRepository.delete(roleRepository.findByRoleCode(dto.getRoleCode()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
     /**
@@ -108,7 +108,7 @@ public class RoleService implements IRoleService {
         orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
         orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
         if (orgRoleRepository.exists(Example.of(orgRoleDO)))
-            throw new BaseException(ReturnCode.S401);
+            throw new BaseException(ReturnCode.NOT_FOUND);
         orgRoleDO.setCreator(linkOrgRoleBO.getModifier());
         orgRoleDO.setModifier(linkOrgRoleBO.getModifier());
         return orgRoleRepository.save(orgRoleDO);
@@ -126,7 +126,7 @@ public class RoleService implements IRoleService {
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
         orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
-        orgRoleRepository.delete(orgRoleRepository.findOne(Example.of(orgRoleDO)).orElseThrow(()->new BaseException(ReturnCode.D400)));
+        orgRoleRepository.delete(orgRoleRepository.findOne(Example.of(orgRoleDO)).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
     /**

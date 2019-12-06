@@ -50,17 +50,17 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (SignatureException e) {
             log.info(SIGN_FALSE + BRACE , e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), SIGN_FALSE)));
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), SIGN_FALSE)));
             response.getWriter().close();
             return;
         }catch (ExpiredJwtException e){
             log.info(TOKEN_EXPIRE + BRACE, e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), TOKEN_EXPIRE)));
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), TOKEN_EXPIRE)));
             response.getWriter().close();
             return;
         }catch (Exception e){
             log.info(LOGIN_FAIL + BRACE, e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q400.getCode(), LOGIN_FAIL)));
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), LOGIN_FAIL)));
             response.getWriter().close();
             return;
         }

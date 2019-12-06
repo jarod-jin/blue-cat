@@ -59,7 +59,7 @@ public class OrganizationService implements IOrganizationService {
      */
     @Override
     public void delOrganization(CrudOrganizationBO orgBO) {
-        organizationRepository.delete(organizationRepository.findByOrgCode(orgBO.getNode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
+        organizationRepository.delete(organizationRepository.findByOrgCode(orgBO.getNode()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
     /**

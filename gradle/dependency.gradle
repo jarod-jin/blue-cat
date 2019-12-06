@@ -7,6 +7,9 @@ dependencies {
     implementation "com.alibaba:easyexcel:${easyexcelVersion}"
     implementation "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
     implementation "com.vladmihalcea:hibernate-types-52:${hibernateTypeVersion}"
+    implementation "org.apache.poi:poi-ooxml:${poiVersion}"
+    implementation "org.apache.poi:poi-scratchpad:${poiVersion}"
+
 //    implementation "mysql:mysql-connector-java:${mysqlVersion}"
 
     //lombok依赖

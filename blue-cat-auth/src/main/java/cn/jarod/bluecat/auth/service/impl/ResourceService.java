@@ -76,8 +76,8 @@ public class ResourceService implements IResourceService {
         RoleResourceDO roleResourceDO = new RoleResourceDO();
         roleResourceDO.setResourceCode(resourceBO.getResourceCode());
         if (roleResourceRepository.exists(Example.of(roleResourceDO)))
-            throw new BaseException(ReturnCode.D400.getCode(),"存在绑定权限，无法删除资源");
-        resourceRepository.delete(resourceRepository.findByResourceCode(resourceBO.getResourceCode()).orElseThrow(()->new BaseException(ReturnCode.D400)));
+            throw new BaseException(ReturnCode.INVALID_REQUEST.getCode(),"存在绑定权限，无法删除资源");
+        resourceRepository.delete(resourceRepository.findByResourceCode(resourceBO.getResourceCode()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
     /**
@@ -92,7 +92,7 @@ public class ResourceService implements IResourceService {
         roleResourceDO.setResourceCode(linkBO.getResourceCode());
         roleResourceDO.setRoleCode(linkBO.getRoleCode());
         if (roleResourceRepository.exists(Example.of(roleResourceDO)))
-            throw new BaseException(ReturnCode.S400);
+            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
         roleResourceDO.setModifier(linkBO.getModifier());
         roleResourceDO.setCreator(linkBO.getModifier());
         return roleResourceRepository.save(roleResourceDO);
@@ -106,7 +106,7 @@ public class ResourceService implements IResourceService {
     @Transactional
     public void delRoleResource(LinkRoleResourceBO linkBO) {
         roleResourceRepository.delete(roleResourceRepository.findByResourceCodeAndRoleCode(linkBO.getResourceCode(),linkBO.getRoleCode())
-                .orElseThrow(()->new BaseException(ReturnCode.D400)));
+                .orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
     /**

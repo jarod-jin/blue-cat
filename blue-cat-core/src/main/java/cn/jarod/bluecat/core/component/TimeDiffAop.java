@@ -30,7 +30,6 @@ public class TimeDiffAop {
     //打印方法名
     private ThreadLocal<String> name = new ThreadLocal<>();
 
-
     /**
      * 在方法前记录时间并根据注解，是否打印参数
      * @return

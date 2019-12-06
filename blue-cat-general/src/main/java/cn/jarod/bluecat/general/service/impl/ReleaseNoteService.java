@@ -51,7 +51,7 @@ public class ReleaseNoteService implements IReleaseNoteService {
     @Override
     @Transactional
     public ReleaseNoteDO saveReleaseNote(CrudReleaseNoteBO releaseNoteBO) {
-        ReleaseNoteDO releaseNoteDO = releaseNoteBO.isNew()? new ReleaseNoteDO():releaseNoteRepository.findById(releaseNoteBO.getId()).orElseThrow(()->new BaseException(ReturnCode.S400));
+        ReleaseNoteDO releaseNoteDO = releaseNoteBO.isNew()? new ReleaseNoteDO():releaseNoteRepository.findById(releaseNoteBO.getId()).orElseThrow(()->new BaseException(ReturnCode.NOT_ACCEPTABLE));
         BeanHelperUtil.copyNotNullProperties(releaseNoteBO,releaseNoteDO);
         releaseNoteDO.setCreator(releaseNoteBO.getModifier());
         return releaseNoteRepository.save(releaseNoteDO);

@@ -43,7 +43,8 @@ public class TokenAuthenticationUtil {
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setStatus(HttpServletResponse.SC_OK);
 //            log.info("授权返回："+ JSON.toJSONString(auth)+" 令牌为：" + jwt);
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.Q200.name(), "登录成功", ImmutableMap.<String, Object> builder()
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功", 
+                    ImmutableMap.<String, Object> builder()
                     .put(Const.ACCESS_TOKEN,jwt)
                     .build())));
             response.getWriter().close();

@@ -54,4 +54,6 @@ ext {
 
     hibernateTypeVersion = "2.7.1"
 
+    poiVersion = "4.1.1"
+
 }

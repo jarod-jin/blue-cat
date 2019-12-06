@@ -57,7 +57,7 @@ public class DictEntryService implements IDictEntryService {
     @Transactional
     @TimeDiff
     public DictEntryDO modifyDictEntry(UpdateEntryItemBO modifyDictBO) {
-        DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.S400));
+        DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.NOT_ACCEPTABLE));
         entryDO.getEntryJson().putAll(modifyDictBO.getEntryJson());
         entryDO.setModifier(modifyDictBO.getModifier());
         if (modifyDictBO.getVersion()!=null)
