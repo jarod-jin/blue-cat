@@ -23,8 +23,11 @@ public class DocumentTextDO {
     @Field("subject")
     private String subject;
 
-    @Field("text")
-    private String text;
+    @Field("context")
+    private String context;
+
+    @Field("creator")
+    private String creator;
 
     @Field("createTime")
     private LocalDateTime createTime;
