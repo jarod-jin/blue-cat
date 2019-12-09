@@ -3,7 +3,6 @@ package cn.jarod.bluecat.analyst.controller;
 import cn.jarod.bluecat.analyst.procedure.DocumentAnalyze;
 import cn.jarod.bluecat.core.controller.BaseController;
 import cn.jarod.bluecat.core.model.ResultDTO;
-import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +24,6 @@ public class DocumentUploadController extends BaseController {
     @PostMapping("/upload")
     @ResponseBody
     public ResultDTO upload(@RequestParam("file") MultipartFile file) {
-        return documentAnalyze.uploadAnalyzeFile(file, takeUserAuthInfo());
+        return documentAnalyze.uploadResumeFile(file, takeUserAuthInfo());
     }
 }

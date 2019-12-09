@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @auther jarod.jin 2019/12/5
@@ -24,11 +25,16 @@ public class DocumentTextDO {
     private String subject;
 
     @Field("context")
-    private String context;
+    private List<String> contextList;
 
     @Field("creator")
     private String creator;
 
     @Field("createTime")
     private LocalDateTime createTime;
+
+    public DocumentTextDO(ObjectId id){
+        this.id = id;
+        this.createTime = LocalDateTime.now();
+    }
 }

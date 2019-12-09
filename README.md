@@ -7,4 +7,5 @@
 
 1. 本系统使用Bearer Token的接口认证方式，结合spring security进行安全认证;
 2. 本系统使用阿里的Nacos注册中心和配置中心，系统内application.yaml的配置仅供文档备份不起实际作用，运行系统请部署Nacos;
-3. 本系统默认使用Mariadb作为数据库，使用redis作为默认缓存;
+3. 本系统默认使用Mariadb作为主要数据库，使用redis作为默认缓存;
+4. 由于文件分析和处理的文件结构的不确定性，目前使用mongo作为文件分析的数据库；

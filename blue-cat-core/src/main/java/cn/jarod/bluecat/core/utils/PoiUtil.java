@@ -7,11 +7,13 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -28,7 +30,10 @@ public class PoiUtil {
             document = new HWPFDocument(is);
             extractor = new WordExtractor(document);
             String[] contextArray = extractor.getParagraphText();
-            Arrays.asList(contextArray).forEach(context -> contextList.add(CharMatcher.whitespace().removeFrom(context)));
+            contextList.addAll(Arrays.stream(contextArray)
+                    .map(context->CharMatcher.whitespace().removeFrom(context))
+                    .filter(StringUtils::hasText)
+                    .collect(Collectors.toList()));
         } catch (IOException e) {
             log.error(e.getMessage());
         } finally {
@@ -53,7 +58,10 @@ public class PoiUtil {
         try {
             document = new XWPFDocument(is).getXWPFDocument();
             List<XWPFParagraph> paragraphList = document.getParagraphs();
-            paragraphList.forEach(paragraph -> contextList.add(CharMatcher.whitespace().removeFrom(paragraph.getParagraphText())));
+            contextList.addAll(paragraphList.stream()
+                    .map(paragraph -> CharMatcher.whitespace().removeFrom(paragraph.getParagraphText()))
+                    .filter(StringUtils::hasText)
+                    .collect(Collectors.toList()));
             document.close();
         }  catch (IOException e) {
             log.error(e.getMessage());
