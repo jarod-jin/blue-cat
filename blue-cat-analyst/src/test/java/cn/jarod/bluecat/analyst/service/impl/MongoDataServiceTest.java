@@ -3,8 +3,8 @@ package cn.jarod.bluecat.analyst.service.impl;
 import cn.jarod.bluecat.analyst.BlueCatAnalystApplicationTest;
 import cn.jarod.bluecat.analyst.entity.CandidateDO;
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
-import cn.jarod.bluecat.analyst.entity.EducationDO;
 import cn.jarod.bluecat.analyst.service.IMongoDataService;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -12,8 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalDate;
 
 /**
  * @auther jarod.jin 2019/12/5
@@ -53,15 +51,17 @@ class MongoDataServiceTest extends BlueCatAnalystApplicationTest {
         person.setAge(30);
         person.setGander("男");
         person.setWorkAge(7);
-        person.setEducationList(Lists.newArrayList(new EducationDO("浙江教育学院", LocalDate.of(2009,9,1),LocalDate.of(2013,7,1),"大专")));
-        person.setSkills(Lists.newArrayList("java","springboot"));
-        person.setJobList(Lists.newArrayList());
-        person.setWorkProjectList(Lists.newArrayList());
+        person.setEducation("大专");
+        person.setGraduateSchool("浙江教育学院");
+        person.setSkillMap(ImmutableMap.<String, Integer>builder()
+                .put("java",10)
+                .put("springboot",6)
+                .build());
         mongoDataService.save(person, "candidate");
     }
 
 
     @Test
-    void getAllData() {
+    void query() {
     }
 }

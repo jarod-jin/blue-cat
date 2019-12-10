@@ -1,7 +1,8 @@
 package cn.jarod.bluecat.analyst.procedure;
 
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
-import cn.jarod.bluecat.analyst.service.IMongoDataService;
+import cn.jarod.bluecat.analyst.service.IDocumentTextService;
+import cn.jarod.bluecat.analyst.service.impl.CandidateService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
@@ -10,6 +11,8 @@ import cn.jarod.bluecat.core.utils.PoiUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +27,18 @@ import java.util.List;
 public class DocumentAnalyze {
 
     private static final String RESUME = "resume";
+
+    private static final String SUBJECT = "subject";
+
+    private final IDocumentTextService documentTextService;
+
+    private final CandidateService candidateService;
+
     @Autowired
-    private IMongoDataService documentTextService;
+    public DocumentAnalyze(IDocumentTextService documentTextService, CandidateService candidateService) {
+        this.documentTextService = documentTextService;
+        this.candidateService = candidateService;
+    }
 
     public ResultDTO uploadResumeFile(MultipartFile file, UserDetailDTO userDTO){
         if (file.isEmpty())
@@ -51,5 +64,12 @@ public class DocumentAnalyze {
             log.error(e.toString(), e);
         }
         return new ResultDTO(ReturnCode.NOT_ACCEPTABLE);
+    }
+
+    public void createCandidateBySubject(String subject){
+        Query query = Query.query(Criteria.where(SUBJECT).is(subject));
+        DocumentTextDO documentTextDO = documentTextService.queryOneByQuery(query,RESUME,DocumentTextDO.class);
+        String str = candidateService.findCandidateName(documentTextDO.getContextList());
+        log.info(str);
     }
 }
