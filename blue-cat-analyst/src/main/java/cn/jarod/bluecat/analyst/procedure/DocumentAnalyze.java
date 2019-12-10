@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.analyst.procedure;
 
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
-import cn.jarod.bluecat.analyst.service.IDocumentTextService;
+import cn.jarod.bluecat.analyst.service.IMongoDataService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
@@ -25,7 +25,7 @@ public class DocumentAnalyze {
 
     private static final String RESUME = "resume";
     @Autowired
-    private IDocumentTextService documentTextService;
+    private IMongoDataService documentTextService;
 
     public ResultDTO uploadResumeFile(MultipartFile file, UserDetailDTO userDTO){
         if (file.isEmpty())

@@ -1,6 +1,5 @@
 package cn.jarod.bluecat.analyst.entity;
 
-import cn.jarod.bluecat.core.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
@@ -16,30 +15,36 @@ import java.util.List;
 @Document
 @Getter
 @Setter
-public class ResumeDO extends BaseEntity {
+public class CandidateDO {
 
     @Id
     private ObjectId id;
 
-    @Field("candidate")
-    private String candidate;
+    @Field("name")
+    private String name;
 
     @Field("gander")
     private String gander;
 
+    @Field("age")
+    private Integer age;
+
     @Field("workAge")
     private Integer workAge;
 
-    @Field("skill")
-    private String skill;
+    @Field("skills")
+    private List<String> skills;
 
-    @Field("education")
-    private EducationDO education;
+    @Field("educations")
+    private List<EducationDO> educationList;
 
-    @Field("job")
+    @Field("jobs")
     private List<JobDO> jobList;
 
-    @Field("project")
+    @Field("projects")
     private List<WorkProjectDO> workProjectList;
 
+    public CandidateDO(ObjectId objectId) {
+        this.id = objectId;
+    }
 }

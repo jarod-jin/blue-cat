@@ -107,9 +107,9 @@ public class BeanHelperUtil {
     }
 
     /**
-     * 将目标源中为空的字段过滤，将数据库中查出的数据源复制到提交的目标源中
+     * 将数据源中为空的字段过滤，将数据源中不为空的字段复制到目标源中
      *
-     * @param source 用id从数据库中查出来的数据源
+     * @param source 数据源
      * @param target 提交的实体，目标源
      */
     public static void copyNotNullProperties(Object source, Object target) {
@@ -118,7 +118,7 @@ public class BeanHelperUtil {
 
 
     /**
-     * 将目标源中不为空的字段过滤，将数据库中查出的数据源复制到提交的目标源中
+     * 将目标源中不为空的字段过滤，从数据源中复制目标源为空的字段值
      *
      * @param source 用id从数据库中查出来的数据源
      * @param target 提交的实体，目标源
@@ -129,9 +129,9 @@ public class BeanHelperUtil {
 
 
     /**
-     * @param object 源数据
+     * @param object 判定对象
      * @param isNull 是否为空
-     * @return 将目标源中为空或者不为空的字段取出
+     * @return 将判定对象中为空或者不为空的字段取出
      */
     private static String[] getProperties(Object object, Boolean isNull) {
         BeanWrapper srcBean = new BeanWrapperImpl(object);
