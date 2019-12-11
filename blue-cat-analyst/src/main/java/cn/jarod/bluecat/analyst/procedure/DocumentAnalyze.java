@@ -69,7 +69,7 @@ public class DocumentAnalyze {
     public void createCandidateBySubject(String subject){
         Query query = Query.query(Criteria.where(SUBJECT).is(subject));
         DocumentTextDO documentTextDO = documentTextService.queryOneByQuery(query,RESUME,DocumentTextDO.class);
-        String str = candidateService.findCandidateName(documentTextDO.getContextList());
+        String str = candidateService.findGander(documentTextDO.getContextList());
         log.info(str);
     }
 }

@@ -12,11 +12,11 @@ import java.util.List;
 @Service
 public class CandidateService {
 
-    public String findCandidateName(List<String> context){
-        String[] regex = new String[]{"姓名","姓名：","姓 名","姓名:"};
-        String nameLine = context.stream().map(line->
+    public String findGander(List<String> context){
+        String[] regex = new String[]{"性别","性 别","男","女"};
+        String gander = context.stream().map(line->
             (Arrays.stream(regex).anyMatch(line::contains))?line:""
         ).filter(StringUtils::hasText).findFirst().orElse("");
-        return nameLine;
+        return gander.contains("女")?"女":"男";
     }
 }

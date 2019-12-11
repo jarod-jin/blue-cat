@@ -1,0 +1,44 @@
+server:
+  port: 8094
+
+management:
+  server:
+    port: 9094
+    # address: 127.0.0.1
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  redis:
+    database: 0
+    host: 10.1.248.137
+    port: 6379
+    password: redis@123456#
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  data:
+    mongodb:
+      uri: mongodb://admin:123456@127.0.0.1:27017/admin
+logging:
+  path: d:/web_logs/blue_cat
+  file: d:/web_logs/blue_cat/analyst.log
+  pattern:
+    console: "%d - %msg%n"
+
+datasource:
+  master:
+    url: jdbc:mysql://127.0.0.1:3306/analyst?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    username: analyst
+    password: analyst#2019
+  slave:
+    url: jdbc:mysql://127.0.0.1:3306/analyst?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=true
+    username: analyst
+    password: analyst#2019
+
+rest:
+  template:
+    read-timeout: 10000
+    connect-timeout: 20000
