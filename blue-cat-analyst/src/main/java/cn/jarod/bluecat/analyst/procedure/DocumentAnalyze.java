@@ -1,8 +1,10 @@
 package cn.jarod.bluecat.analyst.procedure;
 
+import cn.jarod.bluecat.analyst.entity.CandidateDO;
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
 import cn.jarod.bluecat.analyst.service.IDocumentTextService;
-import cn.jarod.bluecat.analyst.service.impl.CandidateService;
+
+import cn.jarod.bluecat.analyst.utils.CandidateUtil;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
@@ -32,12 +34,10 @@ public class DocumentAnalyze {
 
     private final IDocumentTextService documentTextService;
 
-    private final CandidateService candidateService;
 
     @Autowired
-    public DocumentAnalyze(IDocumentTextService documentTextService, CandidateService candidateService) {
+    public DocumentAnalyze(IDocumentTextService documentTextService) {
         this.documentTextService = documentTextService;
-        this.candidateService = candidateService;
     }
 
     public ResultDTO uploadResumeFile(MultipartFile file, UserDetailDTO userDTO){
@@ -69,7 +69,14 @@ public class DocumentAnalyze {
     public void createCandidateBySubject(String subject){
         Query query = Query.query(Criteria.where(SUBJECT).is(subject));
         DocumentTextDO documentTextDO = documentTextService.queryOneByQuery(query,RESUME,DocumentTextDO.class);
-        String str = candidateService.findGander(documentTextDO.getContextList());
-        log.info(str);
+        CandidateDO candiDO = new CandidateDO(ObjectId.get());
+        candiDO.setName(subject);
+        //获取性别
+        String gander = CandidateUtil.findGander(documentTextDO.getContextList());
+        candiDO.setGander(gander);
+        //获取年龄
+        int age = CandidateUtil.findAge(documentTextDO.getContextList());
+        candiDO.setAge(age);
+
     }
 }

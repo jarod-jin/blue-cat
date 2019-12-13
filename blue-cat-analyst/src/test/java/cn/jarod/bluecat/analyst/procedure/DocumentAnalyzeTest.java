@@ -24,6 +24,6 @@ class DocumentAnalyzeTest extends BlueCatAnalystApplicationTest {
 
     @Test
     void createCandidateBySubject() {
-        documentAnalyze.createCandidateBySubject("李泽民-前端.docx");
+        documentAnalyze.createCandidateBySubject("杨东炎-前端.docx");
     }
 }
