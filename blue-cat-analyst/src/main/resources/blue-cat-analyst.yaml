@@ -56,8 +56,8 @@ security:
   expirationTime: 28800000
   tokenSalt: jarod.jin
   tokenPrefix: Bearer
-  loginUrl: /api/login
+  loginUrl: /auth/api/login
   permitAllUrl:
     - /monitor/*
-    - /api/register
+    - /auth/api/register
 

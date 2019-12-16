@@ -38,7 +38,7 @@ ext {
 
     springBootAdminVersion = "2.1.1"
 
-    springCloudVersion = "Greenwich.RELEASE"
+    springCloudVersion = "Hoxton.RELEASE"
 
     easyexcelVersion = "1.1.2-beta5"
 
