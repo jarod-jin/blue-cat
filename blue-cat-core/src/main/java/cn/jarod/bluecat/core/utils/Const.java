@@ -21,7 +21,7 @@ public class Const {
 
     public static final String SYS_ROOT = "root";
 
-    public static final String CREATE_DATE = "createDate";
+    public static final String GMT_CREATE = "gmtCreate";
 
     /** 默认日期时间格式 */
     public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";

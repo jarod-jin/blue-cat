@@ -91,7 +91,7 @@ public class RoleService implements IRoleService {
     @Override
     @Transactional(readOnly = true)
     public Page<RoleDO> queryRolePage(BaseQO qo) {
-        Sort sort = new Sort(qo.isASC()? Sort.Direction.ASC:Sort.Direction.DESC, Const.CREATE_DATE);
+        Sort sort = new Sort(qo.isASC()? Sort.Direction.ASC:Sort.Direction.DESC, Const.GMT_CREATE);
         Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(), sort);
         return roleRepository.findAll(pageable);
     }
