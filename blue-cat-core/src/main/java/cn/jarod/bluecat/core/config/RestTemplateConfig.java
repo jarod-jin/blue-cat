@@ -28,8 +28,8 @@ public class RestTemplateConfig {
     @Bean
     public SimpleClientHttpRequestFactory simpleClientHttpRequestFactory(){
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setReadTimeout(readTimeout);//ms
-        factory.setConnectTimeout(connectTimeout);//ms
+        factory.setReadTimeout(readTimeout);
+        factory.setConnectTimeout(connectTimeout);
         return factory;
     }
 }

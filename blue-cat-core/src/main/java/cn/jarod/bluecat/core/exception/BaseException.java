@@ -3,6 +3,9 @@ package cn.jarod.bluecat.core.exception;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import lombok.Getter;
 
+/**
+ * @author 45216
+ */
 public class BaseException extends RuntimeException {
 
 	private static final long serialVersionUID = -1686070930470829087L;

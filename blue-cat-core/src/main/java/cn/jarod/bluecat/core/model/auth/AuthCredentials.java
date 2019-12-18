@@ -12,22 +12,22 @@ import org.springframework.util.StringUtils;
 @Setter
 public class AuthCredentials {
 
-    //登录名
+    /**登录名*/
     private String signIn;
 
-    //密码
+    /**密码*/
     private String password;
 
-    //系统编号
+    /**系统编号*/
     private String sysCode;
 
-    //终端版本 ps: IOS 1.0.1 或者Android 1.1.10-beta 或者 PC 1.0 等
+    /**终端版本 ps: IOS 1.0.1 或者Android 1.1.10-beta 或者 PC 1.0 等*/
     private String terminalVersion;
 
 
     public boolean loginValid(){
-        if (StringUtils.isEmpty(signIn))
-            signIn = Const.SYS_ROOT;
+        if (StringUtils.isEmpty(signIn)){
+            signIn = Const.SYS_ROOT; }
         return StringUtils.isEmpty(signIn) || StringUtils.isEmpty(password) || StringUtils.isEmpty(terminalVersion);
     }
 

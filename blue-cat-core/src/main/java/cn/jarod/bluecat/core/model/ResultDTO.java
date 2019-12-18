@@ -13,17 +13,17 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
-public class ResultDTO<T> implements Serializable {
+public class ResultDTO implements Serializable {
     private static final long serialVersionUID = -5288702993752277282L;
 
     private Integer code;
     private String msg;
-    private T data;
+    private Object data;
 
     public ResultDTO() {
     }
 
-    public ResultDTO(Integer code, String resultMessage, T data) {
+    public ResultDTO(Integer code, String resultMessage, Object data) {
         this.code = code;
         this.msg = resultMessage;
         this.data = data;
@@ -39,7 +39,7 @@ public class ResultDTO<T> implements Serializable {
         this.msg = returnCode.getMsg();
     }
 
-    public ResultDTO(ReturnCode returnCode, T data) {
+    public ResultDTO(ReturnCode returnCode, Object data) {
         this.code = returnCode.getCode();
         this.msg = returnCode.getMsg();
         this.data = data;

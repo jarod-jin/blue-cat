@@ -37,15 +37,19 @@ public class PoiUtil {
         } catch (IOException e) {
             log.error(e.getMessage());
         } finally {
-            if (null != extractor)try {
-                extractor.close();
-            } catch (IOException e) {
-                log.error(e.getMessage());
+            if (null != extractor){
+                try {
+                    extractor.close();
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
             }
-            if (null != document) try {
-                document.close();
-            } catch (IOException e) {
-                log.error(e.getMessage());
+            if (null != document) {
+                try {
+                    document.close();
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
             }
         }
         return contextList;
@@ -66,10 +70,12 @@ public class PoiUtil {
         }  catch (IOException e) {
             log.error(e.getMessage());
         } finally {
-            if (null != document) try {
-                document.close();
-            } catch (IOException e) {
-                log.error(e.getMessage());
+            if (null != document) {
+                try {
+                    document.close();
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
             }
         }
         return contextList;

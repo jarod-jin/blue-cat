@@ -19,7 +19,7 @@ public interface IUserLocationService {
 
     /**
      * 保存用户组织角色信息
-     * @param userLocationBO
+     * @param userLocationBO 用户信息
      * @return UserLocationDO
      */
     UserLocationDO saveUserLocation(LinkUserLocationBO userLocationBO);

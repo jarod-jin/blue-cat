@@ -29,8 +29,9 @@ public class MultipartConfig {
         if (dirExists) {
             dirExists = tmpFile.mkdirs();
         }
-        if (dirExists)
+        if (dirExists){
             factory.setLocation(location);
+        }
         return factory.createMultipartConfig();
     }
 }

@@ -35,15 +35,20 @@ public class TokenAuthenticationUtil {
 
     private static final String USER_INFO = "userInfo";
 
+    /**
+     * 返回jwt
+     * @param response 返回
+     * @param auth 认证
+     * @param config
+     */
     public static void addAuthentication(HttpServletResponse response, Authentication auth, SecurityPropertyConfig config) {
         // 生成JWT
         try {
             String jwt = getJWTString(auth, config.getExpirationTime(), config.getTokenSalt());
-            // 将 JWT 写入 Map
-            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+            // 将 JWT 写入 返回对象
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_OK);
-//            log.info("授权返回："+ JSON.toJSONString(auth)+" 令牌为：" + jwt);
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功", 
+            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
                     ImmutableMap.<String, Object> builder()
                     .put(Const.ACCESS_TOKEN,jwt)
                     .build())));
@@ -54,6 +59,13 @@ public class TokenAuthenticationUtil {
     }
 
 
+    /**
+     * 根据认证对象返回JWT
+     * @param auth
+     * @param expirationTime
+     * @param salt
+     * @return String
+     */
     private static String getJWTString(Authentication auth, long expirationTime, String salt){
         String role = getRolesFromAuthority(auth);
         // 生成JWT
@@ -70,6 +82,12 @@ public class TokenAuthenticationUtil {
                 .compact();
     }
 
+    /**
+     * 请求头中获取登录用户信息
+     * @param request
+     * @param config
+     * @return
+     */
     public static Authentication getAuthentication(HttpServletRequest request, SecurityPropertyConfig config) {
         // 从Header中拿到token
         String token = request.getHeader(Const.ACCESS_TOKEN);

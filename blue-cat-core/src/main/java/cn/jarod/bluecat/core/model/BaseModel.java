@@ -12,12 +12,14 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class BaseModel {
 
-    //唯一标识
+    /**唯一标识*/
     private Long id;
-    //修改版本号
+
+    /**修改版本号*/
     @NotNull
     private Integer version;
-    //是否删除(默认为0,1表示删除)
+
+    /**是否删除(默认为0,1表示删除)*/
     private Integer isDel;
 
     private String modifier;
