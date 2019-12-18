@@ -12,14 +12,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class JaxWsDynamicClient {
 
+    /**
+     * 创建动态客户端
+     * @param url
+     * @param methodName
+     * @param params
+     * @return Object[]
+     */
     public Object[] callWebService(String url, String methodName, Object... params) {
-        // 创建动态客户端
         JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
         Client client = dcf.createClient(url);
         return clientInvoke(methodName,client,params);
     }
 
-
+    /**
+     * 创建动态客户端,带用户名密码
+     * @param url
+     * @param methodName
+     * @param userName
+     * @param password
+     * @param params
+     * @return Object[]
+     */
     public Object[] callWebServiceWithUserInfo(String url, String methodName, String userName, String password, Object... params) {
         // 创建动态客户端
         JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
@@ -29,6 +43,13 @@ public class JaxWsDynamicClient {
         return clientInvoke(methodName, client, params);
     }
 
+    /**
+     * 动态代理Invoke
+     * @param methodName
+     * @param client
+     * @param params
+     * @return
+     */
     private Object[] clientInvoke(String methodName, Client client, Object[] params) {
         Object[] objects = new Object[0];
         try {

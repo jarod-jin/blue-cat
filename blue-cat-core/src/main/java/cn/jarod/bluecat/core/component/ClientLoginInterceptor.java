@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
+ * jax-ws动态代理
  * @author jarod.jin 2019/8/14
  */
 public class ClientLoginInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
@@ -35,9 +36,11 @@ public class ClientLoginInterceptor extends AbstractPhaseInterceptor<SoapMessage
         this.username = username;
         this.password = password;
     }
-    /* (non-Javadoc)
+    
+    /**(non-Javadoc)
      * @see org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message.Message)
      */
+    @Override
     public void handleMessage(SoapMessage soap) throws Fault {
         // TODO Auto-generated method stub
         List<Header> headers = soap.getHeaders();

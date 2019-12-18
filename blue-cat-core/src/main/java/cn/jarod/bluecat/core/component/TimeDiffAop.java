@@ -24,15 +24,18 @@ import java.time.LocalDateTime;
 @Component
 public class TimeDiffAop {
 
-    //创建的时间变量只能被当前线程访问
+    /**
+     * 创建的时间变量只能被当前线程访问
+     */
     private ThreadLocal<Long> time = new ThreadLocal<>();
 
-    //打印方法名
+    /**
+     * 打印方法名
+     */
     private ThreadLocal<String> name = new ThreadLocal<>();
 
     /**
      * 在方法前记录时间并根据注解，是否打印参数
-     * @return
      */
     @Before("@annotation(cn.jarod.bluecat.core.annotation.TimeDiff)")
     public void beforeMethod(){
