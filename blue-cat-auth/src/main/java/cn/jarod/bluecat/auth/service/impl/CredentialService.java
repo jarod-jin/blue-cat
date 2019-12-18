@@ -62,8 +62,9 @@ public class CredentialService implements ICredentialService {
     @Transactional(rollbackFor = Exception.class)
     public UserInfoDO registerUser(SignUpDTO authDTO) {
         UserInfoDO authDO = BeanHelperUtil.createCopyBean(authDTO, UserInfoDO.class);
-        if (!authDTO.hasTelOrEmail())
+        if (!authDTO.hasTelOrEmail()){
             throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(), "电话和邮箱不能同时为空");
+        }
         authDO.setCreator(authDTO.getUsername());
         authDO.setModifier(authDTO.getUsername());
         authDO.setCredentialType(authDTO.getCredentialType());
@@ -143,10 +144,12 @@ public class CredentialService implements ICredentialService {
     public void modifyPassword(UpdateCredBO credBO) {
         credentialRepository.findByUsername(credBO.getAuthority()).ifPresent(
             c -> {
-                if (!c.getPassword().equals(credBO.getCurrentPassword()))
+                if (!c.getPassword().equals(credBO.getCurrentPassword())) {
                     throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"原密码错误");
-                if (credHistoryRepository.existsByUsernameAndPassword(credBO.getAuthority(), credBO.getModifiedPassword()))
+                }
+                if (credHistoryRepository.existsByUsernameAndPassword(credBO.getAuthority(), credBO.getModifiedPassword())) {
                     throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"密码不能和前"+ passNumber +"次相同");
+                }
                 c.setPassword(credBO.getModifiedPassword());
                 CredHistoryDO chDO = new CredHistoryDO(credBO.getAuthority(), credBO.getModifiedPassword(),credBO.getAuthority());
                 credHistoryRepository.save(chDO);
@@ -162,8 +165,9 @@ public class CredentialService implements ICredentialService {
      */
     private void handleCredPassword(CredHistoryDO chDO) {
         List<CredHistoryDO> list = credHistoryRepository.findAllByUsername(chDO.getUsername());
-        if (list.size()> passNumber)
-            list.stream().min(Comparator.comparing(CredHistoryDO::getCreateDate)).ifPresent(e -> credHistoryRepository.delete(e));
+        if (list.size()> passNumber){
+            list.stream().min(Comparator.comparing(CredHistoryDO::getGmtCreate)).ifPresent(credHistoryRepository::delete);
+        }
     }
 
     /**

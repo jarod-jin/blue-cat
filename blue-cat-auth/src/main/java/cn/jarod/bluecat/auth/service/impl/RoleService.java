@@ -47,7 +47,7 @@ public class RoleService implements IRoleService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public RoleDO saveRole(CrudRoleBO roleBO) {
         roleBO.reset();
         RoleDO roleDO = roleRepository.findByRoleCode(roleBO.getRoleCode()).orElse(new RoleDO());
@@ -63,12 +63,13 @@ public class RoleService implements IRoleService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delRole(CrudRoleBO dto) {
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setRoleCode(dto.getRoleCode());
-        if (orgRoleRepository.exists(Example.of(orgRoleDO)))
+        if (orgRoleRepository.exists(Example.of(orgRoleDO))) {
             throw new BaseException(ReturnCode.INVALID_REQUEST.getCode(),"存在绑定组织，无法删除角色");
+        }
         roleRepository.delete(roleRepository.findByRoleCode(dto.getRoleCode()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
@@ -91,8 +92,8 @@ public class RoleService implements IRoleService {
     @Override
     @Transactional(readOnly = true)
     public Page<RoleDO> queryRolePage(BaseQO qo) {
-        Sort sort = new Sort(qo.isASC()? Sort.Direction.ASC:Sort.Direction.DESC, Const.GMT_CREATE);
-        Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(), sort);
+        Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(),
+                Sort.by((qo.isASC()? Sort.Direction.ASC:Sort.Direction.DESC), Const.GMT_CREATE));
         return roleRepository.findAll(pageable);
     }
 
@@ -102,13 +103,14 @@ public class RoleService implements IRoleService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public OrgRoleDO saveOrgRole(LinkOrgRoleBO linkOrgRoleBO){
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
         orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
-        if (orgRoleRepository.exists(Example.of(orgRoleDO)))
+        if (orgRoleRepository.exists(Example.of(orgRoleDO))) {
             throw new BaseException(ReturnCode.NOT_FOUND);
+        }
         orgRoleDO.setCreator(linkOrgRoleBO.getModifier());
         orgRoleDO.setModifier(linkOrgRoleBO.getModifier());
         return orgRoleRepository.save(orgRoleDO);
@@ -121,7 +123,7 @@ public class RoleService implements IRoleService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delOrgRole(LinkOrgRoleBO linkOrgRoleBO) {
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
