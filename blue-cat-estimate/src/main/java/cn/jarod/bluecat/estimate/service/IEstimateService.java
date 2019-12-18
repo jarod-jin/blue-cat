@@ -8,7 +8,7 @@ import cn.jarod.bluecat.estimate.model.bo.CrudEstimateSheetBO;
 import java.util.List;
 
 /**
- * @auther jarod.jin 2019/11/25
+ * @author jarod.jin 2019/11/25
  */
 public interface IEstimateService {
 

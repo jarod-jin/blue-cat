@@ -25,7 +25,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * @auther jarod.jin 2019/11/4
+ * @author jarod.jin 2019/11/4
  */
 @Service
 public class RoleService implements IRoleService {

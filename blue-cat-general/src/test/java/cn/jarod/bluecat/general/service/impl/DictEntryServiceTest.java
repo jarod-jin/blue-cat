@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @auther jarod.jin 2019/11/19
+ * @author jarod.jin 2019/11/19
  */
 class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
 

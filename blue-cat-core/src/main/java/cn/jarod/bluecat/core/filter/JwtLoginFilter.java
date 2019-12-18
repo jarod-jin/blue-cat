@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @auther jarod.jin 2018/12/3
+ * @author jarod.jin 2018/12/3
  */
 @Slf4j
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {

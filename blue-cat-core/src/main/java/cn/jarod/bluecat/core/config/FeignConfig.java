@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Feign配置
  * 使用FeignClient进行服务间调用，传递headers信息
- * @auther jarod.jin 2019/11/21
+ * @author jarod.jin 2019/11/21
  */
 @Configuration
 public class FeignConfig  implements RequestInterceptor {

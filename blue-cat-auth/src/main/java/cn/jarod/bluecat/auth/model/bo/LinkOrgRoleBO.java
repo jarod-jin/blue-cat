@@ -3,12 +3,14 @@ package cn.jarod.bluecat.auth.model.bo;
 import cn.jarod.bluecat.core.model.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- * @auther jarod.jin 2019/11/4
+ * @author jarod.jin 2019/11/4
  */
 @Getter
 @Setter
+@ToString
 public class LinkOrgRoleBO extends BaseModel {
 
     private String orgCode;

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @auther jarod.jin 2019/9/18
+ * @author jarod.jin 2019/9/18
  */
 @Getter
 @Setter

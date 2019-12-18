@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @auther jarod.jin 2019/10/10
+ * @author jarod.jin 2019/10/10
  */
 @Slf4j
 @Service

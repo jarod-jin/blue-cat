@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @auther jarod.jin 2019/9/3
+ * @author jarod.jin 2019/9/3
  */
 @Slf4j
 @RestControllerAdvice

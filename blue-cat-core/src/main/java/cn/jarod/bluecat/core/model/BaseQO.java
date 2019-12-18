@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 
 /**
- * @auther jarod.jin 2019/9/4
+ * @author jarod.jin 2019/9/4
  */
 @Setter
 @Getter

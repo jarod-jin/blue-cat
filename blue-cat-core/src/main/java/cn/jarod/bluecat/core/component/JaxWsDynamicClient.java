@@ -6,7 +6,7 @@ import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * @auther jarod.jin 2019/8/14
+ * @author jarod.jin 2019/8/14
  */
 @Slf4j
 @Service

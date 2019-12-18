@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * @auther jarod.jin 2019/11/22
+ * @author jarod.jin 2019/11/22
  */
 @Setter
 @Getter

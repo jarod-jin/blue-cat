@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.Map;
 
 /**
- * @auther jarod.jin 2019/11/19
+ * @author jarod.jin 2019/11/19
  */
 @Getter
 @Setter

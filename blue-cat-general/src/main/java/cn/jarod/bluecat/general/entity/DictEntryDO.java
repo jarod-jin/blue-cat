@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import java.util.Map;
 
 /**
- * @auther jarod.jin 2019/10/14
+ * @author jarod.jin 2019/10/14
  */
 @Entity
 @Getter

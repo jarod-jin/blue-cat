@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @auther jarod.jin 2019/9/5
+ * @author jarod.jin 2019/9/5
  */
 @Slf4j
 @RestController

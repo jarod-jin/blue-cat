@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @auther jarod.jin 2019/11/13
+ * @author jarod.jin 2019/11/13
  */
 @EnableHystrix
 @EnableDiscoveryClient

@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @auther jarod.jin 2019/5/17
+ * @author jarod.jin 2019/5/17
  */
 @Slf4j
 @Configuration

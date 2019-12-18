@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @auther jarod.jin 2019/11/13
+ * @author jarod.jin 2019/11/13
  */
 @Service
 public class ResourceService implements IResourceService {

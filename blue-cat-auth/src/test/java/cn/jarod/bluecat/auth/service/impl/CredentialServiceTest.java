@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @auther jarod.jin 2019/9/10
+ * @author jarod.jin 2019/9/10
  */
 class CredentialServiceTest extends BlueCatAuthApplicationTest {
 

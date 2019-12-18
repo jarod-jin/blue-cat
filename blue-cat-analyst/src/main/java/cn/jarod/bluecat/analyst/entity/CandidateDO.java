@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Map;
 
 /**
- * @auther jarod.jin 2019/12/9
+ * @author jarod.jin 2019/12/9
  */
 @Document
 @Getter

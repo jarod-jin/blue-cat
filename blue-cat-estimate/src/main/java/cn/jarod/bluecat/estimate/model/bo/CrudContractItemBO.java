@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * @auther jarod.jin 2019/11/26
+ * @author jarod.jin 2019/11/26
  */
 @Getter
 @Setter

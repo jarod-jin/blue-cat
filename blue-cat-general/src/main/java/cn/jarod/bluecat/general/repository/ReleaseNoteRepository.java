@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @auther jarod.jin 2019/9/9
+ * @author jarod.jin 2019/9/9
  */
 public interface ReleaseNoteRepository extends JpaRepository<ReleaseNoteDO,Long> {
 

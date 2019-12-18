@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @auther jarod.jin 2018/12/3
+ * @author jarod.jin 2018/12/3
  */
 @Slf4j
 @Service
@@ -40,18 +40,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private String defaultKey;
 
 
-    @Autowired
-    private ICredentialService credentialService;
+    private final ICredentialService credentialService;
 
-    @Autowired
-    private IUserLocationService userLocationService;
+    private final IUserLocationService userLocationService;
 
-    @Autowired
-    private IOrganizationService organizationService;
+    private final IOrganizationService organizationService;
 
-    @Autowired
-    private IRoleService roleService;
+    private final IRoleService roleService;
 
+    public CustomAuthenticationProvider(ICredentialService credentialService, IUserLocationService userLocationService, IOrganizationService organizationService, IRoleService roleService) {
+        this.credentialService = credentialService;
+        this.userLocationService = userLocationService;
+        this.organizationService = organizationService;
+        this.roleService = roleService;
+    }
 
 
     @Override
@@ -112,7 +114,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
 
-    // 是否可以提供输入类型的认证服务
+    /**是否可以提供输入类型的认证服务*/
     @Override
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);

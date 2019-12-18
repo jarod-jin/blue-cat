@@ -3,12 +3,13 @@ package cn.jarod.bluecat.auth.enums;
 import java.util.Arrays;
 
 /**
- * @auther jarod.jin 2019/9/9
+ * @author jarod.jin 2019/9/9
  */
 public enum CredentialType {
-
+    /**普通用户*/
     normal(0,"个人级用户"),
 
+    /**系统用户*/
     server(1,"系统级用户");
 
     private int code;

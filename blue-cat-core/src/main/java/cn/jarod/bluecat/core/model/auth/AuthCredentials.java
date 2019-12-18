@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.springframework.util.StringUtils;
 
 /**
- * @auther jarod.jin 2019/9/9
+ * @author jarod.jin 2019/9/9
  */
 @Getter
 @Setter

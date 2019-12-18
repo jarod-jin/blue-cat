@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * @auther jarod.jin 2018/12/4
+ * @author jarod.jin 2018/12/4
  */
 @Slf4j
 public class EncryptUtil {

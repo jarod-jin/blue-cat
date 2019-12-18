@@ -3,7 +3,7 @@ package cn.jarod.bluecat.core.enums;
 import lombok.Getter;
 
 /**
- * @auther jarod.jin 2019/9/4
+ * @author jarod.jin 2019/9/4
  */
 public enum CommonPattern {
 

@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @auther jarod.jin 2019/9/4
+ * @author jarod.jin 2019/9/4
  */
 @Slf4j
 public class BeanHelperUtil {

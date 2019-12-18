@@ -8,7 +8,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @auther jarod.jin 2019/9/3
+ * @author jarod.jin 2019/9/3
  */
 @Slf4j
 @Configuration

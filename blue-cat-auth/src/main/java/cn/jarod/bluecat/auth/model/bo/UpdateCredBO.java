@@ -4,12 +4,14 @@ import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- * @auther jarod.jin 2019/9/23
+ * @author jarod.jin 2019/9/23
  */
 @Getter
 @Setter
+@ToString
 public class UpdateCredBO {
 
     private String authority;

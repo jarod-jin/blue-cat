@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * @auther jarod.jin 2019/9/4
+ * @author jarod.jin 2019/9/4
  */
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "cn.jarod.bluecat.core.api")

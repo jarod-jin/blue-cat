@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @auther jarod.jin 2019/12/10
+ * @author jarod.jin 2019/12/10
  */
 class DocumentAnalyzeTest extends BlueCatAnalystApplicationTest {
 

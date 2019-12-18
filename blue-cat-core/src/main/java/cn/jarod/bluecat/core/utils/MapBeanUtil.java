@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 由于使用的apache的beanutils所以默认情况下会将
  * Ineger、Boolean、Long等基本类型包装类为null时的值复制后转换成0或者false
- * @auther jarod.jin 2019/9/4
+ * @author jarod.jin 2019/9/4
  */
 @Slf4j
 public class MapBeanUtil {

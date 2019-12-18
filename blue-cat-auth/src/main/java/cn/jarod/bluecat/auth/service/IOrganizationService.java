@@ -8,17 +8,43 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @auther jarod.jin 2019/10/16
+ * @author jarod.jin 2019/10/16
  */
 public interface IOrganizationService {
 
+
+    /**
+     * 修改组织
+     * @param orgBO 组织crud模型
+     * @return OrganizationDO
+     */
     OrganizationDO saveOrganization(CrudOrganizationBO orgBO);
 
+    /**
+     * 删除组织
+     * @param orgBO 删除组织对象
+     */
     void delOrganization(CrudOrganizationBO orgBO);
 
+    /**
+     * 根据组织编码查询组织信息
+     * @param orgCode 组织编码
+     * @return CrudOrganizationBO
+     */
     CrudOrganizationBO findOneByOrgCode(String orgCode);
 
+    /**
+     * 根据组织代码查询下属组织树
+     * @param fullCode 组织代码
+     * @return List
+     */
     List<TreeModel> findOrgTreeByFullCode(String fullCode);
 
+    /**
+     * 根据组织代码查询相关组织信息，返回散列表
+     * @param codes 组织编码列表
+     * @param sys 系统编码
+     * @return Map
+     */
     Map<String, OrganizationDO> queryOrgMapByCodesAndSys(List<String> codes,String sys);
 }

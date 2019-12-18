@@ -23,7 +23,7 @@ import java.io.IOException;
 import static cn.jarod.bluecat.core.utils.Const.BRACE;
 
 /**
- * @auther jarod.jin 2018/12/3
+ * @author jarod.jin 2018/12/3
  */
 @Slf4j
 public class JwtAuthenticationFilter extends GenericFilterBean {

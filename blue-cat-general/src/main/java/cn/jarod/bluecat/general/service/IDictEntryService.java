@@ -5,7 +5,7 @@ import cn.jarod.bluecat.general.model.bo.UpdateEntryItemBO;
 import cn.jarod.bluecat.general.model.bo.CrudDictEntryBO;
 
 /**
- * @auther jarod.jin 2019/11/19
+ * @author jarod.jin 2019/11/19
  */
 public interface IDictEntryService {
 

@@ -6,10 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 /**
- * @auther jarod.jin 2019/9/9
+ * @author jarod.jin 2019/9/9
  */
 public interface CredentialRepository extends JpaRepository<CredentialDO,Long> {
 
+    /**
+     * 通过用户名查询认证对象
+     * @param username 用户名
+     * @return Optional
+     */
     Optional<CredentialDO> findByUsername(String username);
 
 }

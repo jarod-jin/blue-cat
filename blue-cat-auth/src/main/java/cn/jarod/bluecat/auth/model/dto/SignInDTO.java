@@ -2,12 +2,14 @@ package cn.jarod.bluecat.auth.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
- * @auther jarod.jin 2019/9/24
+ * @author jarod.jin 2019/9/24
  */
 @Setter
 @Getter
+@ToString
 public class SignInDTO {
 
     private String loginName;

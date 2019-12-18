@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @auther jarod.jin 2019/10/23
+ * @author jarod.jin 2019/10/23
  */
 class OrganizationServiceTest extends BlueCatAuthApplicationTest {
 

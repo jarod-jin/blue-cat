@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * @auther jarod.jin 2019/9/6
+ * @author jarod.jin 2019/9/6
  */
 @Getter
 @Setter

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @auther jarod.jin 2019/9/3
+ * @author jarod.jin 2019/9/3
  */
 @Slf4j
 public class BaseController {

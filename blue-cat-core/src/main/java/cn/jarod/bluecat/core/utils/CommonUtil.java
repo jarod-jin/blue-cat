@@ -6,7 +6,7 @@ import static cn.jarod.bluecat.core.enums.CommonPattern.CN_PHONE_NUMBER;
 import static cn.jarod.bluecat.core.enums.CommonPattern.EMAIL;
 
 /**
- * @auther jarod.jin 2019/9/9
+ * @author jarod.jin 2019/9/9
  */
 public class CommonUtil {
 

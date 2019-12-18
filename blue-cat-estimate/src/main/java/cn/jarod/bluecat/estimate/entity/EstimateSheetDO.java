@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 
 /**
- * @auther jarod.jin 2019/11/25
+ * @author jarod.jin 2019/11/25
  */
 @Entity
 @Getter

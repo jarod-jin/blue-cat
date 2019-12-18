@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * @auther jarod.jin 2019/11/20
+ * @author jarod.jin 2019/11/20
  */
 class ReleaseNoteServiceTest extends BlueCatGeneralApplicationTest {
 

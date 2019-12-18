@@ -24,7 +24,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @auther jarod.jin 2019/11/27
+ * @author jarod.jin 2019/11/27
  */
 @Slf4j
 class EstimateServiceTest extends BlueCatEstimateApplicationTest {

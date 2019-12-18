@@ -13,7 +13,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
- * @auther jarod.jin 2019/11/22
+ * @author jarod.jin 2019/11/22
  */
 @Entity
 @Getter

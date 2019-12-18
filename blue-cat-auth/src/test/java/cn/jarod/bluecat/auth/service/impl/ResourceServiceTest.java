@@ -20,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @auther jarod.jin 2019/11/13
+ * @author jarod.jin 2019/11/13
  */
 class ResourceServiceTest extends BlueCatAuthApplicationTest {
 

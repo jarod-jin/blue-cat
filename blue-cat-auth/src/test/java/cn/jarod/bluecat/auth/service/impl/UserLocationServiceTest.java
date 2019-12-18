@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * @auther jarod.jin 2019/11/5
+ * @author jarod.jin 2019/11/5
  */
 class UserLocationServiceTest extends BlueCatAuthApplicationTest {
 

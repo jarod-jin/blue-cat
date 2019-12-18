@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * @auther jarod.jin 2019/11/8
+ * @author jarod.jin 2019/11/8
  */
 @Getter
 @Setter

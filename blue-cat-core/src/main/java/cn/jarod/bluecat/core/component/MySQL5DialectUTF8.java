@@ -3,7 +3,7 @@ package cn.jarod.bluecat.core.component;
 import org.hibernate.dialect.MySQL57Dialect;
 
 /**
- * @auther jarod.jin 2019/9/4
+ * @author jarod.jin 2019/9/4
  */
 public class MySQL5DialectUTF8 extends MySQL57Dialect {
     @Override

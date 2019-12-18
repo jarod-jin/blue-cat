@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.utils;
 
 /**
- * @auther jarod.jin 2019/9/4
+ * @author jarod.jin 2019/9/4
  */
 public class Const {
 

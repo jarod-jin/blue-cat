@@ -21,7 +21,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @auther jarod.jin 2019/11/5
+ * @author jarod.jin 2019/11/5
  */
 class RoleServiceTest extends BlueCatAuthApplicationTest {
 

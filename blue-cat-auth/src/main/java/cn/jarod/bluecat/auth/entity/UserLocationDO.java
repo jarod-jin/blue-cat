@@ -13,7 +13,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
- * @auther jarod.jin 2019/10/14
+ * @author jarod.jin 2019/10/14
  */
 @Entity
 @Getter
@@ -25,12 +25,12 @@ import javax.persistence.Table;
             @Index(columnList ="username", name="UsernameIndex", unique = true)})
 public class UserLocationDO extends BaseEntity {
 
-    //组织角色ID
+    /**组织角色ID*/
     @Column(nullable = false, columnDefinition=("bigint(19) comment '组织角色ID'"))
     private Long orgRoleId;
 
 
-    //用户标识
+    /**用户标识*/
     @Column(nullable = false, columnDefinition=("varchar(50) comment '用户标识'"))
     private String username;
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @auther jarod.jin 2019/12/2
+ * @author jarod.jin 2019/12/2
  */
 @Slf4j
 @RestController

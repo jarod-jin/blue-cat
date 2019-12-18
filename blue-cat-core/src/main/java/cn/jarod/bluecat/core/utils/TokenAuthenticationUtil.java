@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @auther jarod.jin 2018/12/3
+ * @author jarod.jin 2018/12/3
  */
 @Slf4j
 public class TokenAuthenticationUtil {

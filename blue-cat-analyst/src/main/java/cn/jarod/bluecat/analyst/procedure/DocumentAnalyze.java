@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @auther jarod.jin 2019/12/6
+ * @author jarod.jin 2019/12/6
  */
 @Slf4j
 @Service

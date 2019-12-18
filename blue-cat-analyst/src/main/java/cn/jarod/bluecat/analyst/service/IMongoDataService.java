@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * @auther jarod.jin 2019/12/5
+ * @author jarod.jin 2019/12/5
  */
 public interface IMongoDataService<T> {
 

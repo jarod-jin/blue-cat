@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 /**
  * 由于Item不会单独存在，故整体作为一个Service
- * @auther jarod.jin 2019/11/25
+ * @author jarod.jin 2019/11/25
  */
 @Slf4j
 @Service

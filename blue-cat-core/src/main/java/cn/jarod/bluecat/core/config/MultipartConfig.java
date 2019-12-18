@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @auther jarod.jin 2019/9/3
+ * @author jarod.jin 2019/9/3
  */
 @Slf4j
 @Configuration

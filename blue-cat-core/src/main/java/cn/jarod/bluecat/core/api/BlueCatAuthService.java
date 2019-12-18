@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
- * @auther jarod.jin 2019/9/5
+ * @author jarod.jin 2019/9/5
  */
 @FeignClient(value="blue-cat-auth")
 public interface BlueCatAuthService {

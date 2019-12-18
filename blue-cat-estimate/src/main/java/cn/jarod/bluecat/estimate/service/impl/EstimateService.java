@@ -20,7 +20,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * @auther jarod.jin 2019/11/25
+ * @author jarod.jin 2019/11/25
  */
 @Slf4j
 @Service

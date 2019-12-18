@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @auther jarod.jin 2019/12/10
+ * @author jarod.jin 2019/12/10
  */
 public class CandidateUtil {
 

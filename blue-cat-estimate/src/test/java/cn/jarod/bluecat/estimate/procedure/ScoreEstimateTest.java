@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @auther jarod.jin 2019/11/29
+ * @author jarod.jin 2019/11/29
  */
 class ScoreEstimateTest extends BlueCatEstimateApplicationTest {
 

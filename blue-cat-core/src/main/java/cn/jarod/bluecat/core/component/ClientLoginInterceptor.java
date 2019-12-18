@@ -13,7 +13,7 @@ import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
- * @auther jarod.jin 2019/8/14
+ * @author jarod.jin 2019/8/14
  */
 public class ClientLoginInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
     private String username;

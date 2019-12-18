@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- * @auther jarod.jin 2019/11/12
+ * @author jarod.jin 2019/11/12
  */
 @Getter
 @Setter

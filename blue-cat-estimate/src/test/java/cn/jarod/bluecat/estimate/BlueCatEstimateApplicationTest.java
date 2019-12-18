@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
- * @auther jarod.jin 2019/11/26
+ * @author jarod.jin 2019/11/26
  */
 @SpringBootTest
 @ExtendWith(SpringExtension.class)

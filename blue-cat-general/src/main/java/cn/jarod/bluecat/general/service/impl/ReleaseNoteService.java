@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @auther jarod.jin 2019/11/20
+ * @author jarod.jin 2019/11/20
  */
 @Slf4j
 @Service

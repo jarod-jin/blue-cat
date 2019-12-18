@@ -6,12 +6,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * @auther jarod.jin 2019/9/9
+ * @author jarod.jin 2019/9/9
  */
 public interface CredHistoryRepository extends JpaRepository<CredHistoryDO,Long> {
 
+    /**
+     * 通过用户民查询密码历史记录
+     * @param username 用户名
+     * @return List
+     */
     List<CredHistoryDO> findAllByUsername(String username);
 
-    boolean existsByUsernameAndPassword(String authority, String modifiedPassword);
+    /**
+     * 用户名密码是否存在
+     * @param username 用户名
+     * @param modifiedPassword  密码
+     * @return boolean
+     */
+    boolean existsByUsernameAndPassword(String username, String modifiedPassword);
 }
 

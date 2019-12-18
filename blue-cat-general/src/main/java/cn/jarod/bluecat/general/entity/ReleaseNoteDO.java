@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * @auther jarod.jin 2019/10/14
+ * @author jarod.jin 2019/10/14
  */
 @Entity
 @Getter

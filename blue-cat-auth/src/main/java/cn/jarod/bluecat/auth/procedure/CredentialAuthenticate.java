@@ -12,17 +12,24 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 
 /**
- * @auther jarod.jin 2019/9/10
+ * @author jarod.jin 2019/9/10
  */
 @Slf4j
 @Service
 public class CredentialAuthenticate {
 
 
-    @Autowired
-    private ICredentialService credentialService;
+    private final ICredentialService credentialService;
 
+    public CredentialAuthenticate(ICredentialService credentialService) {
+        this.credentialService = credentialService;
+    }
 
+    /**
+     * 注册前校验
+     * @param authBO 校验对象
+     * @return ResultDTO
+     */
     public ResultDTO validAuthority(@Valid ValidSignUpDTO authBO) {
         log.info("validAuthority校验参数为：{}", JSON.toJSONString(authBO));
         credentialService.validSignUp(authBO);
