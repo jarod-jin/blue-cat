@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author jarod.jin 2019/10/16
  */
-public interface IOrganizationService {
+public interface OrganizationService {
 
 
     /**

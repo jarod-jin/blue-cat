@@ -10,7 +10,7 @@ import cn.jarod.bluecat.estimate.model.bo.CrudEstimateItemBO;
 import cn.jarod.bluecat.estimate.model.bo.CrudEstimateSheetBO;
 import cn.jarod.bluecat.estimate.repository.EstimateItemRepository;
 import cn.jarod.bluecat.estimate.repository.EstimateSheetRepository;
-import cn.jarod.bluecat.estimate.service.IEstimateService;
+import cn.jarod.bluecat.estimate.service.EstimateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +24,13 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class EstimateService implements IEstimateService {
+public class EstimateServiceImpl implements EstimateService {
     
     private final EstimateSheetRepository estimateSheetRepository;
 
     private final EstimateItemRepository estimateItemRepository;
 
-    public EstimateService(EstimateSheetRepository estimateSheetRepository, EstimateItemRepository estimateItemRepository) {
+    public EstimateServiceImpl(EstimateSheetRepository estimateSheetRepository, EstimateItemRepository estimateItemRepository) {
         this.estimateSheetRepository = estimateSheetRepository;
         this.estimateItemRepository = estimateItemRepository;
     }

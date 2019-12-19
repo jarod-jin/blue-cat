@@ -8,7 +8,7 @@ import cn.jarod.bluecat.general.entity.DictEntryDO;
 import cn.jarod.bluecat.general.model.bo.UpdateEntryItemBO;
 import cn.jarod.bluecat.general.model.bo.CrudDictEntryBO;
 import cn.jarod.bluecat.general.repository.DictEntryRepository;
-import cn.jarod.bluecat.general.service.IDictEntryService;
+import cn.jarod.bluecat.general.service.DictEntryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
-public class DictEntryService implements IDictEntryService {
+public class DictEntryServiceImpl implements DictEntryService {
 
     private final DictEntryRepository dictEntryRepository;
 
     @Autowired
-    public DictEntryService(DictEntryRepository dictEntryRepository) {
+    public DictEntryServiceImpl(DictEntryRepository dictEntryRepository) {
         this.dictEntryRepository = dictEntryRepository;
     }
 

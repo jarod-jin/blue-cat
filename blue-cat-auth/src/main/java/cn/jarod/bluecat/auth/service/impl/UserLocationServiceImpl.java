@@ -3,7 +3,7 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.entity.UserLocationDO;
 import cn.jarod.bluecat.auth.model.bo.LinkUserLocationBO;
 import cn.jarod.bluecat.auth.repository.UserLocationRepository;
-import cn.jarod.bluecat.auth.service.IUserLocationService;
+import cn.jarod.bluecat.auth.service.UserLocationService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class UserLocationService implements IUserLocationService {
+public class UserLocationServiceImpl implements UserLocationService {
 
     private final UserLocationRepository userLocationRepository;
 
     @Autowired
-    public UserLocationService(UserLocationRepository userLocationRepository) {
+    public UserLocationServiceImpl(UserLocationRepository userLocationRepository) {
         this.userLocationRepository = userLocationRepository;
     }
 

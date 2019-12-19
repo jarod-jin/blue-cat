@@ -7,7 +7,7 @@ import cn.jarod.bluecat.general.model.bo.CrudDictEntryBO;
 /**
  * @author jarod.jin 2019/11/19
  */
-public interface IDictEntryService {
+public interface DictEntryService {
 
     DictEntryDO queryByDictCode(String dictCode);
 

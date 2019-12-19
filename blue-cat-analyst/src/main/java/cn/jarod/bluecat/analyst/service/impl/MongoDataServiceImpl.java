@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.analyst.service.impl;
 
 
-import cn.jarod.bluecat.analyst.service.IMongoDataService;
+import cn.jarod.bluecat.analyst.service.MongoDataService;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,12 @@ import java.util.List;
  * @author jarod.jin 2019/12/10
  */
 @Service
-public class MongoDataService<T> implements IMongoDataService<T> {
+public class MongoDataServiceImpl<T> implements MongoDataService<T> {
 
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public MongoDataService(MongoTemplate mongoTemplate) {
+    public MongoDataServiceImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 

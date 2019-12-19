@@ -4,7 +4,7 @@ import cn.jarod.bluecat.general.BlueCatGeneralApplicationTest;
 import cn.jarod.bluecat.general.entity.DictEntryDO;
 import cn.jarod.bluecat.general.model.bo.UpdateEntryItemBO;
 import cn.jarod.bluecat.general.model.bo.CrudDictEntryBO;
-import cn.jarod.bluecat.general.service.IDictEntryService;
+import cn.jarod.bluecat.general.service.DictEntryService;
 import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DictEntryServiceTest extends BlueCatGeneralApplicationTest {
 
     @Autowired
-    private IDictEntryService dictEntryService;
+    private DictEntryService dictEntryService;
 
     private CrudDictEntryBO newDictBO;
 

@@ -3,7 +3,7 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.UserLocationDO;
 import cn.jarod.bluecat.auth.model.bo.LinkUserLocationBO;
-import cn.jarod.bluecat.auth.service.IUserLocationService;
+import cn.jarod.bluecat.auth.service.UserLocationService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class UserLocationServiceTest extends BlueCatAuthApplicationTest {
 
     @Autowired
-    private IUserLocationService userLocationService;
+    private UserLocationService userLocationService;
 
     private LinkUserLocationBO adminLocationBO;
 

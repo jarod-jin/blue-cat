@@ -2,7 +2,7 @@ package cn.jarod.bluecat.analyst.procedure;
 
 import cn.jarod.bluecat.analyst.entity.CandidateDO;
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
-import cn.jarod.bluecat.analyst.service.IDocumentTextService;
+import cn.jarod.bluecat.analyst.service.DocumentTextService;
 
 import cn.jarod.bluecat.analyst.utils.CandidateUtil;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -32,11 +32,11 @@ public class DocumentAnalyze {
 
     private static final String SUBJECT = "subject";
 
-    private final IDocumentTextService documentTextService;
+    private final DocumentTextService documentTextService;
 
 
     @Autowired
-    public DocumentAnalyze(IDocumentTextService documentTextService) {
+    public DocumentAnalyze(DocumentTextService documentTextService) {
         this.documentTextService = documentTextService;
     }
 

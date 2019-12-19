@@ -7,7 +7,7 @@ import cn.jarod.bluecat.auth.model.bo.UpdateUserBO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
-import cn.jarod.bluecat.auth.service.ICredentialService;
+import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
@@ -26,7 +26,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
 
     @Autowired
-    private ICredentialService credentialService;
+    private CredentialService credentialService;
 
     private SignUpDTO tmpDTO;
 

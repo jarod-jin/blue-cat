@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.analyst.service.impl;
 
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
-import cn.jarod.bluecat.analyst.service.IDocumentTextService;
+import cn.jarod.bluecat.analyst.service.DocumentTextService;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
  * @author jarod.jin 2019/12/10
  */
 @Service
-public class DocumentTextService extends MongoDataService<DocumentTextDO> implements IDocumentTextService {
+public class DocumentTextServiceImpl extends MongoDataServiceImpl<DocumentTextDO> implements DocumentTextService {
 
-    public DocumentTextService(MongoTemplate mongoTemplate) {
+    public DocumentTextServiceImpl(MongoTemplate mongoTemplate) {
         super(mongoTemplate);
     }
 

@@ -8,6 +8,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @author jarod.jin 2019/9/10
  */
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class) 升级2.2以后不需要使用该注解
 public class BlueCatAuthApplicationTest {
 }

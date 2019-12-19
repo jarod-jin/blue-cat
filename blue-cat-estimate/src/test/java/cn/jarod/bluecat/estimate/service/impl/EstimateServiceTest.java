@@ -7,7 +7,7 @@ import cn.jarod.bluecat.estimate.entity.EstimateItemDO;
 import cn.jarod.bluecat.estimate.entity.EstimateSheetDO;
 import cn.jarod.bluecat.estimate.model.bo.CrudEstimateItemBO;
 import cn.jarod.bluecat.estimate.model.bo.CrudEstimateSheetBO;
-import cn.jarod.bluecat.estimate.service.IEstimateService;
+import cn.jarod.bluecat.estimate.service.EstimateService;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -31,7 +31,7 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
 
 
     @Autowired
-    private IEstimateService estimateService;
+    private EstimateService estimateService;
 
     private CrudEstimateSheetBO newSheetBO;
 

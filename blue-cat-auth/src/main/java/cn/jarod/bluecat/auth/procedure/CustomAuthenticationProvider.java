@@ -10,7 +10,6 @@ import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,15 +39,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private String defaultKey;
 
 
-    private final ICredentialService credentialService;
+    private final CredentialService credentialService;
 
-    private final IUserLocationService userLocationService;
+    private final UserLocationService userLocationService;
 
-    private final IOrganizationService organizationService;
+    private final OrganizationService organizationService;
 
-    private final IRoleService roleService;
+    private final RoleService roleService;
 
-    public CustomAuthenticationProvider(ICredentialService credentialService, IUserLocationService userLocationService, IOrganizationService organizationService, IRoleService roleService) {
+    public CustomAuthenticationProvider(CredentialService credentialService, UserLocationService userLocationService, OrganizationService organizationService, RoleService roleService) {
         this.credentialService = credentialService;
         this.userLocationService = userLocationService;
         this.organizationService = organizationService;

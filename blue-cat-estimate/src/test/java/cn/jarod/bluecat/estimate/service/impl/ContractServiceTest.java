@@ -6,7 +6,7 @@ import cn.jarod.bluecat.estimate.entity.ContractItemDO;
 import cn.jarod.bluecat.estimate.entity.ContractSheetDO;
 import cn.jarod.bluecat.estimate.model.bo.CrudContractItemBO;
 import cn.jarod.bluecat.estimate.model.bo.CrudContractSheetBO;
-import cn.jarod.bluecat.estimate.service.IContractService;
+import cn.jarod.bluecat.estimate.service.ContractService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ContractServiceTest extends BlueCatEstimateApplicationTest {
 
     @Autowired
-    private IContractService contractService;
+    private ContractService contractService;
 
     private CrudContractSheetBO newSheetBO;
 

@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * @author jarod.jin 2019/11/4
  */
-public interface IRoleService {
+public interface RoleService {
 
     /**
      * 保存角色信息

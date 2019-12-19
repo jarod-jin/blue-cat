@@ -35,4 +35,10 @@ public class ValidSignUpDTO implements Serializable {
     private Boolean canEmail;
 
 
+    public ValidSignUpDTO(){
+        canUsername = false;
+        canTel = false;
+        canEmail = false;
+    }
+
 }

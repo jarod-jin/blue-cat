@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 /**
  * @author jarod.jin 2019/11/20
  */
-public interface IReleaseNoteService {
+public interface ReleaseNoteService {
 
     Page<ReleaseNoteDO> queryPage(QueryReleaseDTO queryDTO);
 

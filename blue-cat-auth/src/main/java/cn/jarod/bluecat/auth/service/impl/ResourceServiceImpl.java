@@ -7,7 +7,7 @@ import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
 import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;
 import cn.jarod.bluecat.auth.repository.ResourceRepository;
 import cn.jarod.bluecat.auth.repository.RoleResourceRepository;
-import cn.jarod.bluecat.auth.service.IResourceService;
+import cn.jarod.bluecat.auth.service.ResourceService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @author jarod.jin 2019/11/13
  */
 @Service
-public class ResourceService implements IResourceService {
+public class ResourceServiceImpl implements ResourceService {
 
     private static final String START_NO = "10001";
 
@@ -34,7 +34,7 @@ public class ResourceService implements IResourceService {
     private final RoleResourceRepository roleResourceRepository;
 
     @Autowired
-    public ResourceService(ResourceRepository resourceRepository, RoleResourceRepository roleResourceRepository) {
+    public ResourceServiceImpl(ResourceRepository resourceRepository, RoleResourceRepository roleResourceRepository) {
         this.resourceRepository = resourceRepository;
         this.roleResourceRepository = roleResourceRepository;
     }

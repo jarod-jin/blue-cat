@@ -10,7 +10,7 @@ import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
 import cn.jarod.bluecat.auth.repository.UserInfoRepository;
-import cn.jarod.bluecat.auth.service.ICredentialService;
+import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class CredentialService implements ICredentialService {
+public class CredentialServiceImpl implements CredentialService {
 
     private final UserInfoRepository userInfoRepository;
 
@@ -46,7 +46,7 @@ public class CredentialService implements ICredentialService {
     private Integer passNumber;
 
     @Autowired
-    public CredentialService(UserInfoRepository userInfoRepository, CredentialRepository credentialRepository, CredHistoryRepository credHistoryRepository) {
+    public CredentialServiceImpl(UserInfoRepository userInfoRepository, CredentialRepository credentialRepository, CredHistoryRepository credHistoryRepository) {
         this.userInfoRepository = userInfoRepository;
         this.credentialRepository = credentialRepository;
         this.credHistoryRepository = credHistoryRepository;

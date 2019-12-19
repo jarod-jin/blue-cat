@@ -6,7 +6,7 @@ import cn.jarod.bluecat.auth.entity.RoleResourceDO;
 import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
 import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
 import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;
-import cn.jarod.bluecat.auth.service.IResourceService;
+import cn.jarod.bluecat.auth.service.ResourceService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResourceServiceTest extends BlueCatAuthApplicationTest {
 
     @Autowired
-    private IResourceService resourceService;
+    private ResourceService resourceService;
 
     private CrudResourceBO tmpResourceBO;
 

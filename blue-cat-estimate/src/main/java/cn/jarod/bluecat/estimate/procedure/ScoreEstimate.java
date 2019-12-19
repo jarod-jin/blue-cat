@@ -8,8 +8,8 @@ import cn.jarod.bluecat.estimate.model.bo.CrudContractItemBO;
 import cn.jarod.bluecat.estimate.model.bo.CrudContractSheetBO;
 import cn.jarod.bluecat.estimate.model.bo.CrudEstimateItemBO;
 import cn.jarod.bluecat.estimate.model.bo.CrudEstimateSheetBO;
-import cn.jarod.bluecat.estimate.service.IContractService;
-import cn.jarod.bluecat.estimate.service.IEstimateService;
+import cn.jarod.bluecat.estimate.service.ContractService;
+import cn.jarod.bluecat.estimate.service.EstimateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +34,11 @@ public class ScoreEstimate {
 
     private static final String A = "a";
 
-    private final IContractService contractService;
+    private final ContractService contractService;
 
-    private final IEstimateService estimateService;
+    private final EstimateService estimateService;
 
-    public ScoreEstimate(IContractService contractService, IEstimateService estimateService) {
+    public ScoreEstimate(ContractService contractService, EstimateService estimateService) {
         this.contractService = contractService;
         this.estimateService = estimateService;
     }

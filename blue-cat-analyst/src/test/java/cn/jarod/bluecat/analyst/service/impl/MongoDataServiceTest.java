@@ -3,7 +3,7 @@ package cn.jarod.bluecat.analyst.service.impl;
 import cn.jarod.bluecat.analyst.BlueCatAnalystApplicationTest;
 import cn.jarod.bluecat.analyst.entity.CandidateDO;
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
-import cn.jarod.bluecat.analyst.service.IMongoDataService;
+import cn.jarod.bluecat.analyst.service.MongoDataService;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.bson.types.ObjectId;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 class MongoDataServiceTest extends BlueCatAnalystApplicationTest {
 
     @Autowired
-    private IMongoDataService mongoDataService;
+    private MongoDataService mongoDataService;
 
     @BeforeEach
     void setUp() {

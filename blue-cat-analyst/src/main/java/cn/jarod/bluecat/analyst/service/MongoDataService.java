@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author jarod.jin 2019/12/5
  */
-public interface IMongoDataService<T> {
+public interface MongoDataService<T> {
 
     void save(T t, String collectionName);
 

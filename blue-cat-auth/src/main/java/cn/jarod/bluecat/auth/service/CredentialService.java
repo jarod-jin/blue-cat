@@ -9,7 +9,7 @@ import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 /**
  * @author jarod.jin 2019/9/9
  */
-public interface ICredentialService {
+public interface CredentialService {
 
     /**
      * 注册一个账号

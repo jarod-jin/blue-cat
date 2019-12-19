@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author jarod.jin 2019/11/13
  */
-public interface IResourceService {
+public interface ResourceService {
 
     /**
      * 资源保存

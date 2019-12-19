@@ -4,7 +4,7 @@ import cn.jarod.bluecat.general.BlueCatGeneralApplicationTest;
 import cn.jarod.bluecat.general.entity.ReleaseNoteDO;
 import cn.jarod.bluecat.general.model.bo.CrudReleaseNoteBO;
 import cn.jarod.bluecat.general.model.dto.QueryReleaseDTO;
-import cn.jarod.bluecat.general.service.IReleaseNoteService;
+import cn.jarod.bluecat.general.service.ReleaseNoteService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ReleaseNoteServiceTest extends BlueCatGeneralApplicationTest {
 
     @Autowired
-    private IReleaseNoteService releaseNoteService;
+    private ReleaseNoteService releaseNoteService;
 
     private CrudReleaseNoteBO crudReleaseNoteBO;
 

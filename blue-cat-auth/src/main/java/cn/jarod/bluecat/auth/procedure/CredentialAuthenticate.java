@@ -1,12 +1,11 @@
 package cn.jarod.bluecat.auth.procedure;
 
 import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
-import cn.jarod.bluecat.auth.service.ICredentialService;
+import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -19,9 +18,9 @@ import javax.validation.Valid;
 public class CredentialAuthenticate {
 
 
-    private final ICredentialService credentialService;
+    private final CredentialService credentialService;
 
-    public CredentialAuthenticate(ICredentialService credentialService) {
+    public CredentialAuthenticate(CredentialService credentialService) {
         this.credentialService = credentialService;
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author jarod.jin 2019/10/10
  */
-public interface IUserLocationService {
+public interface UserLocationService {
 
     /**
      * 通过登录名查询组织角色Id

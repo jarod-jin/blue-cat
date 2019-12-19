@@ -10,7 +10,7 @@ import cn.jarod.bluecat.estimate.model.bo.CrudContractItemBO;
 import cn.jarod.bluecat.estimate.model.bo.CrudContractSheetBO;
 import cn.jarod.bluecat.estimate.repository.ContractItemRepository;
 import cn.jarod.bluecat.estimate.repository.ContractSheetRepository;
-import cn.jarod.bluecat.estimate.service.IContractService;
+import cn.jarod.bluecat.estimate.service.ContractService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +28,14 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class ContractService implements IContractService {
+public class ContractServiceImpl implements ContractService {
 
     private final ContractItemRepository contractItemRepository;
 
     private final ContractSheetRepository contractSheetRepository;
 
     @Autowired
-    public ContractService(ContractSheetRepository contractSheetRepository, ContractItemRepository contractItemRepository) {
+    public ContractServiceImpl(ContractSheetRepository contractSheetRepository, ContractItemRepository contractItemRepository) {
         this.contractSheetRepository = contractSheetRepository;
         this.contractItemRepository = contractItemRepository;
     }

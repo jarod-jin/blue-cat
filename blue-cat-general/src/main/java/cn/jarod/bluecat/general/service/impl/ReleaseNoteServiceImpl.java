@@ -7,7 +7,7 @@ import cn.jarod.bluecat.general.entity.ReleaseNoteDO;
 import cn.jarod.bluecat.general.model.bo.CrudReleaseNoteBO;
 import cn.jarod.bluecat.general.model.dto.QueryReleaseDTO;
 import cn.jarod.bluecat.general.repository.ReleaseNoteRepository;
-import cn.jarod.bluecat.general.service.IReleaseNoteService;
+import cn.jarod.bluecat.general.service.ReleaseNoteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,12 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
-public class ReleaseNoteService implements IReleaseNoteService {
+public class ReleaseNoteServiceImpl implements ReleaseNoteService {
 
     private final ReleaseNoteRepository releaseNoteRepository;
 
     @Autowired
-    public ReleaseNoteService(ReleaseNoteRepository releaseNoteRepository) {
+    public ReleaseNoteServiceImpl(ReleaseNoteRepository releaseNoteRepository) {
         this.releaseNoteRepository = releaseNoteRepository;
     }
 

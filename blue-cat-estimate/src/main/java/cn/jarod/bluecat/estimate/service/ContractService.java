@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author jarod.jin 2019/11/25
  */
-public interface IContractService {
+public interface ContractService {
 
     ContractSheetDO saveContractSheet(CrudContractSheetBO sheetBO);
 

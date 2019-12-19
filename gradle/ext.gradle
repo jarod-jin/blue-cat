@@ -10,7 +10,7 @@ ext {
 
     lombokVersion = '1.18.4'
 
-    junitVersion = '5.3.1'
+    junitVersion = '5.5.2'
 
     jjwtVersion = '0.9.1'
 

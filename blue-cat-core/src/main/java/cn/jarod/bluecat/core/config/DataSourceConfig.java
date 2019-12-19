@@ -57,6 +57,7 @@ public class DataSourceConfig {
         DruidDataSource abstractDataSource = new DruidDataSource();
         abstractDataSource.setDriverClassName(props.getProperty("datasource.driver-class-name"));
         abstractDataSource.setValidationQuery(props.getProperty("datasource.validation-query"));
+//        String dd = props.getProperty("datasource.max-active");
         abstractDataSource.setMaxActive(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.max-active"))));
         abstractDataSource.setMinIdle(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.min-idle"))));
         abstractDataSource.setInitialSize(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.initial-size"))));

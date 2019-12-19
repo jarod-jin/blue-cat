@@ -39,14 +39,16 @@ public class EncryptUtil {
             char[] charArray = inStr.toCharArray();
             byte[] byteArray = new byte[charArray.length];
 
-            for (int i = 0; i < charArray.length; i++)
+            for (int i = 0; i < charArray.length; i++) {
                 byteArray[i] = (byte) charArray[i];
+            }
             byte[] md5Bytes = md5.digest(byteArray);
             StringBuilder hexValue = new StringBuilder();
             for (byte b : md5Bytes){
                 int val = ((int) b) & 0xff;
-                if (val < 16)
+                if (val < 16) {
                     hexValue.append(ROOT);
+                }
                 hexValue.append(Integer.toHexString(val));
             }
             encodeStr = hexValue.toString();
@@ -85,8 +87,9 @@ public class EncryptUtil {
         String stmp;
         for (int n = 0; b != null && n < b.length; n++) {
             stmp = Integer.toHexString(b[n] & 0XFF);
-            if (stmp.length() == 1)
+            if (stmp.length() == 1) {
                 hs.append('0');
+            }
             hs.append(stmp);
         }
         return hs.toString().toLowerCase();
@@ -99,12 +102,16 @@ public class EncryptUtil {
 
     public static String getRandomCode(int length, boolean hasLetter){
         String str= DIGIT;
-        if (hasLetter)
+        if (hasLetter) {
             str += LETTER;
-        char[]arr=new char[length];//定义一个长度是4的char型数组
+        }
+        //定义一个长度是4的char型数组
+        char[]arr=new char[length];
         Random sj=new Random();
-        for(int i=0;i<length;i++)
-            arr[i]= str.charAt(sj.nextInt(str.length()));//从str中随机截取4个单个字符并赋值给arr这个数组存放
+        for(int i=0;i<length;i++) {
+            //从str中随机截取4个单个字符并赋值给arr这个数组存放
+            arr[i]= str.charAt(sj.nextInt(str.length()));
+        }
         return new String(arr);
     }
 }

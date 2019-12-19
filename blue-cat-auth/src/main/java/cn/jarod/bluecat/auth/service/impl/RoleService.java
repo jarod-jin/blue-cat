@@ -6,14 +6,13 @@ import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
 import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.repository.RoleRepository;
-import cn.jarod.bluecat.auth.service.IRoleService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQO;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
-import org.assertj.core.util.Lists;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
  * @author jarod.jin 2019/11/4
  */
 @Service
-public class RoleService implements IRoleService {
+public class RoleService implements cn.jarod.bluecat.auth.service.RoleService {
 
     private final RoleRepository roleRepository;
 

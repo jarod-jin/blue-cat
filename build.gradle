@@ -48,6 +48,15 @@ subprojects {
         all*.exclude group: "log4j", module: "log4j"
         all*.exclude group: "junit", module: "junit"
     }
+
+    test {
+        useJUnitPlatform {
+            includeTags 'fast', 'smoke & feature-a'
+            // excludeTags 'slow', 'ci'
+            includeEngines 'junit-jupiter'
+            excludeEngines 'junit-vintage'
+        }
+    }
 }
 
 allprojects {

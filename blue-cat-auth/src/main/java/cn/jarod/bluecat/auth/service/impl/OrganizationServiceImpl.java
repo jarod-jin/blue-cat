@@ -3,7 +3,7 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
-import cn.jarod.bluecat.auth.service.IOrganizationService;
+import cn.jarod.bluecat.auth.service.OrganizationService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.TreeModel;
@@ -11,8 +11,8 @@ import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.TreeUtil;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,12 +27,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class OrganizationService implements IOrganizationService {
+public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationRepository organizationRepository;
 
     @Autowired
-    public OrganizationService(OrganizationRepository organizationRepository) {
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
     }
 

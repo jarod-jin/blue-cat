@@ -5,7 +5,7 @@ import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
-import cn.jarod.bluecat.auth.service.IRoleService;
+import cn.jarod.bluecat.auth.service.RoleService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQO;
 import org.assertj.core.util.Lists;
@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoleServiceTest extends BlueCatAuthApplicationTest {
 
     @Autowired
-    private IRoleService roleService;
+    private RoleService roleService;
 
 
     private LinkOrgRoleBO sysAdminDTO;
