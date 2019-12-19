@@ -38,8 +38,8 @@ public class ReleaseNoteServiceImpl implements ReleaseNoteService {
      */
     @Override
     public Page<ReleaseNoteDO> queryPage(QueryReleaseDTO queryDTO) {
-        Sort sort = new Sort(queryDTO.isASC()? Sort.Direction.ASC:Sort.Direction.DESC, queryDTO.getOrderProperty());
-        Pageable pageable = PageRequest.of(queryDTO.getPageNum() - 1, queryDTO.getPageCount(), sort);
+        Pageable pageable = PageRequest.of(queryDTO.getPageNum() - 1, queryDTO.getPageCount(),
+                Sort.by(queryDTO.isASC()? Sort.Direction.ASC:Sort.Direction.DESC, queryDTO.getOrderProperty()));
         return releaseNoteRepository.findAllByTerminalTypeAndSysCode(queryDTO.getTerminalType(), queryDTO.getSysCode(), pageable);
     }
 

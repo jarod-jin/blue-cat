@@ -30,7 +30,7 @@ public class DictEntryServiceImpl implements DictEntryService {
 
     @Override
     public DictEntryDO queryByDictCode(String dictCode) {
-        return dictEntryRepository.findByDictCode(dictCode).orElseThrow(()->new BaseException(ReturnCode.Q401));
+        return dictEntryRepository.findByDictCode(dictCode).orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
     }
 
     /**
@@ -39,7 +39,7 @@ public class DictEntryServiceImpl implements DictEntryService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @TimeDiff
     public DictEntryDO saveDict(CrudDictEntryBO entryBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(entryBO.getDictCode()).orElse(new DictEntryDO());
@@ -54,14 +54,15 @@ public class DictEntryServiceImpl implements DictEntryService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @TimeDiff
     public DictEntryDO modifyDictEntry(UpdateEntryItemBO modifyDictBO) {
         DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.NOT_ACCEPTABLE));
         entryDO.getEntryJson().putAll(modifyDictBO.getEntryJson());
         entryDO.setModifier(modifyDictBO.getModifier());
-        if (modifyDictBO.getVersion()!=null)
+        if (modifyDictBO.getVersion()!=null) {
             entryDO.setVersion(modifyDictBO.getVersion());
+        }
         return dictEntryRepository.save(entryDO);
     }
 
@@ -71,14 +72,15 @@ public class DictEntryServiceImpl implements DictEntryService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @TimeDiff
     public DictEntryDO delDictEntry(UpdateEntryItemBO modifyDictBO) {
-        DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.D400));
+        DictEntryDO entryDO = dictEntryRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.GONE));
         modifyDictBO.getEntryJson().forEach((k,v)-> entryDO.getEntryJson().remove(k));
         entryDO.setModifier(modifyDictBO.getModifier());
-        if (modifyDictBO.getVersion()!=null)
+        if (modifyDictBO.getVersion()!=null) {
             entryDO.setVersion(modifyDictBO.getVersion());
+        }
         return dictEntryRepository.save(entryDO);
     }
 

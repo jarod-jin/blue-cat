@@ -5,3 +5,4 @@ blue-cat-core/out/
 *.class
 *.kotlin_module
 blue-cat-gateway/out/
+/blue-cat.iml
