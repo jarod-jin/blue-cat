@@ -43,7 +43,7 @@ dependencies {
                     'org.springframework.cloud:spring-cloud-starter-netflix-ribbon',
                     'org.springframework.cloud:spring-cloud-starter-openfeign',
                     'org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
+//    implementation "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
 
     //alibaba-cloud
     implementation "com.alibaba.cloud:spring-cloud-alibaba-nacos-config"

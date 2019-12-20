@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableFeignClients(basePackages = {"cn.jarod.bluecat.core.api"})
 @SpringBootApplication(scanBasePackages = {"cn.jarod.bluecat.*"})
 public class BlueCatEstimateApplication {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         SpringApplication.run(BlueCatEstimateApplication.class, args);
     }
 }

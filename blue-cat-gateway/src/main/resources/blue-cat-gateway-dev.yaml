@@ -1,9 +1,9 @@
 server:
-  port: 8090
+  port: 8080
 
 management:
   server:
-    port: 9090
+    port: 8090
     # address: 127.0.0.1
 
 spring:

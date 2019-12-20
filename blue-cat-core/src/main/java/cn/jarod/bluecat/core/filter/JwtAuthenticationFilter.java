@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
         try {
-            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             Authentication authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request, securityConfig);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (SignatureException e) {

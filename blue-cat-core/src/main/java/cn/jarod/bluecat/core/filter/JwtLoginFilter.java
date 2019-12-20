@@ -67,7 +67,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException {
-        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), failed.getMessage())));
         response.getWriter().close();

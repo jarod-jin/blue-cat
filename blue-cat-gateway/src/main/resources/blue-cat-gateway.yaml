@@ -58,8 +58,13 @@ security:
   expirationTime: 28800000
   tokenSalt: jarod.jin
   tokenPrefix: Bearer
-  loginUrl: /auth/api/login
+  loginUrl: /api/auth/login
   permitAllUrl:
     - /monitor/*
-    - /auth/api/register
+    - /api/auth/register
+
+feign:
+  hystrix:
+    # 在feign中开启hystrix功能，默认情况下feign不开启hystrix功能
+    enabled: true
 
