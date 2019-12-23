@@ -23,19 +23,31 @@ spring:
         - id: auth_service
           uri: lb://blue-cat-auth
           predicates:
-            - Path=/api/auth/**
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
         - id: estimate_service
           uri: lb://blue-cat-estimate
           predicates:
-            - Path=/api/estimate/**
+            - Path=/estimate/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
         - id: general_service
           uri: lb://blue-cat-general
           predicates:
-            - Path=/api/general/**
+            - Path=/general/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
         - id: analyst_service
           uri: lb://blue-cat-analyst
           predicates:
-            - Path=/api/analyst/**
+            - Path=/analyst/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
 
 
 management:

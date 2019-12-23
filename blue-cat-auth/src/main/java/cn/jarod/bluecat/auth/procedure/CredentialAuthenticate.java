@@ -25,7 +25,6 @@ public class CredentialAuthenticate {
      * 注册前校验
      * @return ResultDTO
      */
-    @TimeDiff
     public ResultDTO validAuthority(String type,String text) {
         return new ResultDTO(ReturnCode.GET_SUCCESS, credentialService.validSignUp(type,text));
     }
