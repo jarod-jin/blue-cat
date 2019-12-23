@@ -20,8 +20,8 @@ public class BaseController {
     protected UserDetailDTO takeUserAuthInfo(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetailDTO user = BeanHelperUtil.createCopyBean(auth.getDetails(),UserDetailDTO.class);
-        List<UserAuthority> list = auth.getAuthorities().stream().map(e-> ((UserGrantedAuthority) e).getUserAuthority()).collect(Collectors.toList());
-        user.setRoleList(list);
+//        List<UserAuthority> list = auth.getAuthorities().stream().map(e-> ((UserGrantedAuthority) e).getUserAuthority()).collect(Collectors.toList());
+//        user.setRoleList(list);
         return user;
     }
 }

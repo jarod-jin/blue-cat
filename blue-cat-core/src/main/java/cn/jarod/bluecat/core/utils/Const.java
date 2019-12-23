@@ -19,7 +19,7 @@ public class Const {
 
     public static final Integer DEL = 1;
 
-    public static final String SYS_ROOT = "root";
+    public static final String SYS_ROOT = "sys";
 
     public static final String GMT_CREATE = "gmtCreate";
 
@@ -34,5 +34,11 @@ public class Const {
 
     /**存放Token的Header Key*/
     public static final String ACCESS_TOKEN = "Authorization";
+
+    public static final String TEL = "tel";
+
+    public static final String EMAIL = "email";
+
+    public static final String USERNAME = "username";
 
 }

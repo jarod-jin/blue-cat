@@ -8,30 +8,33 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * @author jarod.jin 2019/11/8
  */
-@Getter
-@Setter
+
 public class UserGrantedAuthority implements GrantedAuthority {
 
     private static final long serialVersionUID = -256491946697712588L;
 
+    @Getter
+    @Setter
     private String sysCode;
 
+    @Getter
+    @Setter
     private String terminalVersion;
 
-    private UserAuthority userAuthority;
+    private String authority;
 
     public UserGrantedAuthority(String sysCode, String version){
         this.sysCode = sysCode;
         this.terminalVersion = version;
     }
 
-    public UserGrantedAuthority(UserAuthority userAuthority){
-        this.userAuthority = userAuthority;
+    public UserGrantedAuthority(String authority){
+        this.authority = authority;
     }
 
     @Override
     public String getAuthority() {
-        return JSON.toJSONString(userAuthority);
+        return authority;
     }
 
 }

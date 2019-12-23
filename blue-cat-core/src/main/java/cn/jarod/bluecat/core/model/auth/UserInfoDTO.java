@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author jarod.jin 2019/11/12
@@ -40,4 +41,7 @@ public class UserInfoDTO implements Serializable {
 
     /**终端编号*/
     private String terminalVersion;
+
+    /**角色列表*/
+    List<UserAuthority> authorityList;
 }

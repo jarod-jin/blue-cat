@@ -6,7 +6,6 @@ import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateUserBO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
-import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
 import cn.jarod.bluecat.auth.repository.UserInfoRepository;
@@ -17,6 +16,7 @@ import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
+import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,31 +96,29 @@ public class CredentialServiceImpl implements CredentialService {
     }
 
     /**
-     * 注册账号前校验
-     * @param authDTO
-     * @return
+     * 注册电话 邮箱 校验
+     * @param type 注册校验类型
+     * @param text 注册校验内容
+     * @return ValidSignUpDTO
      */
     @Override
     @TimeDiff
     @Transactional(readOnly = true)
-    public ValidSignUpDTO validSignUp(ValidSignUpDTO authDTO) {
-        UserInfoDO auth;
-        if (StringUtils.hasText(authDTO.getUsername())){
-            auth = new UserInfoDO();
-            auth.setUsername(authDTO.getUsername());
-            authDTO.setCanUsername(!userInfoRepository.exists(Example.of(auth)));
+    public Boolean validSignUp(String type, String text) {
+        UserInfoDO auth = new UserInfoDO();
+        switch (type) {
+            case Const.TEL:
+                auth.setTel(text.trim());
+                return CommonUtil.validTel(auth.getTel())  && !userInfoRepository.exists(Example.of(auth));
+            case Const.EMAIL:
+                auth.setEmail(text.trim());
+                return CommonUtil.validEmail(auth.getEmail())  && !userInfoRepository.exists(Example.of(auth));
+            case Const.USERNAME:
+                auth.setUsername(text.trim());
+                return StringUtils.hasText(auth.getUsername())  &&  !userInfoRepository.exists(Example.of(auth));
+            default:
+                return false;
         }
-        if (StringUtils.hasText(authDTO.getTel())){
-            auth = new UserInfoDO();
-            auth.setTel(authDTO.getTel());
-            authDTO.setCanTel(CommonUtil.validTel(auth.getTel())  && !userInfoRepository.exists(Example.of(auth)));
-        }
-        if (StringUtils.hasText(authDTO.getEmail())){
-            auth = new UserInfoDO();
-            auth.setEmail(authDTO.getEmail());
-            authDTO.setCanEmail(CommonUtil.validEmail(auth.getEmail())  && !userInfoRepository.exists(Example.of(auth)));
-        }
-        return authDTO;
     }
 
 

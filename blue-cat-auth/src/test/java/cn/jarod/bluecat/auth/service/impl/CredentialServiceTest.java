@@ -6,11 +6,11 @@ import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateUserBO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;
-import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
+import cn.jarod.bluecat.core.utils.Const;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,8 +31,6 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     private SignUpDTO tmpDTO;
 
     private UpdateUserBO userDTO;
-
-    private ValidSignUpDTO upDTO;
 
     private UpdateCredDTO credBO;
 
@@ -56,41 +54,23 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
         credBO.setCurrentPassword("admin12");
         credBO.setModifiedPassword("admin1234");
 
-        upDTO = new ValidSignUpDTO();
     }
 
     @AfterEach
     void tearDown()  {
         tmpDTO = null;
         userDTO = null;
-        upDTO = null;
         credBO = null;
     }
 
 
-
     @Test
-    @DisplayName("校验内容为null")
-    void validAuthorityNullText() {
-        upDTO = credentialService.validSignUp(upDTO);
+    @DisplayName("校验手机，邮箱，用户名为空白")
+    void validEmailEmpty() {
         assertAll("检验返回结果",
-                ()->  assertFalse(upDTO.getCanEmail()),
-                ()->  assertFalse(upDTO.getCanTel()),
-                ()->  assertFalse(upDTO.getCanUsername())
-        );
-    }
-
-    @Test
-    @DisplayName("校验内容为空白")
-    void validAuthorityEmptyText() {
-        upDTO.setUsername("");
-        upDTO.setTel("");
-        upDTO.setEmail("");
-        upDTO = credentialService.validSignUp(upDTO);
-        assertAll("检验返回结果",
-                ()->  assertFalse(upDTO.getCanUsername()),
-                ()->  assertFalse(upDTO.getCanTel()),
-                ()->  assertFalse(upDTO.getCanEmail())
+                ()->  assertFalse(credentialService.validSignUp(Const.TEL,"")),
+                ()->  assertFalse(credentialService.validSignUp(Const.EMAIL,"")),
+                ()->  assertFalse(credentialService.validSignUp(Const.USERNAME,""))
         );
     }
 
@@ -98,26 +78,11 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验Authority为admin")
     void validAuthorityAdmin() {
-        upDTO.setUsername("admin");
-        upDTO = credentialService.validSignUp(upDTO);
         assertAll("检验返回结果",
-                ()->  assertFalse(upDTO.getCanUsername()),
-                ()->  assertFalse(upDTO.getCanTel()),
-                ()->  assertFalse(upDTO.getCanEmail())
+                ()->  assertTrue(credentialService.validSignUp(Const.TEL,"18158105518")),
+                ()->  assertFalse(credentialService.validSignUp(Const.EMAIL,"")),
+                ()->  assertFalse(credentialService.validSignUp(Const.USERNAME,"admin"))
         );
-    }
-
-    @Test
-    @DisplayName("校验Authority为junit_test")
-    void validAuthorityJunit() {
-        upDTO.setUsername("junit_test");
-        upDTO = credentialService.validSignUp(upDTO);
-        assertAll("检验返回结果",
-                ()->  assertTrue(upDTO.getCanUsername()),
-                ()->  assertFalse(upDTO.getCanTel()),
-                ()->  assertFalse(upDTO.getCanEmail())
-        );
-
     }
 
     @Test

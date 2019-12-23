@@ -57,10 +57,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        // 获取认证的用户名 & 密码
+        /*获取认证的用户名 & 密码*/
         String name = authentication.getName();
         String pwd = EncryptUtil.stringEncodeSHA256(authentication.getCredentials().toString());
-        // 登录外包商人员认证逻辑
         if (pwd.equals(findDefaultKey()) || credentialService.validCredential(name,pwd)) {
             UserGrantedAuthority req = (UserGrantedAuthority) Lists.newArrayList(authentication.getAuthorities()).get(0);
             log.info("{}系统登录成功：用户为{}，终端为：{}", req.getSysCode(), name, req.getTerminalVersion());
@@ -77,14 +76,24 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         takeRoleForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         takeOrgInfoForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, pwd,
-                authorityBOList.stream().filter(UserAuthority::isAuth).map(UserGrantedAuthority::new).collect(Collectors.toList()));
+                authorityBOList.stream()
+                        .filter(UserAuthority::isAuth)
+                        .map(UserAuthority::getRoleCode)
+                        .distinct()
+                        .map(UserGrantedAuthority::new)
+                        .collect(Collectors.toList()));
         UserInfoDTO authDTO =  credentialService.findUserInfo(username);
         authDTO.setSysCode(grantedAuthority.getSysCode());
         authDTO.setTerminalVersion(grantedAuthority.getTerminalVersion());
-        authentication.setDetails(authDTO);
+        authDTO.setAuthorityList(authorityBOList);
+        setUserInfo2Cache(authDTO);
         return authentication;
     }
 
+
+    private void setUserInfo2Cache(UserInfoDTO authDTO){
+
+    }
 
     private void takeOrgInfoForAuthorityBO(List<UserAuthority> authorityBOList, String sys){
         Map<String, OrganizationDO> orgMap = organizationService.queryOrgMapByCodesAndSys(authorityBOList.stream()

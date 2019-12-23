@@ -42,10 +42,10 @@ public class TokenAuthenticationUtil {
      * @param config
      */
     public static void addAuthentication(HttpServletResponse response, Authentication auth, SecurityPropertyConfig config) {
-        // 生成JWT
+        /*生成JWT*/
         try {
             String jwt = getJWTString(auth, config.getExpirationTime(), config.getTokenSalt());
-            // 将 JWT 写入 返回对象
+            /*将 JWT 写入 返回对象*/
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
@@ -61,53 +61,52 @@ public class TokenAuthenticationUtil {
 
     /**
      * 根据认证对象返回JWT
-     * @param auth
-     * @param expirationTime
-     * @param salt
+     * @param auth 认证信息
+     * @param expirationTime 过期时间
+     * @param salt 加密盐
      * @return String
      */
     private static String getJWTString(Authentication auth, long expirationTime, String salt){
         String role = getRolesFromAuthority(auth);
-        // 生成JWT
+        /*生成JWT*/
         return Jwts.builder()
-                // 保存权限（角色）
+                /*保存权限（角色）*/
                 .claim(AUTHORITIES,role)
-                .claim(USER_INFO, JSON.toJSONString(auth.getDetails()))
-                // 用户名写入标题
+//                .claim(USER_INFO, JSON.toJSONString(auth.getDetails()))
+                /*用户名写入标题*/
                 .setSubject(auth.getName())
-                // 有效期设置
+                /*有效期设置*/
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime ))
-                // 签名设置
+                /*签名设置*/
                 .signWith(SignatureAlgorithm.HS512, salt)
                 .compact();
     }
 
     /**
      * 请求头中获取登录用户信息
-     * @param request
-     * @param config
+     * @param request http请求
+     * @param config 安全配置
      * @return
      */
     public static Authentication getAuthentication(HttpServletRequest request, SecurityPropertyConfig config) {
-        // 从Header中拿到token
+        /*从Header中拿到token*/
         String token = request.getHeader(Const.ACCESS_TOKEN);
         if (token != null) {
-            // 解析 Token
+            /*解析 Token*/
             Claims claims = Jwts.parser()
-                    // 验签
+                    /*验签*/
                     .setSigningKey(config.getTokenSalt())
-                    // 去掉 Bearer
+                    /*去掉 Bearer*/
                     .parseClaimsJws(token.replace(config.getTokenPrefix(), ""))
                     .getBody();
 
-            // 拿用户名
+            /*拿用户名*/
             String user = claims.getSubject();
-            // 得到 权限（角色）
+            /*得到 权限（角色）*/
             JSONArray authArray =  JSON.parseArray((String) claims.get(AUTHORITIES));
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,
-                    authArray.stream().map(m-> new UserGrantedAuthority(JSON.parseObject(String.valueOf(m),UserAuthority.class))).collect(Collectors.toList()));
-            authenticationToken.setDetails(JSON.parseObject((String)claims.get(USER_INFO), UserInfoDTO.class));
-            // 返回验证令牌
+                    authArray.stream().map(m-> new UserGrantedAuthority(String.valueOf(m))).collect(Collectors.toList()));
+            /*返回验证令牌*/
             return user != null ? authenticationToken : null;
         }
         return null;

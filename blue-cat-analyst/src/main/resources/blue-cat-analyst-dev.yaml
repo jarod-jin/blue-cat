@@ -22,11 +22,12 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:123456@127.0.0.1:27017/admin
+
 logging:
-  path: d:/web_logs/blue_cat
-  file: d:/web_logs/blue_cat/analyst.log
-  pattern:
-    console: "%d - %msg%n"
+  file:
+    name: d:/web_logs/blue_cat/analyst.log
+    path: d:/web_logs/blue_cat
+
 
 datasource:
   master:

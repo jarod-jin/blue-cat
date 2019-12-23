@@ -11,6 +11,8 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        group: BLUE_CAT_GROUP
+        namespace: 16f4847c-1396-47f2-b9ff-efc17818287c
   redis:
     database: 0
     host: 127.0.0.1
@@ -28,10 +30,9 @@ spring:
       password: root@1234
 
 logging:
-  path: d:/web_logs/blue_cat
-  file: d:/web_logs/blue_cat/auth.log
-  pattern:
-    console: "%d - %msg%n"
+  file:
+    name: d:/web_logs/blue_cat/auth.log
+    path: d:/web_logs/blue_cat
 
 datasource:
   master:
@@ -39,7 +40,7 @@ datasource:
     username: auth
     password: auth#2019
   slave:
-    url: jdbc:mysql://127.0.0.1:3306/auth?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=true
+    url: jdbc:mysql://127.0.0.1:3305/auth?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=true
     username: auth
     password: auth#2019
 

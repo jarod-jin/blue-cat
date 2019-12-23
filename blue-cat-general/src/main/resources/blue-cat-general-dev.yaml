@@ -24,10 +24,11 @@ spring:
       uri: mongodb://admin:123456@127.0.0.1:27017/admin
 
 logging:
-  path: d:/web_logs/blue_cat
-  file: d:/web_logs/blue_cat/general.log
+  file:
+    name: d:/web_logs/blue_cat/general.log
+    path: d:/web_logs/blue_cat
   pattern:
-    console: "%d - %msg%n"
+    console: %d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n
 
 datasource:
   master:

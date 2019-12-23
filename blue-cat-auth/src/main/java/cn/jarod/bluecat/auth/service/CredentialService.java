@@ -3,7 +3,6 @@ package cn.jarod.bluecat.auth.service;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.bo.*;
-import cn.jarod.bluecat.auth.model.dto.ValidSignUpDTO;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 
 /**
@@ -33,10 +32,11 @@ public interface CredentialService {
 
     /**
      * 注册电话 邮箱 校验
-     * @param authDTO 注册校验对象
+     * @param type 注册校验类型
+     * @param text 注册校验内容
      * @return ValidSignUpDTO
      */
-    ValidSignUpDTO validSignUp(ValidSignUpDTO authDTO);
+    Boolean validSignUp(String type, String text);
 
     /**
      * 修改用户密码

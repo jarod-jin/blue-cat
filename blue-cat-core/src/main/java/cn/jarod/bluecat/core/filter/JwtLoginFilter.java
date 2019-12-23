@@ -31,7 +31,6 @@ import java.io.IOException;
 @Slf4j
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-    @Autowired
     private SecurityPropertyConfig securityConfig;
 
     public static final String LOGIN_INFO_MISS = "登录信息不完善";
@@ -42,16 +41,17 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         this.securityConfig = config;
     }
 
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
             throws IOException {
-        // JSON反序列化成 User
+        /*JSON反序列化成 User**/
         AuthCredentials credentials = JSON.parseObject(req.getInputStream(), AuthCredentials.class);
         if (credentials==null || credentials.loginValid()){
             log.info(LOGIN_INFO_MISS);
             throw new BadCredentialsException(LOGIN_INFO_MISS);
         }
-        // 返回一个验证令牌
+        /*返回一个验证令牌*/
         return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(credentials.getSignIn(),
                 credentials.getPassword(), Lists.newArrayList(new UserGrantedAuthority(credentials.getSysCode(), credentials.getTerminalVersion()))));
     }
