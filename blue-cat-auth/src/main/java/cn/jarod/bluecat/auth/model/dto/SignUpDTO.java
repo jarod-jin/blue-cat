@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -20,23 +21,23 @@ public class SignUpDTO implements Serializable {
 
     /**用户唯一标识*/
     @NotBlank
-    private String username;
+    private String signName;
 
     /**密码*/
     @NotBlank
     private String password;
 
-    /**电话*/
-    private String tel;
-
-    /**邮箱*/
-    private String email;
+    /**注册类型0-为手机 1为邮箱*/
+    @NotNull
+    private Integer signType;
 
     /**用户类型*/
     private Integer credentialType;
 
-    public boolean hasTelOrEmail(){
-        return CommonUtil.validTel(tel) || CommonUtil.validEmail(email);
+    public Integer isTelOrEmail(){
+        if (CommonUtil.validTel(signName)){ return 1; }
+        if (CommonUtil.validEmail(signName)){ return 2; }
+        return 0;
     }
 
 

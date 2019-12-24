@@ -29,8 +29,12 @@ public enum CredentialType {
         return memo;
     }
 
-    public String findMemo(int code){
-        return Arrays.stream(CredentialType.values()).filter(e->code==e.code).findFirst().orElse(normal).memo;
+    public static String findMemo(int code){
+        return Arrays.stream(CredentialType.values())
+                .filter(e->code==e.code)
+                .findFirst()
+                .orElse(normal)
+                .memo;
     }
 
 }

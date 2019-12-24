@@ -5,6 +5,8 @@ import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.bo.*;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author jarod.jin 2019/9/9
  */
@@ -12,10 +14,11 @@ public interface CredentialService {
 
     /**
      * 注册一个账号
-     * @param credDTO 注册用户对象
+     * @param userBO 注册用户对象
+     * @param password 密码
      * @return UserInfoDO
      */
-    UserInfoDO registerUser(SignUpDTO credDTO);
+    UserInfoDO registerUser(CrudUserBO userBO, String password) ;
 
     /**
      * 删除用户
@@ -28,7 +31,7 @@ public interface CredentialService {
      * @param authBO 修改用户
      * @return UserInfoDO
      */
-    UserInfoDO modifyUser(UpdateUserBO authBO);
+    UserInfoDO modifyUser(CrudUserBO authBO);
 
     /**
      * 注册电话 邮箱 校验
@@ -36,7 +39,7 @@ public interface CredentialService {
      * @param text 注册校验内容
      * @return ValidSignUpDTO
      */
-    Boolean validSignUp(String type, String text);
+    Boolean validSignUp(Integer type, String text);
 
     /**
      * 修改用户密码
@@ -60,4 +63,17 @@ public interface CredentialService {
      */
     UserInfoDTO findUserInfo(String name);
 
+    /**
+     * 返回一个可用的用户名
+     * @param crudUserBO
+     * @return username
+     */
+    String bookUsername(CrudUserBO crudUserBO);
+
+
+    /**
+     * 设置注册信息至redis
+     * @param string
+     */
+    void setSignInfo2Redis(final @NotBlank String string);
 }

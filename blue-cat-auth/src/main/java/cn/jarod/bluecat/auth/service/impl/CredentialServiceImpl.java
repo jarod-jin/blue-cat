@@ -4,8 +4,7 @@ import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
-import cn.jarod.bluecat.auth.model.bo.UpdateUserBO;
-import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
+import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
 import cn.jarod.bluecat.auth.repository.UserInfoRepository;
@@ -22,12 +21,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static cn.jarod.bluecat.core.utils.Const.*;
+import static cn.jarod.bluecat.core.utils.Const.TEL;
 
 /**
  * @author jarod.jin 2019/9/9
@@ -36,46 +41,48 @@ import java.util.List;
 @Service
 public class CredentialServiceImpl implements CredentialService {
 
+    public static final int TIMEOUT = 3600;
     private final UserInfoRepository userInfoRepository;
 
     private final CredentialRepository credentialRepository;
 
     private final CredHistoryRepository credHistoryRepository;
 
+    private final StringRedisTemplate redisTemplate;
+
     @Value("${security.password.number:3}")
     private Integer passNumber;
 
     @Autowired
-    public CredentialServiceImpl(UserInfoRepository userInfoRepository, CredentialRepository credentialRepository, CredHistoryRepository credHistoryRepository) {
+    public CredentialServiceImpl(UserInfoRepository userInfoRepository, CredentialRepository credentialRepository, CredHistoryRepository credHistoryRepository, StringRedisTemplate redisTemplate) {
         this.userInfoRepository = userInfoRepository;
         this.credentialRepository = credentialRepository;
         this.credHistoryRepository = credHistoryRepository;
+        this.redisTemplate = redisTemplate;
     }
 
     /**
      * 注册账号
-     * @param authDTO
+     * @param userBO
      * @return
      */
     @Override
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
-    public UserInfoDO registerUser(SignUpDTO authDTO) {
-        UserInfoDO authDO = BeanHelperUtil.createCopyBean(authDTO, UserInfoDO.class);
-        if (!authDTO.hasTelOrEmail()){
-            throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(), "电话和邮箱不能同时为空");
-        }
-        authDO.setCreator(authDTO.getUsername());
-        authDO.setModifier(authDTO.getUsername());
-        authDO.setCredentialType(authDTO.getCredentialType());
+    public UserInfoDO registerUser(CrudUserBO userBO, String password) {
+        UserInfoDO authDO = BeanHelperUtil.createCopyBean(userBO, UserInfoDO.class);
+        authDO.setCreator(userBO.getUsername());
+        authDO.setModifier(userBO.getUsername());
         authDO = userInfoRepository.save(authDO);
         CredentialDO credDO = new CredentialDO();
+        /*密码加密*/
+        String pwd = EncryptUtil.stringEncodeSHA256(password);
         credDO.setUsername(authDO.getUsername());
-        credDO.setPassword(EncryptUtil.stringEncodeSHA256(authDTO.getPassword()));
+        credDO.setPassword(pwd);
         credDO.setCreator(authDO.getUsername());
         credDO.setModifier(authDO.getUsername());
         credentialRepository.save(credDO);
-        CredHistoryDO chDO = new CredHistoryDO(authDO.getUsername(),EncryptUtil.stringEncodeSHA256(authDTO.getPassword()),authDO.getUsername());
+        CredHistoryDO chDO = new CredHistoryDO(authDO.getUsername(),pwd,authDO.getUsername());
         credHistoryRepository.save(chDO);
         return authDO;
     }
@@ -104,18 +111,15 @@ public class CredentialServiceImpl implements CredentialService {
     @Override
     @TimeDiff
     @Transactional(readOnly = true)
-    public Boolean validSignUp(String type, String text) {
+    public Boolean validSignUp(Integer type, String text) {
         UserInfoDO auth = new UserInfoDO();
         switch (type) {
-            case Const.TEL:
+            case TEL:
                 auth.setTel(text.trim());
-                return CommonUtil.validTel(auth.getTel())  && !userInfoRepository.exists(Example.of(auth));
-            case Const.EMAIL:
+                return CommonUtil.validTel(auth.getTel())  && !existsKey(text) && !userInfoRepository.exists(Example.of(auth));
+            case EMAIL:
                 auth.setEmail(text.trim());
-                return CommonUtil.validEmail(auth.getEmail())  && !userInfoRepository.exists(Example.of(auth));
-            case Const.USERNAME:
-                auth.setUsername(text.trim());
-                return StringUtils.hasText(auth.getUsername())  &&  !userInfoRepository.exists(Example.of(auth));
+                return CommonUtil.validEmail(auth.getEmail())  && !existsKey(text) && !userInfoRepository.exists(Example.of(auth));
             default:
                 return false;
         }
@@ -125,7 +129,7 @@ public class CredentialServiceImpl implements CredentialService {
     @Override
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
-    public UserInfoDO modifyUser(UpdateUserBO authBO) {
+    public UserInfoDO modifyUser(CrudUserBO authBO) {
         UserInfoDO target = BeanHelperUtil.createCopyBean(authBO, UserInfoDO.class);
         userInfoRepository.findByUsername(authBO.getUsername()).ifPresent(s -> BeanHelperUtil.copyNullProperties(s, target));
         return userInfoRepository.save(target);
@@ -191,4 +195,48 @@ public class CredentialServiceImpl implements CredentialService {
         UserInfoDO userInfoDO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.INVALID_REQUEST));
         return BeanHelperUtil.createCopyBean(userInfoDO,UserInfoDTO.class);
     }
+
+    @Override
+    public String bookUsername(CrudUserBO crudUserBO) {
+        StringBuilder buffer = new StringBuilder(EncryptUtil.getRandomCode(4,true));
+        buffer.append(REGEX_HYPHEN);
+        buffer.append(EncryptUtil.getRandomCode(6,true));
+        if (existsKey(buffer.toString()) && userInfoRepository.exists(Example.of(new UserInfoDO(buffer.toString())))){
+            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * 注册信息在redis
+     * @param key
+     */
+    @Override
+    public void setSignInfo2Redis(final @NotBlank String key){
+        try {
+            ValueOperations<String, String> operations = redisTemplate.opsForValue();
+            operations.set(EncryptUtil.stringEncodeMD5(key), key);
+            redisTemplate.expire(key, TIMEOUT, TimeUnit.SECONDS);
+        }catch (Exception e){
+            log.error("写入redis缓存（设置expire存活时间）失败！错误信息为：" + e.getMessage());
+            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
+        }
+    }
+
+    /**
+     * 检查key是否存在
+     * @param keyString key
+     * @return boolean
+     */
+    private boolean existsKey(final @NotBlank String keyString){
+        try {
+            return redisTemplate.hasKey(EncryptUtil.stringEncodeMD5(keyString));
+        } catch (Exception e) {
+            log.error("判断redis缓存中是否有对应的key失败！错误信息为：" + e.getMessage());
+            return false;
+        }
+    }
+
+
+
 }

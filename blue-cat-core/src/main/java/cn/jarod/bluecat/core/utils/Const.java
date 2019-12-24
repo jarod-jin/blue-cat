@@ -35,10 +35,9 @@ public class Const {
     /**存放Token的Header Key*/
     public static final String ACCESS_TOKEN = "Authorization";
 
-    public static final String TEL = "tel";
+    public static final int TEL = 0;
 
-    public static final String EMAIL = "email";
+    public static final int EMAIL = 1;
 
-    public static final String USERNAME = "username";
 
 }

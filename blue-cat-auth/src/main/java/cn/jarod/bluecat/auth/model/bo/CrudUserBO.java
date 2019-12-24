@@ -1,10 +1,12 @@
 package cn.jarod.bluecat.auth.model.bo;
 
 import cn.jarod.bluecat.core.model.BaseModel;
+import cn.jarod.bluecat.core.utils.CommonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -13,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @ToString
-public class UpdateUserBO extends BaseModel {
+public class CrudUserBO extends BaseModel {
 
     /**用户唯一标识*/
     @NotBlank
@@ -39,6 +41,9 @@ public class UpdateUserBO extends BaseModel {
 
     /**头像照片*/
     private String photoUrl;
+
+    /**账号类型*/
+    private Integer credentialType;
 
     /**说明*/
     private String memo;
