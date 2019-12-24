@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 /**
  * @author Jarod.jin
@@ -26,4 +28,10 @@ public class SignUpController extends BaseController {
     public ResultDTO infoValid(@PathVariable("type") @NotBlank String type, @PathVariable("text") @NotBlank String text) {
         return credentialAuthenticate.validAuthority(type,text);
     }
+
+    @PostMapping(value = "/{username}")
+    public String create(@PathVariable("username") @NotBlank String username, @RequestBody @NotNull Map map) {
+        return username + JSON.toJSONString(map);
+    }
+
 }

@@ -6,3 +6,4 @@ blue-cat-core/out/
 *.kotlin_module
 blue-cat-gateway/out/
 /blue-cat.iml
+blue-cat-auth/build/

@@ -1,0 +1,12 @@
+# Use root/example as user/password credentials
+redis:
+  image: redis
+  container_name: my-redis
+  restart: always
+  ports:
+    - 6379:6379
+  # command: redis-server /etc/redis/redis.conf --appendonly yes
+  command: --appendonly yes --requirepass redis@123456#
+  volumes:
+    - ./redis/data:/data
+    # - ./redis/conf/redis.conf:/etc/redis/redis.conf
