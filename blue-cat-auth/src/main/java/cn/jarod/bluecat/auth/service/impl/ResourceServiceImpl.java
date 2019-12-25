@@ -45,11 +45,11 @@ public class ResourceServiceImpl implements ResourceService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResourceDO saveResource(CrudResourceBO resourceBO) {
         resourceBO.reset();
-        if (StringUtils.isEmpty(resourceBO.getResourceCode()))
-            createResourceCode(resourceBO);
+        if (StringUtils.isEmpty(resourceBO.getResourceCode())){
+            createResourceCode(resourceBO);}
         ResourceDO resourceDO = resourceRepository.findByResourceCode(resourceBO.getResourceCode()).orElse(new ResourceDO());
         BeanHelperUtil.copyNotNullProperties(resourceBO,resourceDO);
         resourceDO.setCreator(resourceBO.getModifier());
@@ -71,12 +71,12 @@ public class ResourceServiceImpl implements ResourceService {
      * @param resourceBO
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delResource(CrudResourceBO resourceBO) {
         RoleResourceDO roleResourceDO = new RoleResourceDO();
         roleResourceDO.setResourceCode(resourceBO.getResourceCode());
-        if (roleResourceRepository.exists(Example.of(roleResourceDO)))
-            throw new BaseException(ReturnCode.INVALID_REQUEST.getCode(),"存在绑定权限，无法删除资源");
+        if (roleResourceRepository.exists(Example.of(roleResourceDO))){
+            throw new BaseException(ReturnCode.INVALID_REQUEST.getCode(),"存在绑定权限，无法删除资源");}
         resourceRepository.delete(resourceRepository.findByResourceCode(resourceBO.getResourceCode()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
@@ -86,13 +86,13 @@ public class ResourceServiceImpl implements ResourceService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public RoleResourceDO saveRoleResource(LinkRoleResourceBO linkBO){
         RoleResourceDO roleResourceDO = new RoleResourceDO();
         roleResourceDO.setResourceCode(linkBO.getResourceCode());
         roleResourceDO.setRoleCode(linkBO.getRoleCode());
-        if (roleResourceRepository.exists(Example.of(roleResourceDO)))
-            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
+        if (roleResourceRepository.exists(Example.of(roleResourceDO))){
+            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);}
         roleResourceDO.setModifier(linkBO.getModifier());
         roleResourceDO.setCreator(linkBO.getModifier());
         return roleResourceRepository.save(roleResourceDO);
@@ -103,7 +103,7 @@ public class ResourceServiceImpl implements ResourceService {
      * @param linkBO
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delRoleResource(LinkRoleResourceBO linkBO) {
         roleResourceRepository.delete(roleResourceRepository.findByResourceCodeAndRoleCode(linkBO.getResourceCode(),linkBO.getRoleCode())
                 .orElseThrow(()->new BaseException(ReturnCode.GONE)));
@@ -129,7 +129,7 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<QueryResourceTreeBO> queryResourceTreeBySysAndRoleCodes(String sys, List<String> roleCodes) {
+    public List<QueryResourceTreeBO> findResourceTreeBySysAndRoleCodes(String sys, List<String> roleCodes) {
         Set<String> resourceSets = roleResourceRepository.findAllByRoleCodeIn(roleCodes).stream().map(RoleResourceDO::getResourceCode).collect(Collectors.toSet());
         return resourceRepository.findAllBySysCodeOrderByDisOrder(sys).stream().map(e->{
             QueryResourceTreeBO qrtBO = BeanHelperUtil.createCopyBean(e,QueryResourceTreeBO.class);

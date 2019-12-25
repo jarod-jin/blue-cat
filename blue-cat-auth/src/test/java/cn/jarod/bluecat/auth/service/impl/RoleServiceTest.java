@@ -91,7 +91,7 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("查询指定Code列表角色的散列表")
     void queryRoleMapByCodes() {
-        Map<String, RoleDO> map = roleService.queryRoleMapByCodes(Lists.newArrayList("admin"),"sys");
+        Map<String, RoleDO> map = roleService.findRoleMapByCodes(Lists.newArrayList("admin"),"sys");
         assertAll("检验返回结果",
                 ()-> assertTrue(map.size()>0),
                 ()-> assertNotNull(map.get("admin"))
@@ -102,7 +102,7 @@ class RoleServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("分页查询所有角色")
     void queryRolePage() {
-        Page<RoleDO> page = roleService.queryRolePage(new BaseQO());
+        Page<RoleDO> page = roleService.findRolePage(new BaseQO());
         assertAll("检验返回结果",
                 ()-> assertFalse(page.isEmpty()),
                 ()-> assertEquals("admin",page.getContent().get(0).getRoleCode())

@@ -27,14 +27,14 @@ import java.util.stream.Collectors;
  * @author jarod.jin 2019/11/4
  */
 @Service
-public class RoleService implements cn.jarod.bluecat.auth.service.RoleService {
+public class RoleServiceImpl implements cn.jarod.bluecat.auth.service.RoleService {
 
     private final RoleRepository roleRepository;
 
     private final OrgRoleRepository orgRoleRepository;
 
     @Autowired
-    public RoleService(RoleRepository roleRepository, OrgRoleRepository orgRoleRepository) {
+    public RoleServiceImpl(RoleRepository roleRepository, OrgRoleRepository orgRoleRepository) {
         this.roleRepository = roleRepository;
         this.orgRoleRepository = orgRoleRepository;
     }
@@ -79,7 +79,7 @@ public class RoleService implements cn.jarod.bluecat.auth.service.RoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Map<String,RoleDO> queryRoleMapByCodes(List<String> codes,String sys) {
+    public Map<String,RoleDO> findRoleMapByCodes(List<String> codes, String sys) {
         return roleRepository.findAllBySysCodeInAndRoleCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
     }
 
@@ -90,7 +90,7 @@ public class RoleService implements cn.jarod.bluecat.auth.service.RoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<RoleDO> queryRolePage(BaseQO qo) {
+    public Page<RoleDO> findRolePage(BaseQO qo) {
         Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(),
                 Sort.by((qo.isASC()? Sort.Direction.ASC:Sort.Direction.DESC), Const.GMT_CREATE));
         return roleRepository.findAll(pageable);
@@ -137,7 +137,7 @@ public class RoleService implements cn.jarod.bluecat.auth.service.RoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<String> queryRoleCodesByOrg(LinkOrgRoleBO linkOrgRoleBO) {
+    public List<String> findRoleCodesByOrg(LinkOrgRoleBO linkOrgRoleBO) {
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
         return orgRoleRepository.findAll(Example.of(orgRoleDO)).stream().map(OrgRoleDO::getRoleCode).collect(Collectors.toList());
@@ -151,7 +151,7 @@ public class RoleService implements cn.jarod.bluecat.auth.service.RoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<UserAuthority> queryOrgRoleByIds(List<Long> ids) {
+    public List<UserAuthority> findOrgRoleByIds(List<Long> ids) {
         return orgRoleRepository.findAllById(ids).stream().map( e->{
             UserAuthority authorityBO = new UserAuthority();
             authorityBO.setOrgCode(e.getOrgCode());

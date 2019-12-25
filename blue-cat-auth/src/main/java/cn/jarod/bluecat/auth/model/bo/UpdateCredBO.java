@@ -14,14 +14,14 @@ import lombok.ToString;
 @ToString
 public class UpdateCredBO {
 
-    private String authority;
+    private String username;
 
     private String currentPassword;
 
     private String modifiedPassword;
 
     public UpdateCredBO(UpdateCredDTO updateCredDTO){
-        this.authority = updateCredDTO.getUsername();
+        this.username = updateCredDTO.getUsername();
         this.currentPassword = EncryptUtil.stringEncodeSHA256(updateCredDTO.getCurrentPassword());
         this.modifiedPassword = EncryptUtil.stringEncodeSHA256(updateCredDTO.getModifiedPassword());
     }

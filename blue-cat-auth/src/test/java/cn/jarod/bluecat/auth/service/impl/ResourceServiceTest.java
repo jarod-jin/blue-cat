@@ -84,7 +84,7 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
 
     @Test
     void queryResourceListByCodes() {
-        List<QueryResourceTreeBO> list = resourceService.queryResourceTreeBySysAndRoleCodes("root", Lists.newArrayList("admin"));
+        List<QueryResourceTreeBO> list = resourceService.findResourceTreeBySysAndRoleCodes("root", Lists.newArrayList("admin"));
         assertTrue(list.size()>0);
         assertTrue(list.get(0).isAccess());
     }

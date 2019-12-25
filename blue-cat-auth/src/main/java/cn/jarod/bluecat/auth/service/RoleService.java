@@ -35,14 +35,14 @@ public interface RoleService {
      * @param sys 系统编码
      * @return Map
      */
-    Map<String,RoleDO> queryRoleMapByCodes(List<String> codes, String sys);
+    Map<String,RoleDO> findRoleMapByCodes(List<String> codes, String sys);
 
     /**
      * 分页查询角色信息
      * @param qo 查询对象
      * @return Page
      */
-    Page<RoleDO> queryRolePage(BaseQO qo);
+    Page<RoleDO> findRolePage(BaseQO qo);
 
     /**
      * 保存
@@ -62,13 +62,13 @@ public interface RoleService {
      * @param linkOrgRoleBO 组织角色对象
      * @return List
      */
-    List<String> queryRoleCodesByOrg(LinkOrgRoleBO linkOrgRoleBO);
+    List<String> findRoleCodesByOrg(LinkOrgRoleBO linkOrgRoleBO);
 
     /**
      * 根据Id列表查询用户权限数据组
      * @param ids 组织Id
      * @return List
      */
-    List<UserAuthority> queryOrgRoleByIds(List<Long> ids);
+    List<UserAuthority> findOrgRoleByIds(List<Long> ids);
 }
 

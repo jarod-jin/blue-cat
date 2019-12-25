@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.auth.procedure;
 
+import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.service.*;
@@ -10,7 +11,6 @@ import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,9 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -31,13 +31,6 @@ import java.util.stream.Collectors;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private static final String AUTH_ERROR_MSG = "用户名/密码错误~";
-
-    @Value("${security.key.server:123456}")
-    private String serverKey;
-
-    @Value("${security.key.default:123456}")
-    private String defaultKey;
-
 
     private final CredentialService credentialService;
 
@@ -59,20 +52,32 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         /*获取认证的用户名 & 密码*/
         String name = authentication.getName();
-        String pwd = EncryptUtil.stringEncodeSHA256(authentication.getCredentials().toString());
-        if (pwd.equals(findDefaultKey()) || credentialService.validCredential(name,pwd)) {
+        Optional<CredentialDO> credOpt = credentialService.findCredentialByUsername(name);
+        if (credOpt.isPresent() && validPassword(String.valueOf(authentication.getCredentials()),credOpt.get())) {
             UserGrantedAuthority req = (UserGrantedAuthority) Lists.newArrayList(authentication.getAuthorities()).get(0);
             log.info("{}系统登录成功：用户为{}，终端为：{}", req.getSysCode(), name, req.getTerminalVersion());
-            return createUsernamePasswordAuthentication(name, pwd, req);
+            return createUsernamePasswordAuthentication(name, credOpt.get().getPassword(), req);
         }
         log.info(AUTH_ERROR_MSG + Const.BRACE , name);
         throw new BadCredentialsException(AUTH_ERROR_MSG);
     }
 
+    /**
+     * 密码校验
+     * @param targetPwd 目标密码
+     * @param credDO 密码保存对象
+     * @return boolean
+     */
+    private boolean validPassword(String targetPwd, CredentialDO credDO){
+        return EncryptUtil.encodePassword(targetPwd,credDO.getSalt()).equals(credDO.getPassword());
+    }
+
+
+
 
     private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username, String pwd, UserGrantedAuthority grantedAuthority) {
         List<Long> orgRoleIds = userLocationService.findOrgRoleIdsByUsername(username);
-        List<UserAuthority> authorityBOList =  roleService.queryOrgRoleByIds(orgRoleIds);
+        List<UserAuthority> authorityBOList =  roleService.findOrgRoleByIds(orgRoleIds);
         takeRoleForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         takeOrgInfoForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, pwd,
@@ -86,17 +91,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         authDTO.setSysCode(grantedAuthority.getSysCode());
         authDTO.setTerminalVersion(grantedAuthority.getTerminalVersion());
         authDTO.setAuthorityList(authorityBOList);
-        setUserInfo2Cache(authDTO);
-        return authentication;
+        if (credentialService.setUserInfo2Cache(authDTO)){
+            return authentication;
+        }
+        throw new BadCredentialsException(AUTH_ERROR_MSG);
     }
 
 
-    private void setUserInfo2Cache(UserInfoDTO authDTO){
-
-    }
 
     private void takeOrgInfoForAuthorityBO(List<UserAuthority> authorityBOList, String sys){
-        Map<String, OrganizationDO> orgMap = organizationService.queryOrgMapByCodesAndSys(authorityBOList.stream()
+        Map<String, OrganizationDO> orgMap = organizationService.findOrgMapByCodesAndSys(authorityBOList.stream()
                 .map(UserAuthority::getOrgCode).collect(Collectors.toList()), sys);
         authorityBOList.forEach(o->{
             OrganizationDO tmp = orgMap.get(o.getOrgCode());
@@ -111,7 +115,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
     private void takeRoleForAuthorityBO(List<UserAuthority> authorityBOList, String sys){
-        Map<String, RoleDO> roleMap = roleService.queryRoleMapByCodes(authorityBOList.stream()
+        Map<String, RoleDO> roleMap = roleService.findRoleMapByCodes(authorityBOList.stream()
                 .map(UserAuthority::getRoleCode).collect(Collectors.toList()),sys);
         authorityBOList.forEach(r->{
             RoleDO tmp = roleMap.get(r.getRoleCode());
@@ -128,8 +132,4 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 
-    private String findDefaultKey(){
-        LocalDate now = LocalDate.now();
-        return EncryptUtil.stringEncodeSHA256(defaultKey + now.getMonthValue() + now.getDayOfMonth());
-    }
 }

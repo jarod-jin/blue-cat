@@ -111,4 +111,16 @@ public class EncryptUtil {
         }
         return new String(arr);
     }
+
+    /**
+     * 密码加密
+     * @param clearPwd 明文密码
+     * @param salt 盐值
+     * @return String
+     */
+    public static String encodePassword(String clearPwd, String salt){
+        String tmpPwd = EncryptUtil.stringEncodeSHA256(clearPwd);
+        return EncryptUtil.stringEncodeSHA256(tmpPwd+salt);
+    }
+
 }

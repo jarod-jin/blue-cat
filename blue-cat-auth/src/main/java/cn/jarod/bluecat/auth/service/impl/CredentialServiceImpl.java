@@ -15,7 +15,6 @@ import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
-import cn.jarod.bluecat.core.utils.Const;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotBlank;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static cn.jarod.bluecat.core.utils.Const.*;
@@ -42,6 +42,7 @@ import static cn.jarod.bluecat.core.utils.Const.TEL;
 public class CredentialServiceImpl implements CredentialService {
 
     public static final int TIMEOUT = 3600;
+
     private final UserInfoRepository userInfoRepository;
 
     private final CredentialRepository credentialRepository;
@@ -63,29 +64,34 @@ public class CredentialServiceImpl implements CredentialService {
 
     /**
      * 注册账号
-     * @param userBO
-     * @return
+     * @param userBO 注册用户
+     * @param clearPwd 明文密码
+     * @return UserInfoDO
      */
     @Override
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
-    public UserInfoDO registerUser(CrudUserBO userBO, String password) {
+    public UserInfoDO registerUser(CrudUserBO userBO, String clearPwd) {
         UserInfoDO authDO = BeanHelperUtil.createCopyBean(userBO, UserInfoDO.class);
         authDO.setCreator(userBO.getUsername());
         authDO.setModifier(userBO.getUsername());
         authDO = userInfoRepository.save(authDO);
+        /*密码保存开始*/
         CredentialDO credDO = new CredentialDO();
-        /*密码加密*/
-        String pwd = EncryptUtil.stringEncodeSHA256(password);
         credDO.setUsername(authDO.getUsername());
-        credDO.setPassword(pwd);
+        /*通过一个10位的随机数获取得到盐值*/
+        String salt = EncryptUtil.getRandomCode(10,true);
+        credDO.setSalt(salt);
+        credDO.setPassword(EncryptUtil.encodePassword(clearPwd, salt));
         credDO.setCreator(authDO.getUsername());
         credDO.setModifier(authDO.getUsername());
         credentialRepository.save(credDO);
-        CredHistoryDO chDO = new CredHistoryDO(authDO.getUsername(),pwd,authDO.getUsername());
+        /*密码历史*/
+        CredHistoryDO chDO = new CredHistoryDO(authDO.getUsername(),credDO.getPassword(),authDO.getUsername());
         credHistoryRepository.save(chDO);
         return authDO;
     }
+
 
     /**
      * 删除账号
@@ -98,7 +104,7 @@ public class CredentialServiceImpl implements CredentialService {
     public void deleteUser(UserInfoDTO authBO) {
         BaseException baseException = new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(), "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> baseException));
-        credentialRepository.delete(credentialRepository.findByUsername(authBO.getUsername()).orElseThrow(()-> baseException));
+        credentialRepository.delete(findCredentialByUsername(authBO.getUsername()).orElseThrow(()-> baseException));
         credHistoryRepository.deleteAll(credHistoryRepository.findAllByUsername(authBO.getUsername()));
     }
 
@@ -144,16 +150,16 @@ public class CredentialServiceImpl implements CredentialService {
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public void modifyPassword(UpdateCredBO credBO) {
-        credentialRepository.findByUsername(credBO.getAuthority()).ifPresent(
+        findCredentialByUsername(credBO.getUsername()).ifPresent(
             c -> {
                 if (!c.getPassword().equals(credBO.getCurrentPassword())) {
                     throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"原密码错误");
                 }
-                if (credHistoryRepository.existsByUsernameAndPassword(credBO.getAuthority(), credBO.getModifiedPassword())) {
+                if (credHistoryRepository.existsByUsernameAndPassword(credBO.getUsername(), credBO.getModifiedPassword())) {
                     throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"密码不能和前"+ passNumber +"次相同");
                 }
                 c.setPassword(credBO.getModifiedPassword());
-                CredHistoryDO chDO = new CredHistoryDO(credBO.getAuthority(), credBO.getModifiedPassword(),credBO.getAuthority());
+                CredHistoryDO chDO = new CredHistoryDO(credBO.getUsername(), credBO.getModifiedPassword(),credBO.getUsername());
                 credHistoryRepository.save(chDO);
                 handleCredPassword(chDO);
             }
@@ -174,15 +180,12 @@ public class CredentialServiceImpl implements CredentialService {
 
     /**
      * 登录密码校验
-     * @param signIn
-     * @return
+     * @param username 用户名
+     * @return Optional<CredentialDO>
      */
     @Override
-    public boolean validCredential(String signIn, String password) {
-        CredentialDO credentialDO = new CredentialDO();
-        credentialDO.setUsername(signIn);
-        credentialDO.setPassword(password);
-        return credentialRepository.exists(Example.of(credentialDO));
+    public Optional<CredentialDO> findCredentialByUsername(String username) {
+        return credentialRepository.findAllByUsername(username).stream().findFirst();
     }
 
     /**
@@ -221,6 +224,11 @@ public class CredentialServiceImpl implements CredentialService {
             log.error("写入redis缓存（设置expire存活时间）失败！错误信息为：" + e.getMessage());
             throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
         }
+    }
+
+    @Override
+    public boolean setUserInfo2Cache(UserInfoDTO userInfoDTO) {
+        return false;
     }
 
     /**

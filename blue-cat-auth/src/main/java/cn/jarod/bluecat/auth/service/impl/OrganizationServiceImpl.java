@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public CrudOrganizationBO findOneByOrgCode(String orgCode) {
         CrudOrganizationBO orgDTO = new CrudOrganizationBO();
         organizationRepository.findByOrgCode(orgDTO.getNode()).ifPresent(e -> {
@@ -84,6 +86,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public List<TreeModel> findOrgTreeByFullCode(String fullCode) {
         List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
             CrudOrganizationBO orgDTO = new CrudOrganizationBO();
@@ -102,7 +105,8 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    public Map<String, OrganizationDO> queryOrgMapByCodesAndSys(List<String> codes, String sys) {
+    @Transactional(readOnly = true)
+    public Map<String, OrganizationDO> findOrgMapByCodesAndSys(List<String> codes, String sys) {
         return organizationRepository.findAllBySysCodeInAndOrgCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
     }
 

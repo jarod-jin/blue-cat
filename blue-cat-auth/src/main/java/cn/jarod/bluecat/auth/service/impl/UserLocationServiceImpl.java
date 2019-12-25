@@ -42,12 +42,13 @@ public class UserLocationServiceImpl implements UserLocationService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public UserLocationDO saveUserLocation(LinkUserLocationBO userLocationBO) {
         UserLocationDO userLocationDO = new UserLocationDO();
         userLocationDO.setUsername(userLocationBO.getUsername());
         userLocationDO.setOrgRoleId(userLocationBO.getOrgRoleId());
-        if (userLocationRepository.exists(Example.of(userLocationDO)))
-            throw new BaseException(ReturnCode.NOT_FOUND);
+        if (userLocationRepository.exists(Example.of(userLocationDO))){
+            throw new BaseException(ReturnCode.NOT_FOUND);}
         userLocationDO.setCreator(userLocationBO.getModifier());
         userLocationDO.setModifier(userLocationBO.getModifier());
         return userLocationRepository.save(userLocationDO);
@@ -59,7 +60,7 @@ public class UserLocationServiceImpl implements UserLocationService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delUserLocation(LinkUserLocationBO userLocationBO) {
         userLocationRepository.delete(userLocationRepository.findById(userLocationBO.getId()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }

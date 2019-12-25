@@ -32,7 +32,7 @@ public interface ResourceService {
      * @param roleCodes 角色编码列表
      * @return
      */
-    List<QueryResourceTreeBO> queryResourceTreeBySysAndRoleCodes(String sys, List<String> roleCodes);
+    List<QueryResourceTreeBO> findResourceTreeBySysAndRoleCodes(String sys, List<String> roleCodes);
 
     /**
      * 绑定角色资源

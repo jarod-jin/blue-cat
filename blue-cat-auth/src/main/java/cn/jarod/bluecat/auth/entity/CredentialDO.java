@@ -28,7 +28,11 @@ public class CredentialDO extends BaseEntity {
     private String username;
 
     /**密码*/
-    @Column(nullable = false, columnDefinition=("varchar(250) default '' comment '登录密码'"))
+    @Column(nullable = false, columnDefinition=("varchar(250) comment '密码'"))
     private String password;
+
+    /**盐值*/
+    @Column(nullable = false, columnDefinition=("varchar(20) comment '盐值'"))
+    private String salt;
 
 }

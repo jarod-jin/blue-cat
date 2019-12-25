@@ -3,6 +3,7 @@ package cn.jarod.bluecat.auth.repository;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,6 +16,6 @@ public interface CredentialRepository extends JpaRepository<CredentialDO,Long> {
      * @param username 用户名
      * @return Optional
      */
-    Optional<CredentialDO> findByUsername(String username);
+    List<CredentialDO> findAllByUsername(String username);
 
 }

@@ -46,5 +46,5 @@ public interface OrganizationService {
      * @param sys 系统编码
      * @return Map
      */
-    Map<String, OrganizationDO> queryOrgMapByCodesAndSys(List<String> codes,String sys);
+    Map<String, OrganizationDO> findOrgMapByCodesAndSys(List<String> codes, String sys);
 }
