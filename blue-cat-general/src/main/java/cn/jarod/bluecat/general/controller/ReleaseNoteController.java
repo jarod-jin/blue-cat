@@ -20,7 +20,7 @@ public class ReleaseNoteController extends BaseController {
 
     @PostMapping(value = "/hello2")
     public String hello() {
-        UserDetailDTO userInfo= takeUserAuthInfo();
+        UserDetailDTO userInfo= findCurrentUserInfo();
         return "hello : " + authService.hello() + "--" + userInfo.getTerminalVersion();
     }
 

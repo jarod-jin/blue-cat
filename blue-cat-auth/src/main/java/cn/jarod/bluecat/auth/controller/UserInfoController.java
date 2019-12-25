@@ -2,6 +2,7 @@ package cn.jarod.bluecat.auth.controller;
 
 import cn.jarod.bluecat.auth.procedure.UserAuthenticationProcedure;
 import cn.jarod.bluecat.core.controller.BaseController;
+import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +22,9 @@ public class UserInfoController extends BaseController {
         this.userAuthenticationProcedure = userAuthenticationProcedure;
     }
 
-    @GetMapping(value = "/{username}")
-    public ResultDTO query(@PathVariable("username") @NotNull String username, @PathVariable("text") @NotBlank String text) {
-        return userAuthenticationProcedure.validAuthority(username,text);
+    @GetMapping(value = "/")
+    public ResultDTO query() {
+        return new ResultDTO(ReturnCode.GET_SUCCESS, findCurrentUserInfo().getUsername());
     }
 
     @PutMapping(value = "/{username}")

@@ -16,6 +16,7 @@ import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,8 +42,6 @@ import static cn.jarod.bluecat.core.utils.Const.TEL;
 @Service
 public class CredentialServiceImpl implements CredentialService {
 
-    public static final int TIMEOUT = 3600;
-
     private final UserInfoRepository userInfoRepository;
 
     private final CredentialRepository credentialRepository;
@@ -53,6 +52,14 @@ public class CredentialServiceImpl implements CredentialService {
 
     @Value("${security.password.number:3}")
     private Integer passNumber;
+
+    /**用户注册时分布式锁的时间：单位秒*/
+    @Value("${security.time-out.sign-up:3600}")
+    private Integer signUpTimeOut;
+
+    /**用户登录过期时间：单位小时*/
+    @Value("${security.time-out.user:24}")
+    private Integer userTimeOut;
 
     @Autowired
     public CredentialServiceImpl(UserInfoRepository userInfoRepository, CredentialRepository credentialRepository, CredHistoryRepository credHistoryRepository, StringRedisTemplate redisTemplate) {
@@ -212,14 +219,15 @@ public class CredentialServiceImpl implements CredentialService {
 
     /**
      * 注册信息在redis
-     * @param key
+     * @param keyWord
      */
     @Override
-    public void setSignInfo2Redis(final @NotBlank String key){
+    public void setSignInfo2Redis(final @NotBlank String keyWord){
         try {
             ValueOperations<String, String> operations = redisTemplate.opsForValue();
-            operations.set(EncryptUtil.stringEncodeMD5(key), key);
-            redisTemplate.expire(key, TIMEOUT, TimeUnit.SECONDS);
+            String key = EncryptUtil.stringEncodeMD5(keyWord);
+            operations.set(key, keyWord);
+            redisTemplate.expire(key, signUpTimeOut, TimeUnit.SECONDS);
         }catch (Exception e){
             log.error("写入redis缓存（设置expire存活时间）失败！错误信息为：" + e.getMessage());
             throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
@@ -228,10 +236,20 @@ public class CredentialServiceImpl implements CredentialService {
 
     @Override
     public boolean setUserInfo2Cache(UserInfoDTO userInfoDTO) {
+        try {
+            ValueOperations<String, String> operations = redisTemplate.opsForValue();
+            String key = EncryptUtil.stringEncodeMD5(userInfoDTO.getUsername());
+            operations.set(key, JSON.toJSONString(userInfoDTO));
+            redisTemplate.expire(key, userTimeOut, TimeUnit.HOURS);
+            return true;
+        }catch (Exception e){
+            log.error("写入redis缓存（设置expire存活时间）失败！错误信息为：" + e.getMessage());
+        }
         return false;
     }
 
     /**
+     *
      * 检查key是否存在
      * @param keyString key
      * @return boolean

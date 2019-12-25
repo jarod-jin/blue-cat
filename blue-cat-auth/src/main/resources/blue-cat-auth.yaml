@@ -58,6 +58,9 @@ logging:
 
 security:
   expirationTime: 28800000
+  time-out:
+    sign-up: 3600
+    user: 24
   tokenSalt: jarod.jin
   tokenPrefix: Bearer
   loginUrl: /login

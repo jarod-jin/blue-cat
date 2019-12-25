@@ -24,6 +24,6 @@ public class DocumentUploadController extends BaseController {
     @PostMapping("/upload")
     @ResponseBody
     public ResultDTO upload(@RequestParam("file") MultipartFile file) {
-        return documentAnalyze.uploadResumeFile(file, takeUserAuthInfo());
+        return documentAnalyze.uploadResumeFile(file, findCurrentUserInfo());
     }
 }
