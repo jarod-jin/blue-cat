@@ -1,9 +1,9 @@
 server:
-  port: 8092
+  port: 8083
 
 management:
   server:
-    port: 9092
+    port: 8093
     # address: 127.0.0.1
 
 spring:
@@ -11,20 +11,28 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        group: BLUE_CAT_GROUP
+        namespace: 16f4847c-1396-47f2-b9ff-efc17818287c
   redis:
     database: 0
-    host: 10.1.248.137
+    host: 127.0.0.1
     port: 6379
     password: redis@123456#
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  data:
+    mongodb:
+      host: localhost   #同127.0.0.1
+      port: 27017
+      database: admin    #指定操作的数据库
+      username: root
+      password: root@1234
 
 logging:
-  path: d:/web_logs/blue_cat
-  file: d:/web_logs/blue_cat/general.log
-  pattern:
-    console: "%d - %msg%n"
+  file:
+    name: d:/web_logs/blue_cat/general.log
+    path: d:/web_logs/blue_cat
 
 datasource:
   master:
@@ -32,7 +40,7 @@ datasource:
     username: general
     password: general#2019
   slave:
-    url: jdbc:mysql://127.0.0.1:3306/general?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=true
+    url: jdbc:mysql://127.0.0.1:3305/general?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=true
     username: general
     password: general#2019
 

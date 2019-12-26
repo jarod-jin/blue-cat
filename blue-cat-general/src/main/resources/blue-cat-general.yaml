@@ -25,7 +25,7 @@ spring:
         default_catalog: general
         hbm2ddl:
           auto: update
-    database-platform: cn.jarod.bluecat.core.component.Mysql57DialectUtf8
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
 
 management:
   endpoints:
@@ -38,6 +38,10 @@ management:
       show-details: always
     shutdown:
       enabled: true
+
+logging:
+  pattern:
+    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
 
 datasource:
   validation-query: SELECT 1
@@ -54,9 +58,11 @@ ribbon:
 
 security:
   expirationTime: 28800000
+  time-out:
+    sign-up: 3600
+    user: 24
   tokenSalt: jarod.jin
   tokenPrefix: Bearer
-  loginUrl: /auth/api/login
+  loginUrl: /login
   permitAllUrl:
     - /monitor/*
-    - /auth/api/register
