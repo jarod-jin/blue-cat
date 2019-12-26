@@ -54,7 +54,7 @@ public class OrganizationDO extends BaseEntity {
     @Column(nullable = false, columnDefinition=("tinyint(2) default 0 comment '组织类型'"))
     private Integer orgType;
 
-    /**关联编号*/
-    @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
+    /**关联系统编号*/
+    @Column(nullable = false, columnDefinition=("varchar(20) default 'sys' comment '关联系统编号'"))
     private String sysCode;
 }

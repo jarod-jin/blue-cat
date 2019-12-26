@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.ResourceDO;
-import cn.jarod.bluecat.auth.entity.RoleResourceDO;
 import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
 import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
 import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;

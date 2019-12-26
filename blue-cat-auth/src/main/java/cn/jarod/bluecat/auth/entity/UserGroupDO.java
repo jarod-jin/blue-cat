@@ -23,15 +23,15 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "role_resource", indexes = {@Index(columnList ="roleCode", name="OrgCodeIndex")})
-public class RoleResourceDO extends BaseEntity {
+@Table(name = "user_group", indexes = {@Index(columnList ="username", name="UsernameIndex")})
+public class UserGroupDO extends BaseEntity {
 
-    /**角色编码*/
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '角色编码'"))
-    private String roleCode;
+    /**用户标识*/
+    @Column(nullable = false, columnDefinition=("varchar(50) comment '用户标识'"))
+    private String username;
 
-    /**资源编码*/
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '资源编码'"))
-    private String resourceCode;
+    /**用户组编码*/
+    @Column(nullable = false, columnDefinition=("varchar(20) comment '用户组编码'"))
+    private String groupCode;
 
 }
