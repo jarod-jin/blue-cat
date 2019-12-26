@@ -2,7 +2,8 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.ResourceDO;
-import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
+import cn.jarod.bluecat.auth.entity.ResourceShareDO;
+import cn.jarod.bluecat.auth.model.bo.LinkResourceShareBO;
 import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
 import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;
 import cn.jarod.bluecat.auth.service.ResourceService;
@@ -28,7 +29,7 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
 
     private CrudResourceBO tmpResourceBO;
 
-    private LinkRoleResourceBO linkRoleResourceBO;
+    private LinkResourceShareBO linkRoleResourceBO;
 
     @BeforeEach
     void setUp() {
@@ -41,7 +42,7 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
         tmpResourceBO.setSysCode("root");
         tmpResourceBO.setModifier("sys");
 
-        linkRoleResourceBO = new LinkRoleResourceBO();
+        linkRoleResourceBO = new LinkResourceShareBO();
     }
 
     @AfterEach
@@ -91,10 +92,11 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
 
     @Test
     @DisplayName("新建资源角色关联")
-    void saveRoleResource_new() {
-        linkRoleResourceBO.setRoleCode("admin");
+    void saveResourceShare_new() {
+        linkRoleResourceBO.setShareCode("admin");
+        linkRoleResourceBO.setShareType(0);
         linkRoleResourceBO.setResourceCode("RO10001");
-        RoleResourceDO rDO = resourceService.saveRoleResource(linkRoleResourceBO);
+        ResourceShareDO rDO = resourceService.saveResourceShare(linkRoleResourceBO);
         assertEquals(linkRoleResourceBO.getResourceCode(),rDO.getResourceCode());
     }
 

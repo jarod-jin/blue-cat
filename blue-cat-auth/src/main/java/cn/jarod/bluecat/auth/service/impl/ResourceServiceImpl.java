@@ -1,11 +1,12 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.entity.ResourceDO;
-import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
+import cn.jarod.bluecat.auth.entity.ResourceShareDO;
+import cn.jarod.bluecat.auth.model.bo.LinkResourceShareBO;
 import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
 import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;
 import cn.jarod.bluecat.auth.repository.ResourceRepository;
-import cn.jarod.bluecat.auth.repository.RoleResourceRepository;
+import cn.jarod.bluecat.auth.repository.ResourceShareRepository;
 import cn.jarod.bluecat.auth.service.ResourceService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
@@ -30,12 +31,12 @@ public class ResourceServiceImpl implements ResourceService {
 
     private final ResourceRepository resourceRepository;
 
-    private final RoleResourceRepository roleResourceRepository;
+    private final ResourceShareRepository resourceShareRepository;
 
     @Autowired
-    public ResourceServiceImpl(ResourceRepository resourceRepository, RoleResourceRepository roleResourceRepository) {
+    public ResourceServiceImpl(ResourceRepository resourceRepository, ResourceShareRepository resourceShareRepository) {
         this.resourceRepository = resourceRepository;
-        this.roleResourceRepository = roleResourceRepository;
+        this.resourceShareRepository = resourceShareRepository;
     }
 
     /**
@@ -72,9 +73,9 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delResource(CrudResourceBO resourceBO) {
-        RoleResourceDO roleResourceDO = new RoleResourceDO();
-        roleResourceDO.setResourceCode(resourceBO.getResourceCode());
-        if (roleResourceRepository.exists(Example.of(roleResourceDO))){
+        ResourceShareDO resourceShareDO = new ResourceShareDO();
+        resourceShareDO.setResourceCode(resourceBO.getResourceCode());
+        if (resourceShareRepository.exists(Example.of(resourceShareDO))){
             throw new BaseException(ReturnCode.INVALID_REQUEST.getCode(),"存在绑定权限，无法删除资源");}
         resourceRepository.delete(resourceRepository.findByResourceCode(resourceBO.getResourceCode()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
@@ -86,15 +87,13 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public RoleResourceDO saveRoleResource(LinkRoleResourceBO linkBO){
-        RoleResourceDO roleResourceDO = new RoleResourceDO();
-        roleResourceDO.setResourceCode(linkBO.getResourceCode());
-        roleResourceDO.setRoleCode(linkBO.getRoleCode());
-        if (roleResourceRepository.exists(Example.of(roleResourceDO))){
+    public ResourceShareDO saveResourceShare(LinkResourceShareBO linkBO){
+        ResourceShareDO resourceShareDO = new ResourceShareDO(linkBO.getResourceCode(),linkBO.getShareCode(),linkBO.getShareType());
+        if (resourceShareRepository.exists(Example.of(resourceShareDO))){
             throw new BaseException(ReturnCode.NOT_ACCEPTABLE);}
-        roleResourceDO.setModifier(linkBO.getModifier());
-        roleResourceDO.setCreator(linkBO.getModifier());
-        return roleResourceRepository.save(roleResourceDO);
+        resourceShareDO.setModifier(linkBO.getModifier());
+        resourceShareDO.setCreator(linkBO.getModifier());
+        return resourceShareRepository.save(resourceShareDO);
     }
 
     /**
@@ -103,21 +102,24 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delRoleResource(LinkRoleResourceBO linkBO) {
-        roleResourceRepository.delete(roleResourceRepository.findByResourceCodeAndRoleCode(linkBO.getResourceCode(),linkBO.getRoleCode())
+    public void delRoleResource(LinkResourceShareBO linkBO) {
+        resourceShareRepository.delete(resourceShareRepository
+                .findOne(Example.of(new ResourceShareDO(linkBO.getResourceCode(),linkBO.getShareCode(),linkBO.getShareType())))
                 .orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
     /**
      * 根据角色编号检查是否有关联数据，删除角色时判断使用
      * @param roleCode
+     * @param type
      * @return
      */
     @Override
-    public boolean hasLinkByRoleCode(String roleCode) {
-        RoleResourceDO roleResourceDO = new RoleResourceDO();
-        roleResourceDO.setRoleCode(roleCode);
-        return roleResourceRepository.exists(Example.of(roleResourceDO));
+    public boolean hasLinkByRoleCodeAndSys(String roleCode, Integer type) {
+        ResourceShareDO roleResourceDO = new ResourceShareDO();
+        roleResourceDO.setShareCode(roleCode);
+        roleResourceDO.setShareType(type);
+        return resourceShareRepository.exists(Example.of(roleResourceDO));
     }
 
 
@@ -129,7 +131,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     @Transactional(readOnly = true)
     public List<QueryResourceTreeBO> findResourceTreeBySysAndRoleCodes(String sys, List<String> roleCodes) {
-        Set<String> resourceSets = roleResourceRepository.findAllByRoleCodeIn(roleCodes).stream().map(RoleResourceDO::getResourceCode).collect(Collectors.toSet());
+        Set<String> resourceSets = resourceShareRepository.findAllByShareCodeIn(roleCodes).stream().map(ResourceShareDO::getResourceCode).collect(Collectors.toSet());
         return resourceRepository.findAllBySysCodeOrderByDisOrder(sys).stream().map(e->{
             QueryResourceTreeBO qrtBO = BeanHelperUtil.createCopyBean(e,QueryResourceTreeBO.class);
             qrtBO.setNode(e.getResourceCode());

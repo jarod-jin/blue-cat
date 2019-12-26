@@ -1,7 +1,8 @@
 package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.ResourceDO;
-import cn.jarod.bluecat.auth.model.bo.LinkRoleResourceBO;
+import cn.jarod.bluecat.auth.entity.ResourceShareDO;
+import cn.jarod.bluecat.auth.model.bo.LinkResourceShareBO;
 import cn.jarod.bluecat.auth.model.bo.QueryResourceTreeBO;
 import cn.jarod.bluecat.auth.model.bo.CrudResourceBO;
 
@@ -38,18 +39,19 @@ public interface ResourceService {
      * @param linkBO 绑定对象
      * @return RoleResourceDO
      */
-    RoleResourceDO saveRoleResource(LinkRoleResourceBO linkBO);
+    ResourceShareDO saveResourceShare(LinkResourceShareBO linkBO);
 
     /**
      * 删除资源角色
      * @param linkBO 绑定对象
      */
-    void delRoleResource(LinkRoleResourceBO linkBO);
+    void delRoleResource(LinkResourceShareBO linkBO);
 
     /**
      * 判断是否角色绑定任何资源
      * @param roleCode 角色编码
+     * @param type
      * @return
      */
-    boolean hasLinkByRoleCode(String roleCode);
+    boolean hasLinkByRoleCodeAndSys(String roleCode, Integer type);
 }

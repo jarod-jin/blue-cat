@@ -11,10 +11,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LinkRoleResourceBO extends BaseModel {
+public class LinkResourceShareBO extends BaseModel {
 
     private String resourceCode;
 
-    private String roleCode;
+    private String shareCode;
+
+    private Integer shareType;
 
 }

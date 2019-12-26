@@ -30,12 +30,28 @@ public class ResourceShareDO extends BaseEntity {
     @Column(nullable = false, columnDefinition=("varchar(20) comment '分享编码'"))
     private String shareCode;
 
-    /**分享编码 0-个人 1-用户组 2-角色*/
+    /**分享编码 0-角色 1-用户组 2-个人*/
     @Column(nullable = false, columnDefinition=("smallint(4) default 0 comment '分享编码'"))
     private Integer shareType;
 
     /**资源编码*/
     @Column(nullable = false, columnDefinition=("varchar(50) comment '资源编码'"))
     private String resourceCode;
+
+    public ResourceShareDO(){
+
+    }
+
+    public ResourceShareDO(String shareCode,Integer shareType){
+        this.shareCode = shareCode;
+        this.shareType = shareType;
+    }
+
+
+    public ResourceShareDO(String resourceCode,String shareCode,Integer shareType){
+        this.resourceCode = resourceCode;
+        this.shareCode = shareCode;
+        this.shareType = shareType;
+    }
 
 }
