@@ -25,6 +25,7 @@ public class BaseEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition=("bigint(19) comment '自增长Id'"))
     private Long id;
+
     /**版本号,乐观锁*/
     @Version
     @Column(nullable = false, columnDefinition=("int(10) default 0 comment '修改版本号'"))

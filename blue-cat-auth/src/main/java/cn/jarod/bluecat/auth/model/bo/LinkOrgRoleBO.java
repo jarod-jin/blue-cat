@@ -19,7 +19,7 @@ public class LinkOrgRoleBO extends BaseModel {
 
     private String roleName;
 
-    private Integer disOrder;
+    private Integer sortOrder;
 
     private String memo;
 }

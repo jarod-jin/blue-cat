@@ -15,7 +15,7 @@ public class CrudRoleBO extends BaseModel {
 
     private String roleName;
 
-    private Integer disOrder;
+    private Integer sortOrder;
 
     private String memo;
 

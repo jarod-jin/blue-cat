@@ -48,7 +48,7 @@ public class OrganizationDO extends BaseEntity {
 
     /**显示顺序*/
     @Column(nullable = false, columnDefinition=("smallint(5) default 99 comment '显示顺序'"))
-    private Integer disOrder;
+    private Integer sortOrder;
 
     /**组织类型  0-虚拟组织 1-实际组织*/
     @Column(nullable = false, columnDefinition=("tinyint(2) default 0 comment '组织类型'"))

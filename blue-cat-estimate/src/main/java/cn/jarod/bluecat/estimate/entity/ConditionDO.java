@@ -2,6 +2,7 @@ package cn.jarod.bluecat.estimate.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -11,23 +12,24 @@ import java.math.BigDecimal;
  */
 @Setter
 @Getter
+@ToString
 public class ConditionDO implements Serializable {
 
     private static final long serialVersionUID = -2606978069314630172L;
 
-    //积分项编码或者对应值
+    /**积分项编码或者对应值*/
     private String conditionKey;
 
-    //积分项内容
+    /**积分项内容*/
     private String conditionText;
 
-    //单项分值
+    /**单项分值*/
     private BigDecimal perUnitScore;
 
-    //上限分值
+    /**上限分值*/
     private BigDecimal upperLimitScore;
 
-    //JS判定
+    /**JS判定*/
     private String decideRegex;
 
 

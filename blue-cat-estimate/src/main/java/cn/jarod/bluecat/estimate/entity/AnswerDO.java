@@ -2,6 +2,7 @@ package cn.jarod.bluecat.estimate.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -10,13 +11,14 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
+@ToString
 public class AnswerDO implements Serializable {
 
     private static final long serialVersionUID = 4973963601272522066L;
-    //积分项编码或者对应值
+    /**积分项编码或者对应值*/
     private String conditionKey;
 
-    //回答
+    /**回答*/
     private String answerText;
 
     public AnswerDO(){}

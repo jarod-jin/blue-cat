@@ -36,7 +36,7 @@ public class RoleDO extends BaseEntity {
 
     /**显示顺序*/
     @Column(nullable = false, columnDefinition=("smallint(5) default 99 comment '显示顺序'"))
-    private Integer disOrder;
+    private Integer sortOrder;
 
     /**关联系统编号*/
     @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))

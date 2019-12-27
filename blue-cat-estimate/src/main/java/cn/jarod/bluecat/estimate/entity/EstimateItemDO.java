@@ -4,6 +4,7 @@ import cn.jarod.bluecat.core.entity.BaseEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
@@ -21,6 +22,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)

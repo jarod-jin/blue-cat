@@ -42,7 +42,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         newOrg.setNode("SYS99999");
         newOrg.setOrgName("系统测试");
         newOrg.setPNode("SYS100001");
-        newOrg.setDisOrder(999);
+        newOrg.setSortOrder(999);
         newOrg.setFullCode("SYS100001/SYS99999");
         newOrg.setFullName("系统管理/系统测试");
         newOrg.setModifier("admin");
@@ -54,7 +54,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         modifyOrg.setNode("SYS100002");
         modifyOrg.setPNode("SYS100001");
         modifyOrg.setOrgName("系统开发部");
-        modifyOrg.setDisOrder(1);
+        modifyOrg.setSortOrder(1);
         modifyOrg.setFullCode("SYS100001/SYS100002");
         modifyOrg.setFullName("系统管理/系统开发部");
         modifyOrg.setOrgType(0);
@@ -65,7 +65,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
         sysOrg = new CrudOrganizationBO();
         sysOrg.setNode("SYS100001");
         sysOrg.setOrgName("系统管理");
-        sysOrg.setDisOrder(1);
+        sysOrg.setSortOrder(1);
         sysOrg.setFullCode("SYS100001");
         sysOrg.setFullName("系统管理");
         sysOrg.setModifier("admin");
@@ -91,9 +91,9 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("修改已有的组织")
     void saveOrganizationModifyOne() {
-        modifyOrg.setDisOrder(100);
+        modifyOrg.setSortOrder(100);
         OrganizationDO rOrg = organizationService.saveOrganization(modifyOrg);
-        assertEquals(modifyOrg.getDisOrder(),rOrg.getDisOrder());
+        assertEquals(modifyOrg.getSortOrder(),rOrg.getSortOrder());
     }
 
     @Test

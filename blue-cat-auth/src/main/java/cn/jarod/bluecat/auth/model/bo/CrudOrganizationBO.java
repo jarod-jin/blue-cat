@@ -25,7 +25,7 @@ public class CrudOrganizationBO extends TreeModel {
     private String fullName;
 
     /**显示顺序*/
-    private Integer disOrder;
+    private Integer sortOrder;
 
     /**组织类型(0 虚拟组织 1实际组织 )*/
     private Integer orgType;

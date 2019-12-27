@@ -3,6 +3,7 @@ package cn.jarod.bluecat.estimate.model.bo;
 import cn.jarod.bluecat.core.model.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
@@ -13,36 +14,40 @@ import java.util.List;
  */
 @Getter
 @Setter
+@ToString
 public class CrudEstimateSheetBO extends BaseModel {
 
-    //合约编号
+    /**合约编号*/
     @NotBlank
     private String serialNo;
 
-    //用户唯一标识
+    /**用户唯一标识*/
     @NotBlank
     private String username;
 
-    //用户名
+    /**用户名*/
     private String nickname;
 
-    //总得分
+    /**总得分*/
     private BigDecimal totalScore;
 
-    //关联系统编号
+    /**关联系统编号*/
     @NotBlank
     private String sysCode;
 
-    //完成标志0 未完成 1 已完成
+    /**完成标志0 未完成 1 已完成*/
     private Integer finishedMark;
 
-    //
+    /**Item列表*/
     private List<CrudEstimateItemBO> crudEstimateItemList;
 
 
-    public CrudEstimateSheetBO(){}
+    public CrudEstimateSheetBO(){
+        super();
+    }
 
     public CrudEstimateSheetBO(String serialNo, String username, String sysCode, Integer finishedMark){
+        super();
         this.serialNo = serialNo;
         this.username = username;
         this.sysCode = sysCode;
