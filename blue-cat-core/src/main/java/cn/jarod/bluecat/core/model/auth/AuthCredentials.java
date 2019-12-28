@@ -18,8 +18,8 @@ public class AuthCredentials {
     /**密码*/
     private String password;
 
-    /**系统编号*/
-    private String sysCode;
+    /**所属系统*/
+    private String belongTo;
 
     /**终端版本 ps: IOS 1.0.1 或者Android 1.1.10-beta 或者 PC 1.0 等*/
     private String terminalVersion;

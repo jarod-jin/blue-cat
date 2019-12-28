@@ -31,7 +31,7 @@ class ReleaseNoteServiceTest extends BlueCatResourceApplicationTest {
     void setUp() {
         crudReleaseNoteBO = new CrudReleaseNoteBO();
         crudReleaseNoteBO.setReleaseVersion("ver 1.0.1");
-        crudReleaseNoteBO.setSysCode("root");
+        crudReleaseNoteBO.setBelongTo("root");
         crudReleaseNoteBO.setTerminalType("pc");
         crudReleaseNoteBO.setReleaseNote(Lists.newArrayList("完成基础平台搭建","完成数据库和注册中心搭建"));
         crudReleaseNoteBO.setModifier("admin");
@@ -47,7 +47,7 @@ class ReleaseNoteServiceTest extends BlueCatResourceApplicationTest {
     void queryPage() {
         QueryReleaseDTO queryDTO = new QueryReleaseDTO();
         queryDTO.setOrderProperty(new String[]{"buildNo"});
-        queryDTO.setSysCode("root");
+        queryDTO.setBelongTo("root");
         queryDTO.setTerminalType("pc");
         Page<ReleaseNoteDO> page = releaseNoteService.queryPage(queryDTO);
         assertFalse(page.isEmpty());

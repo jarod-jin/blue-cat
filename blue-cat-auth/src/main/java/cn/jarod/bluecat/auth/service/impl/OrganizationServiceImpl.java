@@ -45,9 +45,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public OrganizationDO saveOrganization(CrudOrganizationBO orgBO) {
         orgBO.reset();
-        OrganizationDO orgDO = organizationRepository.findByOrgCode(orgBO.getNode()).orElse(new OrganizationDO());
-        orgDO.setOrgCode(orgBO.getNode());
-        orgDO.setParentCode(orgBO.getPNode());
+        OrganizationDO orgDO = organizationRepository.findByOrgCode(orgBO.getNodeId()).orElse(new OrganizationDO());
+        orgDO.setOrgCode(orgBO.getNodeId());
+        orgDO.setParentCode(orgBO.getParentId());
         orgDO.setModifier(orgBO.getModifier());
         orgDO.setCreator(orgBO.getModifier());
         BeanHelperUtil.copyNotNullProperties(orgBO,orgDO);
@@ -60,7 +60,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public void delOrganization(CrudOrganizationBO orgBO) {
-        organizationRepository.delete(organizationRepository.findByOrgCode(orgBO.getNode()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
+        organizationRepository.delete(organizationRepository.findByOrgCode(orgBO.getNodeId()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
     /**
@@ -72,10 +72,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     public CrudOrganizationBO findOneByOrgCode(String orgCode) {
         CrudOrganizationBO orgDTO = new CrudOrganizationBO();
-        organizationRepository.findByOrgCode(orgDTO.getNode()).ifPresent(e -> {
+        organizationRepository.findByOrgCode(orgDTO.getNodeId()).ifPresent(e -> {
             BeanUtils.copyProperties(e,orgDTO);
-            orgDTO.setNode(e.getOrgCode());
-            orgDTO.setPNode(e.getParentCode());
+            orgDTO.setNodeId(e.getOrgCode());
+            orgDTO.setParentId(e.getParentCode());
         });
         return orgDTO;
     }
@@ -91,8 +91,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Const.SQL_LIKE).stream().map(e->{
             CrudOrganizationBO orgDTO = new CrudOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);
-            orgDTO.setNode(e.getOrgCode());
-            orgDTO.setPNode(e.getParentCode());
+            orgDTO.setNodeId(e.getOrgCode());
+            orgDTO.setParentId(e.getParentCode());
             return orgDTO;
         }).collect(Collectors.toList());
         log.info(JSON.toJSONString(list));
@@ -100,14 +100,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
-     * 根据编号和系统编码获取组织 散列表
+     * 根据编号和所属系统编号获取组织 散列表
      * @param codes
      * @return
      */
     @Override
     @Transactional(readOnly = true)
     public Map<String, OrganizationDO> findOrgMapByCodesAndSys(List<String> codes, String sys) {
-        return organizationRepository.findAllBySysCodeInAndOrgCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
+        return organizationRepository.findAllByBelongToInAndOrgCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
     }
 
 }

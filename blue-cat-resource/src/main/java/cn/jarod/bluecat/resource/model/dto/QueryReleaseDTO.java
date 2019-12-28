@@ -15,5 +15,5 @@ public class QueryReleaseDTO extends BaseQO {
     private String terminalType;
 
     //关联系统编号
-    private String sysCode;
+    private String belongTo;
 }

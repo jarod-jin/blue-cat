@@ -43,7 +43,7 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
         newSheetBO = new CrudEstimateSheetBO();
         newSheetBO.setSerialNo("SC20191126");
         newSheetBO.setFinishedMark(1);
-        newSheetBO.setSysCode("root");
+        newSheetBO.setBelongTo("root");
         newSheetBO.setUsername("admin");
         newSheetBO.setNickname("管理员");
         newSheetBO.setModifier("admin");
@@ -56,7 +56,7 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
         itemA.setItemNo(1);
         itemA.setEstimateSheetId(1L);
         itemA.setModifier("admin");
-        itemA.setSysCode("root");
+        itemA.setBelongTo("root");
         List<AnswerDO> dos = Lists.newArrayList();
         AnswerDO answerA = new AnswerDO("A","");
         dos.add(answerA);
@@ -74,7 +74,7 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
         itemB.setItemNo(2);
         itemB.setEstimateSheetId(1L);
         itemB.setModifier("admin");
-        itemB.setSysCode("root");
+        itemB.setBelongTo("root");
         List<AnswerDO> dosB = Lists.newArrayList();
         AnswerDO condA = new AnswerDO("A","");
         dosB.add(condA);

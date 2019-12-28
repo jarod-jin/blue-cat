@@ -40,7 +40,7 @@ public class RoleDO extends BaseEntity {
 
     /**关联系统编号*/
     @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
-    private String sysCode;
+    private String belongTo;
 
     /**角色描述*/
     @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '角色描述'"))

@@ -31,7 +31,7 @@ public class CrudContractSheetBO extends BaseModel {
 
     /**关联系统编号*/
     @NotBlank
-    private String sysCode;
+    private String belongTo;
 
     /**合同条目*/
     List<CrudContractItemBO> contractItemBOList;
@@ -40,9 +40,9 @@ public class CrudContractSheetBO extends BaseModel {
 
     }
 
-    public CrudContractSheetBO(String serialNo, String sysCode){
+    public CrudContractSheetBO(String serialNo, String belongTo){
         this.serialNo = serialNo;
-        this.sysCode = sysCode;
+        this.belongTo = belongTo;
     }
 
 }

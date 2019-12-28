@@ -48,7 +48,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ContractSheetDO saveContractSheet(CrudContractSheetBO sheetBO) {
-        ContractSheetDO contractSheetDO =  contractSheetRepository.findBySerialNoAndSysCode(sheetBO.getSerialNo(),sheetBO.getSysCode()).orElse(new ContractSheetDO());
+        ContractSheetDO contractSheetDO =  contractSheetRepository.findBySerialNoAndBelongTo(sheetBO.getSerialNo(),sheetBO.getBelongTo()).orElse(new ContractSheetDO());
         sheetBO.reset();
         BeanHelperUtil.copyNotNullProperties(sheetBO,contractSheetDO);
         contractSheetDO.setCreator(sheetBO.getModifier());
@@ -88,9 +88,9 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @TimeDiff
     public CrudContractSheetBO findContract(@Valid CrudContractSheetBO queryBO) {
-        ContractSheetDO sheetDO = contractSheetRepository.findBySerialNoAndSysCode(queryBO.getSerialNo(),queryBO.getSysCode()).orElseThrow(()->new BaseException(ReturnCode.Q401));
+        ContractSheetDO sheetDO = contractSheetRepository.findBySerialNoAndBelongTo(queryBO.getSerialNo(),queryBO.getBelongTo()).orElseThrow(()->new BaseException(ReturnCode.Q401));
         CrudContractSheetBO contractSheetBO = BeanHelperUtil.createCopyBean(sheetDO, CrudContractSheetBO.class);
-        List<CrudContractItemBO> itemList = contractItemRepository.findAllBySerialNoAndSysCodeOrderByItemNoAsc(queryBO.getSerialNo(),queryBO.getSysCode())
+        List<CrudContractItemBO> itemList = contractItemRepository.findAllBySerialNoAndBelongToOrderByItemNoAsc(queryBO.getSerialNo(),queryBO.getBelongTo())
                 .stream().map(i->BeanHelperUtil.createCopyBean(i,CrudContractItemBO.class)).collect(Collectors.toList());
         contractSheetBO.setContractItemBOList(itemList);
         return contractSheetBO;

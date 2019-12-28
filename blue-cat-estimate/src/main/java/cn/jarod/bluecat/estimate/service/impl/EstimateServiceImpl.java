@@ -43,7 +43,7 @@ public class EstimateServiceImpl implements EstimateService {
      */
     @Override
     public EstimateSheetDO saveEstimateSheet(CrudEstimateSheetBO sheetBO) {
-        EstimateSheetDO estimateSheetDO =  estimateSheetRepository.findBySerialNoAndSysCodeAndUsernameAndFinishMark(sheetBO.getSerialNo(),sheetBO.getSysCode(),sheetBO.getUsername(), Const.NOT_DEL)
+        EstimateSheetDO estimateSheetDO =  estimateSheetRepository.findBySerialNoAndBelongToAndUsernameAndFinishMark(sheetBO.getSerialNo(),sheetBO.getBelongTo(),sheetBO.getUsername(), Const.NOT_DEL)
                 .orElse(new EstimateSheetDO());
         sheetBO.reset();
         BeanHelperUtil.copyNotNullProperties(sheetBO,estimateSheetDO);
@@ -82,8 +82,8 @@ public class EstimateServiceImpl implements EstimateService {
      */
     @Override
     public CrudEstimateSheetBO findEstimate(CrudEstimateSheetBO queryBO) {
-        EstimateSheetDO sheetDO = estimateSheetRepository.findBySerialNoAndSysCodeAndUsernameAndFinishMark(queryBO.getSerialNo(),queryBO.getSysCode(),queryBO.getUsername(), queryBO.getFinishedMark())
-                .orElseThrow(()->new BaseException(ReturnCode.Q401));
+        EstimateSheetDO sheetDO = estimateSheetRepository.findBySerialNoAndBelongToAndUsernameAndFinishMark(queryBO.getSerialNo(),queryBO.getBelongTo(),queryBO.getUsername(), queryBO.getFinishedMark())
+                .orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
         CrudEstimateSheetBO estimateSheetBO = BeanHelperUtil.createCopyBean(sheetDO, CrudEstimateSheetBO.class);
         List<CrudEstimateItemBO> itemList = estimateItemRepository.findAllByEstimateSheetIdOrderByItemNoAsc(sheetDO.getId()).stream().map(i-> BeanHelperUtil.createCopyBean(i,CrudEstimateItemBO.class))
                 .collect(Collectors.toList());

@@ -10,7 +10,7 @@ import java.util.Optional;
  */
 public interface EstimateSheetRepository extends JpaRepository<EstimateSheetDO,Long> {
 
-    Optional<EstimateSheetDO> findBySerialNoAndSysCodeAndUsernameAndFinishMark(String serialNo, String sysCode, String username, Integer notDel);
+    Optional<EstimateSheetDO> findBySerialNoAndBelongToAndUsernameAndFinishMark(String serialNo, String belongTo, String username, Integer notDel);
 
 }
 

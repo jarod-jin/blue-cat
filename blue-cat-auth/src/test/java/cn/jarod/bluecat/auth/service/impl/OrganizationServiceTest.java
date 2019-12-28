@@ -39,9 +39,9 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
 
     private void initNewOrg(){
         newOrg = new CrudOrganizationBO();
-        newOrg.setNode("SYS99999");
+        newOrg.setNodeId("SYS99999");
         newOrg.setOrgName("系统测试");
-        newOrg.setPNode("SYS100001");
+        newOrg.setParentId("SYS100001");
         newOrg.setSortOrder(999);
         newOrg.setFullCode("SYS100001/SYS99999");
         newOrg.setFullName("系统管理/系统测试");
@@ -51,8 +51,8 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
 
     private void initModifyOrg (){
         modifyOrg = new CrudOrganizationBO();
-        modifyOrg.setNode("SYS100002");
-        modifyOrg.setPNode("SYS100001");
+        modifyOrg.setNodeId("SYS100002");
+        modifyOrg.setParentId("SYS100001");
         modifyOrg.setOrgName("系统开发部");
         modifyOrg.setSortOrder(1);
         modifyOrg.setFullCode("SYS100001/SYS100002");
@@ -63,7 +63,7 @@ class OrganizationServiceTest extends BlueCatAuthApplicationTest {
 
     private void initSysOrg (){
         sysOrg = new CrudOrganizationBO();
-        sysOrg.setNode("SYS100001");
+        sysOrg.setNodeId("SYS100001");
         sysOrg.setOrgName("系统管理");
         sysOrg.setSortOrder(1);
         sysOrg.setFullCode("SYS100001");

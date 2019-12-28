@@ -21,20 +21,20 @@ public interface ResourceRepository extends JpaRepository<MetaElementDO,Long> {
     Optional<MetaElementDO> findByResourceCode(String resourceCode);
 
     /**
-     * 通过系统编码和前缀查询最大的单据号
+     * 通过所属系统编号和前缀查询最大的单据号
      *
      * @param prefix  前缀
-     * @param sysCode 系统编码
+     * @param belongTo 所属系统编号
      * @return String
      */
-    @Query(value = "select (cast(substring_index(resource_code, :prefix, -1) as unsigned)) as a from sys_resource where sys_code =:sysCode order by a desc limit 1",
+    @Query(value = "select (cast(substring_index(resource_code, :prefix, -1) as unsigned)) as a from sys_resource where sys_code =:belongTo order by a desc limit 1",
             nativeQuery = true)
-    String findMaxResourceCodeBySys(@Param("prefix") String prefix, @Param("sysCode") String sysCode);
+    String findMaxResourceCodeBySys(@Param("prefix") String prefix, @Param("belongTo") String belongTo);
 
     /**
-     * 根系统编码查询所有该系统下所有资源列表
-     * @param sys 系统编码
+     * 根所属系统编号查询所有该系统下所有资源列表
+     * @param sys 所属系统编号
      * @return List
      */
-    List<MetaElementDO> findAllBySysCodeOrderBysortOrder(String sys);
+    List<MetaElementDO> findAllByBelongToOrderBysortOrder(String sys);
 }

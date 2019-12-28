@@ -36,7 +36,7 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         newSheetBO = new CrudContractSheetBO();
         newSheetBO.setSerialNo("SC20191126");
         newSheetBO.setCustomerNo("customer2019");
-        newSheetBO.setSysCode("root");
+        newSheetBO.setBelongTo("root");
         newSheetBO.setContractName("测试智能合约");
         newSheetBO.setContractText("测试智能合约说明文档v1.0");
         newSheetBO.setModifier("admin");
@@ -52,7 +52,7 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         itemA.setItemNo(1);
         itemA.setItemText("这是第一题");
         itemA.setModifier("admin");
-        itemA.setSysCode("root");
+        itemA.setBelongTo("root");
         List<ConditionDO> dos = Lists.newArrayList();
         ConditionDO conditionA = new ConditionDO("A","选项A",new BigDecimal(0),new BigDecimal(0),"");
         dos.add(conditionA);
@@ -72,7 +72,7 @@ class ContractServiceTest extends BlueCatEstimateApplicationTest {
         itemB.setItemNo(2);
         itemB.setItemText("这是第二题");
         itemB.setModifier("admin");
-        itemB.setSysCode("root");
+        itemB.setBelongTo("root");
         List<ConditionDO> dosB = Lists.newArrayList();
         ConditionDO condA = new ConditionDO("A","选项A",new BigDecimal(0),new BigDecimal(0),"");
         dosB.add(condA);

@@ -56,5 +56,5 @@ public class OrganizationDO extends BaseEntity {
 
     /**关联系统编号*/
     @Column(nullable = false, columnDefinition=("varchar(20) default 'sys' comment '关联系统编号'"))
-    private String sysCode;
+    private String belongTo;
 }

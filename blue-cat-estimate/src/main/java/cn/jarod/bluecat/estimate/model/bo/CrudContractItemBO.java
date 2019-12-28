@@ -33,7 +33,7 @@ public class CrudContractItemBO extends BaseModel {
     private Integer conditionMark;
 
     /**关联系统编号*/
-    private String sysCode;
+    private String belongTo;
 
     /**选项列*/
     private List<ConditionDO> conditionJson;

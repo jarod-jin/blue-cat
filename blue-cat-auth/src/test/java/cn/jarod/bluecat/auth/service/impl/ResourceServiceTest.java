@@ -39,7 +39,7 @@ class ResourceServiceTest extends BlueCatAuthApplicationTest {
         tmpResourceBO.setResourceType("m");
         tmpResourceBO.setMemo("基础菜单，测试用");
         tmpResourceBO.setParentCode("");
-        tmpResourceBO.setSysCode("root");
+        tmpResourceBO.setBelongTo("root");
         tmpResourceBO.setModifier("sys");
 
         linkRoleResourceBO = new LinkResourceShareBO();

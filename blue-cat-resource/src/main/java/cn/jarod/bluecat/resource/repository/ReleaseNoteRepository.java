@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ReleaseNoteRepository extends JpaRepository<ReleaseNoteDO,Long> {
 
-    Page<ReleaseNoteDO> findAllByTerminalTypeAndSysCode(String terminalType, String sysCode, Pageable pageable);
+    Page<ReleaseNoteDO> findAllByTerminalTypeAndBelongTo(String terminalType, String belongTo, Pageable pageable);
 
 }

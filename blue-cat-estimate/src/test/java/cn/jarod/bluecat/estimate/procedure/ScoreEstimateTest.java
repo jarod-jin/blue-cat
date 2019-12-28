@@ -24,7 +24,7 @@ class ScoreEstimateTest extends BlueCatEstimateApplicationTest {
     void setUp() {
         newSheetBO = new CrudEstimateSheetBO();
         newSheetBO.setSerialNo("SC20191126");
-        newSheetBO.setSysCode("root");
+        newSheetBO.setBelongTo("root");
         newSheetBO.setUsername("admin");
     }
 

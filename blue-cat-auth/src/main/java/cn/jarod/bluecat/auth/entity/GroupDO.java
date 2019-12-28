@@ -39,7 +39,7 @@ public class GroupDO extends BaseEntity {
     @Column(nullable = false, columnDefinition=("varchar(20) default '' comment '关联资源编码'"))
     private String businessCode;
 
-    /**系统编码*/
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '系统编码'"))
-    private String sysCode;
+    /**所属系统编号*/
+    @Column(nullable = false, columnDefinition=("varchar(20) comment '所属系统编号'"))
+    private String belongTo;
 }

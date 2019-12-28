@@ -33,5 +33,5 @@ public class CrudEstimateItemBO extends BaseModel {
     private List<AnswerDO> answerJson;
 
     /**关联系统编号*/
-    private String sysCode;
+    private String belongTo;
 }

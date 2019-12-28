@@ -33,7 +33,7 @@ public class CrudEstimateSheetBO extends BaseModel {
 
     /**关联系统编号*/
     @NotBlank
-    private String sysCode;
+    private String belongTo;
 
     /**完成标志0 未完成 1 已完成*/
     private Integer finishedMark;
@@ -46,11 +46,11 @@ public class CrudEstimateSheetBO extends BaseModel {
         super();
     }
 
-    public CrudEstimateSheetBO(String serialNo, String username, String sysCode, Integer finishedMark){
+    public CrudEstimateSheetBO(String serialNo, String username, String belongTo, Integer finishedMark){
         super();
         this.serialNo = serialNo;
         this.username = username;
-        this.sysCode = sysCode;
+        this.belongTo = belongTo;
         this.finishedMark = finishedMark;
     }
 }

@@ -50,9 +50,9 @@ public class ScoreEstimate {
     @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public void countScoreByEstimateSheet(CrudEstimateSheetBO estimateSheet){
-        CrudContractSheetBO contract = contractService.findContract(new CrudContractSheetBO(estimateSheet.getSerialNo(),estimateSheet.getSysCode()));
+        CrudContractSheetBO contract = contractService.findContract(new CrudContractSheetBO(estimateSheet.getSerialNo(),estimateSheet.getBelongTo()));
         Map<Integer, CrudContractItemBO> itemMap = contract.getContractItemBOList().stream().collect(Collectors.toMap(CrudContractItemBO::getItemNo,Function.identity()));
-        CrudEstimateSheetBO estimate = estimateService.findEstimate(new CrudEstimateSheetBO(estimateSheet.getSerialNo(),estimateSheet.getUsername(),estimateSheet.getSysCode(), Const.DEL));
+        CrudEstimateSheetBO estimate = estimateService.findEstimate(new CrudEstimateSheetBO(estimateSheet.getSerialNo(),estimateSheet.getUsername(),estimateSheet.getBelongTo(), Const.DEL));
         List<CrudEstimateItemBO> crudEstimateItemList = estimate.getCrudEstimateItemList().stream().peek(e->{
             CrudContractItemBO contractItem = itemMap.get(e.getItemNo());
             Map<String, ConditionDO> conditionMap = contractItem.getConditionJson().stream().collect(Collectors.toMap(ConditionDO::getConditionKey, Function.identity()));

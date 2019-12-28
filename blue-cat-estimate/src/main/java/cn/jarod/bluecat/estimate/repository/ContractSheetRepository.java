@@ -10,5 +10,5 @@ import java.util.Optional;
  */
 public interface ContractSheetRepository extends JpaRepository<ContractSheetDO,Long> {
 
-    Optional<ContractSheetDO> findBySerialNoAndSysCode(String serialNo, String sysCode);
+    Optional<ContractSheetDO> findBySerialNoAndBelongTo(String serialNo, String belongTo);
 }

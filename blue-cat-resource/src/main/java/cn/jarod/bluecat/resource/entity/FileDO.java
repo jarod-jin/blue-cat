@@ -37,7 +37,7 @@ public class FileDO extends NoSqlEntity {
     private String suffix;
 
     /**关联系统编号*/
-    @Field("sysCode")
-    private String sysCode;
+    @Field("belongTo")
+    private String belongTo;
 
 }

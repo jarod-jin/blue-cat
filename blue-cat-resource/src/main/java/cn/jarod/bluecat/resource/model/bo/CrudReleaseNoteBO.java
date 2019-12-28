@@ -3,6 +3,7 @@ package cn.jarod.bluecat.resource.model.bo;
 import cn.jarod.bluecat.core.model.BaseModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,21 +13,22 @@ import java.util.List;
  */
 @Getter
 @Setter
+@ToString
 public class CrudReleaseNoteBO extends BaseModel {
 
-    //版本号
+    /**版本号*/
     private String releaseVersion;
 
-    //字典键-值
+    /**字典键-值*/
     private List<String> releaseNote;
 
-    //打包版本序号号
+    /**打包版本序号号*/
     private BigDecimal buildNo;
 
-    //描述
+    /**终端类型*/
     private String terminalType;
 
-    //关联系统编号
-    private String sysCode;
+    /**关联系统编号*/
+    private String belongTo;
 
 }

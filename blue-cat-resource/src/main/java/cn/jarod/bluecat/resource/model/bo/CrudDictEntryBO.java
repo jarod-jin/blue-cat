@@ -13,15 +13,15 @@ import java.util.Map;
 @Setter
 public class CrudDictEntryBO extends BaseModel {
 
-    //字典类别
+    /**字典类别*/
     private String dictCode;
 
-    //角色名称
+    /**角色名称*/
     private Map<String,Object> entryJson;
 
-    //显示顺序
+    /**显示顺序*/
     private Integer sortOrder;
 
-    //描述
+    /**备注说明*/
     private String memo;
 }

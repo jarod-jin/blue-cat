@@ -45,7 +45,7 @@ public class CrudUserBO extends BaseModel {
     /**账号类型*/
     private Integer credentialType;
 
-    /**说明*/
+    /**备注说明*/
     private String memo;
 
 }

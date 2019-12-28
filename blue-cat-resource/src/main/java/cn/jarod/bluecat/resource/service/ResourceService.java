@@ -28,7 +28,7 @@ public interface ResourceService {
 
     /**
      * 查询资源树
-     * @param sys 系统编码
+     * @param sys 所属系统编号
      * @param roleCodes 角色编码列表
      * @return
      */

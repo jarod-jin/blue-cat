@@ -13,25 +13,25 @@ import lombok.ToString;
 @ToString
 public class QueryResourceTreeBO extends TreeModel {
 
-    //名称
+    /**名称*/
     private String resourceName;
 
-    //图标
+    /**图标*/
     private String resourceIcon;
 
-    //资源类型
+    /**资源类型*/
     private String resourceType;
 
-    //资源地址
+    /**资源地址*/
     private String resourceRoute;
 
-    //说明
+    /**备注说明*/
     private String memo;
 
-    //显示顺序
+    /**显示顺序*/
     private Integer sortOrder;
 
-    //是否拥有权限
-    private boolean access;
+    /**是否拥有权限*/
+    private Boolean access;
 
 }

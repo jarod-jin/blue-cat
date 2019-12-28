@@ -49,5 +49,5 @@ public class EstimateSheetDO extends BaseEntity {
 
     /**关联系统编号*/
     @Column(nullable = false, columnDefinition=("varchar(30) default 'root' comment '关联系统编号'"))
-    private String sysCode;
+    private String belongTo;
 }

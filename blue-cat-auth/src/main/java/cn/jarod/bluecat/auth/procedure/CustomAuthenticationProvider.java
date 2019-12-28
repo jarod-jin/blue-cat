@@ -55,7 +55,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Optional<CredentialDO> credOpt = credentialService.findCredentialByUsername(name);
         if (credOpt.isPresent() && validPassword(String.valueOf(authentication.getCredentials()),credOpt.get())) {
             UserGrantedAuthority req = (UserGrantedAuthority) Lists.newArrayList(authentication.getAuthorities()).get(0);
-            log.info("{}系统登录成功：用户为{}，终端为：{}", req.getSysCode(), name, req.getTerminalVersion());
+            log.info("{}系统登录成功：用户为{}，终端为：{}", req.getBelongTo(), name, req.getTerminalVersion());
             return createUsernamePasswordAuthentication(name, credOpt.get().getPassword(), req);
         }
         log.info(AUTH_ERROR_MSG + Const.BRACE , name);
@@ -78,8 +78,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username, String pwd, UserGrantedAuthority grantedAuthority) {
         List<Long> orgRoleIds = userLocationService.findOrgRoleIdsByUsername(username);
         List<UserAuthority> authorityBOList =  roleService.findOrgRoleByIds(orgRoleIds);
-        takeRoleForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
-        takeOrgInfoForAuthorityBO(authorityBOList,grantedAuthority.getSysCode());
+        takeRoleForAuthorityBO(authorityBOList,grantedAuthority.getBelongTo());
+        takeOrgInfoForAuthorityBO(authorityBOList,grantedAuthority.getBelongTo());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, pwd,
                 authorityBOList.stream()
                         .filter(UserAuthority::isAuth)
@@ -88,7 +88,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                         .map(UserGrantedAuthority::new)
                         .collect(Collectors.toList()));
         UserInfoDTO authDTO =  credentialService.findUserInfo(username);
-        authDTO.setSysCode(grantedAuthority.getSysCode());
+        authDTO.setBelongTo(grantedAuthority.getBelongTo());
         authDTO.setTerminalVersion(grantedAuthority.getTerminalVersion());
         authDTO.setAuthorityList(authorityBOList);
         if (credentialService.setUserInfo2Cache(authDTO)){

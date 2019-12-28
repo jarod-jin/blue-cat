@@ -19,12 +19,12 @@ public interface RoleRepository extends JpaRepository<RoleDO,Long> {
     Optional<RoleDO> findByRoleCode(String roleCode);
 
     /**
-     * 通过角色编码和系统编码查询相关角色数据
-     * @param sys 系统编码
+     * 通过角色编码和所属系统编号查询相关角色数据
+     * @param sys 所属系统编号
      * @param codes 角色编码列表
      * @return List
      */
-    List<RoleDO> findAllBySysCodeInAndRoleCodeIn(List<String> sys, List<String> codes);
+    List<RoleDO> findAllByBelongToInAndRoleCodeIn(List<String> sys, List<String> codes);
 
 }
 

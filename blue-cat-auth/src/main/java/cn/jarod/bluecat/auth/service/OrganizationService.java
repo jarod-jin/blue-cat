@@ -43,7 +43,7 @@ public interface OrganizationService {
     /**
      * 根据组织代码查询相关组织信息，返回散列表
      * @param codes 组织编码列表
-     * @param sys 系统编码
+     * @param sys 所属系统编号
      * @return Map
      */
     Map<String, OrganizationDO> findOrgMapByCodesAndSys(List<String> codes, String sys);

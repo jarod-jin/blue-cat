@@ -39,7 +39,7 @@ public class ReleaseNoteDO extends NoSqlEntity {
     private String terminalType;
 
     /**关联系统编号*/
-    @Field("sysCode")
-    private String sysCode;
+    @Field("belongTo")
+    private String belongTo;
 
 }

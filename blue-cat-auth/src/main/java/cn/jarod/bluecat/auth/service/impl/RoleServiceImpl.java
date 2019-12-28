@@ -80,7 +80,7 @@ public class RoleServiceImpl implements cn.jarod.bluecat.auth.service.RoleServic
     @Override
     @Transactional(readOnly = true)
     public Map<String,RoleDO> findRoleMapByCodes(List<String> codes, String sys) {
-        return roleRepository.findAllBySysCodeInAndRoleCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
+        return roleRepository.findAllByBelongToInAndRoleCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
     }
 
     /**

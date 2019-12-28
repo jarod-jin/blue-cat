@@ -34,9 +34,9 @@ public class CrudResourceBO extends BaseModel {
     /**资源图标*/
     private String resourceIcon;
 
-    /**说明*/
+    /**备注说明*/
     private String memo;
 
     /**关联系统编号*/
-    private String sysCode;
+    private String belongTo;
 }

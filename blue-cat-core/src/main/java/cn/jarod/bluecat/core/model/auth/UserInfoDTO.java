@@ -37,7 +37,7 @@ public class UserInfoDTO implements Serializable {
     private String photoUrl;
 
     /**系统编号*/
-    private String sysCode;
+    private String belongTo;
 
     /**终端编号*/
     private String terminalVersion;

@@ -15,10 +15,10 @@ import java.util.List;
 public class TreeModel extends BaseModel {
 
     @NotBlank
-    private String node;
+    private String nodeId;
 
     @NotNull
-    private String pNode;
+    private String parentId;
 
     private List<? extends TreeModel> children;
 }

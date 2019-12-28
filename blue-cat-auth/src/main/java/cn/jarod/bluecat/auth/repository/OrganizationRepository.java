@@ -26,11 +26,11 @@ public interface OrganizationRepository extends JpaRepository<OrganizationDO,Lon
     List<OrganizationDO> findAllByFullCodeLike(String fullCode);
 
     /**
-     * 通过系统编码和组织机构代码列表查询相关组织列表
+     * 通过所属系统编号和组织机构代码列表查询相关组织列表
      * @param sys 系统代码
      * @param codes  组织编码列表
      * @return List
      */
-    List<OrganizationDO> findAllBySysCodeInAndOrgCodeIn(List<String> sys,List<String> codes);
+    List<OrganizationDO> findAllByBelongToInAndOrgCodeIn(List<String> sys,List<String> codes);
 
 }

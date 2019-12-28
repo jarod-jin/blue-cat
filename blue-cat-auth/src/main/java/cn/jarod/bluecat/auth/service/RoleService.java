@@ -30,9 +30,9 @@ public interface RoleService {
     void delRole(CrudRoleBO roleBO);
 
     /**
-     * 通过系统编码和角色编码查询角色信息的散列表
+     * 通过所属系统编号和角色编码查询角色信息的散列表
      * @param codes 角色编码
-     * @param sys 系统编码
+     * @param sys 所属系统编号
      * @return Map
      */
     Map<String,RoleDO> findRoleMapByCodes(List<String> codes, String sys);

@@ -38,20 +38,20 @@ public class MetaElementDO extends NoSqlEntity {
     @Field("elementUrl")
     private String elementUrl;
 
-    /**关联系统编号*/
-    @Field("sysCode")
-    private String sysCode;
-
-    /**默认选择*/
-    @Field("defaultMark")
-    private Boolean defaultMark;
+    /**是否选中*/
+    @Field("selected")
+    private Boolean selected;
 
     /**显示顺序*/
     @Field("sortOrder")
     private Integer sortOrder;
 
-    /**说明*/
+    /**备注说明*/
     @Field("memo")
     private String memo;
+
+    /**关联系统编号*/
+    @Field("belongTo")
+    private String belongTo;
 
 }

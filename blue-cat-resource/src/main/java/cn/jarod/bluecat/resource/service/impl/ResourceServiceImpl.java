@@ -62,8 +62,8 @@ public class ResourceServiceImpl implements ResourceService {
      * @param resourceBO
      */
     private void createResourceCode(CrudResourceBO resourceBO) {
-        String codePrefix = resourceBO.getSysCode().substring(0,2).toUpperCase();
-        String codeNo = resourceRepository.findMaxResourceCodeBySys(codePrefix, resourceBO.getSysCode());
+        String codePrefix = resourceBO.getBelongTo().substring(0,2).toUpperCase();
+        String codeNo = resourceRepository.findMaxResourceCodeBySys(codePrefix, resourceBO.getBelongTo());
         resourceBO.setResourceCode(codePrefix + (StringUtils.hasText(codeNo)? Integer.parseInt(codeNo)+1 : START_NO));
     }
 
@@ -133,10 +133,10 @@ public class ResourceServiceImpl implements ResourceService {
     @Transactional(readOnly = true)
     public List<QueryResourceTreeBO> findResourceTreeBySysAndRoleCodes(String sys, List<String> roleCodes) {
         Set<String> resourceSets = resourceShareRepository.findAllByShareCodeIn(roleCodes).stream().map(ResourceShareDO::getResourceCode).collect(Collectors.toSet());
-        return resourceRepository.findAllBySysCodeOrderBysortOrder(sys).stream().map(e->{
+        return resourceRepository.findAllByBelongToOrderBysortOrder(sys).stream().map(e->{
             QueryResourceTreeBO qrtBO = BeanHelperUtil.createCopyBean(e,QueryResourceTreeBO.class);
-            qrtBO.setNode(e.getResourceCode());
-            qrtBO.setPNode(e.getParentCode());
+            qrtBO.setNodeId(e.getResourceCode());
+            qrtBO.setParentId(e.getParentCode());
             qrtBO.setAccess(resourceSets.contains(e.getResourceCode()));
             return qrtBO;
         }).collect(Collectors.toList());

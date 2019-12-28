@@ -10,6 +10,7 @@ import org.bson.types.ObjectId;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,8 +18,10 @@ import java.util.List;
 /**
  * @author jarod.jin 2019/10/15
  */
+@Document
 @Getter
 @Setter
+@ToString
 public class ResourceDO extends NoSqlEntity {
 
     /**资源编码*/
@@ -36,7 +39,7 @@ public class ResourceDO extends NoSqlEntity {
     @Column(nullable = false, columnDefinition=("varchar(10) default '' comment '资源类型'"))
     private String resourceType;
 
-    /**说明*/
+    /**备注说明*/
     @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '说明'"))
     private List<String> memo;
 

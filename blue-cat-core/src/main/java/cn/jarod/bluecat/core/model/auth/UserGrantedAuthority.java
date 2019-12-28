@@ -15,7 +15,7 @@ public class UserGrantedAuthority implements GrantedAuthority {
 
     @Getter
     @Setter
-    private String sysCode;
+    private String belongTo;
 
     @Getter
     @Setter
@@ -23,8 +23,8 @@ public class UserGrantedAuthority implements GrantedAuthority {
 
     private String authority;
 
-    public UserGrantedAuthority(String sysCode, String version){
-        this.sysCode = sysCode;
+    public UserGrantedAuthority(String belongTo, String version){
+        this.belongTo = belongTo;
         this.terminalVersion = version;
     }
 
