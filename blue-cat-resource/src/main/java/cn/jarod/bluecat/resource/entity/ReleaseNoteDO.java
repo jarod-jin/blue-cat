@@ -4,12 +4,8 @@ import cn.jarod.bluecat.core.entity.NoSqlEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -20,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class ReleaseNoteDO extends NoSqlEntity {
+public class ReleaseNoteDO extends ResourceDO {
 
     /**版本号*/
     @Field("releaseVersion")

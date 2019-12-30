@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,29 +19,25 @@ import java.util.List;
 /**
  * @author jarod.jin 2019/10/15
  */
-@Document
 @Getter
 @Setter
 @ToString
 public class ResourceDO extends NoSqlEntity {
 
-    /**资源编码*/
-    @Column(nullable = false, columnDefinition=("varchar(32) comment '资源编码'"))
-    private String resourceCode;
+    /**访问级别 public protected private*/
+    @Field("accessLevel")
+    private String accessLevel ;
 
-    /**资源名称*/
-    @Column(nullable = false, columnDefinition=("varchar(250) default '' comment '资源名称'"))
-    private String resourceName;
+    /**角色授权*/
+    @Field("roleAuthorization")
+    private List<String> roleAuthorization;
 
-    /**上级资源编码*/
-    private ObjectId parentId;
+    /**个体授权*/
+    @Field("userAuthorization")
+    private List<String> userAuthorization;
 
-    /**资源类型*/
-    @Column(nullable = false, columnDefinition=("varchar(10) default '' comment '资源类型'"))
-    private String resourceType;
-
-    /**备注说明*/
-    @Column(nullable = false, columnDefinition=("varchar(500) default '' comment '说明'"))
-    private List<String> memo;
+    /**角色组授权*/
+    @Field("groupAuthorization")
+    private List<String> groupAuthorization;
 
 }

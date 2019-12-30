@@ -38,9 +38,10 @@ public class ReleaseNoteServiceImpl implements ReleaseNoteService {
      */
     @Override
     public Page<ReleaseNoteDO> queryPage(QueryReleaseDTO queryDTO) {
-        Pageable pageable = PageRequest.of(queryDTO.getPageNum() - 1, queryDTO.getPageCount(),
-                Sort.by(queryDTO.isASC()? Sort.Direction.ASC:Sort.Direction.DESC, queryDTO.getOrderProperty()));
-        return releaseNoteRepository.findAllByTerminalTypeAndBelongTo(queryDTO.getTerminalType(), queryDTO.getBelongTo(), pageable);
+//        Pageable pageable = PageRequest.of(queryDTO.getPageNum() - 1, queryDTO.getPageCount(),
+//                Sort.by(queryDTO.isASC()? Sort.Direction.ASC:Sort.Direction.DESC, queryDTO.getOrderProperty()));
+//        return releaseNoteRepository.findAllByTerminalTypeAndBelongTo(queryDTO.getTerminalType(), queryDTO.getBelongTo(), pageable);
+        return null;
     }
 
     /**
@@ -51,9 +52,10 @@ public class ReleaseNoteServiceImpl implements ReleaseNoteService {
     @Override
     @Transactional
     public ReleaseNoteDO saveReleaseNote(CrudReleaseNoteBO releaseNoteBO) {
-        ReleaseNoteDO releaseNoteDO = releaseNoteBO.isNew()? new ReleaseNoteDO():releaseNoteRepository.findById(releaseNoteBO.getId()).orElseThrow(()->new BaseException(ReturnCode.NOT_ACCEPTABLE));
-        BeanHelperUtil.copyNotNullProperties(releaseNoteBO,releaseNoteDO);
-        releaseNoteDO.setCreator(releaseNoteBO.getModifier());
-        return releaseNoteRepository.save(releaseNoteDO);
+//        ReleaseNoteDO releaseNoteDO = releaseNoteBO.isNew()? new ReleaseNoteDO():releaseNoteRepository.findById(releaseNoteBO.getId()).orElseThrow(()->new BaseException(ReturnCode.NOT_ACCEPTABLE));
+//        BeanHelperUtil.copyNotNullProperties(releaseNoteBO,releaseNoteDO);
+//        releaseNoteDO.setCreator(releaseNoteBO.getModifier());
+//        return releaseNoteRepository.save(releaseNoteDO);
+        return null;
     }
 }

@@ -32,6 +32,10 @@ public class DocumentAnalyze {
 
     private static final String SUBJECT = "subject";
 
+    public static final String DOCX = ".docx";
+
+    public static final String DOC = ".doc";
+
     private final DocumentTextService documentTextService;
 
 
@@ -46,9 +50,9 @@ public class DocumentAnalyze {
         String filename = file.getOriginalFilename()!=null?file.getOriginalFilename():file.getName();
         try {
             List<String> contextList;
-            if (filename.endsWith(".doc")) {
+            if (filename.endsWith(DOC)) {
                 contextList = PoiUtil.readWord(file.getInputStream());
-            }else if(filename.endsWith(".docx")){
+            }else if(filename.endsWith(DOCX)){
                 contextList = PoiUtil.readWordX(file.getInputStream());
             }else{
                 throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"无法识别此文件");

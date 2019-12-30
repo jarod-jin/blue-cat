@@ -1,19 +1,10 @@
 package cn.jarod.bluecat.resource.entity;
 
-import cn.jarod.bluecat.core.entity.NoSqlEntity;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -24,7 +15,7 @@ import java.util.List;
 @Setter
 @ToString
 @Document("Metadata")
-public class MetadataDO extends NoSqlEntity {
+public class MetadataDO extends ResourceDO {
 
     /**关联系统编号*/
     @Field("belongTo")
@@ -48,6 +39,6 @@ public class MetadataDO extends NoSqlEntity {
 
     /**子数据集合*/
     @Field("children")
-    private List<MetadataDO> childrenData;
+    private List<MetadataDO> children;
 
 }

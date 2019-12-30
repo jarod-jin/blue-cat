@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author jarod.jin 2019/9/6
@@ -17,7 +18,7 @@ public class NoSqlEntity {
 
     /**主键*/
     @Id
-    private ObjectId id;
+    protected ObjectId id;
 
     /**版本号,乐观锁*/
     @Field("version")

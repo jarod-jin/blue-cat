@@ -1,10 +1,9 @@
 package cn.jarod.bluecat.resource.service;
 
 import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
-import cn.jarod.bluecat.resource.entity.DictEntryDO;
+import cn.jarod.bluecat.resource.entity.DictDO;
 import cn.jarod.bluecat.resource.model.bo.UpdateEntryItemBO;
 import cn.jarod.bluecat.resource.model.bo.CrudDictEntryBO;
-import cn.jarod.bluecat.resource.service.DictEntryService;
 import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DictEntryServiceTest extends BlueCatResourceApplicationTest {
 
     @Autowired
-    private DictEntryService dictEntryService;
+    private DictService dictEntryService;
 
     private CrudDictEntryBO newDictBO;
 
@@ -67,14 +66,14 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
 
     @Test
     void queryByDictCode() {
-        DictEntryDO dictDO = dictEntryService.queryByDictCode("test01");
+        DictDO dictDO = dictEntryService.queryByDictCode("test01");
         assertNotNull(dictDO.getId());
     }
 
     @Test
     @DisplayName("新建修改字典")
     void saveDict() {
-        DictEntryDO dictDO = dictEntryService.saveDict(newDictBO);
+        DictDO dictDO = dictEntryService.saveDict(newDictBO);
         assertNotNull(dictDO.getId());
         assertEquals(newDictBO.getMemo(),dictDO.getMemo());
     }
@@ -83,14 +82,14 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
     @Test
     @DisplayName("修改值")
     void modifyDictEntry() {
-        DictEntryDO dictDO = dictEntryService.modifyDictEntry(modifyDictBO);
-        assertEquals("测试4",dictDO.getEntryJson().get("t4"));
+        DictDO dictDO = dictEntryService.modifyDictEntry(modifyDictBO);
+        assertEquals("测试4",dictDO.getItems().get("t4"));
     }
 
     @Test
     @DisplayName("删除值")
     void delDictEntry() {
-        DictEntryDO dictDO = dictEntryService.delDictEntry(delDictBO);
-        assertNull(dictDO.getEntryJson().get("t4"));
+        DictDO dictDO = dictEntryService.delDictEntry(delDictBO);
+        assertNull(dictDO.getItems().get("t4"));
     }
 }

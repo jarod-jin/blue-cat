@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * @author jarod.jin
+ */
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties
@@ -27,16 +30,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()//默认关闭csrf过滤
-            // 对请求进行认证
+            /*默认关闭csrf过滤*/
+            .csrf().disable()
+            /*对请求进行认证*/
             .authorizeRequests()
-            // 对Rest请求需要身份认证, 放行OPTIONS
+            /*对Rest请求需要身份认证, 放行OPTIONS*/
             .antMatchers(HttpMethod.POST).authenticated()
             .antMatchers(HttpMethod.PUT).authenticated()
             .antMatchers(HttpMethod.DELETE).authenticated()
             .antMatchers(HttpMethod.GET).authenticated()
             .and()
-            // 添加一个过滤器验证其他请求的Token是否合法
+            /*添加一个过滤器验证其他请求的Token是否合法*/
             .addFilterBefore(new JwtAuthenticationFilter(securityConfig), UsernamePasswordAuthenticationFilter.class);
     }
 }
