@@ -2,7 +2,7 @@ package cn.jarod.bluecat.core.repository.impl;
 
 
 import cn.jarod.bluecat.core.annotation.TimeDiff;
-import cn.jarod.bluecat.core.service.MongoDataRepository;
+import cn.jarod.bluecat.core.repository.MongoDataRepository;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;

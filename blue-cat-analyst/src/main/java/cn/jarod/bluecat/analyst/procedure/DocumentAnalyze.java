@@ -2,6 +2,7 @@ package cn.jarod.bluecat.analyst.procedure;
 
 import cn.jarod.bluecat.analyst.entity.CandidateDO;
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
+import cn.jarod.bluecat.analyst.repository.DocumentTextRepository;
 import cn.jarod.bluecat.analyst.service.DocumentTextService;
 
 import cn.jarod.bluecat.analyst.utils.CandidateUtil;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author jarod.jin 2019/12/6
@@ -36,17 +38,18 @@ public class DocumentAnalyze {
 
     public static final String DOC = ".doc";
 
-    private final DocumentTextService documentTextService;
+    private final DocumentTextRepository documentTextRepository;
 
 
     @Autowired
-    public DocumentAnalyze(DocumentTextService documentTextService) {
-        this.documentTextService = documentTextService;
+    public DocumentAnalyze(DocumentTextRepository documentTextRepository) {
+        this.documentTextRepository = documentTextRepository;
     }
 
     public ResultDTO uploadResumeFile(MultipartFile file, UserDetailDTO userDTO){
-        if (file.isEmpty())
+        if (file.isEmpty()){
             throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
+        }
         String filename = file.getOriginalFilename()!=null?file.getOriginalFilename():file.getName();
         try {
             List<String> contextList;
@@ -61,7 +64,7 @@ public class DocumentAnalyze {
             document.setCreator(userDTO.getUsername());
             document.setSubject(filename);
             document.setContextList(contextList);
-            documentTextService.save(document, RESUME);
+            documentTextRepository.save(document);
             log.info("上传成功");
             return new ResultDTO(ReturnCode.SAVE_SUCCESS);
         } catch (IOException e) {
@@ -72,14 +75,14 @@ public class DocumentAnalyze {
 
     public void createCandidateBySubject(String subject){
         Query query = Query.query(Criteria.where(SUBJECT).is(subject));
-        DocumentTextDO documentTextDO = documentTextService.queryOneByQuery(query,RESUME,DocumentTextDO.class);
+        Optional<DocumentTextDO> optionalDocumentTextDO = documentTextRepository.queryOneByQuery(query);
         CandidateDO candiDO = new CandidateDO(ObjectId.get());
         candiDO.setName(subject);
         //获取性别
-        String gander = CandidateUtil.findGander(documentTextDO.getContextList());
+        String gander = CandidateUtil.findGander(optionalDocumentTextDO.get().getContextList());
         candiDO.setGander(gander);
         //获取年龄
-        int age = CandidateUtil.findAge(documentTextDO.getContextList());
+        int age = CandidateUtil.findAge(optionalDocumentTextDO.get().getContextList());
         candiDO.setAge(age);
 
     }

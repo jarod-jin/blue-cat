@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 class MongoDataServiceTest extends BlueCatAnalystApplicationTest {
 
     @Autowired
-    private DocumentTextRepository mongoDataService;
+    private DocumentTextRepository documentTextRepository;
 
     @BeforeEach
     void setUp() {
@@ -39,7 +39,7 @@ class MongoDataServiceTest extends BlueCatAnalystApplicationTest {
                 "AMS专业版 则专注于企业级用户，除了在API管理、基础测试、自动化测试等方面有所强化外，在人员管理方面支持企业级人员架构，允许对用户进行权限分组以及设置详细的操作权限等。",
                 "如果您是专业用户，AMS专业版将更能满足您的需求，点击这里了解更多！"
         ));
-        mongoDataService.save(entity, "resume");
+        documentTextRepository.save(entity);
     }
 
 
@@ -57,7 +57,7 @@ class MongoDataServiceTest extends BlueCatAnalystApplicationTest {
                 .put("java",10)
                 .put("springboot",6)
                 .build());
-        mongoDataService.save(person, "candidate");
+//        documentTextRepository.save(person);
     }
 
 

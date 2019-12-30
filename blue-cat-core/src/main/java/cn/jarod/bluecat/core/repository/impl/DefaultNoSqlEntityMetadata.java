@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.repository.impl;
 
-import cn.jarod.bluecat.core.service.NoSqlEntityMetadata;
+import cn.jarod.bluecat.core.repository.NoSqlEntityMetadata;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
