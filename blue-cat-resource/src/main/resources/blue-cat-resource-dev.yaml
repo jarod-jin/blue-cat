@@ -31,18 +31,18 @@ spring:
 
 logging:
   file:
-    name: d:/web_logs/blue_cat/general.log
+    name: d:/web_logs/blue_cat/resource.log
     path: d:/web_logs/blue_cat
 
 datasource:
   master:
-    url: jdbc:mysql://127.0.0.1:3306/general?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
-    username: general
-    password: general#2019
+    url: jdbc:mysql://127.0.0.1:3306/resource?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    username: resource
+    password: resource#2019
   slave:
-    url: jdbc:mysql://127.0.0.1:3305/general?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=true
-    username: general
-    password: general#2019
+    url: jdbc:mysql://127.0.0.1:3305/resource?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=true
+    username: resource
+    password: resource#2019
 
 rest:
   template:

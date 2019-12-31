@@ -26,7 +26,7 @@ public class BeanHelperUtil {
      */
     public static String UnderlineToHump(String para){
         StringBuilder result=new StringBuilder();
-        String a[]=para.split("_");
+        String[] a = para.split("_");
         for(String s:a){
             if (!para.contains("_")) {
                 result.append(s);
@@ -56,12 +56,10 @@ public class BeanHelperUtil {
      */
     public static  <T,K,V> T getBeanFromUnderlineMap (Map<K,V> map, Class<T> clazz){
         Map<String, Object> newMap = Maps.newHashMap();
-        Iterator entries = map.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry entry = (Map.Entry) entries.next();
-            String key = UnderlineToHump(String.valueOf(entry.getKey()).toLowerCase());
-            newMap.put(key,entry.getValue());
-        }
+        map.forEach((k,v)->{
+            String key = UnderlineToHump(String.valueOf(k).toLowerCase());
+            newMap.put(key,v);
+        });
         return MapBeanUtil.map2Bean(newMap, clazz);
     }
 
@@ -76,7 +74,8 @@ public class BeanHelperUtil {
      */
     public static String HumpToUnderline(String para){
         StringBuilder sb=new StringBuilder(para);
-        int temp=0;//定位
+        /*定位*/
+        int temp=0;
         if (!para.contains("_")) {
             for(int i=0;i<para.length();i++){
                 if(Character.isUpperCase(para.charAt(i))){
@@ -96,7 +95,7 @@ public class BeanHelperUtil {
      * @return
      */
     public static <T> T createCopyBean(Object source, Class<T> clazz) {
-            T t = null;
+        T t = null;
         try {
             t = clazz.newInstance();
             BeanUtils.copyProperties(source,t);
@@ -140,13 +139,15 @@ public class BeanHelperUtil {
         Set<String> emptyName = Sets.newHashSet();
         for (PropertyDescriptor p : pds) {
             Object value = srcBean.getPropertyValue(p.getName());
-            if (value == null)
+            if (value == null){
                 emptyName.add(p.getName());
-            else
+            } else{
                 noEmptyName.add(p.getName());
+            }
         }
-        if (isNull)
+        if (isNull){
             return emptyName.toArray(new String[0]);
+        }
         return noEmptyName.toArray(new String[0]);
     }
 

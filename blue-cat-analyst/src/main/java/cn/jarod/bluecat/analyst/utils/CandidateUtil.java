@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.analyst.utils;
 
-import org.assertj.core.util.Lists;
+import com.google.common.collect.Lists;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;

@@ -3,16 +3,22 @@ package cn.jarod.bluecat.core.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -29,6 +35,8 @@ import java.util.Objects;
  */
 @Slf4j
 @Configuration
+@ConditionalOnClass({DataSource.class, EmbeddedDatabaseType.class})
+@EnableConfigurationProperties({DataSourceProperties.class})
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"cn.jarod.bluecat.*.repository"})
 public class DataSourceConfig {
@@ -57,7 +65,6 @@ public class DataSourceConfig {
         DruidDataSource abstractDataSource = new DruidDataSource();
         abstractDataSource.setDriverClassName(props.getProperty("datasource.driver-class-name"));
         abstractDataSource.setValidationQuery(props.getProperty("datasource.validation-query"));
-//        String dd = props.getProperty("datasource.max-active");
         abstractDataSource.setMaxActive(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.max-active"))));
         abstractDataSource.setMinIdle(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.min-idle"))));
         abstractDataSource.setInitialSize(Integer.parseInt(Objects.requireNonNull(props.getProperty("datasource.initial-size"))));

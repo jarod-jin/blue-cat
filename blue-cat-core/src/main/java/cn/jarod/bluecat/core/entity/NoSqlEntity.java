@@ -22,6 +22,7 @@ public class NoSqlEntity {
 
     /**版本号,乐观锁*/
     @Field("version")
+    @Version
     private Integer version ;
 
     /**创建时间*/

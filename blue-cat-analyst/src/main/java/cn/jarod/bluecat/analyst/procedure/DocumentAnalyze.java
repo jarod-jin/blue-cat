@@ -3,7 +3,6 @@ package cn.jarod.bluecat.analyst.procedure;
 import cn.jarod.bluecat.analyst.entity.CandidateDO;
 import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
 import cn.jarod.bluecat.analyst.repository.DocumentTextRepository;
-import cn.jarod.bluecat.analyst.service.DocumentTextService;
 
 import cn.jarod.bluecat.analyst.utils.CandidateUtil;
 import cn.jarod.bluecat.core.enums.ReturnCode;
@@ -74,8 +73,7 @@ public class DocumentAnalyze {
     }
 
     public void createCandidateBySubject(String subject){
-        Query query = Query.query(Criteria.where(SUBJECT).is(subject));
-        Optional<DocumentTextDO> optionalDocumentTextDO = documentTextRepository.queryOneByQuery(query);
+        Optional<DocumentTextDO> optionalDocumentTextDO = documentTextRepository.findOneBySubject(subject);
         CandidateDO candiDO = new CandidateDO(ObjectId.get());
         candiDO.setName(subject);
         //获取性别

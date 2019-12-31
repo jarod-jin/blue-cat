@@ -2,9 +2,10 @@ package cn.jarod.bluecat.resource.service;
 
 import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
 import cn.jarod.bluecat.resource.entity.DictDO;
-import cn.jarod.bluecat.resource.model.bo.UpdateEntryItemBO;
-import cn.jarod.bluecat.resource.model.bo.CrudDictEntryBO;
-import com.google.common.collect.ImmutableMap;
+import cn.jarod.bluecat.resource.model.bo.UpdateDictItemBO;
+import cn.jarod.bluecat.resource.model.bo.CrudDictBO;
+import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.Ordering;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,19 +22,19 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
     @Autowired
     private DictService dictEntryService;
 
-    private CrudDictEntryBO newDictBO;
+    private CrudDictBO newDictBO;
 
-    private UpdateEntryItemBO modifyDictBO;
+    private UpdateDictItemBO modifyDictBO;
 
-    private UpdateEntryItemBO delDictBO;
+    private UpdateDictItemBO delDictBO;
 
 
     @BeforeEach
     void setUp()  {
-        newDictBO = new CrudDictEntryBO();
-        newDictBO.setDictCode("test02");
+        newDictBO = new CrudDictBO();
+        newDictBO.setCategory("test03");
         newDictBO.setMemo("测试字典");
-        newDictBO.setEntryJson(ImmutableMap.<String, Object>builder()
+        newDictBO.setItems(new ImmutableSortedMap.Builder<String, Object>(Ordering.natural())
                 .put("t1","测试1-2")
                 .put("t2","测试2-2")
                 .put("t3","测试3-2")
@@ -41,18 +42,18 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
         newDictBO.setModifier("admin");
 
 
-        modifyDictBO = new UpdateEntryItemBO();
-        modifyDictBO.setDictCode("test01");
-        modifyDictBO.setEntryJson(ImmutableMap.<String, Object>builder()
+        modifyDictBO = new UpdateDictItemBO();
+        modifyDictBO.setCategory("test01");
+        modifyDictBO.setItems(new ImmutableSortedMap.Builder<String, Object>(Ordering.natural())
                 .put("t4","测试4")
                 .put("t3","测试3-1")
                 .build());
         modifyDictBO.setModifier("admin");
 
 
-        delDictBO = new UpdateEntryItemBO();
-        delDictBO.setDictCode("test01");
-        delDictBO.setEntryJson(ImmutableMap.<String, Object>builder()
+        delDictBO = new UpdateDictItemBO();
+        delDictBO.setCategory("test01");
+        delDictBO.setItems(new ImmutableSortedMap.Builder<String, Object>(Ordering.natural())
                 .put("t4","测试4")
                 .build());
         delDictBO.setModifier("admin");
@@ -65,15 +66,25 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
     }
 
     @Test
-    void queryByDictCode() {
-        DictDO dictDO = dictEntryService.queryByDictCode("test01");
+    @DisplayName("根据类别查询字典")
+    void findByCategory() {
+        DictDO dictDO = dictEntryService.findByCategory("test02");
         assertNotNull(dictDO.getId());
     }
 
     @Test
-    @DisplayName("新建修改字典")
-    void saveDict() {
-        DictDO dictDO = dictEntryService.saveDict(newDictBO);
+    @DisplayName("新建字典")
+    void createDict() {
+        DictDO dictDO = dictEntryService.create(newDictBO);
+        assertNotNull(dictDO.getId());
+        assertEquals(newDictBO.getMemo(),dictDO.getMemo());
+    }
+
+
+    @Test
+    @DisplayName("修改字典")
+    void updateDict() {
+        DictDO dictDO = dictEntryService.update(newDictBO);
         assertNotNull(dictDO.getId());
         assertEquals(newDictBO.getMemo(),dictDO.getMemo());
     }
@@ -82,14 +93,14 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
     @Test
     @DisplayName("修改值")
     void modifyDictEntry() {
-        DictDO dictDO = dictEntryService.modifyDictEntry(modifyDictBO);
+        DictDO dictDO = dictEntryService.updateItems(modifyDictBO);
         assertEquals("测试4",dictDO.getItems().get("t4"));
     }
 
     @Test
     @DisplayName("删除值")
     void delDictEntry() {
-        DictDO dictDO = dictEntryService.delDictEntry(delDictBO);
+        DictDO dictDO = dictEntryService.delItem(delDictBO);
         assertNull(dictDO.getItems().get("t4"));
     }
 }

@@ -1,6 +1,6 @@
 info:
   app:
-    name: general-server
+    name: resource-server
     version: 1.0.0
 
 spring:
@@ -22,7 +22,7 @@ spring:
     database: mysql
     properties:
       hibernate:
-        default_catalog: general
+        default_catalog: resource
         hbm2ddl:
           auto: update
     database-platform: org.hibernate.dialect.MariaDB103Dialect
