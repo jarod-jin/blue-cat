@@ -1,10 +1,9 @@
 package cn.jarod.bluecat.resource.service;
 
 import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
-import cn.jarod.bluecat.resource.entity.ReleaseNoteDO;
+import cn.jarod.bluecat.resource.entity.ReleaseDO;
 import cn.jarod.bluecat.resource.model.bo.CrudReleaseNoteBO;
 import cn.jarod.bluecat.resource.model.dto.QueryReleaseDTO;
-import cn.jarod.bluecat.resource.service.ReleaseNoteService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author jarod.jin 2019/11/20
  */
-class ReleaseNoteServiceTest extends BlueCatResourceApplicationTest {
+class ApplicationServiceTest extends BlueCatResourceApplicationTest {
 
     @Autowired
-    private ReleaseNoteService releaseNoteService;
+    private ApplicationService releaseNoteService;
 
     private CrudReleaseNoteBO crudReleaseNoteBO;
 
@@ -49,13 +48,13 @@ class ReleaseNoteServiceTest extends BlueCatResourceApplicationTest {
         queryDTO.setOrderProperty(new String[]{"buildNo"});
         queryDTO.setBelongTo("root");
         queryDTO.setTerminalType("pc");
-        Page<ReleaseNoteDO> page = releaseNoteService.queryPage(queryDTO);
+        Page<ReleaseDO> page = releaseNoteService.queryPage(queryDTO);
         assertFalse(page.isEmpty());
     }
 
     @Test
     void saveReleaseNote() {
-        ReleaseNoteDO releaseDO = releaseNoteService.saveReleaseNote(crudReleaseNoteBO);
+        ReleaseDO releaseDO = releaseNoteService.saveReleaseNote(crudReleaseNoteBO);
         assertNotNull(releaseDO.getId());
     }
 }

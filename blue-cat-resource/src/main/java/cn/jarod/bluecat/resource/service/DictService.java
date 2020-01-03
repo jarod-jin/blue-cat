@@ -27,7 +27,6 @@ public interface DictService {
      * @return
      *
      */
-    @TimeDiff
     DictDO create(CrudDictBO entryBO);
 
     /**
@@ -36,7 +35,6 @@ public interface DictService {
      * @return
      *
      */
-    @TimeDiff
     DictDO update(CrudDictBO entryBO);
 
     /**
@@ -45,7 +43,6 @@ public interface DictService {
      * @return
      *
      */
-    @TimeDiff
     void delDict(CrudDictBO entryBO);
 
 

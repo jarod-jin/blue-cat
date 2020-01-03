@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.model.bo;
 
-import cn.jarod.bluecat.core.model.BaseModel;
+import cn.jarod.bluecat.core.model.NoSqlModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class CrudReleaseNoteBO extends BaseModel {
+public class CrudReleaseNoteBO extends NoSqlModel {
 
     /**版本号*/
     private String releaseVersion;
@@ -24,11 +24,5 @@ public class CrudReleaseNoteBO extends BaseModel {
 
     /**打包版本序号号*/
     private BigDecimal buildNo;
-
-    /**终端类型*/
-    private String terminalType;
-
-    /**关联系统编号*/
-    private String belongTo;
 
 }

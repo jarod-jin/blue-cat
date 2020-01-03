@@ -1,12 +1,10 @@
 package cn.jarod.bluecat.auth.model.bo;
 
 import cn.jarod.bluecat.core.model.BaseModel;
-import cn.jarod.bluecat.core.utils.CommonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 /**
