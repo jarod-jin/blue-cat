@@ -11,14 +11,10 @@ import cn.jarod.bluecat.resource.repository.DictRepository;
 import cn.jarod.bluecat.resource.service.DictService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 /**
  * @author jarod.jin 2019/11/19
@@ -40,9 +36,8 @@ public class DictServiceImpl implements DictService {
      * @return DictDO
      */
     @Override
-    @TimeDiff
-    public DictDO findByCategory(String category) {
-        return dictRepository.findOneByCategory(category).orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
+    public DictDO findByCategory(String category,String belongTo) {
+        return dictRepository.findOneByCategoryAndBelongTo(category, belongTo).orElseThrow(() -> new BaseException(ReturnCode.NOT_FOUND));
     }
 
     /**
@@ -52,10 +47,10 @@ public class DictServiceImpl implements DictService {
      */
     @Override
     public DictDO create(CrudDictBO entryBO) {
-        if (dictRepository.findOneByCategory(entryBO.getCategory()).isPresent()){
-            throw new BaseException(ReturnCode.INVALID_REQUEST);
+        if (dictRepository.findOneByCategoryAndBelongTo(entryBO.getCategory(),entryBO.getBelongTo()).isPresent()) {
+            throw new BaseException(ReturnCode.ALREADY_EXISTED);
         }
-        DictDO entryDO =  BeanHelperUtil.createCopyBean(entryBO,DictDO.class);
+        DictDO entryDO = BeanHelperUtil.createCopyBean(entryBO, DictDO.class);
         entryDO.setGmtCreate(LocalDateTime.now());
         entryDO.setGmtModified(LocalDateTime.now());
         entryDO.setCreator(entryBO.getModifier());
@@ -69,10 +64,9 @@ public class DictServiceImpl implements DictService {
      * @return
      */
     @Override
-    @TimeDiff
     public DictDO update(CrudDictBO entryBO) {
-        DictDO entryDO = dictRepository.findOneByCategory(entryBO.getCategory()).orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
-        BeanHelperUtil.copyNotNullProperties(entryBO,entryDO);
+        DictDO entryDO = findByCategory(entryBO.getCategory(), entryBO.getBelongTo());
+        BeanHelperUtil.copyNotNullProperties(entryBO, entryDO);
         entryDO.setGmtModified(LocalDateTime.now());
         return dictRepository.save(entryDO);
     }
@@ -84,48 +78,41 @@ public class DictServiceImpl implements DictService {
      */
     @Override
     public void delDict(CrudDictBO entryBO) {
-        DictDO entryDO =  dictRepository.findOneByCategory(entryBO.getCategory()).orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
+        DictDO entryDO = findByCategory(entryBO.getCategory(),entryBO.getBelongTo());
         entryDO.setVersion(entryBO.getVersion());
         dictRepository.delete(entryDO);
     }
 
     /**
-     * 修改字典条目
-     * @param modifyDictBO
+     * 增加字典条目
+     * @param updateBO
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    @TimeDiff
-    public DictDO updateItems(UpdateDictItemBO modifyDictBO) {
-//        DictDO entryDO = dictRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.NOT_ACCEPTABLE));
-//        entryDO.getEntryJson().putAll(modifyDictBO.getEntryJson());
-//        entryDO.setModifier(modifyDictBO.getModifier());
-//        if (modifyDictBO.getVersion()!=null) {
-//            entryDO.setVersion(modifyDictBO.getVersion());
-//        }
-//        return dictRepository.save(entryDO);
-        return null;
+    public DictDO addItems(UpdateDictItemBO updateBO) {
+        DictDO entryDO = findByCategory(updateBO.getCategory(),updateBO.getBelongTo());
+        entryDO.getItems().putAll(updateBO.getItems());
+        entryDO.setModifier(updateBO.getModifier());
+        if (updateBO.getVersion() != null) {
+            entryDO.setVersion(updateBO.getVersion());
+        }
+        return dictRepository.save(entryDO);
     }
 
     /**
      * 删除字典条目
-     * @param modifyDictBO
+     * @param removeBO
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    @TimeDiff
-    public DictDO delItem(UpdateDictItemBO modifyDictBO) {
-//        DictDO entryDO = dictRepository.findByDictCode(modifyDictBO.getDictCode()).orElseThrow(()->new BaseException(ReturnCode.GONE));
-//        modifyDictBO.getEntryJson().forEach((k,v)-> entryDO.getEntryJson().remove(k));
-//        entryDO.setModifier(modifyDictBO.getModifier());
-//        if (modifyDictBO.getVersion()!=null) {
-//            entryDO.setVersion(modifyDictBO.getVersion());
-//        }
-//        return dictRepository.save(entryDO);
-        return null;
+    public DictDO removeItems(UpdateDictItemBO removeBO) {
+        DictDO entryDO = findByCategory(removeBO.getCategory(),removeBO.getBelongTo());
+        removeBO.getItems().forEach((k, v) -> entryDO.getItems().remove(k));
+        entryDO.setModifier(removeBO.getModifier());
+        if (removeBO.getVersion() != null) {
+            entryDO.setVersion(removeBO.getVersion());
+        }
+        return dictRepository.save(entryDO);
     }
-
 
 }

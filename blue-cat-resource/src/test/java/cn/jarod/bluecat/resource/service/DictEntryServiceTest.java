@@ -26,14 +26,15 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
 
     private UpdateDictItemBO modifyDictBO;
 
-    private UpdateDictItemBO delDictBO;
+    private UpdateDictItemBO removeDictBO;
 
 
     @BeforeEach
     void setUp()  {
         newDictBO = new CrudDictBO();
-        newDictBO.setCategory("test03");
+        newDictBO.setCategory("test01");
         newDictBO.setMemo("测试字典");
+        newDictBO.setBelongTo("test");
         newDictBO.setItems(new ImmutableSortedMap.Builder<String, Object>(Ordering.natural())
                 .put("t1","测试1-2")
                 .put("t2","测试2-2")
@@ -44,6 +45,7 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
 
         modifyDictBO = new UpdateDictItemBO();
         modifyDictBO.setCategory("test01");
+        modifyDictBO.setBelongTo("test");
         modifyDictBO.setItems(new ImmutableSortedMap.Builder<String, Object>(Ordering.natural())
                 .put("t4","测试4")
                 .put("t3","测试3-1")
@@ -51,12 +53,13 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
         modifyDictBO.setModifier("admin");
 
 
-        delDictBO = new UpdateDictItemBO();
-        delDictBO.setCategory("test01");
-        delDictBO.setItems(new ImmutableSortedMap.Builder<String, Object>(Ordering.natural())
+        removeDictBO = new UpdateDictItemBO();
+        removeDictBO.setCategory("test01");
+        removeDictBO.setBelongTo("test");
+        removeDictBO.setItems(new ImmutableSortedMap.Builder<String, Object>(Ordering.natural())
                 .put("t4","测试4")
                 .build());
-        delDictBO.setModifier("admin");
+        removeDictBO.setModifier("admin");
     }
 
     @AfterEach
@@ -68,7 +71,7 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
     @Test
     @DisplayName("根据类别查询字典")
     void findByCategory() {
-        DictDO dictDO = dictEntryService.findByCategory("test02");
+        DictDO dictDO = dictEntryService.findByCategory("test01","test");
         assertNotNull(dictDO.getId());
     }
 
@@ -91,16 +94,16 @@ class DictEntryServiceTest extends BlueCatResourceApplicationTest {
 
 
     @Test
-    @DisplayName("修改值")
-    void modifyDictEntry() {
-        DictDO dictDO = dictEntryService.updateItems(modifyDictBO);
+    @DisplayName("增加字典条目")
+    void addItems() {
+        DictDO dictDO = dictEntryService.addItems(modifyDictBO);
         assertEquals("测试4",dictDO.getItems().get("t4"));
     }
 
     @Test
     @DisplayName("删除值")
     void delDictEntry() {
-        DictDO dictDO = dictEntryService.delItem(delDictBO);
+        DictDO dictDO = dictEntryService.removeItems(removeDictBO);
         assertNull(dictDO.getItems().get("t4"));
     }
 }

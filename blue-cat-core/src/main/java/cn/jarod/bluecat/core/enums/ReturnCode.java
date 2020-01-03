@@ -40,6 +40,8 @@ public enum ReturnCode {
 
     GONE (410,"资源被永久删除"),
 
+    ALREADY_EXISTED(421,"请勿重复提交"),
+
     UNPROCESSABLE_ENTITY(422,"参数验证错误"),
 
     SERVER_ERROR(500,"服务器内部错误，请联系管理员"),

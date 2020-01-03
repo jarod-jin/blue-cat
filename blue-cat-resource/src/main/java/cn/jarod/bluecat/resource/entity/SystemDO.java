@@ -17,7 +17,7 @@ import java.util.TreeMap;
 @Setter
 @ToString
 @Document("system")
-public class SystemDO extends NoSqlEntity {
+public class SystemDO extends ResourceDO {
 
     /**描述*/
     @Field("description")

@@ -20,6 +20,9 @@ public class UpdateDictItemBO extends NoSqlModel {
     /**字典类别*/
     private String category;
 
+    /**关联系统编号*/
+    private String belongTo;
+
     /**角色名称*/
     private SortedMap<String,Object> items;
 

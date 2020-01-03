@@ -14,7 +14,8 @@ public interface DictRepository extends MongoRepository<DictDO, ObjectId> {
     /**
      * 根据类别查询
      * @param category 类别名
+     * @param belongTo 所属系统
      * @return  Optional<DictDO>
      */
-    Optional<DictDO> findOneByCategory(String category);
+    Optional<DictDO> findOneByCategoryAndBelongTo(String category, String belongTo);
 }

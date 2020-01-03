@@ -12,11 +12,10 @@ import java.util.List;
 /**
  * @author jarod.jin 2019/10/14
  */
-@Document
 @Getter
 @Setter
 @ToString
-public class ReleaseNoteDO extends ResourceDO {
+public class ReleaseNoteDO extends NoSqlEntity {
 
     /**版本号*/
     @Field("releaseVersion")
@@ -34,8 +33,8 @@ public class ReleaseNoteDO extends ResourceDO {
     @Field("terminalType")
     private String terminalType;
 
-    /**关联系统编号*/
-    @Field("belongTo")
-    private String belongTo;
+//    /**关联系统编号*/
+//    @Field("belongTo")
+//    private String belongTo;
 
 }

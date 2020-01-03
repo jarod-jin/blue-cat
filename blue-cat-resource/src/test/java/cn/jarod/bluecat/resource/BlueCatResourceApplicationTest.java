@@ -8,6 +8,5 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @author jarod.jin 2019/9/10
  */
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 public class BlueCatResourceApplicationTest {
 }

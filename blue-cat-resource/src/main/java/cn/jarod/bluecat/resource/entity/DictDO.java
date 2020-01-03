@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.resource.entity;
 
+import cn.jarod.bluecat.core.entity.NoSqlEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,7 +17,7 @@ import java.util.SortedMap;
 @Setter
 @ToString
 @Document("dict")
-public class DictDO extends ResourceDO {
+public class DictDO extends NoSqlEntity {
 
     /**字典*/
     @Field("category")

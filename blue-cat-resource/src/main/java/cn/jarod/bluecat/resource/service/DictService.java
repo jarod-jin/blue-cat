@@ -18,7 +18,7 @@ public interface DictService {
      * @param category
      * @return
      */
-    DictDO findByCategory(String category);
+    DictDO findByCategory(String category,String belong);
 
 
     /**
@@ -54,12 +54,12 @@ public interface DictService {
      * @param modifyDictBO
      * @return
      */
-    DictDO updateItems(UpdateDictItemBO modifyDictBO);
+    DictDO addItems(UpdateDictItemBO modifyDictBO);
 
     /**
      * 删除字典条目
      * @param modifyDictBO
      * @return
      */
-   DictDO delItem(UpdateDictItemBO modifyDictBO);
+   DictDO removeItems(UpdateDictItemBO modifyDictBO);
 }
