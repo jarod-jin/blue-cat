@@ -1,11 +1,14 @@
 package cn.jarod.bluecat.resource.entity;
 
+import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 
 /**
@@ -25,16 +28,8 @@ public class ApplicationDO extends ResourceDO {
     @Field("memo")
     private String memo;
 
-    /**web端版本更新记录*/
-    @Field("webReleases")
-    private List<ReleaseDO> webReleases;
-
-    /**iOs端版本更新记录*/
-    @Field("iOsReleases")
-    private List<ReleaseDO> iOsReleases;
-
-    /**android端版本更新记录*/
-    @Field("androidReleases")
-    private List<ReleaseDO> androidReleases;
+    /**版本更新记录*/
+    @Field("releases")
+    private Map<String,List<ReleaseDO>> releases;
 
 }

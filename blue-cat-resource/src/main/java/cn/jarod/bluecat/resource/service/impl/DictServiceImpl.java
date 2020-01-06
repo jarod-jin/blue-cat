@@ -46,6 +46,7 @@ public class DictServiceImpl implements DictService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public DictDO create(CrudDictBO entryBO) {
         if (dictRepository.findOneByCategoryAndBelongTo(entryBO.getCategory(),entryBO.getBelongTo()).isPresent()) {
             throw new BaseException(ReturnCode.ALREADY_EXISTED);
@@ -64,6 +65,7 @@ public class DictServiceImpl implements DictService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public DictDO update(CrudDictBO entryBO) {
         DictDO entryDO = findByCategory(entryBO.getCategory(), entryBO.getBelongTo());
         BeanHelperUtil.copyNotNullProperties(entryBO, entryDO);
@@ -77,6 +79,7 @@ public class DictServiceImpl implements DictService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void delDict(CrudDictBO entryBO) {
         DictDO entryDO = findByCategory(entryBO.getCategory(),entryBO.getBelongTo());
         entryDO.setVersion(entryBO.getVersion());
@@ -89,6 +92,7 @@ public class DictServiceImpl implements DictService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public DictDO addItems(UpdateDictItemBO updateBO) {
         DictDO entryDO = findByCategory(updateBO.getCategory(),updateBO.getBelongTo());
         entryDO.getItems().putAll(updateBO.getItems());
@@ -105,6 +109,7 @@ public class DictServiceImpl implements DictService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public DictDO removeItems(UpdateDictItemBO removeBO) {
         DictDO entryDO = findByCategory(removeBO.getCategory(),removeBO.getBelongTo());
         removeBO.getItems().forEach((k, v) -> entryDO.getItems().remove(k));

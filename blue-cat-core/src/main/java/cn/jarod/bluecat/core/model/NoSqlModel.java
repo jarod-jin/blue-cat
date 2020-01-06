@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 public class NoSqlModel {
 
+    @NotNull
     protected ObjectId id;
 
     /**版本号,乐观锁*/

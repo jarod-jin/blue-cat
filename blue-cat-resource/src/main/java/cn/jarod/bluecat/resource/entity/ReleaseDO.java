@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class ReleaseDO extends NoSqlEntity {
+public class ReleaseDO {
 
     /**版本号*/
     @Field("releaseVersion")

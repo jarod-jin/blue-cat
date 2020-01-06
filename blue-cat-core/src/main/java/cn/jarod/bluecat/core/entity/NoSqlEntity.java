@@ -3,11 +3,10 @@ package cn.jarod.bluecat.core.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author jarod.jin 2019/9/6
@@ -42,7 +41,7 @@ public class NoSqlEntity {
     private String modifier;
 
     public NoSqlEntity(){
-        version = 0;
+//        version = 0;
         gmtCreate = gmtModified = LocalDateTime.now();
     }
 }

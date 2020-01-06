@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
+import java.util.SortedMap;
 
 
 /**
@@ -24,14 +25,5 @@ public class CrudApplicationBO extends CurdResourceBO {
 
     /**备注说明*/
     private String memo;
-
-    /**web端版本更新记录*/
-    private List<ReleaseDO> webReleases;
-
-    /**iOs端版本更新记录*/
-    private List<ReleaseDO> iOsReleases;
-
-    /**android端版本更新记录*/
-    private List<ReleaseDO> androidReleases;
 
 }
