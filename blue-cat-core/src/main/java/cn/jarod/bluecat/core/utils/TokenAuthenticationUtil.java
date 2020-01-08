@@ -1,11 +1,10 @@
 package cn.jarod.bluecat.core.utils;
 
 import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
+import cn.jarod.bluecat.core.constant.Common;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
-import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
-import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.ImmutableMap;
@@ -32,9 +31,6 @@ import java.util.stream.Collectors;
 public class TokenAuthenticationUtil {
 
     private static final String AUTHORITIES = "authorities";
-
-    private static final String USER_INFO = "userInfo";
-
     /**
      * 返回jwt
      * @param response 返回
@@ -50,7 +46,7 @@ public class TokenAuthenticationUtil {
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
                     ImmutableMap.<String, Object> builder()
-                    .put(Const.ACCESS_TOKEN,jwt)
+                    .put(Common.ACCESS_TOKEN,jwt)
                     .build())));
             response.getWriter().close();
         } catch (IOException e) {
@@ -72,7 +68,6 @@ public class TokenAuthenticationUtil {
         return Jwts.builder()
                 /*保存权限（角色）*/
                 .claim(AUTHORITIES,role)
-//                .claim(USER_INFO, JSON.toJSONString(auth.getDetails()))
                 /*用户名写入标题*/
                 .setSubject(auth.getName())
                 /*有效期设置*/
@@ -90,7 +85,7 @@ public class TokenAuthenticationUtil {
      */
     public static Authentication getAuthentication(HttpServletRequest request, SecurityPropertyConfig config) {
         /*从Header中拿到token*/
-        String token = request.getHeader(Const.ACCESS_TOKEN);
+        String token = request.getHeader(Common.ACCESS_TOKEN);
         if (token != null) {
             /*解析 Token*/
             Claims claims = Jwts.parser()

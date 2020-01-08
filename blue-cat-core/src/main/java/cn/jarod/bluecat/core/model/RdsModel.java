@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Setter
 @Getter
-public class BaseModel {
+public class RdsModel {
 
     /**唯一标识*/
     private Long id;

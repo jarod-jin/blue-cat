@@ -8,10 +8,10 @@ import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.repository.RoleRepository;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.BaseQO;
+import cn.jarod.bluecat.core.model.BaseQuery;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.utils.Const;
+import cn.jarod.bluecat.core.constant.Common;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -80,7 +80,7 @@ public class RoleServiceImpl implements cn.jarod.bluecat.auth.service.RoleServic
     @Override
     @Transactional(readOnly = true)
     public Map<String,RoleDO> findRoleMapByCodes(List<String> codes, String sys) {
-        return roleRepository.findAllByBelongToInAndRoleCodeIn(Lists.newArrayList(Const.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
+        return roleRepository.findAllByBelongToInAndRoleCodeIn(Lists.newArrayList(Common.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
     }
 
     /**
@@ -90,9 +90,9 @@ public class RoleServiceImpl implements cn.jarod.bluecat.auth.service.RoleServic
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<RoleDO> findRolePage(BaseQO qo) {
+    public Page<RoleDO> findRolePage(BaseQuery qo) {
         Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(),
-                Sort.by((qo.isASC()? Sort.Direction.ASC:Sort.Direction.DESC), Const.GMT_CREATE));
+                Sort.by((qo.isASC()? Sort.Direction.ASC:Sort.Direction.DESC), Common.GMT_CREATE));
         return roleRepository.findAll(pageable);
     }
 

@@ -40,8 +40,4 @@ public class NoSqlEntity {
     @Field("modifier")
     private String modifier;
 
-    public NoSqlEntity(){
-//        version = 0;
-        gmtCreate = gmtModified = LocalDateTime.now();
-    }
 }

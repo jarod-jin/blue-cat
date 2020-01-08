@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.estimate.service.impl;
 
-import cn.jarod.bluecat.core.utils.Const;
+import cn.jarod.bluecat.core.constant.Common;
+import cn.jarod.bluecat.core.enums.EntityType;
 import cn.jarod.bluecat.estimate.BlueCatEstimateApplicationTest;
 import cn.jarod.bluecat.estimate.entity.AnswerDO;
 import cn.jarod.bluecat.estimate.entity.EstimateItemDO;
@@ -106,7 +107,7 @@ class EstimateServiceTest extends BlueCatEstimateApplicationTest {
 
     @Test
     void findContract() {
-        CrudEstimateSheetBO sheetBO = new CrudEstimateSheetBO("SC20191126","admin","root", Const.NOT_DEL);
+        CrudEstimateSheetBO sheetBO = new CrudEstimateSheetBO("SC20191126","admin","root", EntityType.NOT_DEL.getType());
         CrudEstimateSheetBO resultSheetBO = estimateService.findEstimate(sheetBO);
         assertFalse(resultSheetBO.getCrudEstimateItemList().isEmpty());
     }

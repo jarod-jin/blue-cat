@@ -32,8 +32,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static cn.jarod.bluecat.core.utils.Const.*;
-import static cn.jarod.bluecat.core.utils.Const.TEL;
+import static cn.jarod.bluecat.core.constant.Common.*;
+import static cn.jarod.bluecat.core.constant.Common.TEL;
 
 /**
  * @author jarod.jin 2019/9/9

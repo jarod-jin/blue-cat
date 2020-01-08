@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.model.bo;
 
-import cn.jarod.bluecat.core.model.BaseModel;
+import cn.jarod.bluecat.core.model.RdsModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LinkResourceShareBO extends BaseModel {
+public class LinkResourceShareBO extends RdsModel {
 
     private String resourceCode;
 

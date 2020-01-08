@@ -2,9 +2,11 @@ package cn.jarod.bluecat.core.filter;
 
 import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
 import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -69,7 +71,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
                                               AuthenticationException failed) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), failed.getMessage())));
+        response.getWriter().print(JSON.toJSONString(ApiResultUtil.fail4Unauthorized(failed.getMessage())));
         response.getWriter().close();
     }
 }

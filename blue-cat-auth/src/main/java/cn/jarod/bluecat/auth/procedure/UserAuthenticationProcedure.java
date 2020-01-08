@@ -4,12 +4,11 @@ import cn.jarod.bluecat.auth.enums.SignType;
 import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.service.CredentialService;
-import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
-import cn.jarod.bluecat.core.utils.Const;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,7 @@ public class UserAuthenticationProcedure {
      * @return ResultDTO
      */
     public ResultDTO validAuthority(String typeStr,String text) {
-        return new ResultDTO(ReturnCode.GET_SUCCESS, credentialService.validSignUp(SignType.findNumber(typeStr),text));
+        return ApiResultUtil.getSuccess(credentialService.validSignUp(SignType.findNumber(typeStr),text));
     }
 
 
@@ -46,13 +45,13 @@ public class UserAuthenticationProcedure {
         if (upDTO.getSignType()==0){
             if (CommonUtil.validTel(upDTO.getSignName())){
                 throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"请输入一个正确的手机号"); }
-            if (credentialService.validSignUp(Const.TEL,upDTO.getSignName())){
+            if (credentialService.validSignUp(SignType.tel.getNumber(),upDTO.getSignName())){
                 throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"该手机已被注册"); }
             crudUserBO.setTel(upDTO.getSignName());
         }else if (upDTO.getSignType()==1){
             if (CommonUtil.validEmail(upDTO.getSignName())){
                 throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"请输入一个正确的邮箱地址"); }
-            if (credentialService.validSignUp(Const.TEL,upDTO.getSignName())){
+            if (credentialService.validSignUp(SignType.email.getNumber(),upDTO.getSignName())){
                 throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"该邮箱已被注册"); }
             crudUserBO.setEmail(upDTO.getSignName());
         }else{
@@ -62,6 +61,6 @@ public class UserAuthenticationProcedure {
         credentialService.setSignInfo2Redis(upDTO.getSignName());
         credentialService.setSignInfo2Redis(username);
         crudUserBO.setCredentialType(upDTO.getCredentialType());
-        return new ResultDTO(ReturnCode.SAVE_SUCCESS,credentialService.registerUser(crudUserBO,upDTO.getPassword()));
+        return ApiResultUtil.getSuccess(credentialService.registerUser(crudUserBO,upDTO.getPassword()));
     }
 }

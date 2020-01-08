@@ -1,19 +1,11 @@
 package cn.jarod.bluecat.resource.entity;
 
-import cn.jarod.bluecat.core.entity.BaseEntity;
 import cn.jarod.bluecat.core.entity.NoSqlEntity;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.bson.types.ObjectId;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.*;
 import java.util.List;
 
 /**

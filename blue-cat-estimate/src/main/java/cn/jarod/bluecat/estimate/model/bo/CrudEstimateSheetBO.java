@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.estimate.model.bo;
 
-import cn.jarod.bluecat.core.model.BaseModel;
+import cn.jarod.bluecat.core.model.RdsModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class CrudEstimateSheetBO extends BaseModel {
+public class CrudEstimateSheetBO extends RdsModel {
 
     /**合约编号*/
     @NotBlank

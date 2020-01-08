@@ -22,9 +22,6 @@ public class NoSqlModel {
     /**版本号,乐观锁*/
     private Integer version ;
 
-    /**修改时间*/
-    private LocalDateTime gmtModified;
-
     /**修改者*/
     private String modifier;
 

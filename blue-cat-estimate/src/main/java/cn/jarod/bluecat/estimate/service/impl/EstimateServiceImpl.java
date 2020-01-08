@@ -3,7 +3,7 @@ package cn.jarod.bluecat.estimate.service.impl;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.utils.Const;
+import cn.jarod.bluecat.core.constant.Common;
 import cn.jarod.bluecat.estimate.entity.EstimateItemDO;
 import cn.jarod.bluecat.estimate.entity.EstimateSheetDO;
 import cn.jarod.bluecat.estimate.model.bo.CrudEstimateItemBO;
@@ -43,7 +43,7 @@ public class EstimateServiceImpl implements EstimateService {
      */
     @Override
     public EstimateSheetDO saveEstimateSheet(CrudEstimateSheetBO sheetBO) {
-        EstimateSheetDO estimateSheetDO =  estimateSheetRepository.findBySerialNoAndBelongToAndUsernameAndFinishMark(sheetBO.getSerialNo(),sheetBO.getBelongTo(),sheetBO.getUsername(), Const.NOT_DEL)
+        EstimateSheetDO estimateSheetDO =  estimateSheetRepository.findBySerialNoAndBelongToAndUsernameAndFinishMark(sheetBO.getSerialNo(),sheetBO.getBelongTo(),sheetBO.getUsername(), Common.NOT_DEL)
                 .orElse(new EstimateSheetDO());
         sheetBO.reset();
         BeanHelperUtil.copyNotNullProperties(sheetBO,estimateSheetDO);

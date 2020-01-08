@@ -39,8 +39,8 @@ public class MapBeanUtil {
      * @param obj
      * @return
      */
-    public static Map bean2Map(Object obj) {
-        Map map = Maps.newHashMap();
+    public static Map<String,String> bean2Map(Object obj) {
+        Map<String,String> map = Maps.newHashMap();
         try {
             map = BeanUtils.describe(obj);
         } catch (NoSuchMethodException | IllegalAccessException| InvocationTargetException e) {

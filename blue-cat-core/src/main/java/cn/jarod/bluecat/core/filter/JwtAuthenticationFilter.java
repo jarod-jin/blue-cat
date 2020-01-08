@@ -1,8 +1,11 @@
 package cn.jarod.bluecat.core.filter;
 
 import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
+import cn.jarod.bluecat.core.constant.Symbol;
 import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -20,7 +23,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-import static cn.jarod.bluecat.core.utils.Const.BRACE;
 
 /**
  * @author jarod.jin 2018/12/3
@@ -49,18 +51,18 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             Authentication authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request, securityConfig);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (SignatureException e) {
-            log.info(SIGN_FALSE + BRACE , e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), SIGN_FALSE)));
+            log.warn(SIGN_FALSE + Symbol.BRACE, e.getMessage());
+            response.getWriter().print(JSON.toJSONString(ApiResultUtil.fail4Unauthorized(SIGN_FALSE)));
             response.getWriter().close();
             return;
         }catch (ExpiredJwtException e){
-            log.info(TOKEN_EXPIRE + BRACE, e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), TOKEN_EXPIRE)));
+            log.warn(TOKEN_EXPIRE + Symbol.BRACE, e.getMessage());
+            response.getWriter().print(JSON.toJSONString(ApiResultUtil.fail4Unauthorized(TOKEN_EXPIRE)));
             response.getWriter().close();
             return;
         }catch (Exception e){
-            log.info(LOGIN_FAIL + BRACE, e.getMessage());
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.UNAUTHORIZED.getCode(), LOGIN_FAIL)));
+            log.warn(LOGIN_FAIL + Symbol.BRACE, e.getMessage());
+            response.getWriter().print(JSON.toJSONString(ApiResultUtil.fail4Unauthorized(LOGIN_FAIL)));
             response.getWriter().close();
             return;
         }

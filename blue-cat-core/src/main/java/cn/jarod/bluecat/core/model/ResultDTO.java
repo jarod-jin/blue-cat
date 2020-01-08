@@ -28,21 +28,4 @@ public class ResultDTO implements Serializable {
         this.msg = resultMessage;
         this.data = data;
     }
-
-    public ResultDTO(Integer code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
-
-    public ResultDTO(ReturnCode returnCode) {
-        this.code = returnCode.getCode();
-        this.msg = returnCode.getMsg();
-    }
-
-    public ResultDTO(ReturnCode returnCode, Object data) {
-        this.code = returnCode.getCode();
-        this.msg = returnCode.getMsg();
-        this.data = data;
-    }
-
 }

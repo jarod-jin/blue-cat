@@ -4,10 +4,11 @@ import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.service.*;
+import cn.jarod.bluecat.core.constant.Symbol;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
-import cn.jarod.bluecat.core.utils.Const;
+import cn.jarod.bluecat.core.constant.Common;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +59,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             log.info("{}系统登录成功：用户为{}，终端为：{}", req.getBelongTo(), name, req.getTerminalVersion());
             return createUsernamePasswordAuthentication(name, credOpt.get().getPassword(), req);
         }
-        log.info(AUTH_ERROR_MSG + Const.BRACE , name);
+        log.info(AUTH_ERROR_MSG + Symbol.BRACE , name);
         throw new BadCredentialsException(AUTH_ERROR_MSG);
     }
 

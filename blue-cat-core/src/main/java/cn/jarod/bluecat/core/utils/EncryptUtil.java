@@ -98,16 +98,16 @@ public class EncryptUtil {
 
 
     public static String getRandomCode(int length, boolean hasLetter){
-        String str= DIGIT;
+        String letter = DIGIT;
         if (hasLetter) {
-            str += LETTER;
+            letter += LETTER;
         }
         //定义一个长度是4的char型数组
         char[]arr=new char[length];
         Random sj=new Random();
         for(int i=0;i<length;i++) {
             //从str中随机截取4个单个字符并赋值给arr这个数组存放
-            arr[i]= str.charAt(sj.nextInt(str.length()));
+            arr[i]= letter.charAt(sj.nextInt(letter.length()));
         }
         return new String(arr);
     }

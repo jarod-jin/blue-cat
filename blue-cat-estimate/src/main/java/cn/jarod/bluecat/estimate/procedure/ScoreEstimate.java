@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.estimate.procedure;
 
 import cn.jarod.bluecat.core.annotation.TimeDiff;
-import cn.jarod.bluecat.core.utils.Const;
+import cn.jarod.bluecat.core.constant.Common;
 import cn.jarod.bluecat.estimate.entity.AnswerDO;
 import cn.jarod.bluecat.estimate.entity.ConditionDO;
 import cn.jarod.bluecat.estimate.model.bo.CrudContractItemBO;
@@ -52,7 +52,7 @@ public class ScoreEstimate {
     public void countScoreByEstimateSheet(CrudEstimateSheetBO estimateSheet){
         CrudContractSheetBO contract = contractService.findContract(new CrudContractSheetBO(estimateSheet.getSerialNo(),estimateSheet.getBelongTo()));
         Map<Integer, CrudContractItemBO> itemMap = contract.getContractItemBOList().stream().collect(Collectors.toMap(CrudContractItemBO::getItemNo,Function.identity()));
-        CrudEstimateSheetBO estimate = estimateService.findEstimate(new CrudEstimateSheetBO(estimateSheet.getSerialNo(),estimateSheet.getUsername(),estimateSheet.getBelongTo(), Const.DEL));
+        CrudEstimateSheetBO estimate = estimateService.findEstimate(new CrudEstimateSheetBO(estimateSheet.getSerialNo(),estimateSheet.getUsername(),estimateSheet.getBelongTo(), Common.DEL));
         List<CrudEstimateItemBO> crudEstimateItemList = estimate.getCrudEstimateItemList().stream().peek(e->{
             CrudContractItemBO contractItem = itemMap.get(e.getItemNo());
             Map<String, ConditionDO> conditionMap = contractItem.getConditionJson().stream().collect(Collectors.toMap(ConditionDO::getConditionKey, Function.identity()));

@@ -9,7 +9,7 @@ import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.utils.Const;
+import cn.jarod.bluecat.core.constant.Common;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -72,8 +72,8 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("校验手机，邮箱，用户名为空白")
     void validEmailEmpty() {
         assertAll("检验返回结果",
-                ()->  assertFalse(credentialService.validSignUp(Const.TEL,"")),
-                ()->  assertFalse(credentialService.validSignUp(Const.EMAIL,""))
+                ()->  assertFalse(credentialService.validSignUp(Common.TEL,"")),
+                ()->  assertFalse(credentialService.validSignUp(Common.EMAIL,""))
         );
     }
 
@@ -82,8 +82,8 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("校验Authority为admin")
     void validAuthorityAdmin() {
         assertAll("检验返回结果",
-                ()->  assertTrue(credentialService.validSignUp(Const.TEL,"18158105518")),
-                ()->  assertFalse(credentialService.validSignUp(Const.EMAIL,""))
+                ()->  assertTrue(credentialService.validSignUp(Common.TEL,"18158105518")),
+                ()->  assertFalse(credentialService.validSignUp(Common.EMAIL,""))
         );
     }
 

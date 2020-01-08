@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.BaseModel;
+import cn.jarod.bluecat.core.model.RdsModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LinkOrgRoleBO extends BaseModel {
+public class LinkOrgRoleBO extends RdsModel {
 
     private String orgCode;
 

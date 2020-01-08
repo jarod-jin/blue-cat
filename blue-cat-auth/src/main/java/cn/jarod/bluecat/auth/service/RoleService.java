@@ -4,7 +4,7 @@ import cn.jarod.bluecat.auth.entity.OrgRoleDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
-import cn.jarod.bluecat.core.model.BaseQO;
+import cn.jarod.bluecat.core.model.BaseQuery;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import org.springframework.data.domain.Page;
 
@@ -42,7 +42,7 @@ public interface RoleService {
      * @param qo 查询对象
      * @return Page
      */
-    Page<RoleDO> findRolePage(BaseQO qo);
+    Page<RoleDO> findRolePage(BaseQuery qo);
 
     /**
      * 保存

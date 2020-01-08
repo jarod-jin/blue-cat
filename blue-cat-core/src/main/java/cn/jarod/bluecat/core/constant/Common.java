@@ -1,19 +1,9 @@
-package cn.jarod.bluecat.core.utils;
+package cn.jarod.bluecat.core.constant;
 
 /**
  * @author jarod.jin 2019/9/4
  */
-public class Const {
-
-    public static final String REGEX_COMMA = ",";
-
-    public static final String REGEX_HYPHEN = "-";
-
-    public static final String REGEX_SLASH = "/";
-
-    public static final String SQL_LIKE = "%";
-
-    public static final String BRACE = "{}";
+public class Common {
 
     public static final Integer NOT_DEL = 0;
 
@@ -34,10 +24,5 @@ public class Const {
 
     /**存放Token的Header Key*/
     public static final String ACCESS_TOKEN = "Authorization";
-
-    public static final int TEL = 0;
-
-    public static final int EMAIL = 1;
-
 
 }

@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.utils;
 
+import cn.jarod.bluecat.core.constant.Symbol;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
@@ -7,17 +8,21 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
+import org.springframework.util.ObjectUtils;
 
 import java.beans.PropertyDescriptor;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author jarod.jin 2019/9/4
  */
 @Slf4j
 public class BeanHelperUtil {
+
+
 
     /***
      * 下划线命名转为驼峰命名
@@ -26,9 +31,9 @@ public class BeanHelperUtil {
      */
     public static String UnderlineToHump(String para){
         StringBuilder result=new StringBuilder();
-        String[] a = para.split("_");
+        String[] a = para.split(Symbol.UNDERLINE);
         for(String s:a){
-            if (!para.contains("_")) {
+            if (!para.contains(Symbol.UNDERLINE)) {
                 result.append(s);
                 continue;
             }
@@ -76,10 +81,10 @@ public class BeanHelperUtil {
         StringBuilder sb=new StringBuilder(para);
         /*定位*/
         int temp=0;
-        if (!para.contains("_")) {
+        if (!para.contains(Symbol.UNDERLINE)) {
             for(int i=0;i<para.length();i++){
                 if(Character.isUpperCase(para.charAt(i))){
-                    sb.insert(i+temp, "_");
+                    sb.insert(i+temp, Symbol.UNDERLINE);
                     temp+=1;
                 }
             }
@@ -107,48 +112,60 @@ public class BeanHelperUtil {
 
     /**
      * 将数据源中为空的字段过滤，将数据源中不为空的字段复制到目标源中
-     *
      * @param source 数据源
      * @param target 提交的实体，目标源
      */
     public static void copyNotNullProperties(Object source, Object target) {
-        BeanUtils.copyProperties(source, target, getProperties(source,true));
+        BeanUtils.copyProperties(source, target, getNullValueProperties(source));
     }
 
+    /**
+     * 判定对象中为null的字段取出
+     * @param object 判定对象
+     * @return String[]
+     */
+    private static String[] getNullValueProperties(Object object) {
+        BeanWrapper srcBean = new BeanWrapperImpl(object);
+        PropertyDescriptor[] pds = srcBean.getPropertyDescriptors();
+        return Arrays.stream(pds).filter(d ->
+                srcBean.getPropertyValue(d.getName())==null
+        ).map(PropertyDescriptor::getName).distinct().toArray(String[]::new);
+    }
 
     /**
      * 将目标源中不为空的字段过滤，从数据源中复制目标源为空的字段值
-     *
      * @param source 用id从数据库中查出来的数据源
      * @param target 提交的实体，目标源
      */
     public static void copyNullProperties(Object source, Object target) {
-        BeanUtils.copyProperties(source, target, getProperties(target,false));
+        BeanUtils.copyProperties(source, target, getNotNullValueProperties(target));
     }
 
 
     /**
+     * 将判定对象中不为null的字段取出
      * @param object 判定对象
-     * @param isNull 是否为空
-     * @return 将判定对象中为空或者不为空的字段取出
+     * @return String[]
      */
-    private static String[] getProperties(Object object, Boolean isNull) {
+    private static String[] getNotNullValueProperties(Object object) {
         BeanWrapper srcBean = new BeanWrapperImpl(object);
         PropertyDescriptor[] pds = srcBean.getPropertyDescriptors();
-        Set<String> noEmptyName = Sets.newHashSet();
-        Set<String> emptyName = Sets.newHashSet();
-        for (PropertyDescriptor p : pds) {
-            Object value = srcBean.getPropertyValue(p.getName());
-            if (value == null){
-                emptyName.add(p.getName());
-            } else{
-                noEmptyName.add(p.getName());
-            }
-        }
-        if (isNull){
-            return emptyName.toArray(new String[0]);
-        }
-        return noEmptyName.toArray(new String[0]);
+        return Arrays.stream(pds).filter(d ->
+                srcBean.getPropertyValue(d.getName())!=null
+        ).map(PropertyDescriptor::getName).distinct().toArray(String[]::new);
+    }
+
+    /**
+     * 将判定对象中为空的字段取出
+     * @param object 判定对象
+     * @return String[]
+     */
+    public static String[] getEmptyValueProperties(Object object) {
+        BeanWrapper srcBean = new BeanWrapperImpl(object);
+        PropertyDescriptor[] pds = srcBean.getPropertyDescriptors();
+        return Arrays.stream(pds).filter(d ->
+                ObjectUtils.isEmpty(srcBean.getPropertyValue(d.getName()))
+        ).map(PropertyDescriptor::getName).distinct().toArray(String[]::new);
     }
 
 

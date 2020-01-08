@@ -3,11 +3,8 @@ package cn.jarod.bluecat.core.enums;
 import lombok.Getter;
 
 /**
- * @author jarod.jin 2019/9/4
- */
-
-/**
  * 一般正则枚举
+ *  @author jarod.jin 2019/9/4
  */
 public enum CommonPattern {
 
