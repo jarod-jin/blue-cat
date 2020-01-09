@@ -2,6 +2,7 @@ package cn.jarod.bluecat.resource.service;
 
 import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
 import cn.jarod.bluecat.resource.entity.ApplicationDO;
+import cn.jarod.bluecat.resource.entity.ReleaseDO;
 import cn.jarod.bluecat.resource.model.bo.CrudApplicationBO;
 import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
 import cn.jarod.bluecat.resource.model.dto.ApplicationQuery;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author jarod.jin 2019/11/20
@@ -48,7 +50,6 @@ class ApplicationServiceTest extends BlueCatResourceApplicationTest {
         crudReleaseBO.setReleaseType("PC");
         crudReleaseBO.setAppId(new ObjectId("5e12ab7e88eee01b6d0f3c5f"));
         crudReleaseBO.setNotes(Lists.newArrayList("完成基础平台搭建","完成数据库和注册中心搭建","初次代码提交"));
-        crudReleaseBO.setBuildNo(new BigDecimal("10001.0"));
 
 
     }
@@ -63,10 +64,11 @@ class ApplicationServiceTest extends BlueCatResourceApplicationTest {
     void queryApplicationPage() {
         ApplicationQuery queryDTO = new ApplicationQuery();
         queryDTO.setDescription("测试");
-        Page<ApplicationDO> page = applicationService.queryApplication(queryDTO);
+        Page<ApplicationDO> page = applicationService.findAllApplication(queryDTO);
         assertFalse(page.isEmpty());
         assertTrue(page.get().allMatch(app->app.getDescription().contains("测试")));
     }
+
 
     @Test
     void createApplication() {
@@ -100,6 +102,7 @@ class ApplicationServiceTest extends BlueCatResourceApplicationTest {
     void addReleaseOne() {
         crudReleaseBO.setReleaseVersion("ver 1.0.1");
         crudReleaseBO.setReleaseType("PC");
+        crudReleaseBO.setBuildNo(new BigDecimal("10001.0"));
         crudReleaseBO.setAppId(new ObjectId("5e12ab7e88eee01b6d0f3c5f"));
         crudReleaseBO.setNotes(Lists.newArrayList("完成基础平台搭建","完成数据库和注册中心搭建","初次代码提交"));
         crudReleaseBO.setVersion(9);
@@ -111,10 +114,19 @@ class ApplicationServiceTest extends BlueCatResourceApplicationTest {
     @DisplayName("增加第二条")
     void addReleaseTwo() {
         crudReleaseBO.setReleaseVersion("ver 1.0.2");
+        crudReleaseBO.setBuildNo(new BigDecimal("10002.0"));
         crudReleaseBO.setNotes(Lists.newArrayList("基础权限平台","第二次代码提交"));
         crudReleaseBO.setVersion(10);
         ApplicationDO application = applicationService.addRelease(crudReleaseBO);
         assertNotNull(application.getId());
+    }
+
+    @Test
+    @DisplayName("查询最新的")
+    void findLatestRelease() {
+        ReleaseDO releaseDO = applicationService.findLatestRelease(new ObjectId("5e12ab7e88eee01b6d0f3c5f"),"PC");
+        assertNotNull(releaseDO);
+        assertEquals(new BigDecimal("10002.0"),releaseDO.getBuildNo());
     }
 
 }

@@ -16,6 +16,7 @@ public interface DictService {
     /**
      * 查询字典数据
      * @param category
+     * @param belong
      * @return
      */
     DictDO findByCategory(String category,String belong);

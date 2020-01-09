@@ -83,7 +83,7 @@ public class EstimateServiceImpl implements EstimateService {
     @Override
     public CrudEstimateSheetBO findEstimate(CrudEstimateSheetBO queryBO) {
         EstimateSheetDO sheetDO = estimateSheetRepository.findBySerialNoAndBelongToAndUsernameAndFinishMark(queryBO.getSerialNo(),queryBO.getBelongTo(),queryBO.getUsername(), queryBO.getFinishedMark())
-                .orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
+                .orElseThrow(()->ApiResultUtil.fail4NoDataFound());
         CrudEstimateSheetBO estimateSheetBO = BeanHelperUtil.createCopyBean(sheetDO, CrudEstimateSheetBO.class);
         List<CrudEstimateItemBO> itemList = estimateItemRepository.findAllByEstimateSheetIdOrderByItemNoAsc(sheetDO.getId()).stream().map(i-> BeanHelperUtil.createCopyBean(i,CrudEstimateItemBO.class))
                 .collect(Collectors.toList());

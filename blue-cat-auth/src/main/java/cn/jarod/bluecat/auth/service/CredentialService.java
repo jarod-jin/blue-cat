@@ -2,6 +2,7 @@ package cn.jarod.bluecat.auth.service;
 
 import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
+import cn.jarod.bluecat.auth.enums.SignType;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.bo.*;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
@@ -42,7 +43,7 @@ public interface CredentialService {
      * @param text 注册校验内容
      * @return ValidSignUpDTO
      */
-    Boolean validSignUp(Integer type, String text);
+    Boolean validSignUp(SignType type, String text);
 
     /**
      * 修改用户密码

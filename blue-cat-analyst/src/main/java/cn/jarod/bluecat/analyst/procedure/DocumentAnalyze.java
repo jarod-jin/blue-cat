@@ -9,6 +9,7 @@ import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.PoiUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -29,10 +30,6 @@ import java.util.Optional;
 @Service
 public class DocumentAnalyze {
 
-    private static final String RESUME = "resume";
-
-    private static final String SUBJECT = "subject";
-
     public static final String DOCX = ".docx";
 
     public static final String DOC = ".doc";
@@ -47,7 +44,7 @@ public class DocumentAnalyze {
 
     public ResultDTO uploadResumeFile(MultipartFile file, UserDetailDTO userDTO){
         if (file.isEmpty()){
-            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
+            throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);
         }
         String filename = file.getOriginalFilename()!=null?file.getOriginalFilename():file.getName();
         try {
@@ -65,11 +62,11 @@ public class DocumentAnalyze {
             document.setContextList(contextList);
             documentTextRepository.save(document);
             log.info("上传成功");
-            return new ResultDTO(ReturnCode.SAVE_SUCCESS);
+            return ApiResultUtil.saveSuccess(document.getId());
         } catch (IOException e) {
             log.error(e.toString(), e);
         }
-        return new ResultDTO(ReturnCode.NOT_ACCEPTABLE);
+        throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
     }
 
     public void createCandidateBySubject(String subject){

@@ -32,4 +32,8 @@ public class ResourceDO extends NoSqlEntity {
     @Field("groupAuthorization")
     private List<String> groupAuthorization;
 
+    /**下载路径*/
+    @Field("downloadPath")
+    private String downloadPath;
+
 }

@@ -4,6 +4,7 @@ import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.OrganizationService;
+import cn.jarod.bluecat.core.constant.Symbol;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.TreeModel;
@@ -88,7 +89,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public List<TreeModel> findOrgTreeByFullCode(String fullCode) {
-        List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Common.SQL_LIKE).stream().map(e->{
+        List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Symbol.SQL_LIKE).stream().map(e->{
             CrudOrganizationBO orgDTO = new CrudOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);
             orgDTO.setNodeId(e.getOrgCode());

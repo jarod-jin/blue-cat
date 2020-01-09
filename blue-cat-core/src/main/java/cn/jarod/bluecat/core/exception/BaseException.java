@@ -4,7 +4,8 @@ import cn.jarod.bluecat.core.enums.ReturnCode;
 import lombok.Getter;
 
 /**
- * @author 45216
+ * @author Jarod Jin E-mail:kira277@163.com
+ * @version 创建时间：2020/1/9
  */
 public class BaseException extends RuntimeException {
 

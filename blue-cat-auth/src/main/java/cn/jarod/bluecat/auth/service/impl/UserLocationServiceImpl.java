@@ -6,6 +6,7 @@ import cn.jarod.bluecat.auth.repository.UserLocationRepository;
 import cn.jarod.bluecat.auth.service.UserLocationService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -48,7 +49,8 @@ public class UserLocationServiceImpl implements UserLocationService {
         userLocationDO.setUsername(userLocationBO.getUsername());
         userLocationDO.setOrgRoleId(userLocationBO.getOrgRoleId());
         if (userLocationRepository.exists(Example.of(userLocationDO))){
-            throw new BaseException(ReturnCode.NOT_FOUND);}
+            throw ApiResultUtil.fail4Existed();
+        }
         userLocationDO.setCreator(userLocationBO.getModifier());
         userLocationDO.setModifier(userLocationBO.getModifier());
         return userLocationRepository.save(userLocationDO);
@@ -62,7 +64,7 @@ public class UserLocationServiceImpl implements UserLocationService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delUserLocation(LinkUserLocationBO userLocationBO) {
-        userLocationRepository.delete(userLocationRepository.findById(userLocationBO.getId()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
+        userLocationRepository.delete(userLocationRepository.findById(userLocationBO.getId()).orElseThrow(ApiResultUtil::fail4NotFound));
     }
 
 

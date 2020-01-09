@@ -2,6 +2,7 @@ package cn.jarod.bluecat.auth.enums;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 
 import java.util.Arrays;
 
@@ -32,12 +33,11 @@ public enum SignType {
         return code;
     }
 
-    public static Integer findNumber(String code){
+    public static SignType findSignType(String code){
         return Arrays.stream(SignType.values())
                 .filter(e->code.equals(e.code))
                 .findFirst()
-                .orElseThrow(()->new BaseException(ReturnCode.NOT_ACCEPTABLE))
-                .number;
+                .orElseThrow(()-> ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE));
     }
 
 }

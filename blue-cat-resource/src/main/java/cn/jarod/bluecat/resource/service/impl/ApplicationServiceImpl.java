@@ -1,26 +1,28 @@
 package cn.jarod.bluecat.resource.service.impl;
 
 import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.resource.entity.ApplicationDO;
 import cn.jarod.bluecat.resource.entity.ReleaseDO;
 import cn.jarod.bluecat.resource.model.bo.CrudApplicationBO;
 import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
 import cn.jarod.bluecat.resource.model.dto.ApplicationQuery;
-import cn.jarod.bluecat.resource.model.dto.QueryReleaseDTO;
 import cn.jarod.bluecat.resource.repository.ApplicationRepository;
 import cn.jarod.bluecat.resource.service.ApplicationService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
 
 
 /**
@@ -43,7 +45,7 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @return Page
      */
     @Override
-    public Page<ApplicationDO> queryApplication(ApplicationQuery query) {
+    public Page<ApplicationDO> findAllApplication(ApplicationQuery query) {
         ApplicationDO application = new ApplicationDO();
         application.setDescription(query.getDescription());
         ExampleMatcher matcher = ExampleMatcher.matching()
@@ -53,8 +55,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Page<ReleaseDO> queryReleaseByPage(QueryReleaseDTO queryDTO) {
-        return null;
+    public ReleaseDO findLatestRelease(ObjectId id, String type) {
+        ApplicationDO applicationDO = applicationRepository.findById(id).orElseThrow(ApiResultUtil::fail4NotFound);
+        if (!applicationDO.getReleases().containsKey(type)){
+            throw ApiResultUtil.fail4NotFound();
+        }
+        return applicationDO.getReleases().get(type).stream().max(Comparator.comparing(ReleaseDO::getBuildNo))
+                .orElseThrow(()->ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE));
     }
 
     /**
@@ -66,7 +73,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public ApplicationDO createApplication(CrudApplicationBO applicationBO) {
         if (applicationBO.getId()!=null && applicationRepository.existsById(applicationBO.getId())){
-            throw new BaseException(ReturnCode.ALREADY_EXISTED);
+            throw ApiResultUtil.fail4Existed();
         }
         applicationBO.setId(null);
         ApplicationDO applicationDO = new ApplicationDO();
@@ -86,10 +93,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public ApplicationDO updateApplication(CrudApplicationBO applicationBO) {
         if (applicationBO.getId()==null){
-            throw new BaseException(ReturnCode.INVALID_REQUEST);
+            throw ApiResultUtil.fail4BadParameter(ReturnCode.UNPROCESSABLE_ENTITY);
         }
         ApplicationDO applicationDO =applicationRepository.findById(applicationBO.getId())
-                .orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
+                .orElseThrow(ApiResultUtil::fail4NotFound);
         BeanHelperUtil.copyNotNullProperties(applicationBO, applicationDO);
         applicationDO.setGmtModified(LocalDateTime.now());
         return applicationRepository.save(applicationDO);
@@ -103,10 +110,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public void delApplication(CrudApplicationBO applicationBO) {
         if (applicationBO.getId()==null){
-            throw new BaseException(ReturnCode.INVALID_REQUEST);
+            throw  ApiResultUtil.fail4BadParameter(ReturnCode.UNPROCESSABLE_ENTITY);
         }
         ApplicationDO applicationDO =applicationRepository.findById(applicationBO.getId())
-                .orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
+                .orElseThrow(ApiResultUtil::fail4NotFound);
         applicationRepository.delete(applicationDO);
     }
 
@@ -118,10 +125,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public ApplicationDO addRelease(CrudReleaseBO crudReleaseBO) {
         if (crudReleaseBO.getAppId()==null){
-            throw new BaseException(ReturnCode.INVALID_REQUEST);
+            throw  ApiResultUtil.fail4BadParameter(ReturnCode.UNPROCESSABLE_ENTITY);
         }
         ApplicationDO applicationDO =applicationRepository.findById(crudReleaseBO.getAppId())
-                .orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
+                .orElseThrow(ApiResultUtil::fail4NotFound);
         addRelease2Application(applicationDO,crudReleaseBO);
         applicationDO.setVersion(crudReleaseBO.getVersion());
         applicationDO.setGmtModified(LocalDateTime.now());

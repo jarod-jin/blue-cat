@@ -10,6 +10,7 @@ import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQuery;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.constant.Common;
 import com.google.common.collect.Lists;
@@ -91,9 +92,7 @@ public class RoleServiceImpl implements cn.jarod.bluecat.auth.service.RoleServic
     @Override
     @Transactional(readOnly = true)
     public Page<RoleDO> findRolePage(BaseQuery qo) {
-        Pageable pageable = PageRequest.of(qo.getPageNum() - 1, qo.getPageCount(),
-                Sort.by((qo.isASC()? Sort.Direction.ASC:Sort.Direction.DESC), Common.GMT_CREATE));
-        return roleRepository.findAll(pageable);
+        return roleRepository.findAll(qo.getPageRequest());
     }
 
     /**
@@ -108,7 +107,7 @@ public class RoleServiceImpl implements cn.jarod.bluecat.auth.service.RoleServic
         orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
         orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
         if (orgRoleRepository.exists(Example.of(orgRoleDO))) {
-            throw new BaseException(ReturnCode.NOT_FOUND);
+            throw ApiResultUtil.fail4Existed();
         }
         orgRoleDO.setCreator(linkOrgRoleBO.getModifier());
         orgRoleDO.setModifier(linkOrgRoleBO.getModifier());
@@ -127,7 +126,7 @@ public class RoleServiceImpl implements cn.jarod.bluecat.auth.service.RoleServic
         OrgRoleDO orgRoleDO = new OrgRoleDO();
         orgRoleDO.setOrgCode(linkOrgRoleBO.getOrgCode());
         orgRoleDO.setRoleCode(linkOrgRoleBO.getRoleCode());
-        orgRoleRepository.delete(orgRoleRepository.findOne(Example.of(orgRoleDO)).orElseThrow(()->new BaseException(ReturnCode.GONE)));
+        orgRoleRepository.delete(orgRoleRepository.findOne(Example.of(orgRoleDO)).orElseThrow(ApiResultUtil::fail4NotFound));
     }
 
     /**

@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.resource.service.impl;
 
-import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.resource.entity.DictDO;
 import cn.jarod.bluecat.resource.model.bo.UpdateDictItemBO;
@@ -37,7 +37,7 @@ public class DictServiceImpl implements DictService {
      */
     @Override
     public DictDO findByCategory(String category,String belongTo) {
-        return dictRepository.findOneByCategoryAndBelongTo(category, belongTo).orElseThrow(() -> new BaseException(ReturnCode.NOT_FOUND));
+        return dictRepository.findOneByCategoryAndBelongTo(category, belongTo).orElseThrow(ApiResultUtil::fail4NotFound);
     }
 
     /**
@@ -49,7 +49,7 @@ public class DictServiceImpl implements DictService {
     @Transactional(rollbackFor = Exception.class)
     public DictDO create(CrudDictBO entryBO) {
         if (dictRepository.findOneByCategoryAndBelongTo(entryBO.getCategory(),entryBO.getBelongTo()).isPresent()) {
-            throw new BaseException(ReturnCode.ALREADY_EXISTED);
+            throw ApiResultUtil.fail4Existed();
         }
         DictDO entryDO = BeanHelperUtil.createCopyBean(entryBO, DictDO.class);
         entryDO.setGmtCreate(LocalDateTime.now());

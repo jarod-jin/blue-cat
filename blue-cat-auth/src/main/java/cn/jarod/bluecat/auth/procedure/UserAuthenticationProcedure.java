@@ -5,7 +5,6 @@ import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
@@ -31,7 +30,7 @@ public class UserAuthenticationProcedure {
      * @return ResultDTO
      */
     public ResultDTO validAuthority(String typeStr,String text) {
-        return ApiResultUtil.getSuccess(credentialService.validSignUp(SignType.findNumber(typeStr),text));
+        return ApiResultUtil.getSuccess(credentialService.validSignUp(SignType.findSignType(typeStr),text));
     }
 
 
@@ -44,18 +43,18 @@ public class UserAuthenticationProcedure {
         CrudUserBO crudUserBO = new CrudUserBO();
         if (upDTO.getSignType()==0){
             if (CommonUtil.validTel(upDTO.getSignName())){
-                throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"请输入一个正确的手机号"); }
-            if (credentialService.validSignUp(SignType.tel.getNumber(),upDTO.getSignName())){
-                throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"该手机已被注册"); }
+                throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"请输入一个正确的手机号"); }
+            if (credentialService.validSignUp(SignType.tel,upDTO.getSignName())){
+                throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"该手机已被注册"); }
             crudUserBO.setTel(upDTO.getSignName());
         }else if (upDTO.getSignType()==1){
             if (CommonUtil.validEmail(upDTO.getSignName())){
-                throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"请输入一个正确的邮箱地址"); }
-            if (credentialService.validSignUp(SignType.email.getNumber(),upDTO.getSignName())){
-                throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"该邮箱已被注册"); }
+                throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"请输入一个正确的邮箱地址"); }
+            if (credentialService.validSignUp(SignType.email,upDTO.getSignName())){
+                throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"该邮箱已被注册"); }
             crudUserBO.setEmail(upDTO.getSignName());
         }else{
-            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
+            throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);
         }
         String username = credentialService.bookUsername(crudUserBO);
         credentialService.setSignInfo2Redis(upDTO.getSignName());

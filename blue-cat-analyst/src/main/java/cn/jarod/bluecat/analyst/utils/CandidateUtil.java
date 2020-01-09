@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
+
 /**
  * @author jarod.jin 2019/12/10
  */
@@ -26,7 +28,7 @@ public class CandidateUtil {
         String ageLine = context.stream().map(line->
                 (Arrays.stream(regex).anyMatch(line::contains))?line:""
         ).filter(StringUtils::hasText).findFirst().orElse("0岁");
-        Pattern p= Pattern.compile("(\\d+)");
+        Pattern p= compile("(\\d+)");
         Matcher m = p.matcher(ageLine);
         List<Double> digitList = Lists.newArrayList();
         while (m.find()) {

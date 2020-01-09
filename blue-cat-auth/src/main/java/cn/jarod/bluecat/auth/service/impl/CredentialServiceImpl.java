@@ -3,6 +3,7 @@ package cn.jarod.bluecat.auth.service.impl;
 import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
+import cn.jarod.bluecat.auth.enums.SignType;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
@@ -10,9 +11,11 @@ import cn.jarod.bluecat.auth.repository.CredentialRepository;
 import cn.jarod.bluecat.auth.repository.UserInfoRepository;
 import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
+import cn.jarod.bluecat.core.constant.Symbol;
 import cn.jarod.bluecat.core.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
@@ -32,8 +35,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static cn.jarod.bluecat.core.constant.Common.*;
-import static cn.jarod.bluecat.core.constant.Common.TEL;
+import static cn.jarod.bluecat.auth.enums.SignType.*;
+
 
 /**
  * @author jarod.jin 2019/9/9
@@ -42,6 +45,7 @@ import static cn.jarod.bluecat.core.constant.Common.TEL;
 @Service
 public class CredentialServiceImpl implements CredentialService {
 
+    public static final int LENGTH = 4;
     private final UserInfoRepository userInfoRepository;
 
     private final CredentialRepository credentialRepository;
@@ -56,6 +60,9 @@ public class CredentialServiceImpl implements CredentialService {
     /**用户注册时分布式锁的时间：单位秒*/
     @Value("${security.time-out.sign-up:3600}")
     private Integer signUpTimeOut;
+
+    @Value("${security.password.salt-length:10}")
+    private Integer saltLength;
 
     /**用户登录过期时间：单位小时*/
     @Value("${security.time-out.user:24}")
@@ -87,7 +94,7 @@ public class CredentialServiceImpl implements CredentialService {
         CredentialDO credDO = new CredentialDO();
         credDO.setUsername(authDO.getUsername());
         /*通过一个10位的随机数获取得到盐值*/
-        String salt = EncryptUtil.getRandomCode(10,true);
+        String salt = EncryptUtil.getRandomCode(saltLength,Boolean.TRUE);
         credDO.setSalt(salt);
         credDO.setPassword(EncryptUtil.encodePassword(clearPwd, salt));
         credDO.setCreator(authDO.getUsername());
@@ -109,9 +116,9 @@ public class CredentialServiceImpl implements CredentialService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteUser(UserInfoDTO authBO) {
-        BaseException baseException = new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(), "找不到该用户");
-        userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> baseException));
-        credentialRepository.delete(findCredentialByUsername(authBO.getUsername()).orElseThrow(()-> baseException));
+        BaseException userNotFound = ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE, "找不到该用户");
+        userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> userNotFound));
+        credentialRepository.delete(findCredentialByUsername(authBO.getUsername()).orElseThrow(()-> userNotFound));
         credHistoryRepository.deleteAll(credHistoryRepository.findAllByUsername(authBO.getUsername()));
     }
 
@@ -122,15 +129,14 @@ public class CredentialServiceImpl implements CredentialService {
      * @return ValidSignUpDTO
      */
     @Override
-    @TimeDiff
     @Transactional(readOnly = true)
-    public Boolean validSignUp(Integer type, String text) {
+    public Boolean validSignUp(SignType type, String text) {
         UserInfoDO auth = new UserInfoDO();
         switch (type) {
-            case TEL:
+            case tel:
                 auth.setTel(text.trim());
                 return CommonUtil.validTel(auth.getTel())  && !existsKey(text) && !userInfoRepository.exists(Example.of(auth));
-            case EMAIL:
+            case email:
                 auth.setEmail(text.trim());
                 return CommonUtil.validEmail(auth.getEmail())  && !existsKey(text) && !userInfoRepository.exists(Example.of(auth));
             default:
@@ -140,7 +146,6 @@ public class CredentialServiceImpl implements CredentialService {
 
 
     @Override
-    @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public UserInfoDO modifyUser(CrudUserBO authBO) {
         UserInfoDO target = BeanHelperUtil.createCopyBean(authBO, UserInfoDO.class);
@@ -154,16 +159,15 @@ public class CredentialServiceImpl implements CredentialService {
      * @param credBO
      */
     @Override
-    @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public void modifyPassword(UpdateCredBO credBO) {
         findCredentialByUsername(credBO.getUsername()).ifPresent(
             c -> {
                 if (!c.getPassword().equals(credBO.getCurrentPassword())) {
-                    throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"原密码错误");
+                    throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"原密码错误");
                 }
                 if (credHistoryRepository.existsByUsernameAndPassword(credBO.getUsername(), credBO.getModifiedPassword())) {
-                    throw new BaseException(ReturnCode.NOT_ACCEPTABLE.getCode(),"密码不能和前"+ passNumber +"次相同");
+                    throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"密码不能和前"+ passNumber +"次相同");
                 }
                 c.setPassword(credBO.getModifiedPassword());
                 CredHistoryDO chDO = new CredHistoryDO(credBO.getUsername(), credBO.getModifiedPassword(),credBO.getUsername());
@@ -208,11 +212,11 @@ public class CredentialServiceImpl implements CredentialService {
 
     @Override
     public String bookUsername(CrudUserBO crudUserBO) {
-        StringBuilder buffer = new StringBuilder(EncryptUtil.getRandomCode(4,true));
-        buffer.append(REGEX_HYPHEN);
+        StringBuilder buffer = new StringBuilder(EncryptUtil.getRandomCode(LENGTH,Boolean.TRUE));
+        buffer.append(Symbol.HYPHEN);
         buffer.append(EncryptUtil.getRandomCode(6,true));
         if (existsKey(buffer.toString()) && userInfoRepository.exists(Example.of(new UserInfoDO(buffer.toString())))){
-            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
+            throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);
         }
         return buffer.toString();
     }
@@ -230,7 +234,7 @@ public class CredentialServiceImpl implements CredentialService {
             redisTemplate.expire(key, signUpTimeOut, TimeUnit.SECONDS);
         }catch (Exception e){
             log.error("写入redis缓存（设置expire存活时间）失败！错误信息为：" + e.getMessage());
-            throw new BaseException(ReturnCode.NOT_ACCEPTABLE);
+            throw new BaseException(ReturnCode.SERVER_ERROR);
         }
     }
 

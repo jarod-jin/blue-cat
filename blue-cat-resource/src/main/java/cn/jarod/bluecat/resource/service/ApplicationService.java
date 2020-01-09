@@ -6,6 +6,7 @@ import cn.jarod.bluecat.resource.model.bo.CrudApplicationBO;
 import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
 import cn.jarod.bluecat.resource.model.dto.ApplicationQuery;
 import cn.jarod.bluecat.resource.model.dto.QueryReleaseDTO;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 
 /**
@@ -15,16 +16,11 @@ public interface ApplicationService {
 
     /**
      * 查询系统
+     * @param query 查询系统分页列表
      * @return List<ApplicationDO>
      */
-    Page<ApplicationDO> queryApplication(ApplicationQuery query);
+    Page<ApplicationDO> findAllApplication(ApplicationQuery query);
 
-    /**
-     * 查询
-     * @param queryDTO 查询对象
-     * @return Page
-     */
-    Page<ReleaseDO> queryReleaseByPage(QueryReleaseDTO queryDTO);
 
     /**
      * 新建系统
@@ -53,4 +49,12 @@ public interface ApplicationService {
      * @return
      */
     ApplicationDO addRelease(CrudReleaseBO crudReleaseBO);
+
+    /**
+     * 通过ObjectId查询最新的版本跟新内容
+     * @param id ObjectId
+     * @param type 终端类别
+     * @return ReleaseDO
+     */
+    ReleaseDO findLatestRelease(ObjectId id, String type);
 }
