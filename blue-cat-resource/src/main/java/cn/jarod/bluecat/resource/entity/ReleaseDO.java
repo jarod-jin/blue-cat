@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class ReleaseDO {
+public class ReleaseDO extends NoSqlEntity {
 
     /**版本号*/
     @Field("releaseVersion")
@@ -27,5 +27,9 @@ public class ReleaseDO {
     /**版本序号*/
     @Field("buildNo")
     private BigDecimal buildNo;
+
+    /**下载路径*/
+    @Field("downloadPath")
+    private String downloadPath;
 
 }

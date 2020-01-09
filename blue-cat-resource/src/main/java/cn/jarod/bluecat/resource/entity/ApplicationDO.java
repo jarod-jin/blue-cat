@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.resource.entity;
 
+import cn.jarod.bluecat.core.entity.NoSqlEntity;
 import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import java.util.SortedMap;
 @Setter
 @ToString
 @Document("application")
-public class ApplicationDO extends ResourceDO {
+public class ApplicationDO extends NoSqlEntity {
 
     /**描述*/
     @Field("description")

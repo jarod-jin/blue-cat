@@ -3,7 +3,6 @@ package cn.jarod.bluecat.resource.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.List;
 
@@ -14,12 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Document("Metadata")
-public class MetadataDO extends ResourceDO {
-
-    /**关联系统编号*/
-    @Field("belongTo")
-    private String belongTo;
+public class MetadataDO implements SuperResource{
 
     /**数据名称*/
     @Field("dataName")

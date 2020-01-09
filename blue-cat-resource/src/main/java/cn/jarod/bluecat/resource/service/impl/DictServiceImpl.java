@@ -105,8 +105,8 @@ public class DictServiceImpl implements DictService {
 
     /**
      * 删除字典条目
-     * @param removeBO
-     * @return
+     * @param removeBO 移除的BO
+     * @return DictDO
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
