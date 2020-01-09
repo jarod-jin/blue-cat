@@ -1,9 +1,13 @@
 package cn.jarod.bluecat.resource.model.bo;
 
-import cn.jarod.bluecat.core.model.RdsModel;
+import cn.jarod.bluecat.core.model.NoSqlModel;
+import cn.jarod.bluecat.resource.entity.SuperResource;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.List;
 
 /**
  * @author jarod.jin 2019/11/13
@@ -11,31 +15,28 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CrudResourceBO extends RdsModel {
+public class CrudResourceBO extends NoSqlModel {
 
-    /**资源编码*/
-    private String resourceCode;
+    /**访问级别 public protected private*/
+    private String accessLevel;
 
-    /**资源名称*/
-    private String resourceName;
-
-    /**上级编码*/
-    private String parentCode;
-
-    /**显示顺序*/
-    private Integer sortOrder;
-
-    /**资源类型*/
+    /**资源类别*/
     private String resourceType;
 
-    /**资源地址*/
-    private String resourceRoute;
+    /**资源数据*/
+    private String resourceName;
 
-    /**资源图标*/
-    private String resourceIcon;
+    /**资源数据*/
+    private SuperResource resource;
 
-    /**备注说明*/
-    private String memo;
+    /**角色授权*/
+    private List<String> roleAuthorization;
+
+    /**个体授权*/
+    private List<String> userAuthorization;
+
+    /**角色组授权*/
+    private List<String> groupAuthorization;
 
     /**关联系统编号*/
     private String belongTo;
