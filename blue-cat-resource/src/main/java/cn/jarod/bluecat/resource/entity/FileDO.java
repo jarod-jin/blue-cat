@@ -1,6 +1,5 @@
 package cn.jarod.bluecat.resource.entity;
 
-import cn.jarod.bluecat.core.entity.NoSqlEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Setter
 @ToString
 @Document("file")
-public class FileDO extends NoSqlEntity {
+public class FileDO extends ResourceDO {
 
     /**绝对路径*/
     @Field("absolutePath")

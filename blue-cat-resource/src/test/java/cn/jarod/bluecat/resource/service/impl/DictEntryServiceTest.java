@@ -1,9 +1,10 @@
-package cn.jarod.bluecat.resource.service;
+package cn.jarod.bluecat.resource.service.impl;
 
 import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
 import cn.jarod.bluecat.resource.entity.DictDO;
 import cn.jarod.bluecat.resource.model.bo.UpdateDictItemBO;
 import cn.jarod.bluecat.resource.model.bo.CrudDictBO;
+import cn.jarod.bluecat.resource.service.DictService;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Ordering;
 import org.junit.jupiter.api.AfterEach;

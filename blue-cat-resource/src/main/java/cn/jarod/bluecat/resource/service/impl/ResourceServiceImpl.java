@@ -26,7 +26,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public ResourceDO create(CrudResourceBO resourceBO) {
-        return resourceRepository.insert(BeanHelperUtil.createCopyBean(resourceBO,ResourceDO.class));
+        return resourceRepository.insert(BeanHelperUtil.createCopyBean(resourceBO, ResourceDO.class));
     }
 
     @Override

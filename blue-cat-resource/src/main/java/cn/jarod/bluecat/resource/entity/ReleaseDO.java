@@ -32,4 +32,5 @@ public class ReleaseDO extends NoSqlEntity {
     @Field("downloadPath")
     private String downloadPath;
 
+
 }

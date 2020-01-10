@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.resource.service.impl;
 
 import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
-import cn.jarod.bluecat.resource.entity.MetadataDO;
+import cn.jarod.bluecat.resource.entity.DataObjectDO;
 import cn.jarod.bluecat.resource.entity.ResourceDO;
 import cn.jarod.bluecat.resource.model.bo.CrudResourceBO;
 import cn.jarod.bluecat.resource.service.ResourceService;
@@ -31,17 +31,13 @@ class ResourceServiceImplTest extends BlueCatResourceApplicationTest {
 
     @Test
     void create() {
-        MetadataDO metadataDO = new MetadataDO();
-        metadataDO.setDataType("table");
-        metadataDO.setDataName("test2");
+        DataObjectDO metadataDO = new DataObjectDO();
         metadataDO.setDescription("测试表2");
         metadataDO.setMemo("随意修改不要删除");
         CrudResourceBO resourceBO = new CrudResourceBO();
         resourceBO.setAccessLevel("public");
         resourceBO.setResourceName("Test Resource 1");
-        resourceBO.setResource(metadataDO);
         ResourceDO resourceDO = resourceService.create(resourceBO);
-        assertNotNull(resourceDO.getId());
     }
 
     @Test

@@ -1,15 +1,8 @@
 package cn.jarod.bluecat.resource.model.bo;
 
-import cn.jarod.bluecat.resource.entity.ReleaseDO;
-import cn.jarod.bluecat.resource.entity.ResourceDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.util.List;
-import java.util.SortedMap;
 
 
 /**

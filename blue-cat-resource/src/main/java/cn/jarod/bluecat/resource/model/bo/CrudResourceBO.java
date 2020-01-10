@@ -1,11 +1,9 @@
 package cn.jarod.bluecat.resource.model.bo;
 
 import cn.jarod.bluecat.core.model.NoSqlModel;
-import cn.jarod.bluecat.resource.entity.SuperResource;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -25,9 +23,6 @@ public class CrudResourceBO extends NoSqlModel {
 
     /**资源数据*/
     private String resourceName;
-
-    /**资源数据*/
-    private SuperResource resource;
 
     /**角色授权*/
     private List<String> roleAuthorization;

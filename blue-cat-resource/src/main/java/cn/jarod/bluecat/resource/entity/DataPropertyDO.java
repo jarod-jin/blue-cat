@@ -4,24 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Field;
-import java.util.List;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com
- * @version 创建时间：2019/12/27
+ * @version 创建时间：2020/1/10
  */
 @Getter
 @Setter
 @ToString
-public class MetadataDO implements SuperResource{
+public class DataPropertyDO extends ResourceDO {
 
-    /**数据名称*/
-    @Field("dataName")
-    private String dataName;
+    /**属性名称*/
+    @Field("propertyName")
+    private String propertyName;
 
-    /**数据类型*/
-    @Field("dataType")
-    private String dataType;
+    /**属性类型*/
+    @Field("propertyType")
+    private String propertyType;
 
     /**描述*/
     @Field("description")
@@ -30,9 +29,4 @@ public class MetadataDO implements SuperResource{
     /**备注说明*/
     @Field("memo")
     private String memo;
-
-    /**子数据集合*/
-    @Field("children")
-    private List<MetadataDO> children;
-
 }
