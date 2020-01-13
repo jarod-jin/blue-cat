@@ -47,8 +47,8 @@ public class HomePageDO extends PageDO{
     private String modifier;
 
     /**终端标识*/
-    @Field("terminalVersion")
-    private String terminalVersion;
+    @Field("terminalType")
+    private String terminalType;
 
     /**关联系统编号*/
     @Field("belongTo")

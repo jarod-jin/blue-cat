@@ -1,8 +1,9 @@
 package cn.jarod.bluecat.resource.service;
 
 import cn.jarod.bluecat.resource.entity.HomePageDO;
-import cn.jarod.bluecat.resource.entity.ResourceDO;
 import cn.jarod.bluecat.resource.model.bo.element.CrudHomePageBO;
+import cn.jarod.bluecat.resource.model.dto.HomePageQuery;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -12,17 +13,19 @@ import java.util.List;
  */
 public interface HomePageService {
     /**
-     * 新建资源数据
+     * 新建首页数据
      * @param resourceBO 资源数据
      * @return ResourceDO
      */
     HomePageDO create(CrudHomePageBO resourceBO);
 
     /**
-     * 查询对应系统资源
-     * @param appId
-     * @param resourceType
+     * 查询所有首页列表
+     *  @param query 资源数据
      * @return
      */
-    List<ResourceDO> findAllByAppId(String appId, String resourceType);
+    Page<HomePageDO> findAllByPage(HomePageQuery query);
+
 }
+
+

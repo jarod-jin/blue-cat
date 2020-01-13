@@ -2,13 +2,17 @@ package cn.jarod.bluecat.resource.service.impl;
 
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.resource.entity.HomePageDO;
-import cn.jarod.bluecat.resource.entity.ResourceDO;
 import cn.jarod.bluecat.resource.model.bo.element.CrudHomePageBO;
+import cn.jarod.bluecat.resource.model.dto.HomePageQuery;
 import cn.jarod.bluecat.resource.repository.HomePageRepository;
 import cn.jarod.bluecat.resource.service.HomePageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,11 +31,22 @@ public class HomePageServiceImpl implements HomePageService {
 
     @Override
     public HomePageDO create(CrudHomePageBO homePageBO) {
-        return homePageRepository.insert(BeanHelperUtil.createCopyBean(homePageBO, HomePageDO.class));
+        homePageBO.reset();
+        HomePageDO homePageDO = BeanHelperUtil.createCopyBean(homePageBO, HomePageDO.class);
+        homePageDO.setCreator(homePageBO.getModifier());
+        homePageDO.setGmtCreate(LocalDateTime.now());
+        homePageDO.setGmtModified(LocalDateTime.now());
+        return homePageRepository.insert(homePageDO);
     }
 
     @Override
-    public List<ResourceDO> findAllByAppId(String appId, String resourceType) {
-        return null;
+    public Page<HomePageDO> findAllByPage(HomePageQuery query) {
+        HomePageDO homePageDO = BeanHelperUtil.createCopyBean(query, HomePageDO.class);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreNullValues();
+        return homePageRepository.findAll(Example.of(homePageDO, matcher), query.getPageRequest());
     }
+
+
 }

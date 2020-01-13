@@ -31,7 +31,7 @@ public class AuthorizationDO {
     private Boolean create;
 
     /**修改*/
-    @Field("read")
+    @Field("update")
     private Boolean update;
 
     /**删除*/

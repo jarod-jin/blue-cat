@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class QueryReleaseDTO extends BaseQuery {
+public class HomePageQuery extends BaseQuery {
 
     /**终端类别*/
     private String terminalType;

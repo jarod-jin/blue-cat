@@ -25,7 +25,6 @@ public class CrudHomePageBO extends CrudPageBO {
     /**关联系统编号*/
     private String belongTo;
 
-
     /**版本号,乐观锁*/
     private Integer version ;
 
