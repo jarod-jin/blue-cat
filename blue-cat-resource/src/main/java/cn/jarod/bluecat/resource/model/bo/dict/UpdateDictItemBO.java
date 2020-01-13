@@ -1,10 +1,12 @@
-package cn.jarod.bluecat.resource.model.bo;
+package cn.jarod.bluecat.resource.model.bo.dict;
+
 
 import cn.jarod.bluecat.core.model.NoSqlModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Map;
 import java.util.SortedMap;
 
 /**
@@ -13,21 +15,15 @@ import java.util.SortedMap;
 @Getter
 @Setter
 @ToString
-public class CrudDictBO extends NoSqlModel {
+public class UpdateDictItemBO extends NoSqlModel {
 
-    /**字典*/
+    /**字典类别*/
     private String category;
-
-    /**描述*/
-    private String description;
-
-    /**字典键-值*/
-    private SortedMap<String,Object> items;
-
-    /**备注说明*/
-    private String memo;
 
     /**关联系统编号*/
     private String belongTo;
+
+    /**角色名称*/
+    private SortedMap<String,Object> items;
 
 }

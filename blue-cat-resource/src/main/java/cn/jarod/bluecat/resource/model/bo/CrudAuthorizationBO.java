@@ -1,45 +1,37 @@
-package cn.jarod.bluecat.resource.entity;
+package cn.jarod.bluecat.resource.model.bo;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com
- * @version 创建时间：2020/1/10
+ * @version 创建时间：2020/1/13
  */
 @Getter
 @Setter
 @ToString
-public class AuthorizationDO {
+public class CrudAuthorizationBO {
 
     /**权限ID*/
-    @Field("authorizationId")
     private String authorizationId;
 
     /**描述*/
-    @Field("description")
     private String description;
 
     /**读取*/
-    @Field("read")
     private Boolean read;
 
     /**创建*/
-    @Field("create")
     private Boolean create;
 
     /**修改*/
-    @Field("read")
     private Boolean update;
 
     /**删除*/
-    @Field("delete")
     private Boolean delete;
 
     /**执行*/
-    @Field("execute")
     private Boolean execute;
 
     /**是否完全控制*/
@@ -65,10 +57,10 @@ public class AuthorizationDO {
         if (other == this){
             return true;
         }
-        if (!(other instanceof AuthorizationDO)) {
+        if (!(other instanceof CrudAuthorizationBO)) {
             return false;
         }
-        AuthorizationDO o = (AuthorizationDO) other;
+        CrudAuthorizationBO o = (CrudAuthorizationBO) other;
         return o.authorizationId.equals(this.authorizationId);
     }
 }

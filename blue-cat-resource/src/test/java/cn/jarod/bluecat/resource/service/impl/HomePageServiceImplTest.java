@@ -3,23 +3,21 @@ package cn.jarod.bluecat.resource.service.impl;
 import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
 import cn.jarod.bluecat.resource.entity.DataObjectDO;
 import cn.jarod.bluecat.resource.entity.ResourceDO;
-import cn.jarod.bluecat.resource.model.bo.CrudResourceBO;
-import cn.jarod.bluecat.resource.service.ResourceService;
+import cn.jarod.bluecat.resource.model.bo.element.CrudHomePageBO;
+import cn.jarod.bluecat.resource.service.HomePageService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Jarod Jin E-mail:kira277@163.com
  * @version 创建时间：2020/1/9
  */
-class ResourceServiceImplTest extends BlueCatResourceApplicationTest {
+class HomePageServiceImplTest extends BlueCatResourceApplicationTest {
 
     @Autowired
-    private ResourceService resourceService;
+    private HomePageService resourceService;
 
     @BeforeEach
     void setUp() {
@@ -31,13 +29,10 @@ class ResourceServiceImplTest extends BlueCatResourceApplicationTest {
 
     @Test
     void create() {
-        DataObjectDO metadataDO = new DataObjectDO();
-        metadataDO.setDescription("测试表2");
-        metadataDO.setMemo("随意修改不要删除");
-        CrudResourceBO resourceBO = new CrudResourceBO();
-        resourceBO.setAccessLevel("public");
-        resourceBO.setResourceName("Test Resource 1");
-        ResourceDO resourceDO = resourceService.create(resourceBO);
+        CrudHomePageBO homePageBO = new CrudHomePageBO();
+
+
+        ResourceDO resourceDO = resourceService.create(homePageBO);
     }
 
     @Test
