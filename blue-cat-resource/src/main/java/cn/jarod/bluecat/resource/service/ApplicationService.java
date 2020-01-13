@@ -5,7 +5,6 @@ import cn.jarod.bluecat.resource.entity.ReleaseDO;
 import cn.jarod.bluecat.resource.model.bo.CrudApplicationBO;
 import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
 import cn.jarod.bluecat.resource.model.dto.ApplicationQuery;
-import cn.jarod.bluecat.resource.model.dto.QueryReleaseDTO;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 

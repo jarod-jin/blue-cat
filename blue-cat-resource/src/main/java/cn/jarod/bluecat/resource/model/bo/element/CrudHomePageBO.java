@@ -20,7 +20,7 @@ public class CrudHomePageBO extends CrudPageBO {
     protected ObjectId id;
 
     /**终端标识*/
-    private String terminalVersion;
+    private String terminalType;
 
     /**关联系统编号*/
     private String belongTo;

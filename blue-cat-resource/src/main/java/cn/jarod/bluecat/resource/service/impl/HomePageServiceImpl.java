@@ -29,6 +29,11 @@ public class HomePageServiceImpl implements HomePageService {
         this.homePageRepository = homePageRepository;
     }
 
+    /**
+     * 新建首页数据
+     * @param homePageBO 资源数据
+     * @return ResourceDO
+     */
     @Override
     public HomePageDO create(CrudHomePageBO homePageBO) {
         homePageBO.reset();
@@ -39,6 +44,11 @@ public class HomePageServiceImpl implements HomePageService {
         return homePageRepository.insert(homePageDO);
     }
 
+    /**
+     * 查询所有首页列表
+     * @param query 资源数据
+     * @return
+     */
     @Override
     public Page<HomePageDO> findAllByPage(HomePageQuery query) {
         HomePageDO homePageDO = BeanHelperUtil.createCopyBean(query, HomePageDO.class);

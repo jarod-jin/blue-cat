@@ -1,16 +1,20 @@
 package cn.jarod.bluecat.resource.service.impl;
 
 import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
+import cn.jarod.bluecat.resource.entity.ApplicationDO;
 import cn.jarod.bluecat.resource.entity.HomePageDO;
 import cn.jarod.bluecat.resource.model.bo.element.CrudHomePageBO;
+import cn.jarod.bluecat.resource.model.dto.ApplicationQuery;
+import cn.jarod.bluecat.resource.model.dto.HomePageQuery;
 import cn.jarod.bluecat.resource.service.HomePageService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com
@@ -35,7 +39,7 @@ class HomePageServiceImplTest extends BlueCatResourceApplicationTest {
         CrudHomePageBO homePageBO = new CrudHomePageBO();
         homePageBO.setBelongTo("5e12ab7e88eee01b6d0f3c5f");
         homePageBO.setModifier("admin");
-        homePageBO.setTerminalVersion("pc 1.0 release");
+        homePageBO.setTerminalType("pc");
         homePageBO.setText("测试系统");
         homePageBO.setRoutePath("/blue-cat/");
         HomePageDO resourceDO = homePageService.create(homePageBO);
@@ -43,6 +47,12 @@ class HomePageServiceImplTest extends BlueCatResourceApplicationTest {
     }
 
     @Test
-    void findAllByAppId() {
+    void findAllByPage()  {
+        HomePageQuery query = new HomePageQuery();
+        query.setBelongTo("5e12ab7e88eee01b6d0f3c5f");
+        query.setTerminalType("pc");
+        Page<HomePageDO> page = homePageService.findAllByPage(query);
+        assertFalse(page.isEmpty());
+        assertTrue(page.get().allMatch(pageDO->pageDO.getText().contains("测试")));
     }
 }
