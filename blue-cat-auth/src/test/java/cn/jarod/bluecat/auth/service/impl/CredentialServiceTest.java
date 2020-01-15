@@ -9,7 +9,6 @@ import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.constant.Common;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.service.impl;
 
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.resource.entity.ApplicationDO;

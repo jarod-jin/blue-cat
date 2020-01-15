@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.exception;
 
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.ReturnCode;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com

@@ -1,9 +1,6 @@
 package cn.jarod.bluecat.core.filter;
 
 import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
-import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
@@ -11,7 +8,6 @@ import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

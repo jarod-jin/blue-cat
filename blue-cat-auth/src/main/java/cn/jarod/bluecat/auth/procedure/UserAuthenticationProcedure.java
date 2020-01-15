@@ -4,7 +4,7 @@ import cn.jarod.bluecat.auth.enums.SignType;
 import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.service.CredentialService;
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;

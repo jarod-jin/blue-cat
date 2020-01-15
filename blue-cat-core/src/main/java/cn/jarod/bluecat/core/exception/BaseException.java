@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.exception;
 
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import lombok.Getter;
 
 /**
@@ -16,13 +16,11 @@ public class BaseException extends RuntimeException {
 	private String msg;
 
 	public BaseException(Integer errorCode, String errorMessage) {
-		super(errorMessage);
 		this.code = errorCode;
 		this.msg = errorMessage;
 	}
 
 	public BaseException(ReturnCode returnCode) {
-		super(returnCode.getMsg());
 		this.code = returnCode.getCode();
 		this.msg = returnCode.getMsg();
 	}

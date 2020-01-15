@@ -1,9 +1,9 @@
 package cn.jarod.bluecat.estimate.service.impl;
 
-import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.common.Constant;
+import cn.jarod.bluecat.core.common.EntityType;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.constant.Common;
 import cn.jarod.bluecat.estimate.entity.EstimateItemDO;
 import cn.jarod.bluecat.estimate.entity.EstimateSheetDO;
 import cn.jarod.bluecat.estimate.model.bo.CrudEstimateItemBO;
@@ -43,7 +43,8 @@ public class EstimateServiceImpl implements EstimateService {
      */
     @Override
     public EstimateSheetDO saveEstimateSheet(CrudEstimateSheetBO sheetBO) {
-        EstimateSheetDO estimateSheetDO =  estimateSheetRepository.findBySerialNoAndBelongToAndUsernameAndFinishMark(sheetBO.getSerialNo(),sheetBO.getBelongTo(),sheetBO.getUsername(), Common.NOT_DEL)
+        EstimateSheetDO estimateSheetDO =  estimateSheetRepository.findBySerialNoAndBelongToAndUsernameAndFinishMark(
+                sheetBO.getSerialNo(),sheetBO.getBelongTo(),sheetBO.getUsername(), EntityType.NOT_DEL.getType())
                 .orElse(new EstimateSheetDO());
         sheetBO.reset();
         BeanHelperUtil.copyNotNullProperties(sheetBO,estimateSheetDO);
@@ -58,7 +59,8 @@ public class EstimateServiceImpl implements EstimateService {
      */
     @Override
     public List<EstimateItemDO> saveEstimateItemList(List<CrudEstimateItemBO> itemBOList) {
-        Map<Long, EstimateItemDO> mapSourceDO = estimateItemRepository.findAllById(itemBOList.stream().filter(e->e.getId()!=null).map(CrudEstimateItemBO::getId).collect(Collectors.toList()))
+        Map<Long, EstimateItemDO> mapSourceDO = estimateItemRepository.findAllById(itemBOList.stream()
+                .filter(e->e.getId()!=null).map(CrudEstimateItemBO::getId).collect(Collectors.toList()))
                 .stream().collect(Collectors.toConcurrentMap(EstimateItemDO::getId, Function.identity()));
         List<EstimateItemDO>  saveList=  itemBOList.stream().map(i->{
             EstimateItemDO tmp;
@@ -83,7 +85,7 @@ public class EstimateServiceImpl implements EstimateService {
     @Override
     public CrudEstimateSheetBO findEstimate(CrudEstimateSheetBO queryBO) {
         EstimateSheetDO sheetDO = estimateSheetRepository.findBySerialNoAndBelongToAndUsernameAndFinishMark(queryBO.getSerialNo(),queryBO.getBelongTo(),queryBO.getUsername(), queryBO.getFinishedMark())
-                .orElseThrow(()->ApiResultUtil.fail4NoDataFound());
+                .orElseThrow(ApiResultUtil::fail4NotFound);
         CrudEstimateSheetBO estimateSheetBO = BeanHelperUtil.createCopyBean(sheetDO, CrudEstimateSheetBO.class);
         List<CrudEstimateItemBO> itemList = estimateItemRepository.findAllByEstimateSheetIdOrderByItemNoAsc(sheetDO.getId()).stream().map(i-> BeanHelperUtil.createCopyBean(i,CrudEstimateItemBO.class))
                 .collect(Collectors.toList());

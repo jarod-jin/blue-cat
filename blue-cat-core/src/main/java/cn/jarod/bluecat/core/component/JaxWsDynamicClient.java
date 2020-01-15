@@ -1,15 +1,16 @@
 package cn.jarod.bluecat.core.component;
 
+import cn.jarod.bluecat.core.interceptor.ClientLoginInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jarod.jin 2019/8/14
  */
 @Slf4j
-@Service
+@Component
 public class JaxWsDynamicClient {
 
     /**

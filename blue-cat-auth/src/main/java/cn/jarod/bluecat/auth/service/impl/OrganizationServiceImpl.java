@@ -4,12 +4,11 @@ import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.auth.repository.OrganizationRepository;
 import cn.jarod.bluecat.auth.service.OrganizationService;
-import cn.jarod.bluecat.core.constant.Symbol;
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.Constant;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.TreeModel;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.constant.Common;
 import cn.jarod.bluecat.core.utils.TreeUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -89,7 +88,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public List<TreeModel> findOrgTreeByFullCode(String fullCode) {
-        List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Symbol.SQL_LIKE).stream().map(e->{
+        List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Constant.Symbol.SQL_LIKE).stream().map(e->{
             CrudOrganizationBO orgDTO = new CrudOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);
             orgDTO.setNodeId(e.getOrgCode());
@@ -108,7 +107,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true)
     public Map<String, OrganizationDO> findOrgMapByCodesAndSys(List<String> codes, String sys) {
-        return organizationRepository.findAllByBelongToInAndOrgCodeIn(Lists.newArrayList(Common.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
+        return organizationRepository.findAllByBelongToInAndOrgCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
     }
 
 }

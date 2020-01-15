@@ -4,8 +4,6 @@ import cn.jarod.bluecat.auth.entity.UserLocationDO;
 import cn.jarod.bluecat.auth.model.bo.LinkUserLocationBO;
 import cn.jarod.bluecat.auth.repository.UserLocationRepository;
 import cn.jarod.bluecat.auth.service.UserLocationService;
-import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

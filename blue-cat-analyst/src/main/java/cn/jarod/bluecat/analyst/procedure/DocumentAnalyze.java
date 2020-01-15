@@ -5,7 +5,7 @@ import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
 import cn.jarod.bluecat.analyst.repository.DocumentTextRepository;
 
 import cn.jarod.bluecat.analyst.utils.CandidateUtil;
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
@@ -14,8 +14,6 @@ import cn.jarod.bluecat.core.utils.PoiUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

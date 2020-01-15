@@ -19,7 +19,7 @@ public class SignUpDTO implements Serializable {
 
     private static final long serialVersionUID = -3611398577384632971L;
 
-    /**用户唯一标识*/
+    /**注册主体信息*/
     @NotBlank
     private String signName;
 

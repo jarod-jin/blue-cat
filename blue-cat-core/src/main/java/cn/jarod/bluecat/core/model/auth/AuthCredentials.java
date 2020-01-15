@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.model.auth;
 
-import cn.jarod.bluecat.core.constant.Common;
+import cn.jarod.bluecat.core.common.Constant;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.StringUtils;
@@ -27,7 +27,7 @@ public class AuthCredentials {
 
     public boolean loginValid(){
         if (StringUtils.isEmpty(signIn)){
-            signIn = Common.SYS_ROOT; }
+            signIn = Constant.Common.SYS_ROOT; }
         return StringUtils.isEmpty(signIn) || StringUtils.isEmpty(password) || StringUtils.isEmpty(terminalVersion);
     }
 

@@ -10,9 +10,8 @@ import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
 import cn.jarod.bluecat.auth.repository.CredentialRepository;
 import cn.jarod.bluecat.auth.repository.UserInfoRepository;
 import cn.jarod.bluecat.auth.service.CredentialService;
-import cn.jarod.bluecat.core.annotation.TimeDiff;
-import cn.jarod.bluecat.core.constant.Symbol;
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.Constant;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
@@ -21,7 +20,6 @@ import cn.jarod.bluecat.core.utils.CommonUtil;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -35,8 +33,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static cn.jarod.bluecat.auth.enums.SignType.*;
-
 
 /**
  * @author jarod.jin 2019/9/9
@@ -46,6 +42,7 @@ import static cn.jarod.bluecat.auth.enums.SignType.*;
 public class CredentialServiceImpl implements CredentialService {
 
     public static final int LENGTH = 4;
+
     private final UserInfoRepository userInfoRepository;
 
     private final CredentialRepository credentialRepository;
@@ -68,7 +65,6 @@ public class CredentialServiceImpl implements CredentialService {
     @Value("${security.time-out.user:24}")
     private Integer userTimeOut;
 
-    @Autowired
     public CredentialServiceImpl(UserInfoRepository userInfoRepository, CredentialRepository credentialRepository, CredHistoryRepository credHistoryRepository, StringRedisTemplate redisTemplate) {
         this.userInfoRepository = userInfoRepository;
         this.credentialRepository = credentialRepository;
@@ -83,7 +79,6 @@ public class CredentialServiceImpl implements CredentialService {
      * @return UserInfoDO
      */
     @Override
-    @TimeDiff
     @Transactional(rollbackFor = Exception.class)
     public UserInfoDO registerUser(CrudUserBO userBO, String clearPwd) {
         UserInfoDO authDO = BeanHelperUtil.createCopyBean(userBO, UserInfoDO.class);
@@ -112,7 +107,6 @@ public class CredentialServiceImpl implements CredentialService {
      * @param authBO
      * @return
      */
-    @TimeDiff
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteUser(UserInfoDTO authBO) {
@@ -213,7 +207,7 @@ public class CredentialServiceImpl implements CredentialService {
     @Override
     public String bookUsername(CrudUserBO crudUserBO) {
         StringBuilder buffer = new StringBuilder(EncryptUtil.getRandomCode(LENGTH,Boolean.TRUE));
-        buffer.append(Symbol.HYPHEN);
+        buffer.append(Constant.Symbol.HYPHEN);
         buffer.append(EncryptUtil.getRandomCode(6,true));
         if (existsKey(buffer.toString()) && userInfoRepository.exists(Example.of(new UserInfoDO(buffer.toString())))){
             throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);

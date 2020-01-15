@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.auth.enums;
 
-import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 
 import java.util.Arrays;

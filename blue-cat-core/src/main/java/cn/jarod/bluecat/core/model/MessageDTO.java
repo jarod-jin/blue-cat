@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MessageDTO extends RdsModel {
+public class MessageDTO {
 
     private String message;
 

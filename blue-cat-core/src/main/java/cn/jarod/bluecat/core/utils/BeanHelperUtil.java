@@ -1,8 +1,7 @@
 package cn.jarod.bluecat.core.utils;
 
-import cn.jarod.bluecat.core.constant.Symbol;
+import cn.jarod.bluecat.core.common.Constant;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -13,8 +12,6 @@ import org.springframework.util.ObjectUtils;
 import java.beans.PropertyDescriptor;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author jarod.jin 2019/9/4
@@ -29,11 +26,11 @@ public class BeanHelperUtil {
      * @param para
      * 下划线命名的字符串
      */
-    public static String UnderlineToHump(String para){
+    public static String underlineToHump(String para){
         StringBuilder result=new StringBuilder();
-        String[] a = para.split(Symbol.UNDERLINE);
+        String[] a = para.split(Constant.Symbol.UNDERLINE);
         for(String s:a){
-            if (!para.contains(Symbol.UNDERLINE)) {
+            if (!para.contains(Constant.Symbol.UNDERLINE)) {
                 result.append(s);
                 continue;
             }
@@ -62,7 +59,7 @@ public class BeanHelperUtil {
     public static  <T,K,V> T getBeanFromUnderlineMap (Map<K,V> map, Class<T> clazz){
         Map<String, Object> newMap = Maps.newHashMap();
         map.forEach((k,v)->{
-            String key = UnderlineToHump(String.valueOf(k).toLowerCase());
+            String key = underlineToHump(String.valueOf(k).toLowerCase());
             newMap.put(key,v);
         });
         return MapBeanUtil.map2Bean(newMap, clazz);
@@ -77,14 +74,14 @@ public class BeanHelperUtil {
      * @param para
      * 驼峰命名的字符串
      */
-    public static String HumpToUnderline(String para){
+    public static String humpToUnderline(String para){
         StringBuilder sb=new StringBuilder(para);
         /*定位*/
         int temp=0;
-        if (!para.contains(Symbol.UNDERLINE)) {
+        if (!para.contains(Constant.Symbol.UNDERLINE)) {
             for(int i=0;i<para.length();i++){
                 if(Character.isUpperCase(para.charAt(i))){
-                    sb.insert(i+temp, Symbol.UNDERLINE);
+                    sb.insert(i+temp, Constant.Symbol.UNDERLINE);
                     temp+=1;
                 }
             }

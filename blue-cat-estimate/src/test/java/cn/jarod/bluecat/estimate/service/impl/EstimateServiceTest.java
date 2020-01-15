@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.estimate.service.impl;
 
-import cn.jarod.bluecat.core.constant.Common;
-import cn.jarod.bluecat.core.enums.EntityType;
+import cn.jarod.bluecat.core.common.EntityType;
 import cn.jarod.bluecat.estimate.BlueCatEstimateApplicationTest;
 import cn.jarod.bluecat.estimate.entity.AnswerDO;
 import cn.jarod.bluecat.estimate.entity.EstimateItemDO;

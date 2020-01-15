@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.component;
+package cn.jarod.bluecat.core.interceptor;
 
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
@@ -17,8 +17,10 @@ import java.util.List;
  * @author jarod.jin 2019/8/14
  */
 public class ClientLoginInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
+
     private String username;
     private String password;
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -27,7 +29,6 @@ public class ClientLoginInterceptor extends AbstractPhaseInterceptor<SoapMessage
     }
     /**
      * 创建一个新的实例 ClientLoginInterceptor.
-     *
      * @param username
      * @param password
      */
@@ -47,7 +48,7 @@ public class ClientLoginInterceptor extends AbstractPhaseInterceptor<SoapMessage
 
         Document doc = DOMUtils.createDocument();
 
-        Element auth = doc.createElement("authrity");
+        Element auth = doc.createElement("authority");
         Element username = doc.createElement("username");
         Element password = doc.createElement("password");
 

@@ -1,13 +1,15 @@
 package cn.jarod.bluecat.auth.controller;
 
 import cn.jarod.bluecat.auth.procedure.UserAuthenticationProcedure;
+import cn.jarod.bluecat.core.annotation.ApiIdempotent;
+import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.controller.BaseController;
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author jarod.jin
@@ -22,13 +24,16 @@ public class UserInfoController extends BaseController {
         this.userAuthenticationProcedure = userAuthenticationProcedure;
     }
 
+    @TimeDiff
     @GetMapping(value = "/")
     public ResultDTO query() {
-        return new ResultDTO(ReturnCode.GET_SUCCESS, findCurrentUserInfo().getUsername());
+        return ApiResultUtil.getSuccess(findCurrentUserInfo().getUsername());
     }
 
-    @PutMapping(value = "/{username}")
-    public ResultDTO modify(@PathVariable("username") @NotBlank String username, @PathVariable("text") @NotBlank String text) {
-        return userAuthenticationProcedure.validAuthority(username,text);
+    @TimeDiff
+    @ApiIdempotent
+    @PostMapping(value = "/{username}")
+    public ResultDTO modify(@PathVariable("username") @NotBlank String username) {
+        return ApiResultUtil.getSuccess(username);
     }
 }

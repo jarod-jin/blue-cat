@@ -1,11 +1,8 @@
 package cn.jarod.bluecat.core.controller;
 
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
-import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
-import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +12,6 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
-
-import javax.security.auth.login.CredentialException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author jarod.jin 2019/9/3

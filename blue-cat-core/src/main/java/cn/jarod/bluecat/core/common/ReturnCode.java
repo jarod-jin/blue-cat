@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.enums;
+package cn.jarod.bluecat.core.common;
 
 /**
  * @author jarod.jin 2019/9/4

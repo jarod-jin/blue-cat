@@ -6,6 +6,7 @@ import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
 import cn.jarod.bluecat.core.filter.JwtLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -29,11 +31,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationProvider customAuthenticationProvider;
 
+
+
     @Autowired
     public WebSecurityConfig(SecurityPropertyConfig propertyConfig, AuthenticationProvider customAuthenticationProvider) {
         this.propertyConfig = propertyConfig;
         this.customAuthenticationProvider = customAuthenticationProvider;
     }
+
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) {
@@ -44,7 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            /*由于使用的是JWT，我们这里不需要csrf*/
             .csrf().disable()
+            /*基于token，所以不需要session*/
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             /*对请求进行认证*/
             .authorizeRequests()
             /*注册的所有请求 都放行*/
@@ -60,5 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilterBefore(new JwtLoginFilter(authenticationManager(), propertyConfig), UsernamePasswordAuthenticationFilter.class)
             /*添加一个过滤器验证其他请求的Token是否合法*/
             .addFilterBefore(new JwtAuthenticationFilter(propertyConfig), UsernamePasswordAuthenticationFilter.class);
+
+        /*禁用缓存*/
+        http.headers().cacheControl();
     }
 }

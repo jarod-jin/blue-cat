@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.core.component;
 
 import cn.jarod.bluecat.core.annotation.TimeDiff;
+import cn.jarod.bluecat.core.common.Constant;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -35,11 +36,11 @@ public class TimeDiffAop {
     private ThreadLocal<String> name = new ThreadLocal<>();
 
     /**
-     * 在方法前记录时间并根据注解，是否打印参数
+     * 在方法前打印开始时间
      */
     @Before("@annotation(cn.jarod.bluecat.core.annotation.TimeDiff)")
     public void beforeMethod(){
-
+        log.info(Constant.Symbol.BRACE + " 开始执行，开始时间为："+ Constant.Symbol.BRACE,name.get(), LocalDateTime.now());
     }
 
 
@@ -55,14 +56,13 @@ public class TimeDiffAop {
             Method method = getObjMethod(joinPoint);
             name.set(StringUtils.isEmpty(method.getAnnotation(TimeDiff.class).name())?
                     method.getName() : method.getAnnotation(TimeDiff.class).name());
-            log.info("{}开始执行，开始时间：{}",name.get(), LocalDateTime.now());
             //获取TimeDiff注解中是否需要打印参数
             if (method.getAnnotation(TimeDiff.class).printParams()){
                 Object[] args = joinPoint.getArgs();
-                log.info("{}请求参数：{}",name.get(), JSON.toJSON(args));
+                log.info(Constant.Symbol.BRACE + " 的请求参数为："+ Constant.Symbol.BRACE,name.get(), JSON.toJSON(args));
             }
         } catch (ClassNotFoundException | NoSuchMethodException e) {
-            log.error("打印方法开始时间时出现异常：{}", e.getMessage());
+            log.error("TimeDiffAop执行时出现异常：" + Constant.Symbol.BRACE, e.getMessage());
         }
         return joinPoint.proceed();
     }
@@ -73,7 +73,13 @@ public class TimeDiffAop {
      */
     @After("@annotation(cn.jarod.bluecat.core.annotation.TimeDiff)")
     public void afterMethod(){
-        log.info("{}执行结束，结束时间：{}，总耗时：{}ms",name.get(), LocalDateTime.now(), System.currentTimeMillis()-time.get());
+        log.info(Constant.Symbol.BRACE +
+                " 执行结束，结束时间：" +
+                Constant.Symbol.BRACE +
+                "，总耗时：" +
+                Constant.Symbol.BRACE +
+                "ms",name.get(), LocalDateTime.now(), System.currentTimeMillis()-time.get());
+        clearThreadLocal();
     }
 
 
@@ -90,6 +96,14 @@ public class TimeDiffAop {
         String methodName = ms.getMethod().getName();
         Class<?>[] par=ms.getParameterTypes();
         return Class.forName(targetName).getMethod(methodName,par);
+    }
+
+    /**
+     * 删除线程变量
+     */
+    private void clearThreadLocal(){
+        name.remove();
+        time.remove();
     }
 
 }

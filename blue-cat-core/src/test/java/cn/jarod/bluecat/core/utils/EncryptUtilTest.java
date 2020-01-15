@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.utils;
 
-import cn.jarod.bluecat.core.enums.CommonPattern;
+import cn.jarod.bluecat.core.common.CommonPattern;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.enums;
+package cn.jarod.bluecat.core.common;
 
 import lombok.Getter;
 

@@ -6,13 +6,13 @@ import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
 import cn.jarod.bluecat.auth.repository.OrgRoleRepository;
 import cn.jarod.bluecat.auth.repository.RoleRepository;
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.Constant;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQuery;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.constant.Common;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -81,7 +81,7 @@ public class RoleServiceImpl implements cn.jarod.bluecat.auth.service.RoleServic
     @Override
     @Transactional(readOnly = true)
     public Map<String,RoleDO> findRoleMapByCodes(List<String> codes, String sys) {
-        return roleRepository.findAllByBelongToInAndRoleCodeIn(Lists.newArrayList(Common.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
+        return roleRepository.findAllByBelongToInAndRoleCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
     }
 
     /**

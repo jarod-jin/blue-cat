@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.utils;
 
-import cn.jarod.bluecat.core.enums.ReturnCode;
+import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BadParameterException;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.exception.NoDataFoundException;

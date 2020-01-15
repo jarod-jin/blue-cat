@@ -57,13 +57,15 @@ logging:
 
 
 security:
-  expirationTime: 28800000
+  expirationTime: 2  #单位小时
   time-out:
-    sign-up: 3600
-    user: 24
+    sign-up: 3600  #单位秒
+    user: 24 #单位小时
+    idempotent: 10 #单位分钟
   tokenSalt: jarod.jin
   tokenPrefix: Bearer
   loginUrl: /login
   permitAllUrl:
     - /monitor/*
     - /signup/**
+    - /token

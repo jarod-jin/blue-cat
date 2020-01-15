@@ -2,8 +2,8 @@ package cn.jarod.bluecat.core.utils;
 
 import org.springframework.util.StringUtils;
 
-import static cn.jarod.bluecat.core.enums.CommonPattern.CN_PHONE_NUMBER;
-import static cn.jarod.bluecat.core.enums.CommonPattern.EMAIL;
+import static cn.jarod.bluecat.core.common.CommonPattern.CN_PHONE_NUMBER;
+import static cn.jarod.bluecat.core.common.CommonPattern.EMAIL;
 
 /**
  * @author jarod.jin 2019/9/9

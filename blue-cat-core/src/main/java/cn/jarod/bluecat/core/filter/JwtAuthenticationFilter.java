@@ -1,10 +1,7 @@
 package cn.jarod.bluecat.core.filter;
 
+import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
-import cn.jarod.bluecat.core.constant.Symbol;
-import cn.jarod.bluecat.core.enums.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
@@ -51,17 +48,17 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             Authentication authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request, securityConfig);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (SignatureException e) {
-            log.warn(SIGN_FALSE + Symbol.BRACE, e.getMessage());
+            log.warn(SIGN_FALSE + Constant.Symbol.BRACE, e.getMessage());
             response.getWriter().print(JSON.toJSONString(ApiResultUtil.fail4Unauthorized(SIGN_FALSE)));
             response.getWriter().close();
             return;
         }catch (ExpiredJwtException e){
-            log.warn(TOKEN_EXPIRE + Symbol.BRACE, e.getMessage());
+            log.warn(TOKEN_EXPIRE + Constant.Symbol.BRACE, e.getMessage());
             response.getWriter().print(JSON.toJSONString(ApiResultUtil.fail4Unauthorized(TOKEN_EXPIRE)));
             response.getWriter().close();
             return;
         }catch (Exception e){
-            log.warn(LOGIN_FAIL + Symbol.BRACE, e.getMessage());
+            log.warn(LOGIN_FAIL + Constant.Symbol.BRACE, e.getMessage());
             response.getWriter().print(JSON.toJSONString(ApiResultUtil.fail4Unauthorized(LOGIN_FAIL)));
             response.getWriter().close();
             return;
