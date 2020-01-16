@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.config;
+package cn.jarod.bluecat.core.component;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "security")
-public class SecurityPropertyConfig {
+public class SecurityPropertyConfiguration {
 
     /**登录url*/
     private  String loginUrl;
@@ -22,8 +22,8 @@ public class SecurityPropertyConfig {
     /**允许访问的url*/
     private  String[] permitAllUrl;
 
-    /**过期时间 */
-    private long expirationTime;
+    /**过期时间 单位小时*/
+    private long expireTime;
 
     /**JWT 密码*/
     private String tokenSalt;

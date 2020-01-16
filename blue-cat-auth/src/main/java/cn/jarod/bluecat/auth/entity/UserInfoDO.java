@@ -25,8 +25,8 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "user_info",
         indexes = {@Index(columnList ="username", name="UsernameIndex" , unique = true),
-        @Index(columnList ="tel", name="TelIndex", unique = true),
-        @Index(columnList ="email", name="EmailIndex", unique = true)})
+        @Index(columnList ="tel", name="TelIndex"),
+        @Index(columnList ="email", name="EmailIndex")})
 public class UserInfoDO extends RdsEntity {
 
     /**用户唯一标识*/

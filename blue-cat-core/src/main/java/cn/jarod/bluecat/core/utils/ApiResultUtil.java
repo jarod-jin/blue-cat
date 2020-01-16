@@ -21,6 +21,10 @@ public class ApiResultUtil {
         return new ResultDTO(ReturnCode.GET_SUCCESS.getCode(),ReturnCode.GET_SUCCESS.getMsg(),obj);
     }
 
+    public static void main(String[] args) {
+        System.out.println(getSuccess(false));
+    }
+
     /**
      * 修改成功
      * @param obj 返回数据

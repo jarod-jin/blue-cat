@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class UserAuthenticationProcedure {
+public class UserAuthenticationHandler {
 
 
     private final CredentialService credentialService;
 
-    public UserAuthenticationProcedure(CredentialService credentialService) {
+    public UserAuthenticationHandler(CredentialService credentialService) {
         this.credentialService = credentialService;
     }
 
@@ -42,21 +42,22 @@ public class UserAuthenticationProcedure {
     public ResultDTO signUp(SignUpDTO upDTO) {
         CrudUserBO crudUserBO = new CrudUserBO();
         if (upDTO.getSignType()==0){
-            if (CommonUtil.validTel(upDTO.getSignName())){
+            if (!CommonUtil.validTel(upDTO.getSignName())){
                 throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"请输入一个正确的手机号"); }
-            if (credentialService.validSignUp(SignType.tel,upDTO.getSignName())){
+            if (!credentialService.validSignUp(SignType.tel,upDTO.getSignName())){
                 throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"该手机已被注册"); }
             crudUserBO.setTel(upDTO.getSignName());
         }else if (upDTO.getSignType()==1){
-            if (CommonUtil.validEmail(upDTO.getSignName())){
+            if (!CommonUtil.validEmail(upDTO.getSignName())){
                 throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"请输入一个正确的邮箱地址"); }
-            if (credentialService.validSignUp(SignType.email,upDTO.getSignName())){
+            if (!credentialService.validSignUp(SignType.email,upDTO.getSignName())){
                 throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"该邮箱已被注册"); }
             crudUserBO.setEmail(upDTO.getSignName());
         }else{
             throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);
         }
         String username = credentialService.bookUsername(crudUserBO);
+        crudUserBO.setUsername(username);
         credentialService.setSignInfo2Redis(upDTO.getSignName());
         credentialService.setSignInfo2Redis(username);
         crudUserBO.setCredentialType(upDTO.getCredentialType());

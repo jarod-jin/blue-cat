@@ -1,6 +1,9 @@
 dependencies {
     implementation "com.google.guava:guava:${guavaVersion}"
-    implementation "com.alibaba:fastjson:${fastjsonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+//    implementation "com.alibaba:fastjson:${fastjsonVersion}"
     implementation "org.apache.commons:commons-pool2:${poolVersion}"
     implementation "commons-beanutils:commons-beanutils:${beanutilsVersion}"
     implementation "javax.interceptor:javax.interceptor-api:${javaxInterceptorVersion}"

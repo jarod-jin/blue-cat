@@ -14,6 +14,10 @@ public class Constant {
 
         String MSG_CONSUMER_PREFIX = "consumer:";
 
+        String SIGN_UP_PREFIX = "signUpText:";
+
+        String USER_INFO_PREFIX = "userInfo:";
+
         String ACCESS_LIMIT_PREFIX = "accessLimit:";
     }
 
@@ -22,6 +26,8 @@ public class Constant {
         String SYS_ROOT = "sys";
 
         String UNKNOWN = "unknown";
+
+        String API_RESULT_UTIL  = "ApiResultUtil";
 
         /** 默认日期时间格式 */
         String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";

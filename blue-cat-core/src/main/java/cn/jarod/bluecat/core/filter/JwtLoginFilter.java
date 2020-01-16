@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.filter;
 
-import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
+import cn.jarod.bluecat.core.component.SecurityPropertyConfiguration;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
@@ -29,11 +29,11 @@ import java.io.IOException;
 @Slf4j
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-    private SecurityPropertyConfig securityConfig;
+    private SecurityPropertyConfiguration securityConfig;
 
     public static final String LOGIN_INFO_MISS = "登录信息不完善";
 
-    public JwtLoginFilter(AuthenticationManager authManager, SecurityPropertyConfig config) {
+    public JwtLoginFilter(AuthenticationManager authManager, SecurityPropertyConfiguration config) {
         super(new AntPathRequestMatcher(config.getLoginUrl(), RequestMethod.POST.toString()));
         setAuthenticationManager(authManager);
         this.securityConfig = config;

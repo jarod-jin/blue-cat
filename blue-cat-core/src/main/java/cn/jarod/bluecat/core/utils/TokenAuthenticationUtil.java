@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.utils;
 
 import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
+import cn.jarod.bluecat.core.component.SecurityPropertyConfiguration;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
@@ -38,14 +38,14 @@ public class TokenAuthenticationUtil {
      * @param auth 认证
      * @param config
      */
-    public static void addAuthentication(HttpServletResponse response, Authentication auth, SecurityPropertyConfig config) {
+    public static void addAuthentication(HttpServletResponse response, Authentication auth, SecurityPropertyConfiguration config) {
         /*生成JWT*/
         try {
-            String jwt = getJWTString(auth, TimeUnit.HOURS.toMillis(config.getExpirationTime()), config.getTokenSalt());
+            String jwt = getJWTString(auth, TimeUnit.HOURS.toMillis(config.getExpireTime()), config.getTokenSalt());
             /*将 JWT 写入 返回对象*/
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().print(JSON.toJSONString(new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
+            response.getWriter().print(JsonUtil.toJson(new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
                     ImmutableMap.<String, Object> builder()
                     .put(Constant.Common.ACCESS_TOKEN,jwt)
                     .build())));
@@ -84,7 +84,7 @@ public class TokenAuthenticationUtil {
      * @param config 安全配置
      * @return
      */
-    public static Authentication getAuthentication(HttpServletRequest request, SecurityPropertyConfig config) {
+    public static Authentication getAuthentication(HttpServletRequest request, SecurityPropertyConfiguration config) {
         /*从Header中拿到token*/
         String token = request.getHeader(Constant.Common.ACCESS_TOKEN);
         if (token != null) {

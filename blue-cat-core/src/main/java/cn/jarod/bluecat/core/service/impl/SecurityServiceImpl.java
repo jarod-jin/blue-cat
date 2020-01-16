@@ -5,6 +5,7 @@ import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.service.SecurityService;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
+import cn.jarod.bluecat.core.utils.ContextHolderUtil;
 import cn.jarod.bluecat.core.utils.HttpUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -37,10 +38,11 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public String createToken() {
-        String uuid = UUID.randomUUID().toString().toLowerCase();
+        String token = UUID.randomUUID().toString().toLowerCase();
+        String key = Constant.Redis.TOKEN_PREFIX + HttpUtil.getIpAddress(ContextHolderUtil.getRequest()) + Constant.Symbol.UNDERLINE + token;
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
-        operations.set(uuid, uuid, idempotentTimeOut, TimeUnit.MINUTES);
-        return uuid;
+        operations.set(key, token, idempotentTimeOut, TimeUnit.MINUTES);
+        return token;
     }
 
     @Override
@@ -54,10 +56,11 @@ public class SecurityServiceImpl implements SecurityService {
                 throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"参数中缺少Token");
             }
         }
-        if (!redisTemplate.hasKey(token)) {
+        String key = Constant.Redis.TOKEN_PREFIX + HttpUtil.getIpAddress(request) + Constant.Symbol.UNDERLINE + token;
+        if (!redisTemplate.hasKey(key)) {
             throw ApiResultUtil.fail4BadParameter(ReturnCode.UNPROCESSABLE_ENTITY,"Token不存在或者已过期");
         }
-        if (redisTemplate.delete(token)) {
+        if (!redisTemplate.delete(key)) {
             throw ApiResultUtil.fail4BadParameter(ReturnCode.ALREADY_EXISTED);
         }
     }

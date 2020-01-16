@@ -17,4 +17,8 @@ public class CommonUtil {
     public static boolean validEmail(String email){
         return StringUtils.hasText(email) && email.matches(EMAIL.getPattern());
     }
+
+    public static void main(String[] args) {
+        System.out.println(validEmail("admin@163"));
+    }
 }

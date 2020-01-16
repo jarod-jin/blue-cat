@@ -20,14 +20,24 @@ spring:
     host: 127.0.0.1
     port: 6379
     password: redis@123456#
+    lettuce:
+      pool:
+        # 最大活跃链接数 默认8
+        max-active: 8
+        # 最大空闲连接数 默认8
+        max-idle: 8
+        # 最小空闲连接数 默认0
+        min-idle: 0
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   data:
     mongodb:
-      host: localhost   #同127.0.0.1
+      #同127.0.0.1
+      host: localhost
       port: 27017
-      database: admin    #指定操作的数据库
+      #指定操作的数据库
+      database: admin
       username: root
       password: root@1234
 

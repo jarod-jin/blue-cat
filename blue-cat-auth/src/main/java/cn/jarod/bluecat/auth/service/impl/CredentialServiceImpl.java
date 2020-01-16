@@ -126,13 +126,18 @@ public class CredentialServiceImpl implements CredentialService {
     @Transactional(readOnly = true)
     public Boolean validSignUp(SignType type, String text) {
         UserInfoDO auth = new UserInfoDO();
+        String key = Constant.Redis.SIGN_UP_PREFIX + text.trim();
         switch (type) {
             case tel:
                 auth.setTel(text.trim());
-                return CommonUtil.validTel(auth.getTel())  && !existsKey(text) && !userInfoRepository.exists(Example.of(auth));
+                return CommonUtil.validTel(auth.getTel())
+                        && !redisTemplate.hasKey(key)
+                        && !userInfoRepository.exists(Example.of(auth));
             case email:
                 auth.setEmail(text.trim());
-                return CommonUtil.validEmail(auth.getEmail())  && !existsKey(text) && !userInfoRepository.exists(Example.of(auth));
+                return CommonUtil.validEmail(auth.getEmail())
+                        && !redisTemplate.hasKey(key)
+                        && !userInfoRepository.exists(Example.of(auth));
             default:
                 return false;
         }
@@ -209,7 +214,7 @@ public class CredentialServiceImpl implements CredentialService {
         StringBuilder buffer = new StringBuilder(EncryptUtil.getRandomCode(LENGTH,Boolean.TRUE));
         buffer.append(Constant.Symbol.HYPHEN);
         buffer.append(EncryptUtil.getRandomCode(6,true));
-        if (existsKey(buffer.toString()) && userInfoRepository.exists(Example.of(new UserInfoDO(buffer.toString())))){
+        if (redisTemplate.hasKey(Constant.Redis.SIGN_UP_PREFIX + buffer.toString()) && userInfoRepository.exists(Example.of(new UserInfoDO(buffer.toString())))){
             throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);
         }
         return buffer.toString();
@@ -223,9 +228,7 @@ public class CredentialServiceImpl implements CredentialService {
     public void setSignInfo2Redis(final @NotBlank String keyWord){
         try {
             ValueOperations<String, String> operations = redisTemplate.opsForValue();
-            String key = EncryptUtil.stringEncodeMD5(keyWord);
-            operations.set(key, keyWord);
-            redisTemplate.expire(key, signUpTimeOut, TimeUnit.SECONDS);
+            operations.set(Constant.Redis.SIGN_UP_PREFIX + keyWord, keyWord,signUpTimeOut, TimeUnit.SECONDS);
         }catch (Exception e){
             log.error("写入redis缓存（设置expire存活时间）失败！错误信息为：" + e.getMessage());
             throw new BaseException(ReturnCode.SERVER_ERROR);
@@ -236,31 +239,11 @@ public class CredentialServiceImpl implements CredentialService {
     public boolean setUserInfo2Cache(UserInfoDTO userInfoDTO) {
         try {
             ValueOperations<String, String> operations = redisTemplate.opsForValue();
-            String key = EncryptUtil.stringEncodeMD5(userInfoDTO.getUsername());
-            operations.set(key, JSON.toJSONString(userInfoDTO));
-            redisTemplate.expire(key, userTimeOut, TimeUnit.HOURS);
+            operations.set(Constant.Redis.USER_INFO_PREFIX + userInfoDTO.getUsername(), JSON.toJSONString(userInfoDTO),userTimeOut, TimeUnit.HOURS);
             return true;
         }catch (Exception e){
             log.error("写入redis缓存（设置expire存活时间）失败！错误信息为：" + e.getMessage());
         }
         return false;
     }
-
-    /**
-     *
-     * 检查key是否存在
-     * @param keyString key
-     * @return boolean
-     */
-    private boolean existsKey(final @NotBlank String keyString){
-        try {
-            return redisTemplate.hasKey(EncryptUtil.stringEncodeMD5(keyString));
-        } catch (Exception e) {
-            log.error("判断redis缓存中是否有对应的key失败！错误信息为：" + e.getMessage());
-            return false;
-        }
-    }
-
-
-
 }

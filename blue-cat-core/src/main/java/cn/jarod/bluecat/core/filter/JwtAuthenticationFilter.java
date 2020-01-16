@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.filter;
 
 import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.config.SecurityPropertyConfig;
+import cn.jarod.bluecat.core.component.SecurityPropertyConfiguration;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import com.alibaba.fastjson.JSON;
@@ -33,9 +33,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private static final String LOGIN_FAIL = "认证验证失败 ";
 
-    private SecurityPropertyConfig securityConfig;
+    private SecurityPropertyConfiguration securityConfig;
 
-    public JwtAuthenticationFilter(SecurityPropertyConfig config) {
+    public JwtAuthenticationFilter(SecurityPropertyConfiguration config) {
         this.securityConfig = config;
     }
 
