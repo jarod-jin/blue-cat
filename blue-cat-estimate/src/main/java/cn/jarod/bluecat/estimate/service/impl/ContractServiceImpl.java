@@ -88,7 +88,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @TimeDiff
     public CrudContractSheetBO findContract(@Valid CrudContractSheetBO queryBO) {
-        ContractSheetDO sheetDO = contractSheetRepository.findBySerialNoAndBelongTo(queryBO.getSerialNo(),queryBO.getBelongTo()).orElseThrow(()->new BaseException(ReturnCode.Q401));
+        ContractSheetDO sheetDO = contractSheetRepository.findBySerialNoAndBelongTo(queryBO.getSerialNo(),queryBO.getBelongTo()).orElseThrow(()->new BaseException(ReturnCode.NOT_FOUND));
         CrudContractSheetBO contractSheetBO = BeanHelperUtil.createCopyBean(sheetDO, CrudContractSheetBO.class);
         List<CrudContractItemBO> itemList = contractItemRepository.findAllBySerialNoAndBelongToOrderByItemNoAsc(queryBO.getSerialNo(),queryBO.getBelongTo())
                 .stream().map(i->BeanHelperUtil.createCopyBean(i,CrudContractItemBO.class)).collect(Collectors.toList());

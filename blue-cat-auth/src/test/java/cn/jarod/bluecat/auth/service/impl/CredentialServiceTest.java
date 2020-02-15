@@ -2,10 +2,12 @@ package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
+import cn.jarod.bluecat.auth.enums.SignType;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;
 import cn.jarod.bluecat.auth.service.CredentialService;
+import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
@@ -71,8 +73,8 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("校验手机，邮箱，用户名为空白")
     void validEmailEmpty() {
         assertAll("检验返回结果",
-                ()->  assertFalse(credentialService.validSignUp(Common.TEL,"")),
-                ()->  assertFalse(credentialService.validSignUp(Common.EMAIL,""))
+                ()->  assertFalse(credentialService.validSignUp(SignType.tel,"")),
+                ()->  assertFalse(credentialService.validSignUp(SignType.email,""))
         );
     }
 
@@ -81,8 +83,8 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("校验Authority为admin")
     void validAuthorityAdmin() {
         assertAll("检验返回结果",
-                ()->  assertTrue(credentialService.validSignUp(Common.TEL,"18158105518")),
-                ()->  assertFalse(credentialService.validSignUp(Common.EMAIL,""))
+                ()->  assertTrue(credentialService.validSignUp(SignType.tel,"18158105518")),
+                ()->  assertFalse(credentialService.validSignUp(SignType.email,""))
         );
     }
 
@@ -141,7 +143,7 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @Test
     @DisplayName("校验登录名密码")
     void validCredential() {
-        assertTrue(credentialService.findCredentialByUsername(credBO.getUsername(),credBO.getModifiedPassword()));
+        assertTrue(credentialService.findCredentialByUsername(credBO.getUsername()).isPresent());
     }
 
 
