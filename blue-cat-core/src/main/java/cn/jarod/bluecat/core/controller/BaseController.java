@@ -4,7 +4,7 @@ import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 import cn.jarod.bluecat.core.utils.EncryptUtil;
-import com.alibaba.fastjson.JSON;
+import cn.jarod.bluecat.core.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -28,7 +28,7 @@ public class BaseController {
             ValueOperations<String, String> operations = redisTemplate.opsForValue();
             String userJson = operations.get(EncryptUtil.stringEncodeMD5(String.valueOf(auth.getPrincipal())));
             if (StringUtils.hasText(userJson)){
-                return JSON.parseObject(userJson,UserDetailDTO.class);
+                return JsonUtil.parsePojo(userJson,UserDetailDTO.class);
             }else {
                 log.error("获取Redis缓存中用户：{}的权限信息失败！请重新登录！", auth.getPrincipal());
             }

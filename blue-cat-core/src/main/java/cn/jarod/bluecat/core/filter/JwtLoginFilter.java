@@ -4,8 +4,8 @@ import cn.jarod.bluecat.core.component.SecurityPropertyConfiguration;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
+import cn.jarod.bluecat.core.utils.JsonUtil;
 import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -44,7 +44,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
             throws IOException {
         /*JSON反序列化成 User**/
-        AuthCredentials credentials = JSON.parseObject(req.getInputStream(), AuthCredentials.class);
+        AuthCredentials credentials = JsonUtil.parsePojo(req.getInputStream().toString(), AuthCredentials.class);
         if (credentials==null || credentials.loginValid()){
             log.info(LOGIN_INFO_MISS);
             throw new BadCredentialsException(LOGIN_INFO_MISS);
@@ -67,7 +67,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
                                               AuthenticationException failed) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().print(JSON.toJSONString(ApiResultUtil.fail4Unauthorized(failed.getMessage())));
+        response.getWriter().print(JsonUtil.toJson(ApiResultUtil.fail4Unauthorized(failed.getMessage())));
         response.getWriter().close();
     }
 }

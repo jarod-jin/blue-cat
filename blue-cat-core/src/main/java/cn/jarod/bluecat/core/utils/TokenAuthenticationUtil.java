@@ -5,8 +5,6 @@ import cn.jarod.bluecat.core.component.SecurityPropertyConfiguration;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.ImmutableMap;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -99,7 +97,7 @@ public class TokenAuthenticationUtil {
             /*拿用户名*/
             String user = claims.getSubject();
             /*得到 权限（角色）*/
-            JSONArray authArray =  JSON.parseArray((String) claims.get(AUTHORITIES));
+            List<String> authArray =  JsonUtil.parseObject((String) claims.get(AUTHORITIES),List.class);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,
                     authArray.stream().map(m-> new UserGrantedAuthority(String.valueOf(m))).collect(Collectors.toList()));
             /*返回验证令牌*/
@@ -111,7 +109,7 @@ public class TokenAuthenticationUtil {
 
     private static String getRolesFromAuthority(Authentication auth){
         List<String> authStrList = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        return JSON.toJSONString(authStrList);
+        return JsonUtil.toJson(authStrList);
     }
 
 

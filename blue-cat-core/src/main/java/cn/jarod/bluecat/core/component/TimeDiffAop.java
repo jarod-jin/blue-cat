@@ -2,7 +2,7 @@ package cn.jarod.bluecat.core.component;
 
 import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.common.Constant;
-import com.alibaba.fastjson.JSON;
+import cn.jarod.bluecat.core.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -59,7 +59,7 @@ public class TimeDiffAop {
             //获取TimeDiff注解中是否需要打印参数
             if (method.getAnnotation(TimeDiff.class).printParams()){
                 Object[] args = joinPoint.getArgs();
-                log.info(Constant.Symbol.BRACE + " 的请求参数为："+ Constant.Symbol.BRACE,name.get(), JSON.toJSON(args));
+                log.info(Constant.Symbol.BRACE + " 的请求参数为："+ Constant.Symbol.BRACE,name.get(), JsonUtil.toJson(args));
             }
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             log.error("TimeDiffAop执行时出现异常：" + Constant.Symbol.BRACE, e.getMessage());
