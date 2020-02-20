@@ -14,11 +14,7 @@ import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
-import cn.jarod.bluecat.core.utils.ApiResultUtil;
-import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.utils.CommonUtil;
-import cn.jarod.bluecat.core.utils.EncryptUtil;
-import com.alibaba.fastjson.JSON;
+import cn.jarod.bluecat.core.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
@@ -30,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotBlank;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -239,11 +236,16 @@ public class CredentialServiceImpl implements CredentialService {
     public boolean setUserInfo2Cache(UserInfoDTO userInfoDTO) {
         try {
             ValueOperations<String, String> operations = redisTemplate.opsForValue();
-            operations.set(Constant.Redis.USER_INFO_PREFIX + userInfoDTO.getUsername(), JSON.toJSONString(userInfoDTO),userTimeOut, TimeUnit.HOURS);
+            operations.set(Constant.Redis.USER_INFO_PREFIX + userInfoDTO.getUsername(), JsonUtil.toJson(userInfoDTO), userTimeOut, TimeUnit.HOURS);
             return true;
         }catch (Exception e){
             log.error("写入redis缓存（设置expire存活时间）失败！错误信息为：" + e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public Map<String, String> refresh(String token) {
+        return null;
     }
 }

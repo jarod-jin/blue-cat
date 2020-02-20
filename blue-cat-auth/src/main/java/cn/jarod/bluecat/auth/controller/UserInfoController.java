@@ -35,4 +35,7 @@ public class UserInfoController extends BaseController {
     public ResultDTO modify(@PathVariable("username") @NotBlank String username) {
         return ApiResultUtil.getSuccess(username);
     }
+
+
+
 }

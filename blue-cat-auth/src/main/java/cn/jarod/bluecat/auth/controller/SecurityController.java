@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/token")
-public class TokenController extends BaseController {
+public class SecurityController extends BaseController {
 
     private final SecurityService securityService;
 
-    public TokenController(SecurityService securityService) {
+    public SecurityController(SecurityService securityService) {
         this.securityService = securityService;
     }
 
-    @GetMapping
-    public ResultDTO getToken() {
+    @PostMapping
+    public ResultDTO takeToken() {
         return ApiResultUtil.getSuccess(securityService.createToken());
     }
 

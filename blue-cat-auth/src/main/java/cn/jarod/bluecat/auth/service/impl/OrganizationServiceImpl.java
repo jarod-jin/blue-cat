@@ -9,8 +9,8 @@ import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.TreeModel;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
+import cn.jarod.bluecat.core.utils.JsonUtil;
 import cn.jarod.bluecat.core.utils.TreeUtil;
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -95,7 +95,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             orgDTO.setParentId(e.getParentCode());
             return orgDTO;
         }).collect(Collectors.toList());
-        log.info(JSON.toJSONString(list));
+        log.debug(JsonUtil.toJson(list));
         return TreeUtil.getTree(list);
     }
 

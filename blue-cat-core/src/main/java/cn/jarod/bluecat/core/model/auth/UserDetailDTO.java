@@ -2,6 +2,7 @@ package cn.jarod.bluecat.core.model.auth;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@ToString
 public class UserDetailDTO implements Serializable {
 
     private static final long serialVersionUID = -4928838767439027864L;

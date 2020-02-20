@@ -3,7 +3,6 @@ package cn.jarod.bluecat.auth.config;
 
 import cn.jarod.bluecat.core.component.SecurityPropertyConfiguration;
 import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
-import cn.jarod.bluecat.core.filter.JwtLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -63,8 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET).authenticated()
             .antMatchers(HttpMethod.PATCH).authenticated()
             .and()
-            /*添加一个过滤器 所有访问 /login 的请求交给 JWTLoginFilter 来处理 这个类处理所有的JWT相关内容*/
-            .addFilterBefore(new JwtLoginFilter(authenticationManager(), propertyConfig), UsernamePasswordAuthenticationFilter.class)
             /*添加一个过滤器验证其他请求的Token是否合法*/
             .addFilterBefore(new JwtAuthenticationFilter(propertyConfig), UsernamePasswordAuthenticationFilter.class);
 

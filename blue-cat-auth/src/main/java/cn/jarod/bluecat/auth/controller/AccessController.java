@@ -6,9 +6,12 @@ import cn.jarod.bluecat.core.annotation.ApiIdempotent;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
 import cn.jarod.bluecat.core.controller.BaseController;
 import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,12 +19,12 @@ import javax.validation.constraints.NotNull;
  * @author Jarod.jin
  */
 @RestController
-@RequestMapping(value = "/signup")
-public class SignUpController extends BaseController {
+@RequestMapping(value = "/access")
+public class AccessController extends BaseController {
 
     private final UserAuthenticationHandler userAuthenticationHandler;
 
-    public SignUpController(UserAuthenticationHandler userAuthenticationHandler) {
+    public AccessController(UserAuthenticationHandler userAuthenticationHandler) {
         this.userAuthenticationHandler = userAuthenticationHandler;
     }
 
@@ -36,6 +39,16 @@ public class SignUpController extends BaseController {
     @PostMapping
     public ResultDTO create(@RequestBody @NotNull SignUpDTO upDTO) {
         return userAuthenticationHandler.signUp(upDTO);
+    }
+
+    @PostMapping(value = "${security.route.authentication.path}")
+    public ResultDTO createAuthenticationToken(@RequestBody AuthCredentials credentials){
+        return userAuthenticationHandler.signIn(credentials);
+    }
+
+    @GetMapping(value = "${security.route.authentication.refresh}")
+    public ResultDTO refreshAndGetAuthenticationToken(HttpServletRequest request){
+        return userAuthenticationHandler.refreshAccessToken(request);
     }
 
 }

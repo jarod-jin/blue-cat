@@ -9,6 +9,7 @@ import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -86,4 +87,11 @@ public interface CredentialService {
      * @return boolean
      */
     boolean setUserInfo2Cache(final UserInfoDTO userInfoDTO);
+
+    /**
+     * 获取刷新Token
+     * @param token
+     * @return Map
+     */
+    Map<String,String> refresh(String token);
 }

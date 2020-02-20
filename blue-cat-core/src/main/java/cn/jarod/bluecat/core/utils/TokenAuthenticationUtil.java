@@ -32,25 +32,16 @@ public class TokenAuthenticationUtil {
     private static final String AUTHORITIES = "authorities";
     /**
      * 返回jwt
-     * @param response 返回
      * @param auth 认证
      * @param config
      */
-    public static void addAuthentication(HttpServletResponse response, Authentication auth, SecurityPropertyConfiguration config) {
+    public static ResultDTO addAuthentication(Authentication auth, SecurityPropertyConfiguration config) {
         /*生成JWT*/
-        try {
-            String jwt = getJWTString(auth, TimeUnit.HOURS.toMillis(config.getExpireTime()), config.getTokenSalt());
-            /*将 JWT 写入 返回对象*/
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().print(JsonUtil.toJson(new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
-                    ImmutableMap.<String, Object> builder()
-                    .put(Constant.Common.ACCESS_TOKEN,jwt)
-                    .build())));
-            response.getWriter().close();
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
+        String jwt = getJWTString(auth, TimeUnit.HOURS.toMillis(config.getExpireTime()), config.getTokenSalt());
+        return new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
+                ImmutableMap.<String, Object> builder()
+                .put(Constant.Common.ACCESS_TOKEN,jwt)
+                .build());
     }
 
 
