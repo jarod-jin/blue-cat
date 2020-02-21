@@ -68,12 +68,13 @@ security:
     idempotent: 10
   tokenSalt: jarod.jin
   tokenPrefix: Bearer
+  permitAll:
+    - /monitor/*
+    - /access/**
+    - /token
   route:
     authentication:
       path: /login
       refresh: /refresh
       register: /register
-    permitAllUrl:
-      - /monitor/*
-      - //**
-      - /token
+

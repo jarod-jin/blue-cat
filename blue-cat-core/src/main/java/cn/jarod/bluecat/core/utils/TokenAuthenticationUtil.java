@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.utils;
 
 import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.component.SecurityPropertyConfiguration;
+import cn.jarod.bluecat.core.component.SecurityProperties;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
@@ -10,14 +10,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -35,9 +32,9 @@ public class TokenAuthenticationUtil {
      * @param auth 认证
      * @param config
      */
-    public static ResultDTO addAuthentication(Authentication auth, SecurityPropertyConfiguration config) {
+    public static ResultDTO addAuthentication(Authentication auth, SecurityProperties config) {
         /*生成JWT*/
-        String jwt = getJWTString(auth, TimeUnit.HOURS.toMillis(config.getExpireTime()), config.getTokenSalt());
+        String jwt = getJwtString(auth, TimeUnit.HOURS.toMillis(config.getExpireTime()), config.getTokenSalt());
         return new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
                 ImmutableMap.<String, Object> builder()
                 .put(Constant.Common.ACCESS_TOKEN,jwt)
@@ -52,7 +49,7 @@ public class TokenAuthenticationUtil {
      * @param salt 加密盐
      * @return String
      */
-    private static String getJWTString(Authentication auth, long expirationTime, String salt){
+    private static String getJwtString(Authentication auth, long expirationTime, String salt){
         String role = getRolesFromAuthority(auth);
         /*生成JWT*/
         return Jwts.builder()
@@ -73,7 +70,7 @@ public class TokenAuthenticationUtil {
      * @param config 安全配置
      * @return
      */
-    public static Authentication getAuthentication(HttpServletRequest request, SecurityPropertyConfiguration config) {
+    public static Authentication getAuthentication(HttpServletRequest request, SecurityProperties config) {
         /*从Header中拿到token*/
         String token = request.getHeader(Constant.Common.ACCESS_TOKEN);
         if (token != null) {

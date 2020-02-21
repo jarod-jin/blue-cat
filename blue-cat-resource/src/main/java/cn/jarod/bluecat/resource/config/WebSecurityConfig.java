@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.resource.config;
 
 
-import cn.jarod.bluecat.core.component.SecurityPropertyConfiguration;
+import cn.jarod.bluecat.core.component.SecurityProperties;
 import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final SecurityPropertyConfiguration securityConfig;
+    private final SecurityProperties securityConfig;
 
-    public WebSecurityConfig(SecurityPropertyConfiguration securityConfig) {
+    public WebSecurityConfig(SecurityProperties securityConfig) {
         this.securityConfig = securityConfig;
     }
 
