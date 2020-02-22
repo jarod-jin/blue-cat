@@ -58,4 +58,6 @@ ext {
 
     jacksonVersion = "2.10.1"
 
+    swaggerVersion = "2.9.2"
+
 }

@@ -27,21 +27,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SecurityProperties propertyConfig;
 
-    private final AuthenticationProvider customAuthenticationProvider;
-
-
 
     @Autowired
-    public WebSecurityConfig(SecurityProperties propertyConfig, AuthenticationProvider customAuthenticationProvider) {
+    public WebSecurityConfig(SecurityProperties propertyConfig) {
         this.propertyConfig = propertyConfig;
-        this.customAuthenticationProvider = customAuthenticationProvider;
-    }
-
-
-    @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        /*使用自定义验证组件*/
-        authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider);
     }
 
 
