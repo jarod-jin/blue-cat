@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.entity;
 
-import cn.jarod.bluecat.core.entity.RdsEntity;
+import cn.jarod.bluecat.core.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "user_location", indexes = {@Index(columnList ="orgRoleId", name="OrgRoleIndex"),
             @Index(columnList ="username", name="UsernameIndex", unique = true)})
-public class UserLocationDO extends RdsEntity {
+public class UserLocationDO extends MysqlEntity {
 
     /**组织角色ID*/
     @Column(nullable = false, columnDefinition=("bigint(19) comment '组织角色ID'"))

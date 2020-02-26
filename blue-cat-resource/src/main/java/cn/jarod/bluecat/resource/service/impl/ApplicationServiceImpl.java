@@ -1,15 +1,15 @@
-package cn.jarod.bluecat.resource.service.impl;
+package cn.jarod.bluecat.object.service.impl;
 
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.resource.entity.ApplicationDO;
-import cn.jarod.bluecat.resource.entity.ReleaseDO;
-import cn.jarod.bluecat.resource.model.bo.CrudApplicationBO;
-import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
-import cn.jarod.bluecat.resource.model.dto.ApplicationQuery;
-import cn.jarod.bluecat.resource.repository.ApplicationRepository;
-import cn.jarod.bluecat.resource.service.ApplicationService;
+import cn.jarod.bluecat.object.entity.ApplicationDO;
+import cn.jarod.bluecat.object.entity.ReleaseDO;
+import cn.jarod.bluecat.object.model.bo.CrudApplicationBO;
+import cn.jarod.bluecat.object.model.bo.CrudReleaseBO;
+import cn.jarod.bluecat.object.model.dto.ApplicationQuery;
+import cn.jarod.bluecat.object.repository.ApplicationRepository;
+import cn.jarod.bluecat.object.service.ApplicationService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.resource;
+package cn.jarod.bluecat.object;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;

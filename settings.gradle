@@ -2,7 +2,7 @@ rootProject.name = 'blue-cat'
 include 'blue-cat-core'
 include 'blue-cat-auth'
 include 'blue-cat-gateway'
-include 'blue-cat-resource'
 include 'blue-cat-estimate'
 include 'blue-cat-analyst'
+include 'blue-cat-object'
 

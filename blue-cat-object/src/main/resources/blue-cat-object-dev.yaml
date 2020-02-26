@@ -1,0 +1,50 @@
+server:
+  port: 8083
+
+management:
+  server:
+    port: 8093
+    # address: 127.0.0.1
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        group: BLUE_CAT_GROUP
+        namespace: 16f4847c-1396-47f2-b9ff-efc17818287c
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: redis@123456#
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  data:
+    mongodb:
+      host: localhost   #同127.0.0.1
+      port: 27017
+      database: admin    #指定操作的数据库
+      username: root
+      password: root@1234
+
+logging:
+  file:
+    name: d:/web_logs/blue_cat/resource.log
+    path: d:/web_logs/blue_cat
+
+datasource:
+  master:
+    url: jdbc:mysql://127.0.0.1:3306/resource?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    username: resource
+    password: resource#2019
+  slave:
+    url: jdbc:mysql://127.0.0.1:3305/resource?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=true
+    username: resource
+    password: resource#2019
+
+rest:
+  template:
+    read-timeout: 10000
+    connect-timeout: 20000

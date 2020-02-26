@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.entity;
 
-import cn.jarod.bluecat.core.entity.RdsEntity;
+import cn.jarod.bluecat.core.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,7 @@ import javax.persistence.*;
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "credential", indexes = {@Index(columnList ="username", name="UsernameIndex", unique = true)})
-public class CredentialDO extends RdsEntity {
+public class CredentialDO extends MysqlEntity {
 
     /**用户唯一标识*/
     @Column(nullable = false, columnDefinition=("varchar(50) comment '用户唯一标识'"))

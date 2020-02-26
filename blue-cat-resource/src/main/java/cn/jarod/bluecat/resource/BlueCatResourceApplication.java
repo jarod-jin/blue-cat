@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.resource;
+package cn.jarod.bluecat.object;
 
 import cn.jarod.bluecat.core.config.DataSourceConfig;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;

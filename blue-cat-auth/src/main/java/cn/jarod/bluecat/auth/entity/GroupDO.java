@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.entity;
 
-import cn.jarod.bluecat.core.entity.RdsEntity;
+import cn.jarod.bluecat.core.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "sys_group", indexes = {@Index(columnList ="groupCode", name="GroupCodeIndex", unique = true)})
-public class GroupDO extends RdsEntity {
+public class GroupDO extends MysqlEntity {
 
     /**用户组编码*/
     @Column(nullable = false, columnDefinition=("varchar(20) comment '用户组编码'"))

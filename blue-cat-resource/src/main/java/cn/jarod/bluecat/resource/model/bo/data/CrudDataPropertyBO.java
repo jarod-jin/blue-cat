@@ -1,7 +1,7 @@
-package cn.jarod.bluecat.resource.model.bo.data;
+package cn.jarod.bluecat.object.model.bo.data;
 
-import cn.jarod.bluecat.resource.entity.ResourceDO;
-import cn.jarod.bluecat.resource.model.bo.CurdResourceBO;
+import cn.jarod.bluecat.object.entity.ResourceDO;
+import cn.jarod.bluecat.object.model.bo.CurdResourceBO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

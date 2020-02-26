@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.resource.model.bo.dict;
+package cn.jarod.bluecat.object.model.bo.dict;
 
 
 import cn.jarod.bluecat.core.model.NoSqlModel;

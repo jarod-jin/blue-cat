@@ -1,6 +1,6 @@
-package cn.jarod.bluecat.resource.entity;
+package cn.jarod.bluecat.object.entity;
 
-import cn.jarod.bluecat.core.entity.NoSqlEntity;
+import cn.jarod.bluecat.core.entity.MongoEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,7 +17,7 @@ import java.util.Map;
 @Setter
 @ToString
 @Document("application")
-public class ApplicationDO extends NoSqlEntity {
+public class ApplicationDO extends MongoEntity {
 
     /**描述*/
     @Field("description")

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.resource.model.bo;
+package cn.jarod.bluecat.object.model.bo;
 
 import cn.jarod.bluecat.core.model.NoSqlModel;
 import lombok.Getter;

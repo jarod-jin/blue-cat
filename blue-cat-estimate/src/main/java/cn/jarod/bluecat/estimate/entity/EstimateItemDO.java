@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.estimate.entity;
 
-import cn.jarod.bluecat.core.entity.RdsEntity;
+import cn.jarod.bluecat.core.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ import java.util.List;
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "estimate_item", indexes = {@Index(columnList ="serialNo", name="SerialNoIndex")})
-public class EstimateItemDO extends RdsEntity {
+public class EstimateItemDO extends MysqlEntity {
 
     //合约编号
     @Column(nullable = false, columnDefinition=("varchar(20) comment '合约编号'"))

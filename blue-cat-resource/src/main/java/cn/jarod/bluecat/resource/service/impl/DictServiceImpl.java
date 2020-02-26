@@ -1,12 +1,12 @@
-package cn.jarod.bluecat.resource.service.impl;
+package cn.jarod.bluecat.object.service.impl;
 
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.resource.entity.DictDO;
-import cn.jarod.bluecat.resource.model.bo.dict.UpdateDictItemBO;
-import cn.jarod.bluecat.resource.model.bo.dict.CrudDictBO;
-import cn.jarod.bluecat.resource.repository.DictRepository;
-import cn.jarod.bluecat.resource.service.DictService;
+import cn.jarod.bluecat.object.entity.DictDO;
+import cn.jarod.bluecat.object.model.bo.dict.UpdateDictItemBO;
+import cn.jarod.bluecat.object.model.bo.dict.CrudDictBO;
+import cn.jarod.bluecat.object.repository.DictRepository;
+import cn.jarod.bluecat.object.service.DictService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

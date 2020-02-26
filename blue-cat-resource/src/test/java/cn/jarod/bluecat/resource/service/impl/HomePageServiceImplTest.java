@@ -1,12 +1,12 @@
-package cn.jarod.bluecat.resource.service.impl;
+package cn.jarod.bluecat.object.service.impl;
 
-import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
-import cn.jarod.bluecat.resource.entity.ApplicationDO;
-import cn.jarod.bluecat.resource.entity.HomePageDO;
-import cn.jarod.bluecat.resource.model.bo.element.CrudHomePageBO;
-import cn.jarod.bluecat.resource.model.dto.ApplicationQuery;
-import cn.jarod.bluecat.resource.model.dto.HomePageQuery;
-import cn.jarod.bluecat.resource.service.HomePageService;
+import cn.jarod.bluecat.object.BlueCatResourceApplicationTest;
+import cn.jarod.bluecat.object.entity.ApplicationDO;
+import cn.jarod.bluecat.object.entity.HomePageDO;
+import cn.jarod.bluecat.object.model.bo.element.CrudHomePageBO;
+import cn.jarod.bluecat.object.model.dto.ApplicationQuery;
+import cn.jarod.bluecat.object.model.dto.HomePageQuery;
+import cn.jarod.bluecat.object.service.HomePageService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

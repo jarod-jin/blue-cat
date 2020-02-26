@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.resource.entity;
+package cn.jarod.bluecat.object.entity;
 
 import lombok.Getter;
 import lombok.Setter;

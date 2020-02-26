@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @MappedSuperclass
 @TypeDefs({@TypeDef(name = "json", typeClass = JsonStringType.class), @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)})
-public class RdsEntity {
+public class MysqlEntity {
 
     /**主键*/
     @Id

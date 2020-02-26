@@ -1,7 +1,7 @@
-package cn.jarod.bluecat.resource.model.bo.data;
+package cn.jarod.bluecat.object.model.bo.data;
 
 import cn.jarod.bluecat.core.model.NoSqlModel;
-import cn.jarod.bluecat.resource.model.bo.CrudAuthorizationBO;
+import cn.jarod.bluecat.object.model.bo.CrudAuthorizationBO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

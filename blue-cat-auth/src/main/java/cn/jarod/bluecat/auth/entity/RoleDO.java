@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.entity;
 
-import cn.jarod.bluecat.core.entity.RdsEntity;
+import cn.jarod.bluecat.core.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "sys_role", indexes = {@Index(columnList ="roleCode", name="RoleCodeIndex", unique = true)})
-public class RoleDO extends RdsEntity {
+public class RoleDO extends MysqlEntity {
 
     /**角色编码*/
     @Column(nullable = false, columnDefinition=("varchar(20) comment '角色编码'"))

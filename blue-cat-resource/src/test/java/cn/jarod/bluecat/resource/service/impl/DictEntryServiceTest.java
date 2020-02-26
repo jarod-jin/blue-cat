@@ -1,10 +1,10 @@
-package cn.jarod.bluecat.resource.service.impl;
+package cn.jarod.bluecat.object.service.impl;
 
-import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
-import cn.jarod.bluecat.resource.entity.DictDO;
-import cn.jarod.bluecat.resource.model.bo.dict.UpdateDictItemBO;
-import cn.jarod.bluecat.resource.model.bo.dict.CrudDictBO;
-import cn.jarod.bluecat.resource.service.DictService;
+import cn.jarod.bluecat.object.BlueCatResourceApplicationTest;
+import cn.jarod.bluecat.object.entity.DictDO;
+import cn.jarod.bluecat.object.model.bo.dict.UpdateDictItemBO;
+import cn.jarod.bluecat.object.model.bo.dict.CrudDictBO;
+import cn.jarod.bluecat.object.service.DictService;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Ordering;
 import org.junit.jupiter.api.AfterEach;

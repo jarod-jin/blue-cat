@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class NoSqlEntity {
+public class MongoEntity {
 
     /**主键*/
     @Id

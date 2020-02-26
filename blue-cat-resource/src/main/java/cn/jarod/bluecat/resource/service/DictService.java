@@ -1,8 +1,8 @@
-package cn.jarod.bluecat.resource.service;
+package cn.jarod.bluecat.object.service;
 
-import cn.jarod.bluecat.resource.entity.DictDO;
-import cn.jarod.bluecat.resource.model.bo.dict.CrudDictBO;
-import cn.jarod.bluecat.resource.model.bo.dict.UpdateDictItemBO;
+import cn.jarod.bluecat.object.entity.DictDO;
+import cn.jarod.bluecat.object.model.bo.dict.CrudDictBO;
+import cn.jarod.bluecat.object.model.bo.dict.UpdateDictItemBO;
 
 
 

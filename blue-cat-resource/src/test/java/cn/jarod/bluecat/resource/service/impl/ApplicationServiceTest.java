@@ -1,12 +1,12 @@
-package cn.jarod.bluecat.resource.service.impl;
+package cn.jarod.bluecat.object.service.impl;
 
-import cn.jarod.bluecat.resource.BlueCatResourceApplicationTest;
-import cn.jarod.bluecat.resource.entity.ApplicationDO;
-import cn.jarod.bluecat.resource.entity.ReleaseDO;
-import cn.jarod.bluecat.resource.model.bo.CrudApplicationBO;
-import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
-import cn.jarod.bluecat.resource.model.dto.ApplicationQuery;
-import cn.jarod.bluecat.resource.service.ApplicationService;
+import cn.jarod.bluecat.object.BlueCatResourceApplicationTest;
+import cn.jarod.bluecat.object.entity.ApplicationDO;
+import cn.jarod.bluecat.object.entity.ReleaseDO;
+import cn.jarod.bluecat.object.model.bo.CrudApplicationBO;
+import cn.jarod.bluecat.object.model.bo.CrudReleaseBO;
+import cn.jarod.bluecat.object.model.dto.ApplicationQuery;
+import cn.jarod.bluecat.object.service.ApplicationService;
 import org.assertj.core.util.Lists;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;

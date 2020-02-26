@@ -1,8 +1,8 @@
-package cn.jarod.bluecat.resource.service;
+package cn.jarod.bluecat.object.service;
 
-import cn.jarod.bluecat.resource.entity.HomePageDO;
-import cn.jarod.bluecat.resource.model.bo.element.CrudHomePageBO;
-import cn.jarod.bluecat.resource.model.dto.HomePageQuery;
+import cn.jarod.bluecat.object.entity.HomePageDO;
+import cn.jarod.bluecat.object.model.bo.element.CrudHomePageBO;
+import cn.jarod.bluecat.object.model.dto.HomePageQuery;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
