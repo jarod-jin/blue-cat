@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.object.service.impl;
 
-import cn.jarod.bluecat.object.BlueCatResourceApplicationTest;
+import cn.jarod.bluecat.object.BlueCatObjectApplicationTest;
 import cn.jarod.bluecat.object.entity.ApplicationDO;
 import cn.jarod.bluecat.object.entity.ReleaseDO;
 import cn.jarod.bluecat.object.model.bo.CrudApplicationBO;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author jarod.jin 2019/11/20
  */
-class ApplicationServiceTest extends BlueCatResourceApplicationTest {
+class ApplicationServiceTest extends BlueCatObjectApplicationTest {
 
     @Autowired
     private ApplicationService applicationService;

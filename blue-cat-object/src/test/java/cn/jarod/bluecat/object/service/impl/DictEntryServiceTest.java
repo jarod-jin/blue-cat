@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.object.service.impl;
 
-import cn.jarod.bluecat.object.BlueCatResourceApplicationTest;
+import cn.jarod.bluecat.object.BlueCatObjectApplicationTest;
 import cn.jarod.bluecat.object.entity.DictDO;
 import cn.jarod.bluecat.object.model.bo.dict.CrudDictBO;
 import cn.jarod.bluecat.object.model.bo.dict.UpdateDictItemBO;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * @author jarod.jin 2019/11/19
  */
-class DictEntryServiceTest extends BlueCatResourceApplicationTest {
+class DictEntryServiceTest extends BlueCatObjectApplicationTest {
 
     @Autowired
     private DictService dictEntryService;

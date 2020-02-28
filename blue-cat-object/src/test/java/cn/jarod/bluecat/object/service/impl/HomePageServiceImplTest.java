@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.object.service.impl;
 
-import cn.jarod.bluecat.object.BlueCatResourceApplicationTest;
+import cn.jarod.bluecat.object.BlueCatObjectApplicationTest;
 import cn.jarod.bluecat.object.entity.HomePageDO;
 import cn.jarod.bluecat.object.model.bo.element.CrudHomePageBO;
 import cn.jarod.bluecat.object.model.dto.HomePageQuery;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jarod Jin E-mail:kira277@163.com
  * @version 创建时间：2020/1/9
  */
-class HomePageServiceImplTest extends BlueCatResourceApplicationTest {
+class HomePageServiceImplTest extends BlueCatObjectApplicationTest {
 
     @Autowired
     private HomePageService homePageService;

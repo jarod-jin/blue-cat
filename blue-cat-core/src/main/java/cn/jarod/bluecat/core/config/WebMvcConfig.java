@@ -2,6 +2,7 @@ package cn.jarod.bluecat.core.config;
 
 import cn.jarod.bluecat.core.interceptor.AccessLimitInterceptor;
 import cn.jarod.bluecat.core.interceptor.ApiIdempotentInterceptor;
+import cn.jarod.bluecat.core.interceptor.LogInterceptor;
 import cn.jarod.bluecat.core.service.SecurityService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,11 +25,18 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        /*日志拦截器*/
+        registry.addInterceptor(logInterceptor()).addPathPatterns("/**");
         /*接口幂等性拦截器*/
         registry.addInterceptor(apiIdempotentInterceptor());
         /*接口防刷限流拦截器*/
         registry.addInterceptor(accessLimitInterceptor());
         super.addInterceptors(registry);
+    }
+
+    @Bean
+    public LogInterceptor logInterceptor() {
+        return new LogInterceptor();
     }
 
     @Bean

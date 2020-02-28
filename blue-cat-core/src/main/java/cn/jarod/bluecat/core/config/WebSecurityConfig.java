@@ -1,8 +1,9 @@
-package cn.jarod.bluecat.analyst.config;
+package cn.jarod.bluecat.core.config;
 
 
 import cn.jarod.bluecat.core.component.SecurityProperties;
 import cn.jarod.bluecat.core.filter.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,33 +11,49 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * @author 45216
+ */
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final SecurityProperties securityConfig;
+    private final SecurityProperties propertyConfig;
 
-    public WebSecurityConfig(SecurityProperties securityConfig) {
-        this.securityConfig = securityConfig;
+
+    @Autowired
+    public WebSecurityConfig(SecurityProperties propertyConfig) {
+        this.propertyConfig = propertyConfig;
     }
 
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable()//默认关闭csrf过滤
-            // 对请求进行认证
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+            /*由于使用的是JWT，我们这里不需要csrf*/
+            .csrf().disable()
+            /*基于token，所以不需要session*/
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            /*对请求进行认证*/
             .authorizeRequests()
-            // 对Rest请求需要身份认证, 放行OPTIONS
+            /*注册的所有请求 都放行*/
+            .antMatchers(propertyConfig.getPermitAll()).permitAll()
+            /*对Rest请求需要身份认证, 放行OPTIONS*/
             .antMatchers(HttpMethod.POST).authenticated()
             .antMatchers(HttpMethod.PUT).authenticated()
             .antMatchers(HttpMethod.DELETE).authenticated()
             .antMatchers(HttpMethod.GET).authenticated()
+            .antMatchers(HttpMethod.PATCH).authenticated()
             .and()
-            // 添加一个过滤器验证其他请求的Token是否合法
-            .addFilterBefore(new JwtAuthenticationFilter(securityConfig), UsernamePasswordAuthenticationFilter.class);
+            /*添加一个过滤器验证其他请求的Token是否合法*/
+            .addFilterBefore(new JwtAuthenticationFilter(propertyConfig), UsernamePasswordAuthenticationFilter.class);
+
+        /*禁用缓存*/
+        httpSecurity.headers().cacheControl();
     }
 }
