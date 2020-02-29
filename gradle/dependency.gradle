@@ -3,7 +3,6 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
-//    implementation "com.alibaba:fastjson:${fastjsonVersion}"
     implementation "org.apache.commons:commons-pool2:${poolVersion}"
     implementation "commons-beanutils:commons-beanutils:${beanutilsVersion}"
     implementation "javax.interceptor:javax.interceptor-api:${javaxInterceptorVersion}"
@@ -40,6 +39,7 @@ dependencies {
     implementation "org.apache.cxf:cxf-spring-boot-starter-jaxws:${cxfVersion}"
     implementation "de.codecentric:spring-boot-admin-starter-client:${springBootAdminVersion}"
     implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:${jasyptVersion}"
+    implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springbootVersion}"
 
     implementation "io.jsonwebtoken:jjwt:${jjwtVersion}"
 

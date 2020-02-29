@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.core.utils;
 
 import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.component.SecurityProperties;
+import cn.jarod.bluecat.core.component.CustomSecurityProperties;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
@@ -32,7 +32,7 @@ public class TokenAuthenticationUtil {
      * @param auth 认证
      * @param config
      */
-    public static ResultDTO addAuthentication(Authentication auth, SecurityProperties config) {
+    public static ResultDTO addAuthentication(Authentication auth, CustomSecurityProperties config) {
         /*生成JWT*/
         String jwt = getJwtString(auth, TimeUnit.HOURS.toMillis(config.getExpireTime()), config.getTokenSalt());
         return new ResultDTO(ReturnCode.GET_SUCCESS.getCode(), "登录成功",
@@ -70,7 +70,7 @@ public class TokenAuthenticationUtil {
      * @param config 安全配置
      * @return
      */
-    public static Authentication getAuthentication(HttpServletRequest request, SecurityProperties config) {
+    public static Authentication getAuthentication(HttpServletRequest request, CustomSecurityProperties config) {
         /*从Header中拿到token*/
         String token = request.getHeader(Constant.Common.ACCESS_TOKEN);
         if (token != null) {

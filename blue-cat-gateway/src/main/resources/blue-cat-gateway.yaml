@@ -34,10 +34,10 @@ spring:
           filters:
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar
-        - id: general_service
-          uri: lb://blue-cat-general
+        - id: resource_service
+          uri: lb://blue-cat-resource
           predicates:
-            - Path=/general/**
+            - Path=/resource/**
           filters:
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar

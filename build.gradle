@@ -1,8 +1,7 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
-
 
 apply from: rootProject.rootDir.getAbsolutePath() + "/gradle/ext.gradle"
 

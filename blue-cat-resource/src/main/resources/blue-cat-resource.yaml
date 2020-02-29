@@ -1,0 +1,79 @@
+info:
+  app:
+    name: resource-server
+    version: 1.0.0
+
+spring:
+  messages:
+    basename: BindingErrorMessages
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 200MB
+    tomcat:
+      max-wait: 50000
+  jpa:
+    show-sql: true
+    database: mysql
+    properties:
+      hibernate:
+        default_catalog: resource
+        hbm2ddl:
+          auto: update
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+
+management:
+  endpoints:
+    web:
+      base-path: /monitor
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+
+logging:
+  pattern:
+    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+
+datasource:
+  validation-query: SELECT 1
+  driver-class-name: org.mariadb.jdbc.Driver
+  #  driver-class-name: com.mysql.cj.jdbc.Driver
+  max-active: 20
+  min-idle: 1
+  initial-size: 10
+
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 60000
+
+
+security:
+  oauth2:
+    client:
+      client-id: testclient # 授权服务器配置的client id
+      client-secret: testclient # 授权服务器配置的client secret
+      scope: test
+      access-token-uri: ${auth-server}/oauth/token # 获取access token接口
+      user-authorization-uri: ${auth-server}/oauth/authorize #  获取Authorization Code接口
+    resource:
+      token-info-uri: ${auth-server}/oauth/check-token # 验证token的接口
+  #      user-info-uri: ${auth-server}/user # 一个可以获取认证授权的自定义接口，可以在授权服务器，也可以在其他服务器上
+  #      prefer-token-info: true # 如果同时配置了token-info-uri 和 user-info-uri，这个现象设置使用哪个取验证授权
+  expirationTime: 28800000
+  time-out:
+    sign-up: 3600
+    user: 24
+  tokenSalt: jarod.jin
+  tokenPrefix: Bearer
+  loginUrl: /login
+  permitAllUrl:
+    - /monitor/*

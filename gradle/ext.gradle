@@ -60,4 +60,6 @@ ext {
 
     swaggerVersion = "2.9.2"
 
+    springbootVersion = "2.2.4.RELEASE"
+
 }

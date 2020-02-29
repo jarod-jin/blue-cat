@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: blue-cat-resource
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        prefix: blue-cat-resource
+        namespace: 16f4847c-1396-47f2-b9ff-efc17818287c
+        group: BLUE_CAT_GROUP
+  profiles:
+    active: dev

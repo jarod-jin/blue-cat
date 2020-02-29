@@ -39,7 +39,7 @@ public class Constant {
         String DEFAULT_TIME_FORMAT = "HH:mm:ss";
 
         /**存放Token的Header Key*/
-        String ACCESS_TOKEN = "Authorization";
+        String ACCESS_TOKEN = "authorization";
     }
 
     public interface Entity{

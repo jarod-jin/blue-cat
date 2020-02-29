@@ -12,7 +12,7 @@ import cn.jarod.bluecat.auth.service.RoleService;
 import cn.jarod.bluecat.auth.service.UserLocationService;
 import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.component.SecurityProperties;
+import cn.jarod.bluecat.core.component.CustomSecurityProperties;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
@@ -50,10 +50,10 @@ public class UserAuthenticationHandler {
 
     private final RoleService roleService;
 
-    private SecurityProperties securityConfig;
+    private CustomSecurityProperties securityConfig;
 
     public UserAuthenticationHandler(CredentialService credentialService, UserLocationService userLocationService,
-                                     OrganizationService organizationService, SecurityProperties securityConfig,
+                                     OrganizationService organizationService, CustomSecurityProperties securityConfig,
                                      RoleService roleService) {
         this.credentialService = credentialService;
         this.userLocationService = userLocationService;

@@ -1,6 +1,0 @@
-//通用模块
-mainClassName = 'cn.jarod.bluecat.object.BlueCatObjectApplication'
-
-dependencies {
-    implementation project(':blue-cat-core')
-}
