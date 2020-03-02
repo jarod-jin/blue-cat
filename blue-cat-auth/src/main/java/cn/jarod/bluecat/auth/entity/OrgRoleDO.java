@@ -26,11 +26,15 @@ import javax.persistence.Table;
 @Table(name = "org_role", indexes = {@Index(columnList ="orgCode", name="OrgCodeIndex")})
 public class OrgRoleDO extends MysqlEntity {
 
-    /**组织编码*/
+    /**
+     * 组织编码
+     */
     @Column(nullable = false, columnDefinition=("varchar(20) comment '组织编码'"))
     private String orgCode;
 
-    /**角色编码*/
+    /**
+     * 角色编码
+     */
     @Column(nullable = false, columnDefinition=("varchar(20) comment '角色编码'"))
     private String roleCode;
 

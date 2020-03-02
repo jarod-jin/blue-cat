@@ -108,30 +108,17 @@ public class UserAuthenticationHandler {
 
     public ResultDTO signIn(AuthCredentials credentials) {
         /*获取认证的用户名 & 密码*/
-        String name = credentials.getSignIn();
-        Optional<CredentialDO> credOpt = credentialService.findCredentialByUsername(name);
-        if (credOpt.isPresent() && validPassword(String.valueOf(credentials.getPassword()),credOpt.get())) {
-            UserGrantedAuthority req = new UserGrantedAuthority(credentials.getBelongTo(), credentials.getTerminalVersion());
-            log.info("{}系统登录成功：用户为{}，终端为：{}", req.getBelongTo(), name, req.getTerminalVersion());
-            return TokenAuthenticationUtil.addAuthentication(createUsernamePasswordAuthentication(name, credOpt.get().getPassword(), req),securityConfig);
-        }
-        log.warn(AUTH_ERROR_MSG + Constant.Symbol.BRACE , name);
-        throw new BadCredentialsException(AUTH_ERROR_MSG);
-
+//        String name = credentials.getSignIn();
+//        Optional<CredentialDO> credOpt = credentialService.findCredentialByUsername(name);
+//        if ((String.valueOf(credentials.getPassword()),credOpt)) {
+//            UserGrantedAuthority req = new UserGrantedAuthority(credentials.getBelongTo(), credentials.getTerminalVersion());
+//            log.info("{}系统登录成功：用户为{}，终端为：{}", req.getBelongTo(), name, req.getTerminalVersion());
+//            return TokenAuthenticationUtil.addAuthentication(createUsernamePasswordAuthentication(name, credOpt.get().getPassword(), req),securityConfig);
+//        }
+//        log.warn(AUTH_ERROR_MSG + Constant.Symbol.BRACE , name);
+//        throw new BadCredentialsException(AUTH_ERROR_MSG);
+        return null;
     }
-
-    /**
-     * 密码校验
-     * @param targetPwd 目标密码
-     * @param credDO 密码保存对象
-     * @return boolean
-     */
-    private boolean validPassword(String targetPwd, CredentialDO credDO){
-        return EncryptUtil.encodePassword(targetPwd,credDO.getSalt()).equals(credDO.getPassword());
-    }
-
-
-
 
     private UsernamePasswordAuthenticationToken createUsernamePasswordAuthentication(String username, String pwd, UserGrantedAuthority grantedAuthority) {
         List<Long> orgRoleIds = userLocationService.findOrgRoleIdsByUsername(username);

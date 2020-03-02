@@ -1,14 +1,11 @@
 package cn.jarod.bluecat.auth.service;
 
-import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.enums.SignType;
-import cn.jarod.bluecat.auth.model.dto.SignUpDTO;
 import cn.jarod.bluecat.auth.model.bo.*;
 import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Optional;
 
@@ -58,7 +55,7 @@ public interface CredentialService {
      * @param username 登录名
      * @return boolean
      */
-    Optional<CredentialDO> findCredentialByUsername(String username);
+    SignInCredentialBO findCredentialByUsername(String username);
 
     /**
      * 根据登录用户名查询用户基本信息

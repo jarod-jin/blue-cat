@@ -4,6 +4,7 @@ import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.enums.SignType;
+import cn.jarod.bluecat.auth.model.bo.SignInCredentialBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,7 +89,6 @@ public class CredentialServiceImpl implements CredentialService {
         credDO.setUsername(authDO.getUsername());
         /*通过一个10位的随机数获取得到盐值*/
         String salt = EncryptUtil.getRandomCode(saltLength,Boolean.TRUE);
-        credDO.setSalt(salt);
         credDO.setPassword(EncryptUtil.encodePassword(clearPwd, salt));
         credDO.setCreator(authDO.getUsername());
         credDO.setModifier(authDO.getUsername());
@@ -109,7 +110,7 @@ public class CredentialServiceImpl implements CredentialService {
     public void deleteUser(UserInfoDTO authBO) {
         BaseException userNotFound = ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE, "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> userNotFound));
-        credentialRepository.delete(findCredentialByUsername(authBO.getUsername()).orElseThrow(()-> userNotFound));
+        credentialRepository.delete(credentialRepository.findByUsername(authBO.getUsername()).orElseThrow(()-> userNotFound));
         credHistoryRepository.deleteAll(credHistoryRepository.findAllByUsername(authBO.getUsername()));
     }
 
@@ -157,20 +158,17 @@ public class CredentialServiceImpl implements CredentialService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void modifyPassword(UpdateCredBO credBO) {
-        findCredentialByUsername(credBO.getUsername()).ifPresent(
-            c -> {
-                if (!c.getPassword().equals(credBO.getCurrentPassword())) {
-                    throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"原密码错误");
-                }
-                if (credHistoryRepository.existsByUsernameAndPassword(credBO.getUsername(), credBO.getModifiedPassword())) {
-                    throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"密码不能和前"+ passNumber +"次相同");
-                }
-                c.setPassword(credBO.getModifiedPassword());
-                CredHistoryDO chDO = new CredHistoryDO(credBO.getUsername(), credBO.getModifiedPassword(),credBO.getUsername());
-                credHistoryRepository.save(chDO);
-                handleCredPassword(chDO);
-            }
-        );
+        SignInCredentialBO credentialBO =  findCredentialByUsername(credBO.getUsername());
+        if (!credentialBO.getPassword().equals(credBO.getCurrentPassword())) {
+            throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"原密码错误");
+        }
+        if (credHistoryRepository.existsByUsernameAndPassword(credBO.getUsername(), credBO.getModifiedPassword())) {
+            throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"密码不能和前"+ passNumber +"次相同");
+        }
+        credentialBO.setPassword(credBO.getModifiedPassword());
+        CredHistoryDO chDO = new CredHistoryDO(credBO.getUsername(), credBO.getModifiedPassword(),credBO.getUsername());
+        credHistoryRepository.save(chDO);
+        handleCredPassword(chDO);
     }
 
 
@@ -191,8 +189,10 @@ public class CredentialServiceImpl implements CredentialService {
      * @return Optional<CredentialDO>
      */
     @Override
-    public Optional<CredentialDO> findCredentialByUsername(String username) {
-        return credentialRepository.findAllByUsername(username).stream().findFirst();
+    public SignInCredentialBO findCredentialByUsername(String username) {
+        CredentialDO credentialDO  = credentialRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("username无效"));
+        return new SignInCredentialBO(credentialDO.getUsername(),credentialDO.getPassword());
+
     }
 
     /**

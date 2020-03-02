@@ -26,10 +26,9 @@ public class ReleaseNoteController extends BaseController {
         this.authService = authService;
     }
 
-    @GetMapping(value = "/hello2")
+    @GetMapping("/hello")
     public String hello() {
-        UserDetailDTO userInfo= findCurrentUserInfo();
-        return "hello : " + authService.hello() + "--" + userInfo.getTerminalVersion();
+        return "Hello, this is test interface";
     }
 
     @RequestMapping("/info/{qq}")

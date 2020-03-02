@@ -31,8 +31,4 @@ public class CredentialDO extends MysqlEntity {
     @Column(nullable = false, columnDefinition=("varchar(250) comment '密码'"))
     private String password;
 
-    /**盐值*/
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '盐值'"))
-    private String salt;
-
 }

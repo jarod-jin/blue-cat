@@ -16,6 +16,6 @@ public interface CredentialRepository extends JpaRepository<CredentialDO,Long> {
      * @param username 用户名
      * @return Optional
      */
-    List<CredentialDO> findAllByUsername(String username);
+    Optional<CredentialDO> findByUsername(String username);
 
 }
