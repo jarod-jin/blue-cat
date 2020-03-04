@@ -2,21 +2,23 @@ package cn.jarod.bluecat.core.config;
 
 import cn.jarod.bluecat.core.component.CustomSecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 /**
  * @author Jarod Jin E-mail:kira277@163.com
  * @version 创建时间：2020/2/29
  */
 @Configuration
+@EnableWebSecurity
+@EnableConfigurationProperties
 @EnableGlobalMethodSecurity(proxyTargetClass = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -38,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers(propertyConfig.getPermitAll())

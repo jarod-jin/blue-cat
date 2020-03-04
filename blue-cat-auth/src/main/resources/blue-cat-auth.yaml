@@ -55,6 +55,8 @@ logging:
   pattern:
     console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
 
+auth-server: http://127.0.0.1:8082
+
 security:
   #单位小时
   expireTime: 2
@@ -67,6 +69,7 @@ security:
     idempotent: 10
   tokenSalt: jarod.jin
   tokenPrefix: Bearer
+  resourceId: auth_01
   permitAll:
     - /monitor/*
     - /access/**
@@ -76,4 +79,18 @@ security:
       path: /login
       refresh: /refresh
       register: /register
+  oauth2:
+    client:
+      # 授权服务器配置的client id
+      client-id: client_1
+      # 授权服务器配置的client secret
+      client-secret: B0123456!AbC
+      scope: read
+      # 获取access token接口
+      access-token-uri: ${auth-server}/oauth/token
+      #  获取Authorization Code接口
+      user-authorization-uri: ${auth-server}/oauth/authorize
+    resource:
+      # 验证token的接口
+      token-info-uri: ${auth-server}/oauth/check_token
 

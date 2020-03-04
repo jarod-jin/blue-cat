@@ -30,4 +30,7 @@ public class CustomSecurityProperties {
     /**TOKEN前缀*/
     private String tokenPrefix;
 
+    /**资源服务Id*/
+    private String resourceId;
+
 }

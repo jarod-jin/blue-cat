@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableHystrix
 @EnableDiscoveryClient
-@EnableResourceServer
 @EnableTransactionManagement
 @EnableFeignClients(basePackages = {"cn.jarod.bluecat.core.api"})
 @SpringBootApplication(scanBasePackages = {"cn.jarod.bluecat.*"}, exclude = {DataSourceAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
