@@ -55,6 +55,7 @@ ribbon:
   ReadTimeout: 120000
   ConnectTimeout: 60000
 
+auth-server: http://127.0.0.1:8082
 
 security:
   expirationTime: 28800000
@@ -75,6 +76,9 @@ security:
       scope: read
       tokenInfoUri
       # 获取access token接口
-      access-token-uri: http://127.0.0.1:8082/oauth/token
+      access-token-uri: ${auth-server}/oauth/token
       #  获取Authorization Code接口
-      user-authorization-uri: http://127.0.0.1:8082/oauth/authorize
+      user-authorization-uri: ${auth-server}/oauth/authorize
+    resource:
+      # 验证token的接口
+      token-info-uri: ${auth-server}/oauth/check_token

@@ -25,7 +25,6 @@ import org.springframework.security.oauth2.provider.code.RandomValueAuthorizatio
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 /**
