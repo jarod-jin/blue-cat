@@ -16,6 +16,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,6 +35,9 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
     @Autowired
     private CredentialService credentialService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     private CrudUserBO admin;
 
@@ -132,7 +143,8 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
     @DisplayName("修改密码成功")
     void modifyPasswordThree() {
         try{
-            credentialService.modifyPassword(new UpdateCredBO(credBO));
+            String pwd = passwordEncoder.encode("111111");
+            System.out.println(pwd);
         }catch (BaseException e){
             fail();
         }
@@ -141,10 +153,11 @@ class CredentialServiceTest extends BlueCatAuthApplicationTest {
 
 
     @Test
-    @DisplayName("校验登录名密码")
-    void validCredential() {
-        assertTrue(credentialService.findCredentialByUsername(credBO.getUsername()).isPresent());
+    @DisplayName("打印加密串")
+    void printEncode() {
+        PasswordEncoder passwordEncoder=  PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        System.out.println(passwordEncoder.encode("B0123456!AbC"));
+        System.out.println(passwordEncoder.encode("0123456"));
     }
-
 
 }

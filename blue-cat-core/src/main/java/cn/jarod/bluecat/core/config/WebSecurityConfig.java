@@ -1,29 +1,16 @@
-package cn.jarod.bluecat.auth.config;
-
+package cn.jarod.bluecat.core.config;
 
 import cn.jarod.bluecat.core.component.CustomSecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.Optional;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com
@@ -33,23 +20,42 @@ import java.util.Optional;
 @EnableGlobalMethodSecurity(proxyTargetClass = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final CustomSecurityProperties propertyConfig;
 
+    @Autowired
     public WebSecurityConfig(CustomSecurityProperties propertyConfig) {
         this.propertyConfig = propertyConfig;
     }
 
+    /**
+     * 注册一个密码生成器
+     * @return
+     */
     @Bean
-    PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers(propertyConfig.getPermitAll())
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .csrf().disable();
+    }
+    /**
+     * 注入AuthenticationManager接口，启用OAuth2密码模式
+     * @return AuthenticationManager
+     * @throws Exception
+     */
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
-
-
 }

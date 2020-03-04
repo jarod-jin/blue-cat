@@ -1,9 +1,8 @@
 package cn.jarod.bluecat.auth.config;
 
-import cn.jarod.bluecat.auth.model.bo.SignInCredentialBO;
-import cn.jarod.bluecat.auth.service.CredentialService;
-import cn.jarod.bluecat.auth.service.impl.ClientDetailsServiceImpl;
-import cn.jarod.bluecat.auth.service.impl.CredentialServiceImpl;
+import com.alibaba.druid.pool.DruidDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -11,10 +10,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.configuration.ClientDetailsServiceConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -27,9 +25,7 @@ import org.springframework.security.oauth2.provider.code.RandomValueAuthorizatio
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,62 +36,76 @@ import java.util.concurrent.TimeUnit;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    /**
+     * 开启OAuth2`密码模式`支持
+     */
     private final AuthenticationManager authenticationManager;
 
     private final RedisConnectionFactory redisConnectionFactory;
 
-    private final CredentialService credentialService;
+    private final UserDetailsService userDetailsService;
 
-    private final ClientDetailsService oauthClientInfoService;
+    private final ClientDetailsService clientDetailsService;
 
-    private final PasswordEncoder passwordEncoder;
 
     public AuthorizationServerConfig(AuthenticationManager authenticationManager,
                                      RedisConnectionFactory redisConnectionFactory,
-                                     PasswordEncoder passwordEncoder,
-                                     CredentialService credentialService,
-                                     ClientDetailsServiceImpl oauthClientInfoService) {
+                                     @Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService,
+                                     @Qualifier("CustomClientDetailsService") ClientDetailsService clientDetailsService) {
         this.authenticationManager = authenticationManager;
         this.redisConnectionFactory = redisConnectionFactory;
-        this.passwordEncoder = passwordEncoder;
-        this.credentialService = credentialService;
-        this.oauthClientInfoService = oauthClientInfoService;
+        this.userDetailsService = userDetailsService;
+        this.clientDetailsService = clientDetailsService;
     }
 
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-
+    /**
+     * 注入Redis保存信息的Bean
+     * @param redisConnectionFactory
+     * @return TokenStore
+     */
+    @Bean
+    public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory) {
+        return new RedisTokenStore(redisConnectionFactory);
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(oauthClientInfoService);
-    }
-
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.userDetailsService(userDetailsService(credentialService));
-        endpoints.tokenStore(tokenStore());
-        endpoints.authorizationCodeServices(authorizationCodeService(redisConnectionFactory));
-        endpoints.authenticationManager(authenticationManager);
-    }
-
-
-    @Bean
-    public UserDetailsService userDetailsService(CredentialService credentialService) {
-        return username -> {
-            SignInCredentialBO user = credentialService.findCredentialByUsername(username);
-            return User.withUsername(username).password(user.getPassword()).roles("").build();
-        };
+        clients.withClientDetails(clientDetailsService);
     }
 
     /**
-     * 注册一个ClientDetailsService用户clientId和clientSecret验证
-     * @param redisConnectionFactory
-     * @return AuthorizationCodeServices
+     * 认证服务端点配置
+     * 密码模式下需要配置认证管理器AuthenticationManager
+     * @param endpoints
+     * @throws Exception
      */
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints){
+        endpoints
+                .userDetailsService(userDetailsService)
+                .tokenStore(tokenStore(redisConnectionFactory))
+                .authorizationCodeServices(authorizationCodeServices(redisConnectionFactory))
+                .authenticationManager(authenticationManager);
+    }
+
+    /**
+     * 认证安全检查流程配置
+     * 配置checkTokenAccess为`permitAll()`，允许所有客户端发送请求，避免Spring Security拦截。默认是`denyAll()`，
+     * @param security
+     * @throws Exception
+     */
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) {
+        security
+                .allowFormAuthenticationForClients()
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("permitAll()");
+
+    }
+
+
     @Bean
-    public AuthorizationCodeServices authorizationCodeService(RedisConnectionFactory redisConnectionFactory) {
+    public AuthorizationCodeServices authorizationCodeServices(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, OAuth2Authentication> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.afterPropertiesSet();
@@ -114,31 +124,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 return authentication;
             }
         };
-    }
-
-
-    /**
-     * 注册一个AuthenticationManager用来password模式下用户身份认证
-     *
-     * @param userDetailsService
-     * @param passwordEncoder
-     * @return
-     */
-    @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder);
-        return new ProviderManager(Collections.singletonList(provider));
-    }
-
-    /**
-     * 注册一个TokenStore以保存token信息
-     * @return TokenStore
-     */
-    @Bean
-    public TokenStore tokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
-//        return new InMemoryTokenStore();
     }
 }

@@ -24,9 +24,9 @@ public class UserInfoController extends BaseController {
     }
 
     @TimeDiff
-    @GetMapping(value = "/")
+    @GetMapping(value = "/hello")
     public ResultDTO query() {
-        return ApiResultUtil.getSuccess(findCurrentUserInfo().getUsername());
+        return ApiResultUtil.getSuccess("hello. baby");
     }
 
     @TimeDiff

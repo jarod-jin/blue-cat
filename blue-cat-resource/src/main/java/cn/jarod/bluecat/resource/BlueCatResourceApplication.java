@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableHystrix
 @EnableDiscoveryClient
+@EnableResourceServer
 @EnableTransactionManagement
 @EnableFeignClients(basePackages = {"cn.jarod.bluecat.core.api"})
 @SpringBootApplication(scanBasePackages = {"cn.jarod.bluecat.*"}, exclude = {DataSourceAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
