@@ -27,6 +27,8 @@ public class Constant {
 
         String UNKNOWN = "unknown";
 
+        String ERROR = "error";
+
         String API_RESULT_UTIL  = "ApiResultUtil";
 
         /** 默认日期时间格式 */

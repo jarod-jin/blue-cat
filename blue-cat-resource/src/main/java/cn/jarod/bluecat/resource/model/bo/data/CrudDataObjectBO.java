@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.model.bo.data;
 
-import cn.jarod.bluecat.core.model.NoSqlModel;
+import cn.jarod.bluecat.core.model.MongoModel;
 import cn.jarod.bluecat.resource.model.bo.CrudAuthorizationBO;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class CrudDataObjectBO extends NoSqlModel {
+public class CrudDataObjectBO extends MongoModel {
 
     /**对象名称*/
     private String objectName;

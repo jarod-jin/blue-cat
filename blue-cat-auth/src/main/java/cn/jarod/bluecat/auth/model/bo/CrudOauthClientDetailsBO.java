@@ -1,11 +1,9 @@
 package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.RdsModel;
+import cn.jarod.bluecat.core.model.MysqlModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.persistence.Column;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com
@@ -14,7 +12,7 @@ import javax.persistence.Column;
 @Setter
 @Getter
 @ToString
-public class CrudOauthClientDetailsBO extends RdsModel {
+public class CrudOauthClientDetailsBO extends MysqlModel {
 
     /**
      * 客户端ID

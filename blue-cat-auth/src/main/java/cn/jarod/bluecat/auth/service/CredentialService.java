@@ -4,11 +4,10 @@ import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.enums.SignType;
 import cn.jarod.bluecat.auth.model.bo.*;
-import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
+import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * @author jarod.jin 2019/9/9
@@ -27,7 +26,7 @@ public interface CredentialService {
      * 删除用户
      * @param authBO 删除用户
      */
-    void deleteUser(UserInfoDTO authBO);
+    void deleteUser(UserDetailDTO authBO);
 
     /**
      * 修改用户基本信息
@@ -63,7 +62,7 @@ public interface CredentialService {
      * @param name 用户名
      * @return UserInfoDTO
      */
-    UserInfoDTO findUserInfo(String name);
+    UserDetailDTO findUserInfo(String name);
 
     /**
      * 返回一个可用的用户名
@@ -84,7 +83,7 @@ public interface CredentialService {
      * @param userInfoDTO 用户信息
      * @return boolean
      */
-    boolean setUserInfo2Cache(final UserInfoDTO userInfoDTO);
+    boolean setUserInfo2Cache(final UserDetailDTO userInfoDTO);
 
     /**
      * 获取刷新Token

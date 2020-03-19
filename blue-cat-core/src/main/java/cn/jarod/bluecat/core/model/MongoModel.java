@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class NoSqlModel {
+public class MongoModel {
 
     @NotNull
     protected ObjectId id;

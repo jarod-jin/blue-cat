@@ -36,27 +36,35 @@ import java.util.concurrent.TimeUnit;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    /**
-     * 开启OAuth2`密码模式`支持
-     */
-    private final AuthenticationManager authenticationManager;
-
     private final RedisConnectionFactory redisConnectionFactory;
 
     private final ClientDetailsService clientDetailsService;
 
-    private final UserDetailsService userDetailsService;
+    private final IntegrationAuthenticationProvider integrationAuthenticator;
 
+    private final IntegrationAuthenticationFilter integrationAuthenticationFilter;
 
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager,
+    public AuthorizationServerConfig(IntegrationAuthenticationProvider integrationAuthenticator,
+                                     IntegrationUserDetailsServiceImpl integrationUserDetailsService,
                                      RedisConnectionFactory redisConnectionFactory,
-                                     @Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService,
-                                     @Qualifier("CustomClientDetailsService") ClientDetailsService clientDetailsService) {
-        this.authenticationManager = authenticationManager;
+                                     @Qualifier("CustomClientDetailsService") ClientDetailsService clientDetailsService,
+                                     IntegrationAuthenticationFilter integrationAuthenticationFilter) {
+        this.integrationAuthenticator = integrationAuthenticator;
+        this.integrationUserDetailsService = integrationUserDetailsService;
         this.redisConnectionFactory = redisConnectionFactory;
         this.clientDetailsService = clientDetailsService;
-        this.userDetailsService = userDetailsService;
+        this.integrationAuthenticationFilter = integrationAuthenticationFilter;
     }
+
+    /**
+     * 注册一个密码生成器
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
 
     /**
      * 注入Redis保存信息的Bean
@@ -82,10 +90,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints){
         endpoints
-                .userDetailsService(userDetailsService)
                 .tokenStore(tokenStore(redisConnectionFactory))
-                .authenticationManager(authenticationManager);
+                .authenticationManager(integrationAuthenticator::authenticate);
     }
+
 
     /**
      * 认证安全检查流程配置
@@ -96,8 +104,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
                 .allowFormAuthenticationForClients()
-                .tokenKeyAccess("permitAll()")
+                .tokenKeyAccess("isAuthenticated()")
                 .checkTokenAccess("permitAll()");
-
     }
+
 }

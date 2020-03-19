@@ -4,7 +4,6 @@ import cn.jarod.bluecat.auth.entity.CredHistoryDO;
 import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.UserInfoDO;
 import cn.jarod.bluecat.auth.enums.SignType;
-import cn.jarod.bluecat.auth.model.bo.SignInCredentialBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.repository.CredHistoryRepository;
@@ -14,26 +13,21 @@ import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
+import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 import cn.jarod.bluecat.core.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.data.domain.Example;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotBlank;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 
@@ -111,7 +105,7 @@ public class CredentialServiceImpl implements CredentialService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteUser(UserInfoDTO authBO) {
+    public void deleteUser(UserDetailDTO authBO) {
         BaseException userNotFound = ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE, "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> userNotFound));
         credentialRepository.delete(credentialRepository.findByUsername(authBO.getUsername()).orElseThrow(()-> userNotFound));
@@ -202,9 +196,9 @@ public class CredentialServiceImpl implements CredentialService {
      * @return
      */
     @Override
-    public UserInfoDTO findUserInfo(String name) {
+    public UserDetailDTO findUserInfo(String name) {
         UserInfoDO userInfoDO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.INVALID_REQUEST));
-        return BeanHelperUtil.createCopyBean(userInfoDO,UserInfoDTO.class);
+        return BeanHelperUtil.createCopyBean(userInfoDO,UserDetailDTO.class);
     }
 
     @Override
@@ -234,7 +228,7 @@ public class CredentialServiceImpl implements CredentialService {
     }
 
     @Override
-    public boolean setUserInfo2Cache(UserInfoDTO userInfoDTO) {
+    public boolean setUserInfo2Cache(UserDetailDTO userInfoDTO) {
         try {
             ValueOperations<String, String> operations = redisTemplate.opsForValue();
             operations.set(Constant.Redis.USER_INFO_PREFIX + userInfoDTO.getUsername(), JsonUtil.toJson(userInfoDTO), userTimeOut, TimeUnit.HOURS);

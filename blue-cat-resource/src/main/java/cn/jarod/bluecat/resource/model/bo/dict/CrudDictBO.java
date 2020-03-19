@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.model.bo.dict;
 
-import cn.jarod.bluecat.core.model.NoSqlModel;
+import cn.jarod.bluecat.core.model.MongoModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +13,7 @@ import java.util.SortedMap;
 @Getter
 @Setter
 @ToString
-public class CrudDictBO extends NoSqlModel {
+public class CrudDictBO extends MongoModel {
 
     /**字典*/
     private String category;

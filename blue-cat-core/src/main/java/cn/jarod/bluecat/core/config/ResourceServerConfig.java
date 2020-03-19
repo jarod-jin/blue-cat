@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.config;
 
+import cn.jarod.bluecat.core.component.CustomLogoutHandler;
 import cn.jarod.bluecat.core.component.CustomSecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com
@@ -22,8 +24,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private final CustomSecurityProperties propertyConfig;
 
-    @Autowired
-    public ResourceServerConfig(CustomSecurityProperties propertyConfig) {
+    private final TokenStore tokenStore;
+
+    public static final String JSESSIONID = "JSESSIONID";
+
+    public ResourceServerConfig(CustomSecurityProperties propertyConfig,TokenStore tokenStore) {
+        this.tokenStore = tokenStore;
         this.propertyConfig = propertyConfig;
     }
 
@@ -32,19 +38,24 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         resources.resourceId(propertyConfig.getResourceId()).stateless(true);
     }
 
+    @Bean
+    public CustomLogoutHandler customLogoutHandler(){ return new CustomLogoutHandler(tokenStore);
+    }
+
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
         http
-                // Since we want the protected resources to be accessible in the UI as well we need
-                // session creation to be allowed (it's disabled by default in 2.0.6)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .and()
                 .authorizeRequests()
                 .antMatchers(propertyConfig.getPermitAll())
                 .permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .logout()
+                .logoutSuccessHandler(customLogoutHandler())
+                //清除cook键值
+                .deleteCookies(JSESSIONID)
                 .and()
                 .csrf().disable();
     }

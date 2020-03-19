@@ -1,6 +1,5 @@
 package cn.jarod.bluecat.auth.procedure;
 
-import cn.jarod.bluecat.auth.entity.CredentialDO;
 import cn.jarod.bluecat.auth.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.entity.RoleDO;
 import cn.jarod.bluecat.auth.enums.SignType;
@@ -16,12 +15,10 @@ import cn.jarod.bluecat.core.component.CustomSecurityProperties;
 import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.AuthCredentials;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
+import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 import cn.jarod.bluecat.core.model.auth.UserGrantedAuthority;
-import cn.jarod.bluecat.core.model.auth.UserInfoDTO;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.CommonUtil;
-import cn.jarod.bluecat.core.utils.EncryptUtil;
-import cn.jarod.bluecat.core.utils.TokenAuthenticationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +27,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -132,10 +128,10 @@ public class UserAuthenticationHandler {
                         .distinct()
                         .map(UserGrantedAuthority::new)
                         .collect(Collectors.toList()));
-        UserInfoDTO authDTO =  credentialService.findUserInfo(username);
+        UserDetailDTO authDTO =  credentialService.findUserInfo(username);
         authDTO.setBelongTo(grantedAuthority.getBelongTo());
         authDTO.setTerminalVersion(grantedAuthority.getTerminalVersion());
-        authDTO.setAuthorityList(authorityBOList);
+        authDTO.setRoleList(authorityBOList);
         if (credentialService.setUserInfo2Cache(authDTO)){
             return authentication;
         }

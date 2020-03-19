@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.estimate.model.bo;
 
-import cn.jarod.bluecat.core.model.RdsModel;
+import cn.jarod.bluecat.core.model.MysqlModel;
 import cn.jarod.bluecat.estimate.entity.ConditionDO;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class CrudContractItemBO extends RdsModel {
+public class CrudContractItemBO extends MysqlModel {
 
     /**合约编号*/
     private String serialNo;

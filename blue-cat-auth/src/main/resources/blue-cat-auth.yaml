@@ -91,6 +91,10 @@ security:
       #  获取Authorization Code接口
       user-authorization-uri: ${auth-server}/oauth/authorize
     resource:
+      id: user-client
       # 验证token的接口
       token-info-uri: ${auth-server}/oauth/check_token
+      user-info-uri: ${auth-server}/user
+    authorization:
+      check-token-access:  ${auth-server}/oauth/check_token
 

@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TreeModel extends RdsModel {
+public class TreeModel extends MysqlModel {
 
     @NotBlank
     private String nodeId;

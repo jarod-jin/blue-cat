@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.model.bo;
 
-import cn.jarod.bluecat.core.model.RdsModel;
+import cn.jarod.bluecat.core.model.MysqlModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @ToString
-public class CrudUserBO extends RdsModel {
+public class CrudUserBO extends MysqlModel {
 
     /**用户唯一标识*/
     @NotBlank
