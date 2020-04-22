@@ -50,6 +50,16 @@ public class Constant {
 
     }
 
+    public interface Auth {
+
+        String PERMIT = "permitAll()";
+
+        String AUTHENTICATED = "isAuthenticated()";
+
+        String DENY = "denyAll()";
+
+    }
+
 
     public interface Symbol {
 

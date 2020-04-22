@@ -1,8 +1,9 @@
 package cn.jarod.bluecat.core.model.auth;
 
+import cn.jarod.bluecat.core.common.Constant;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.util.StringUtils;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 
@@ -11,22 +12,21 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class UserAuthority implements Serializable {
+public class UserAuthority implements GrantedAuthority, Serializable {
 
     private static final long serialVersionUID = 8394858769801484423L;
 
-    private String orgCode;
+    /**范围类型 SYS/COMPANY/DEPARTMENT/PROJECT 等 */
+    private String scopeType;
 
-    private String orgName;
+    /**范围值 ALL/ClientId 等*/
+    private String scopeValue;
 
-    private Integer orgType;
-
+    /**角色Code*/
     private String roleCode;
 
-    private String roleName;
-
-    public boolean isAuth(){
-        return StringUtils.hasText(orgName) && StringUtils.hasText(roleName);
+    @Override
+    public String getAuthority() {
+        return roleCode + Constant.Symbol.UNDERLINE + scopeType + Constant.Symbol.UNDERLINE + scopeValue;
     }
-
 }

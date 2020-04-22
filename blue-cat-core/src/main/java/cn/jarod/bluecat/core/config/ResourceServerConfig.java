@@ -38,10 +38,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         resources.resourceId(propertyConfig.getResourceId()).stateless(true);
     }
 
+    /**
+     *
+     * @return
+     */
     @Bean
     public CustomLogoutHandler customLogoutHandler(){ return new CustomLogoutHandler(tokenStore);
     }
-
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

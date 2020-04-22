@@ -20,6 +20,9 @@ public class UserDetailDTO implements Serializable {
     /**用户标识*/
     private String username;
 
+    /**用户标识*/
+    private String password;
+
     /**用户名*/
     private String nickname;
 

@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
-import cn.jarod.bluecat.auth.entity.UserInfoDO;
-import cn.jarod.bluecat.auth.enums.SignType;
+import cn.jarod.bluecat.user.entity.UserInfoDO;
+import cn.jarod.bluecat.user.enums.SignType;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;

@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
-import cn.jarod.bluecat.auth.entity.OrganizationDO;
+import cn.jarod.bluecat.user.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.auth.service.OrganizationService;
 import cn.jarod.bluecat.core.model.TreeModel;

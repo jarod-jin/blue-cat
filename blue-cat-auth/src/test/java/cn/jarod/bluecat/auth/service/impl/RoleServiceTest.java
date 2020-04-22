@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.auth.service.impl;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
-import cn.jarod.bluecat.auth.entity.OrgRoleDO;
-import cn.jarod.bluecat.auth.entity.RoleDO;
+import cn.jarod.bluecat.user.entity.OrgRoleDO;
+import cn.jarod.bluecat.user.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
 import cn.jarod.bluecat.auth.service.RoleService;
