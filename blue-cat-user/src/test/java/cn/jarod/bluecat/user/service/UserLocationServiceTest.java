@@ -1,9 +1,9 @@
-package cn.jarod.bluecat.auth.service.impl;
+package cn.jarod.bluecat.user.service;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
-import cn.jarod.bluecat.user.entity.UserLocationDO;
 import cn.jarod.bluecat.auth.model.bo.LinkUserLocationBO;
 import cn.jarod.bluecat.auth.service.UserLocationService;
+import cn.jarod.bluecat.user.entity.UserLocationDO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

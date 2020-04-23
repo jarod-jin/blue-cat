@@ -1,13 +1,13 @@
-package cn.jarod.bluecat.auth.service.impl;
+package cn.jarod.bluecat.user.service;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
-import cn.jarod.bluecat.user.entity.OrgRoleDO;
-import cn.jarod.bluecat.user.entity.RoleDO;
-import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
+import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.service.RoleService;
 import cn.jarod.bluecat.core.exception.BaseException;
 import cn.jarod.bluecat.core.model.BaseQuery;
+import cn.jarod.bluecat.user.entity.OrgRoleDO;
+import cn.jarod.bluecat.user.entity.RoleDO;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

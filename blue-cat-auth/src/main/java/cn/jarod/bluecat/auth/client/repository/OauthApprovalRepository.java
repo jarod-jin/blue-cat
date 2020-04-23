@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.auth.client.repository;
 
-import cn.jarod.bluecat.oauth.client.entity.OauthApprovalDO;
+import cn.jarod.bluecat.auth.client.entity.OauthApprovalDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

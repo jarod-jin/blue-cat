@@ -6,6 +6,7 @@ import cn.jarod.bluecat.auth.model.IntegrationAuthentication;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,9 +25,10 @@ public class VerificationCodeAuthenticationProvider extends UsernamePasswordAuth
 
     public static final String VC_CODE = "vc_code";
 
-    public VerificationCodeAuthenticationProvider(UserDetailsClient userDetailsClient) {
-        super(userDetailsClient);
+    public VerificationCodeAuthenticationProvider(UserDetailsClient userDetailsClient, PasswordEncoder passwordEncoder) {
+        super(userDetailsClient, passwordEncoder);
     }
+
 
     @Override
     public void prepare(IntegrationAuthentication integrationAuthentication) {

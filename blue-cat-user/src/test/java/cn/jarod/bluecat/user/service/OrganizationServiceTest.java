@@ -1,10 +1,10 @@
-package cn.jarod.bluecat.auth.service.impl;
+package cn.jarod.bluecat.user.service;
 
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
-import cn.jarod.bluecat.user.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.auth.service.OrganizationService;
 import cn.jarod.bluecat.core.model.TreeModel;
+import cn.jarod.bluecat.user.entity.OrganizationDO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author jarod.jin 2019/10/23
