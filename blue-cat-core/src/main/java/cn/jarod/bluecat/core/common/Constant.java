@@ -12,6 +12,8 @@ public class Constant {
 
         String TOKEN_PREFIX = "token:";
 
+        String SMS_TEL_PREFIX = "smsTel:";
+
         String MSG_CONSUMER_PREFIX = "consumer:";
 
         String SIGN_UP_PREFIX = "signUpText:";
