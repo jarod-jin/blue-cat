@@ -4,12 +4,9 @@ package cn.jarod.bluecat.auth.service;
 import cn.jarod.bluecat.auth.client.UserDetailsClient;
 import cn.jarod.bluecat.auth.model.IntegrationAuthentication;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com

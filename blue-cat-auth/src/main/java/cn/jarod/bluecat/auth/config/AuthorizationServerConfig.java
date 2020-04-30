@@ -78,15 +78,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return defaultAccessTokenConverter;
     }
 
-    /**
-     * 注册一个密码生成器
-     *
-     * @return
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
 
     /**
      * 客户端登录信息

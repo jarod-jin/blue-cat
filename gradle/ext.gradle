@@ -4,15 +4,11 @@ ext {
 
 ext {
 
-    fastjsonVersion = "1.2.60"
-
-    guavaVersion = "28.1-jre"
+    guavaVersion = "29.0-jre"
 
     lombokVersion = '1.18.4'
 
     junitVersion = '5.5.2'
-
-    jjwtVersion = '0.9.1'
 
     slf4jVersion = '1.7.25'
 
@@ -30,8 +26,6 @@ ext {
 
     hibernateVersion = "5.3.7.Final"
 
-    jjwtVersion = "0.9.1"
-
     fastdfsVersion = "1.26.4"
 
     poolVersion = "2.6.0"
@@ -40,11 +34,9 @@ ext {
 
     springCloudVersion = "Hoxton.RELEASE"
 
-    easyexcelVersion = "1.1.2-beta5"
+    easyexcelVersion = "2.2.3"
 
     beanutilsVersion = "1.9.3"
-
-    jasyptVersion = "2.1.1"
 
     pinyin4jVersion = "2.5.0"
 
@@ -61,5 +53,7 @@ ext {
     swaggerVersion = "2.9.2"
 
     springbootVersion = "2.2.4.RELEASE"
+
+    jasyptVersion = "3.0.2"
 
 }

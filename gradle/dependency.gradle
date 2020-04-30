@@ -14,17 +14,12 @@ dependencies {
     implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
-//    implementation "mysql:mysql-connector-java:${mysqlVersion}"
-
-    //lombok依赖
+    /** lombok依赖 */
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
-
-
-
     implementation "com.belerweb:pinyin4j:${pinyin4jVersion}"
 
-    //springboot
+    /** springboot */
     implementation ('org.springframework.boot:spring-boot-starter-web',
                     'org.springframework.boot:spring-boot-starter-actuator',
                     'org.springframework.boot:spring-boot-starter-validation',
@@ -41,35 +36,32 @@ dependencies {
     implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:${jasyptVersion}"
     implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springbootVersion}"
 
-    implementation "io.jsonwebtoken:jjwt:${jjwtVersion}"
-
-    //spring cloud
+    /** spring cloud */
     implementation ('org.springframework.cloud:spring-cloud-starter',
                     'org.springframework.cloud:spring-cloud-starter-netflix-ribbon',
                     'org.springframework.cloud:spring-cloud-starter-openfeign',
                     'org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
-//    implementation "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
 
-    //alibaba-cloud
+    /** alibaba-cloud */
     implementation "com.alibaba.cloud:spring-cloud-alibaba-nacos-config"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
 
-    /**test*/
+    /** test */
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         //springboot 升级2.2 以后test 需要排除junit-vintage-engine
         exclude(group: 'org.junit.vintage', module: "junit-vintage-engine")
     }
-    //junit5
-    testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    /** junit5 */
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
 
     /** Only needed to run tests in a version of IntelliJ IDEA that bundles older versions */
     testRuntimeOnly ("org.junit.platform:junit-platform-launcher:1.5.2")
-//    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    // testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 
-    //lombok test
-    testImplementation "org.jmockit:jmockit:$jmockitVersion"
+    /** lombok test */
+    testImplementation "org.jmockit:jmockit:${jmockitVersion}"
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
 }
 
