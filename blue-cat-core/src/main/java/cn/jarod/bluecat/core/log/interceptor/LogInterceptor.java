@@ -1,8 +1,10 @@
-package cn.jarod.bluecat.core.interceptor;
+package cn.jarod.bluecat.core.log.interceptor;
 
-import cn.jarod.bluecat.core.model.OperationLogDTO;
+import cn.jarod.bluecat.core.log.model.OperationLogDTO;
+import cn.jarod.bluecat.core.log.service.OperationLogService;
 import cn.jarod.bluecat.core.utils.LoggerUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +20,8 @@ import java.util.HashMap;
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
 
+    @Autowired
+    private OperationLogService operationLogService;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) {
@@ -44,16 +48,9 @@ public class LogInterceptor implements HandlerInterceptor {
         if (operationLog == null) {
             log.warn("日志信息为空");
         } else {
-            HashMap<String, Object> logMap = new HashMap<>(8);
-            logMap.put("operatorTime",operationLog.getOperatorTime());
-            logMap.put("ip",operationLog.getIp());
-            logMap.put("description",operationLog.getDescription());
-            logMap.put("operation",operationLog.getOperationType());
-            logMap.put("operator",operationLog.getOperator());
-            logMap.put("result", null == httpServletRequest.getAttribute("flag"));
-            log.info("执行记录系统操作日志操作{}",logMap);
+            operationLog.setOperationType(httpServletRequest.getAttribute("flag")==null? String.valueOf(httpServletRequest.getAttribute("flag")):"N/A");
+            log.info("执行记录系统操作日志操作{}",operationLog.toString());
+            operationLogService.create(operationLog);
         }
-
-
     }
 }

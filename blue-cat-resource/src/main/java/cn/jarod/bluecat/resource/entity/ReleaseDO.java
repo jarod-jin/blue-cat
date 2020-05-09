@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.entity;
 
-import cn.jarod.bluecat.core.entity.MongoEntity;
+import cn.jarod.bluecat.core.base.entity.MongoEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.service.impl;
+package cn.jarod.bluecat.core.service;
 
 import cn.jarod.bluecat.core.annotation.AccessLimit;
 import cn.jarod.bluecat.core.common.Constant;

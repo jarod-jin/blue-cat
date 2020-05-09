@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.utils;
 
-import cn.jarod.bluecat.core.model.OperationLogDTO;
+import cn.jarod.bluecat.core.log.model.OperationLogDTO;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;

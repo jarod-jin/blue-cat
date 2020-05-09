@@ -1,6 +1,5 @@
 package cn.jarod.bluecat.estimate.model.bo;
 
-import cn.jarod.bluecat.core.model.MysqlModel;
 import cn.jarod.bluecat.estimate.entity.ConditionDO;
 import lombok.Getter;
 import lombok.Setter;

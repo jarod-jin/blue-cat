@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.resource.model.bo.dict;
 
 
-import cn.jarod.bluecat.core.model.MongoModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

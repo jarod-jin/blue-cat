@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.core.utils;
 
 
-import cn.jarod.bluecat.core.model.TreeModel;
 import com.google.common.collect.Lists;
 import org.springframework.util.StringUtils;
 

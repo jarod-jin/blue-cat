@@ -1,6 +1,5 @@
 package cn.jarod.bluecat.resource.model.dto;
 
-import cn.jarod.bluecat.core.model.BaseQuery;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

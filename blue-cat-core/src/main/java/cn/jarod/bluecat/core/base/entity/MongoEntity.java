@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.entity;
+package cn.jarod.bluecat.core.base.entity;
 
 import lombok.Getter;
 import lombok.Setter;

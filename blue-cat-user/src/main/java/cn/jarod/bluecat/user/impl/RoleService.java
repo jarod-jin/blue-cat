@@ -4,7 +4,6 @@ import cn.jarod.bluecat.user.entity.OrgRoleDO;
 import cn.jarod.bluecat.user.entity.RoleDO;
 import cn.jarod.bluecat.auth.model.bo.LinkOrgRoleBO;
 import cn.jarod.bluecat.auth.model.bo.CrudRoleBO;
-import cn.jarod.bluecat.core.model.BaseQuery;
 import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import org.springframework.data.domain.Page;
 

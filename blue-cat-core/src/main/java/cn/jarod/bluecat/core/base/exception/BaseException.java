@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.exception;
+package cn.jarod.bluecat.core.base.exception;
 
 import cn.jarod.bluecat.core.common.ReturnCode;
 import lombok.Getter;

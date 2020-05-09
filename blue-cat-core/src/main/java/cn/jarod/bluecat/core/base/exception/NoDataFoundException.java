@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.exception;
+package cn.jarod.bluecat.core.base.exception;
 
 import cn.jarod.bluecat.core.common.ReturnCode;
 
@@ -7,6 +7,8 @@ import cn.jarod.bluecat.core.common.ReturnCode;
  * @version 创建时间：2020/1/9
  */
 public class NoDataFoundException extends BaseException{
+
+    private static final long serialVersionUID = - 4105339668832686970L;
 
     public NoDataFoundException() {
         super(ReturnCode.NOT_FOUND);

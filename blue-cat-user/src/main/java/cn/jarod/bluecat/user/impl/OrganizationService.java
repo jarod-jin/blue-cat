@@ -2,7 +2,6 @@ package cn.jarod.bluecat.user.impl;
 
 import cn.jarod.bluecat.user.entity.OrganizationDO;
 import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
-import cn.jarod.bluecat.core.model.TreeModel;
 
 import java.util.List;
 import java.util.Map;

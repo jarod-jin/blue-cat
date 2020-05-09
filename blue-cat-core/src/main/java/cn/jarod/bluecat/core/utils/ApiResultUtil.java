@@ -1,10 +1,10 @@
 package cn.jarod.bluecat.core.utils;
 
+import cn.jarod.bluecat.core.base.model.ResultDTO;
 import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.exception.BadParameterException;
-import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.exception.NoDataFoundException;
-import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.base.exception.BadParameterException;
+import cn.jarod.bluecat.core.base.exception.BaseException;
+import cn.jarod.bluecat.core.base.exception.NoDataFoundException;
 
 /**
  * @author Jarod Jin E-mail:kira277@163.com

@@ -1,14 +1,12 @@
 package cn.jarod.bluecat.resource.controller;
 
 import cn.jarod.bluecat.core.api.BlueCatAuthClient;
-import cn.jarod.bluecat.core.controller.BaseController;
-import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
+import cn.jarod.bluecat.core.base.controller.BaseController;
 import cn.jarod.bluecat.core.utils.JsonUtil;
 import cn.jarod.bluecat.resource.model.bo.CrudReleaseBO;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;

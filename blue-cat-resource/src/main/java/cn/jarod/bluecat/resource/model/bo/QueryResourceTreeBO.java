@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.model.bo;
 
-import cn.jarod.bluecat.core.model.TreeModel;
+import cn.jarod.bluecat.core.base.model.TreeModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

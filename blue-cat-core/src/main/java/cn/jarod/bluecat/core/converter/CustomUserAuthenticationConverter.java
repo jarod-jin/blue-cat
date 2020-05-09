@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.auth.converter;
+package cn.jarod.bluecat.core.converter;
 
 import com.google.common.collect.ImmutableMap;
 import org.springframework.security.core.Authentication;

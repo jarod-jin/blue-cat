@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.core.utils;
 
-import cn.jarod.bluecat.core.model.BaseQuery;
-import com.google.common.collect.Lists;
+import cn.jarod.bluecat.core.base.model.BaseQuery;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

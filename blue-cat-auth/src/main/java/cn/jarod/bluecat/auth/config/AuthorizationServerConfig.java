@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.auth.config;
 
 import cn.jarod.bluecat.auth.service.IntegrationAuthenticationProvider;
-import cn.jarod.bluecat.auth.converter.CustomUserAuthenticationConverter;
+import cn.jarod.bluecat.core.converter.CustomUserAuthenticationConverter;
 import cn.jarod.bluecat.auth.exception.CustomOauthException;
 import cn.jarod.bluecat.core.common.Constant;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,8 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;

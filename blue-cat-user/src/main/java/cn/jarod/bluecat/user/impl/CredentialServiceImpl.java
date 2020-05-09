@@ -12,7 +12,7 @@ import cn.jarod.bluecat.user.repository.UserInfoRepository;
 import cn.jarod.bluecat.auth.service.CredentialService;
 import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.base.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 import cn.jarod.bluecat.core.utils.*;
 import lombok.extern.slf4j.Slf4j;

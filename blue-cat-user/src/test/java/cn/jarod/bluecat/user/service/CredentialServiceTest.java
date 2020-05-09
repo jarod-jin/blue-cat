@@ -5,7 +5,7 @@ import cn.jarod.bluecat.auth.model.bo.CrudUserBO;
 import cn.jarod.bluecat.auth.model.bo.UpdateCredBO;
 import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;
 import cn.jarod.bluecat.auth.service.CredentialService;
-import cn.jarod.bluecat.core.exception.BaseException;
+import cn.jarod.bluecat.core.base.exception.BaseException;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import cn.jarod.bluecat.user.entity.UserInfoDO;
 import cn.jarod.bluecat.user.enums.SignType;

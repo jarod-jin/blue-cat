@@ -5,9 +5,9 @@ import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
 import cn.jarod.bluecat.analyst.repository.DocumentTextRepository;
 
 import cn.jarod.bluecat.analyst.utils.CandidateUtil;
+import cn.jarod.bluecat.core.base.model.ResultDTO;
 import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.base.exception.BaseException;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.PoiUtil;

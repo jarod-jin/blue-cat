@@ -2,7 +2,7 @@ package cn.jarod.bluecat.core.config;
 
 import cn.jarod.bluecat.core.interceptor.AccessLimitInterceptor;
 import cn.jarod.bluecat.core.interceptor.ApiIdempotentInterceptor;
-import cn.jarod.bluecat.core.interceptor.LogInterceptor;
+import cn.jarod.bluecat.core.log.interceptor.LogInterceptor;
 import cn.jarod.bluecat.core.service.SecurityService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

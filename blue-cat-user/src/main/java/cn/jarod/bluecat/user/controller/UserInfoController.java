@@ -3,8 +3,7 @@ package cn.jarod.bluecat.user.controller;
 import cn.jarod.bluecat.auth.procedure.UserAuthenticationHandler;
 import cn.jarod.bluecat.core.annotation.ApiIdempotent;
 import cn.jarod.bluecat.core.annotation.TimeDiff;
-import cn.jarod.bluecat.core.controller.BaseController;
-import cn.jarod.bluecat.core.model.ResultDTO;
+import cn.jarod.bluecat.core.base.controller.BaseController;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import org.springframework.web.bind.annotation.*;
 

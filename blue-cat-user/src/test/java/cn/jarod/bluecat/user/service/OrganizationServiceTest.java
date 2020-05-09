@@ -3,7 +3,6 @@ package cn.jarod.bluecat.user.service;
 import cn.jarod.bluecat.auth.BlueCatAuthApplicationTest;
 import cn.jarod.bluecat.auth.model.bo.CrudOrganizationBO;
 import cn.jarod.bluecat.auth.service.OrganizationService;
-import cn.jarod.bluecat.core.model.TreeModel;
 import cn.jarod.bluecat.user.entity.OrganizationDO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

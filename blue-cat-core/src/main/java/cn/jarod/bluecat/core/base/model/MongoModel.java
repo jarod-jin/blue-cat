@@ -1,27 +1,26 @@
-package cn.jarod.bluecat.core.model;
+package cn.jarod.bluecat.core.base.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 
 import javax.validation.constraints.NotNull;
 
 /**
- * @author jarod.jin 2019/9/4
+ * @author Jarod Jin E-mail:kira277@163.com
+ * @version 创建时间：2019/12/31
  */
-@Setter
 @Getter
-public class MysqlModel {
+@Setter
+public class MongoModel {
 
-    /**唯一标识*/
-    private Long id;
-
-    /**修改版本号*/
     @NotNull
-    private Integer version;
+    protected ObjectId id;
 
-    /**是否删除(默认为0,1表示删除)*/
-    private Integer isDel;
+    /**版本号,乐观锁*/
+    private Integer version ;
 
+    /**修改者*/
     private String modifier;
 
     public boolean isNew(){

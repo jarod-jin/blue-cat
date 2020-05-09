@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.model;
+package cn.jarod.bluecat.core.base.model;
 
 import cn.jarod.bluecat.core.common.ReturnCode;
 import lombok.Getter;

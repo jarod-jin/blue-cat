@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.auth.client;
 
 
+import cn.jarod.bluecat.core.base.model.ResultDTO;
 import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.model.ResultDTO;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 import cn.jarod.bluecat.core.utils.MapBeanUtil;
 import lombok.extern.slf4j.Slf4j;

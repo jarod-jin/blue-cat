@@ -1,8 +1,7 @@
-package cn.jarod.bluecat.core.model;
+package cn.jarod.bluecat.core.base.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
