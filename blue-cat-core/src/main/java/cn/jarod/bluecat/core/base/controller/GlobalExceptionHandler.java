@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.base.controller;
 
+import cn.jarod.bluecat.core.base.model.ResultDTO;
 import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.base.exception.BaseException;
