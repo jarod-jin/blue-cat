@@ -60,3 +60,7 @@ rest:
   template:
     read-timeout: 10000
     connect-timeout: 20000
+
+
+sys-route:
+  auth-server: http://127.0.0.1:8082

@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.auth.client.entity;
 
+
 import cn.jarod.bluecat.core.base.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
