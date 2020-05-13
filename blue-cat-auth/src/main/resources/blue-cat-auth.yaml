@@ -46,6 +46,7 @@ datasource:
   max-active: 20
   min-idle: 1
   initial-size: 10
+  entity-path: cn.jarod.bluecat.auth.*.entity,cn.jarod.bluecat.core.*.entity
 
 ribbon:
   ReadTimeout: 120000
@@ -81,3 +82,8 @@ security:
     authorization:
       check-token-access:  ${sys-route.auth-server}/oauth/check_token
 
+sys-route:
+  user:
+    info:
+      username: ${sys-route.user}/info/username
+      tel: ${sys-route.user}/info/tel

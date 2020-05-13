@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.component;
 
+import cn.jarod.bluecat.core.base.model.ResultDTO;
 import cn.jarod.bluecat.core.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

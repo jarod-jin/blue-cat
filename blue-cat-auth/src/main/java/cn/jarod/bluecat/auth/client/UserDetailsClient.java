@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.auth.client;
 
 
+import cn.jarod.bluecat.core.api.BlueCatUserClient;
 import cn.jarod.bluecat.core.base.model.ResultDTO;
 import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
@@ -23,29 +24,20 @@ import java.util.Map;
 @Service
 public class UserDetailsClient {
 
-    @Value("${sys-route.user.info.username}")
-    private String usernamePath;
-
-    @Value("${sys-route.user.info.tel}")
-    private String useTelPath;
-
-    private final RestTemplate restTemplate;
-    public UserDetailsClient(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    private final BlueCatUserClient blueCatUserClient;
+    public UserDetailsClient(BlueCatUserClient blueCatUserClient) {
+        this.blueCatUserClient = blueCatUserClient;
     }
 
     public UserDetailDTO loadUserByUsername(String username) throws UsernameNotFoundException {
-        return loadUserDetail(usernamePath + Constant.Symbol.SLASH + username);
+        return loadUserDetail(blueCatUserClient.findUserByName(username));
     }
 
     public UserDetailDTO loadUserByTel(String tel) throws UsernameNotFoundException {
-        return loadUserDetail(useTelPath + Constant.Symbol.SLASH + tel);
+        return loadUserDetail(blueCatUserClient.findUserByTel(tel));
     }
 
-    private UserDetailDTO loadUserDetail(String urlPath) {
-        ResponseEntity<ResultDTO> responseEntity = restTemplate.getForEntity(urlPath, ResultDTO.class);
-        Assert.isTrue(! responseEntity.getStatusCode().is2xxSuccessful(), "用户服务异常");
-        ResultDTO resultDTO = responseEntity.getBody();
+    private UserDetailDTO loadUserDetail(ResultDTO resultDTO) {
         if (resultDTO != null && resultDTO.isSuccessful() && resultDTO.getData() instanceof Map) {
             Assert.isNull(resultDTO.getData(), "用户名不存在");
             @SuppressWarnings("unchecked")

@@ -31,6 +31,8 @@ public class Constant {
 
         String ERROR = "error";
 
+        String ERROR_HEAD = "异常处理={}";
+
         String API_RESULT_UTIL  = "ApiResultUtil";
 
         /** 默认日期时间格式 */
@@ -46,7 +48,9 @@ public class Constant {
         String ACCESS_TOKEN = "Authorization";
     }
 
-    public interface Entity{
+    public interface DataSource {
+
+        String BASE_REPOSITORY = "cn.jarod.bluecat.**.repository";
 
         String GMT_CREATE = "gmtCreate";
 

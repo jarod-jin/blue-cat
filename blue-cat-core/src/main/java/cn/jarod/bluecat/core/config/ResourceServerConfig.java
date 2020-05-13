@@ -24,12 +24,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private final CustomSecurityProperties propertyConfig;
 
-    private final TokenStore tokenStore;
-
-    public static final String JSESSIONID = "JSESSIONID";
-
-    public ResourceServerConfig(CustomSecurityProperties propertyConfig,TokenStore tokenStore) {
-        this.tokenStore = tokenStore;
+    public ResourceServerConfig(CustomSecurityProperties propertyConfig) {
         this.propertyConfig = propertyConfig;
     }
 
@@ -38,13 +33,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         resources.resourceId(propertyConfig.getResourceId()).stateless(true);
     }
 
-    /**
-     *
-     * @return
-     */
-    @Bean
-    public CustomLogoutHandler customLogoutHandler(){ return new CustomLogoutHandler(tokenStore);
-    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -54,11 +42,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .permitAll()
                 .anyRequest()
                 .authenticated()
-                .and()
-                .logout()
-                .logoutSuccessHandler(customLogoutHandler())
-                //清除cook键值
-                .deleteCookies(JSESSIONID)
                 .and()
                 .csrf().disable();
     }

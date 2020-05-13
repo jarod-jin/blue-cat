@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.config;
 
+import cn.jarod.bluecat.core.base.model.ResultDTO;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

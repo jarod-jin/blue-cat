@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.auth.endpoint;
 
+import cn.jarod.bluecat.core.base.model.ResultDTO;
 import cn.jarod.bluecat.core.service.SecurityService;
 import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;

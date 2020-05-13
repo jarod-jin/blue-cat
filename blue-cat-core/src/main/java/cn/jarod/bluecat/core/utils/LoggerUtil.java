@@ -38,7 +38,7 @@ public class LoggerUtil {
         log.setOperatorName(request.getHeader("userId"));
         log.setOperationType(handler.getMethod().getName());
         log.setDescription(description);
-        log.getParamsMap().putAll(request.getParameterMap());
+        log.getParams().putAll(request.getParameterMap());
         return log;
     }
 }

@@ -6,8 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 /**
  * @author jarod.jin 2019/6/12
  */
@@ -20,15 +18,6 @@ public class CustomSecurityProperties {
 
     /**允许访问的url*/
     private  String[] permitAll;
-
-    /**过期时间 单位小时*/
-    private long expireTime;
-
-    /**JWT 密码*/
-    private String tokenSalt;
-
-    /**TOKEN前缀*/
-    private String tokenPrefix;
 
     /**资源服务Id*/
     private String resourceId;

@@ -1,7 +1,5 @@
 package cn.jarod.bluecat.auth;
 
-import cn.jarod.bluecat.core.config.ResourceServerConfig;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableEncryptableProperties
 @EnableFeignClients(basePackages = {"cn.jarod.bluecat.core.api"})
-@SpringBootApplication(scanBasePackages = {"cn.jarod.bluecat.*"}, exclude = {ResourceServerConfig.class})
+@SpringBootApplication(scanBasePackages = {"cn.jarod.bluecat.*"})
 public class BlueCatAuthApplication {
     public static void main(String[] args) {
         SpringApplication.run(BlueCatAuthApplication.class, args);

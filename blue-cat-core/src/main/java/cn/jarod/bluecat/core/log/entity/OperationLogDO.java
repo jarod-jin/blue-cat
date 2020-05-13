@@ -27,8 +27,14 @@ import java.util.Map;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "operation_log", indexes = {@Index(columnList ="clientId", name="ClientIdIndex", unique = true)})
+@Table(name = "operation_log", indexes = {@Index(columnList ="objectName", name="ObjectNameIndex")})
 public class OperationLogDO extends MysqlEntity {
+
+    /**
+     *操作对象
+     */
+    @Column(nullable = false, columnDefinition=("varchar(50) comment '操作对象'"))
+    private String objectName;
 
     /**
      *操作员
@@ -66,11 +72,5 @@ public class OperationLogDO extends MysqlEntity {
      */
     @Column(nullable = false, columnDefinition=("tinyint(1) comment '是否操作成功'"))
     private Boolean flag;
-
-    /**
-     *操作时间
-     */
-    @Column(nullable = false, columnDefinition=("timestamp comment '操作时间'"))
-    private LocalDateTime operatorTime;
 
 }

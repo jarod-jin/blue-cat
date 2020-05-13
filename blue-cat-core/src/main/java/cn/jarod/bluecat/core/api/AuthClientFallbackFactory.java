@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.api;
 
-import cn.jarod.bluecat.core.api.BlueCatAuthClient;
+import cn.jarod.bluecat.core.common.Constant;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,12 +16,10 @@ public class AuthClientFallbackFactory implements FallbackFactory<BlueCatAuthCli
 
     @Override
     public BlueCatAuthClient create(Throwable throwable) {
-        return new BlueCatAuthClient() {
-            @Override
-            public String hello() {
-                log.error("异常处理={}", throwable);
-                return "Execute raw fallback: access service fail , req= " + LocalDateTime.now() + " reason = " + throwable;
-            }
+        return () -> {
+            log.error(Constant.Common.ERROR_HEAD, throwable.getMessage());
+            return "Execute raw fallback: access service fail , req= " + LocalDateTime.now() + " reason = " + throwable.getCause();
         };
     }
 }
+

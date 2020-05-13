@@ -35,6 +35,15 @@ public class ApiResultUtil {
     }
 
     /**
+     * 未找到数据
+     * @return BaseException
+     */
+    public static ResultDTO fail4ServerDown(){
+        return new ResultDTO(ReturnCode.FORBIDDEN.getCode(),"服务器过载触发熔断",null);
+    }
+
+
+    /**
      * 删除成功
      * @return ResultDTO
      */

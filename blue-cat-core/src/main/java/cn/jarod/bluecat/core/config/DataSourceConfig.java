@@ -1,11 +1,11 @@
 package cn.jarod.bluecat.core.config;
 
+import cn.jarod.bluecat.core.common.Constant;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -13,7 +13,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -38,7 +37,7 @@ import java.util.Objects;
 @ConditionalOnClass({DataSource.class, EmbeddedDatabaseType.class})
 @EnableConfigurationProperties({DataSourceProperties.class})
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"cn.jarod.bluecat.**.repository"})
+@EnableJpaRepositories(basePackages = {Constant.DataSource.BASE_REPOSITORY})
 public class DataSourceConfig {
 
     private static final String MASTER = "master";
@@ -79,7 +78,7 @@ public class DataSourceConfig {
     /**
      * maste setting
      */
-    @Bean(destroyMethod = "close", name="master")
+    @Bean(destroyMethod = "close", name = MASTER)
     @Primary
     public DruidDataSource masterDataSource() {
         DruidDataSource masterDataSource = abstractDataSource();
@@ -92,7 +91,7 @@ public class DataSourceConfig {
     /**
      * slave setting
      */
-    @Bean(destroyMethod = "close", name="slave")
+    @Bean(destroyMethod = "close", name = SLAVE)
     public DruidDataSource slaveDataSource() {
         DruidDataSource slaveDataSource = abstractDataSource();
         slaveDataSource.setUrl(props.getProperty("datasource.slave.url"));
@@ -127,7 +126,7 @@ public class DataSourceConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder)  {
         return  builder
                 .dataSource(dataSource())
-                .packages("cn.jarod.bluecat.*.entity")
+                .packages(props.getProperty("datasource.entity-path").split(Constant.Symbol.COMMA))
                 .properties(getVendorProperties())
                 .build();
     }
