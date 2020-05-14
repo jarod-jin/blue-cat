@@ -1,6 +1,0 @@
-//用户模块
-mainClassName = 'cn.jarod.bluecat.object.BlueCatUserApplication'
-
-dependencies {
-    implementation project(':blue-cat-core')
-}

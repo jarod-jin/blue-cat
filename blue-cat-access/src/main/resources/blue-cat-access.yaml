@@ -1,0 +1,89 @@
+info:
+  app:
+    name: access-server
+    version: 1.0.0
+
+spring:
+  messages:
+    basename: BindingErrorMessages
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 200MB
+    tomcat:
+      max-wait: 50000
+  jpa:
+    show-sql: true
+    database: mysql
+    properties:
+      hibernate:
+        default_catalog: access
+        hbm2ddl:
+          auto: update
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+
+management:
+  endpoints:
+    web:
+      base-path: /monitor
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+
+datasource:
+  validation-query: SELECT 1
+  driver-class-name: org.mariadb.jdbc.Driver
+#  driver-class-name: com.mysql.cj.jdbc.Driver
+  max-active: 20
+  min-idle: 1
+  initial-size: 10
+  entity-path: cn.jarod.bluecat.access.*.entity,cn.jarod.bluecat.core.*.entity
+
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 60000
+
+logging:
+  pattern:
+    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+
+security:
+  user:
+    name: admin
+    password: admin#1234
+  resourceId: access_01
+  permitAll:
+    - /access/**
+  oauth2:
+    client:
+      # 授权服务器配置的client id
+      client-id: access
+      # 授权服务器配置的client secret
+      client-secret: B0123456!AbC
+      scope: read
+      # 获取access token接口
+      access-token-uri: ${sys-route.auth-server}/oauth/token
+      #  获取Authorization Code接口
+      user-authorization-uri: ${sys-route.auth-server}/oauth/authorize
+    resource:
+      id: oauth-client
+      # 验证token的接口
+      token-info-uri: ${sys-route.auth-server}/oauth/check_token
+      user-info-uri: ${sys-route.auth-server}/user
+    authorization:
+      check-token-access:  ${sys-route.auth-server}/oauth/check_token
+
+sys-route:
+  user:
+    info:
+      username: ${sys-route.user}/info/username
+      tel: ${sys-route.user}/info/tel
