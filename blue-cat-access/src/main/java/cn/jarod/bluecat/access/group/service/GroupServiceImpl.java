@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.access.group.service;
 
-import cn.jarod.bluecat.access.group.entity.OrganizationDO;
+import cn.jarod.bluecat.access.group.entity.GroupDO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
-import cn.jarod.bluecat.access.group.repository.OrganizationRepository;
+import cn.jarod.bluecat.access.group.repository.GroupRepository;
 import cn.jarod.bluecat.core.base.model.TreeModel;
 import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
@@ -27,12 +27,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class OrganizationServiceImpl implements OrganizationService {
+public class GroupServiceImpl implements GroupService {
 
-    private final OrganizationRepository organizationRepository;
+    private final GroupRepository organizationRepository;
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository) {
+    public GroupServiceImpl(GroupRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
     }
 
@@ -42,10 +42,10 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return
      */
     @Override
-    public OrganizationDO saveOrganization(CrudOrganizationBO orgBO) {
+    public GroupDO saveOrganization(CrudOrganizationBO orgBO) {
         orgBO.reset();
-        OrganizationDO orgDO = organizationRepository.findByOrgCode(orgBO.getNodeId()).orElse(new OrganizationDO());
-        orgDO.setOrgCode(orgBO.getNodeId());
+        GroupDO orgDO = organizationRepository.findByGroupCode(orgBO.getNodeId()).orElse(new GroupDO());
+        orgDO.setGroupCode(orgBO.getNodeId());
         orgDO.setParentCode(orgBO.getParentId());
         orgDO.setModifier(orgBO.getModifier());
         orgDO.setCreator(orgBO.getModifier());
@@ -59,7 +59,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public void delOrganization(CrudOrganizationBO orgBO) {
-        organizationRepository.delete(organizationRepository.findByOrgCode(orgBO.getNodeId()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
+        organizationRepository.delete(organizationRepository.findByGroupCode(orgBO.getNodeId()).orElseThrow(()->new BaseException(ReturnCode.GONE)));
     }
 
     /**
@@ -71,9 +71,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional(readOnly = true)
     public CrudOrganizationBO findOneByOrgCode(String orgCode) {
         CrudOrganizationBO orgDTO = new CrudOrganizationBO();
-        organizationRepository.findByOrgCode(orgDTO.getNodeId()).ifPresent(e -> {
+        organizationRepository.findByGroupCode(orgDTO.getNodeId()).ifPresent(e -> {
             BeanUtils.copyProperties(e,orgDTO);
-            orgDTO.setNodeId(e.getOrgCode());
+            orgDTO.setNodeId(e.getGroupCode());
             orgDTO.setParentId(e.getParentCode());
         });
         return orgDTO;
@@ -90,7 +90,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Constant.Symbol.SQL_LIKE).stream().map(e->{
             CrudOrganizationBO orgDTO = new CrudOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);
-            orgDTO.setNodeId(e.getOrgCode());
+            orgDTO.setNodeId(e.getGroupCode());
             orgDTO.setParentId(e.getParentCode());
             return orgDTO;
         }).collect(Collectors.toList());
@@ -105,8 +105,8 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Map<String, OrganizationDO> findOrgMapByCodesAndSys(List<String> codes, String sys) {
-        return organizationRepository.findAllByBelongToInAndOrgCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(OrganizationDO::getOrgCode, Function.identity()));
+    public Map<String, GroupDO> findOrgMapByCodesAndSys(List<String> codes, String sys) {
+        return organizationRepository.findAllByBelongToInAndOrgCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(GroupDO::getGroupCode, Function.identity()));
     }
 
 }

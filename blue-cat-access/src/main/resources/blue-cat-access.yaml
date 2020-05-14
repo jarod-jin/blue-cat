@@ -62,7 +62,7 @@ security:
     password: admin#1234
   resourceId: access_01
   permitAll:
-    - /access/**
+    - /test/**
   oauth2:
     client:
       # 授权服务器配置的client id
@@ -81,9 +81,3 @@ security:
       user-info-uri: ${sys-route.auth-server}/user
     authorization:
       check-token-access:  ${sys-route.auth-server}/oauth/check_token
-
-sys-route:
-  user:
-    info:
-      username: ${sys-route.user}/info/username
-      tel: ${sys-route.user}/info/tel

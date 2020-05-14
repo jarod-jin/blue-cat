@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.group.service;
 
-import cn.jarod.bluecat.access.group.entity.OrganizationDO;
+import cn.jarod.bluecat.access.group.entity.GroupDO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
 import cn.jarod.bluecat.core.base.model.TreeModel;
 
@@ -10,15 +10,15 @@ import java.util.Map;
 /**
  * @author jarod.jin 2019/10/16
  */
-public interface OrganizationService {
+public interface GroupService {
 
 
     /**
      * 修改组织
      * @param orgBO 组织crud模型
-     * @return OrganizationDO
+     * @return GroupDO
      */
-    OrganizationDO saveOrganization(CrudOrganizationBO orgBO);
+    GroupDO saveOrganization(CrudOrganizationBO orgBO);
 
     /**
      * 删除组织
@@ -46,5 +46,5 @@ public interface OrganizationService {
      * @param sys 所属系统编号
      * @return Map
      */
-    Map<String, OrganizationDO> findOrgMapByCodesAndSys(List<String> codes, String sys);
+    Map<String, GroupDO> findOrgMapByCodesAndSys(List<String> codes, String sys);
 }

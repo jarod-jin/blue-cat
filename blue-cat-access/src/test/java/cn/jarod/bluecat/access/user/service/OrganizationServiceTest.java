@@ -1,9 +1,9 @@
 package cn.jarod.bluecat.access.user.service;
 
+import cn.jarod.bluecat.access.group.entity.GroupDO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
-import cn.jarod.bluecat.access.group.service.OrganizationService;
+import cn.jarod.bluecat.access.group.service.GroupService;
 import cn.jarod.bluecat.access.BlueCatAccessApplicationTest;
-import cn.jarod.bluecat.access.group.entity.OrganizationDO;
 import cn.jarod.bluecat.core.base.model.TreeModel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrganizationServiceTest extends BlueCatAccessApplicationTest {
 
     @Autowired
-    private OrganizationService organizationService;
+    private GroupService organizationService;
 
     private CrudOrganizationBO newOrg;
 
@@ -82,7 +82,7 @@ class OrganizationServiceTest extends BlueCatAccessApplicationTest {
     @Test
     @DisplayName("保存新的组织")
     void saveOrganizationNewOne() {
-        OrganizationDO rOrg = organizationService.saveOrganization(newOrg);
+        GroupDO rOrg = organizationService.saveOrganization(newOrg);
         assertNotNull(rOrg.getId());
         newOrg.setId(rOrg.getId());
         organizationService.delOrganization(newOrg);
@@ -92,7 +92,7 @@ class OrganizationServiceTest extends BlueCatAccessApplicationTest {
     @DisplayName("修改已有的组织")
     void saveOrganizationModifyOne() {
         modifyOrg.setSortOrder(100);
-        OrganizationDO rOrg = organizationService.saveOrganization(modifyOrg);
+        GroupDO rOrg = organizationService.saveOrganization(modifyOrg);
         assertEquals(modifyOrg.getSortOrder(),rOrg.getSortOrder());
     }
 

@@ -35,6 +35,26 @@ public class GroupDO extends MysqlEntity {
     @Column(nullable = false, columnDefinition=("varchar(30) default '' comment '用户组名称'"))
     private String groupName;
 
+    /**上级编码*/
+    @Column(nullable = false, columnDefinition=("varchar(20) default '' comment '上级组织编码'"))
+    private String parentCode;
+
+    /**全组织编码*/
+    @Column(nullable = false, columnDefinition=("varchar(255) comment '全组织编码'"))
+    private String fullCode;
+
+    /**全组织名称*/
+    @Column(nullable = false, columnDefinition=("varchar(255) comment '全组织名称'"))
+    private String fullName;
+
+    /**显示顺序*/
+    @Column(nullable = false, columnDefinition=("smallint(5) default 99 comment '显示顺序'"))
+    private Integer sortOrder;
+
+    /**组织类型  0-虚拟组织 1-实际组织*/
+    @Column(nullable = false, columnDefinition=("tinyint(2) default 0 comment '组织类型'"))
+    private Integer groupType;
+
     /**关联资源编码*/
     @Column(nullable = false, columnDefinition=("varchar(20) default '' comment '关联资源编码'"))
     private String businessCode;
