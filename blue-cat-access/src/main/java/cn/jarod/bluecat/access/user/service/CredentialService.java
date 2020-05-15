@@ -3,7 +3,8 @@ package cn.jarod.bluecat.access.user.service;
 import cn.jarod.bluecat.access.user.entity.CredentialDO;
 import cn.jarod.bluecat.access.user.entity.UserInfoDO;
 import cn.jarod.bluecat.access.enums.SignType;
-import cn.jarod.bluecat.auth.model.bo.*;
+import cn.jarod.bluecat.access.user.pojo.CrudUserBO;
+import cn.jarod.bluecat.access.user.pojo.UpdateCredBO;
 import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 
 import javax.validation.constraints.NotBlank;

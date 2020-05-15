@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.access.role.service;
 
 import cn.jarod.bluecat.access.group.pojo.LinkOrgRoleBO;
-import cn.jarod.bluecat.access.role.entity.OrgRoleDO;
 import cn.jarod.bluecat.access.role.entity.RoleDO;
 
 import cn.jarod.bluecat.access.role.pojo.CrudRoleBO;
@@ -45,31 +44,12 @@ public interface RoleService {
      */
     Page<RoleDO> findRolePage(BaseQuery qo);
 
-    /**
-     * 保存
-     * @param linkOrgRoleBO 组织角色对象
-     * @return
-     */
-    OrgRoleDO saveOrgRole(LinkOrgRoleBO linkOrgRoleBO);
 
-    /**
-     * 删除组织角色关系
-     * @param linkOrgRoleBO 组织角色对象
-     */
-    void delOrgRole(LinkOrgRoleBO linkOrgRoleBO);
-
-    /**
-     * 根据组织查询角色
-     * @param linkOrgRoleBO 组织角色对象
-     * @return List
-     */
-    List<String> findRoleCodesByOrg(LinkOrgRoleBO linkOrgRoleBO);
-
-    /**
-     * 根据Id列表查询用户权限数据组
-     * @param ids 组织Id
-     * @return List
-     */
-    List<UserAuthority> findOrgRoleByIds(List<Long> ids);
+//    /**
+//     * 根据Id列表查询用户权限数据组
+//     * @param ids 组织Id
+//     * @return List
+//     */
+//    List<UserAuthority> findOrgRoleByIds(List<Long> ids);
 }
 

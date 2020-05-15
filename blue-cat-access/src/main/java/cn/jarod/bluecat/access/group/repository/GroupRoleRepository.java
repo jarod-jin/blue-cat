@@ -1,6 +1,6 @@
-package cn.jarod.bluecat.access.user.repository;
+package cn.jarod.bluecat.access.group.repository;
 
-import cn.jarod.bluecat.access.role.entity.OrgRoleDO;
+import cn.jarod.bluecat.access.group.entity.GroupRoleDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -9,14 +9,14 @@ import java.util.Optional;
 /**
  * @author jarod.jin 2019/9/9
  */
-public interface OrgRoleRepository extends JpaRepository<OrgRoleDO,Long> {
+public interface GroupRoleRepository extends JpaRepository<GroupRoleDO,Long> {
 
     /**
      * 通过角色代码列表获取组织角色对应
      * @param codeList  角色代码列表
      * @return List
      */
-    List<OrgRoleDO> findAllByRoleCodeIn(List<String> codeList);
+    List<GroupRoleDO> findAllByRoleCodeIn(List<String> codeList);
 
     /**
      * 通过角色代码和组织代码查询角色组织
@@ -24,5 +24,7 @@ public interface OrgRoleRepository extends JpaRepository<OrgRoleDO,Long> {
      * @param roleCode 角色代码
      * @return Optional
      */
-    Optional<OrgRoleDO> findByOrgCodeAndRoleCode(String orgCode, String roleCode);
+    Optional<GroupRoleDO> findByOrgCodeAndRoleCode(String orgCode, String roleCode);
+
+
 }

@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.access.user.service;
 
 import cn.jarod.bluecat.access.user.entity.UserLocationDO;
-import cn.jarod.bluecat.auth.model.bo.LinkUserLocationBO;
+import cn.jarod.bluecat.access.user.pojo.LinkUserLocationBO;
 
 import java.util.List;
 

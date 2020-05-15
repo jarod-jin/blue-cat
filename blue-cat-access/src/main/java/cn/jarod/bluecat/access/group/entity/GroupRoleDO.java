@@ -1,5 +1,6 @@
-package cn.jarod.bluecat.access.role.entity;
+package cn.jarod.bluecat.access.group.entity;
 
+import cn.jarod.bluecat.core.base.entity.MongoEntity;
 import cn.jarod.bluecat.core.base.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,19 +24,25 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
-@Table(name = "org_role", indexes = {@Index(columnList ="orgCode", name="OrgCodeIndex")})
-public class OrgRoleDO extends MysqlEntity {
+@Table(name = "group_role", indexes = {@Index(columnList ="username", name="UsernameIndex")})
+public class GroupRoleDO extends MysqlEntity {
 
     /**
-     * 组织编码
+     * 用户组编码
      */
-    @Column(nullable = false, columnDefinition=("varchar(20) comment '组织编码'"))
-    private String orgCode;
+    @Column(nullable = false, columnDefinition=("varchar(20) comment '用户组编码'"))
+    private String groupCode;
 
     /**
      * 角色编码
      */
     @Column(nullable = false, columnDefinition=("varchar(20) comment '角色编码'"))
     private String roleCode;
+
+    /**
+     * 说明备注
+     */
+    @Column(nullable = false, columnDefinition=("varchar(255) default '' comment '角色编码'"))
+    private String memo;
 
 }

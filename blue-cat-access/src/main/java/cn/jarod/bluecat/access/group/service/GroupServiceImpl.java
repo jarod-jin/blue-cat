@@ -2,6 +2,7 @@ package cn.jarod.bluecat.access.group.service;
 
 import cn.jarod.bluecat.access.group.entity.GroupDO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
+import cn.jarod.bluecat.access.group.pojo.LinkOrgRoleBO;
 import cn.jarod.bluecat.access.group.repository.GroupRepository;
 import cn.jarod.bluecat.core.base.model.TreeModel;
 import cn.jarod.bluecat.core.common.Constant;
@@ -86,7 +87,7 @@ public class GroupServiceImpl implements GroupService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<TreeModel> findOrgTreeByFullCode(String fullCode) {
+    public List<TreeModel> findGroupTreeByFullCode(String fullCode) {
         List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Constant.Symbol.SQL_LIKE).stream().map(e->{
             CrudOrganizationBO orgDTO = new CrudOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);
@@ -98,6 +99,12 @@ public class GroupServiceImpl implements GroupService {
         return TreeUtil.getTree(list);
     }
 
+
+    @Override
+    public List<String> findRoleCodesByGroup(LinkOrgRoleBO linkOrgRoleBO) {
+        return null;
+    }
+
     /**
      * 根据编号和所属系统编号获取组织 散列表
      * @param codes
@@ -105,7 +112,7 @@ public class GroupServiceImpl implements GroupService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Map<String, GroupDO> findOrgMapByCodesAndSys(List<String> codes, String sys) {
+    public Map<String, GroupDO> findGroupsByCodesAndSys(List<String> codes, String sys) {
         return organizationRepository.findAllByBelongToInAndOrgCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(GroupDO::getGroupCode, Function.identity()));
     }
 
