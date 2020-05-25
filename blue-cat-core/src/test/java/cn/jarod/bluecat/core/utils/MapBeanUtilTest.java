@@ -30,7 +30,7 @@ class MapBeanUtilTest {
                 .put("decimal","23")
                 .build();
         DateBean4Test testBean = MapBeanUtil.map2Bean(map,DateBean4Test.class);
-        assertAll(()->{
+        assertAll("MapToBean Test Assert!",()->{
             assertEquals(new BigDecimal(23),testBean.getDecimal());
             assertNotNull(testBean.getDate());
             assertNotNull(testBean.getLocalDate());
