@@ -9,10 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.Converter;
+import org.apache.commons.beanutils.converters.BigDecimalConverter;
+import org.apache.commons.beanutils.converters.BigIntegerConverter;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -26,29 +30,6 @@ import java.util.Map;
 @Slf4j
 public class MapBeanUtil {
 
-    private static Map<Object, Converter> dateConverterMap;
-
-    static {
-        DateConverter dateConverter = new DateConverter();
-        dateConverter.setPatterns(new String[]{ Constant.Common.DEFAULT_DATE_FORMAT, Constant.Common.DEFAULT_DATE_TIME_FORMAT});
-        dateConverterMap = ImmutableMap.<Object, Converter>builder()
-                .put(Date.class, dateConverter)
-                .put(LocalDate.class,new LocalDateConverter())
-                .put(LocalDateTime.class,new LocalDateTimeConverter())
-                .build();
-    }
-
-    /**
-     *
-     * Map转换层Bean，使用泛型免去了类型转换的麻烦。
-     * @param <T>
-     * @param map
-     * @param clazz
-     * @return
-     */
-    public static <T> T map2Bean(Map<String, Object> map, Class<T> clazz) {
-        return map2Bean(map, clazz, Date.class);
-    }
 
     /**
      *
@@ -56,14 +37,21 @@ public class MapBeanUtil {
      * @param <T,D>
      * @param map
      * @param tClass
-     * @param dClass
      * @return
      */
-    public static <T,D> T map2Bean(Map<String, Object> map, Class<T> tClass, Class<D> dClass) {
+    public static <T> T map2Bean(Map<String, Object> map, Class<T> tClass) {
         T bean = null;
         try {
             //注册时间格式
-            ConvertUtils.register(dateConverterMap.get(dClass),dClass);
+            DateConverter dateConverter = new DateConverter();
+            dateConverter.setPatterns(new String[]{ Constant.Common.DEFAULT_DATE_FORMAT,
+                    Constant.Common.DEFAULT_DATE_TIME_FORMAT});
+            ConvertUtils.register(dateConverter, Date.class);
+            ConvertUtils.register(new LocalDateConverter(), LocalDate.class);
+            ConvertUtils.register(new LocalDateTimeConverter(), LocalDateTime.class);
+            //注册数字格式
+            ConvertUtils.register(new BigIntegerConverter(null), BigInteger.class);
+            ConvertUtils.register(new BigDecimalConverter(null), BigDecimal.class);
             bean = tClass.newInstance();
             BeanUtils.populate(bean, map);
         } catch (InstantiationException | IllegalAccessException| InvocationTargetException e) {

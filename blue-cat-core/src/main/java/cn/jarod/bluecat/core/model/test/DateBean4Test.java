@@ -2,6 +2,7 @@ package cn.jarod.bluecat.core.model.test;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -18,4 +19,6 @@ public class DateBean4Test {
     private LocalDate localDate;
 
     private LocalDateTime localDateTime;
+
+    private BigDecimal decimal;
 }

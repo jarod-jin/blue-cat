@@ -4,6 +4,7 @@ import cn.jarod.bluecat.core.model.test.DateBean4Test;
 import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -22,17 +23,20 @@ class MapBeanUtilTest {
 
     @Test
     void testMap2Bean() {
-        Map<String, Object> map = ImmutableMap.<String, Object>builder().put("date","2019-05-20 23:34:50").build();
+        Map<String, Object> map = ImmutableMap.<String, Object>builder()
+                .put("date","2019-05-20 23:34:50")
+                .put("localDate","2019-03-20")
+                .put("localDateTime","2019-03-20 12:20:40")
+                .put("decimal","23")
+                .build();
         DateBean4Test testBean = MapBeanUtil.map2Bean(map,DateBean4Test.class);
-        assertNotNull(testBean.getDate());
+        assertAll(()->{
+            assertEquals(new BigDecimal(23),testBean.getDecimal());
+            assertNotNull(testBean.getDate());
+            assertNotNull(testBean.getLocalDate());
+            assertNotNull(testBean.getLocalDateTime());
+        });
 
-        Map<String, Object> map1 = ImmutableMap.<String, Object>builder().put("localDate","2019-03-20").build();
-        DateBean4Test testBean1 = MapBeanUtil.map2Bean(map1,DateBean4Test.class, LocalDate.class);
-        assertNotNull(testBean1.getLocalDate());
-
-        Map<String, Object> map2 = ImmutableMap.<String, Object>builder().put("localDateTime","2019-03-20 12:20:40").build();
-        DateBean4Test testBean2 = MapBeanUtil.map2Bean(map2,DateBean4Test.class, LocalDateTime.class);
-        assertNotNull(testBean2.getLocalDateTime());
     }
 
 }
