@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +34,8 @@ class MapBeanUtilTest {
         assertAll("MapToBean Test Assert!",()->{
             assertEquals(new BigDecimal(23),testBean.getDecimal());
             assertNotNull(testBean.getDate());
-            assertNotNull(testBean.getLocalDate());
-            assertNotNull(testBean.getLocalDateTime());
+            assertEquals(Month.MARCH,testBean.getLocalDate().getMonth());
+            assertEquals(20, testBean.getLocalDateTime().getDayOfMonth());
         });
 
     }

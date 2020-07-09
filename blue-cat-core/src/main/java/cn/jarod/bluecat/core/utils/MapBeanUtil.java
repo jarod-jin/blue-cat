@@ -30,6 +30,19 @@ import java.util.Map;
 @Slf4j
 public class MapBeanUtil {
 
+    static{
+        //注册时间格式
+        DateConverter dateConverter = new DateConverter();
+        dateConverter.setPatterns(new String[]{ Constant.Common.DEFAULT_DATE_FORMAT,
+                Constant.Common.DEFAULT_DATE_TIME_FORMAT});
+        ConvertUtils.register(dateConverter, Date.class);
+        ConvertUtils.register(new LocalDateConverter(), LocalDate.class);
+        ConvertUtils.register(new LocalDateTimeConverter(), LocalDateTime.class);
+        //注册数字格式
+        ConvertUtils.register(new BigIntegerConverter(null), BigInteger.class);
+        ConvertUtils.register(new BigDecimalConverter(null), BigDecimal.class);
+    }
+
 
     /**
      *
@@ -42,16 +55,6 @@ public class MapBeanUtil {
     public static <T> T map2Bean(Map<String, Object> map, Class<T> tClass) {
         T bean = null;
         try {
-            //注册时间格式
-            DateConverter dateConverter = new DateConverter();
-            dateConverter.setPatterns(new String[]{ Constant.Common.DEFAULT_DATE_FORMAT,
-                    Constant.Common.DEFAULT_DATE_TIME_FORMAT});
-            ConvertUtils.register(dateConverter, Date.class);
-            ConvertUtils.register(new LocalDateConverter(), LocalDate.class);
-            ConvertUtils.register(new LocalDateTimeConverter(), LocalDateTime.class);
-            //注册数字格式
-            ConvertUtils.register(new BigIntegerConverter(null), BigInteger.class);
-            ConvertUtils.register(new BigDecimalConverter(null), BigDecimal.class);
             bean = tClass.newInstance();
             BeanUtils.populate(bean, map);
         } catch (InstantiationException | IllegalAccessException| InvocationTargetException e) {
