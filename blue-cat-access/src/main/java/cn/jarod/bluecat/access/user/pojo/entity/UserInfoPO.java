@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(callSuper=true)
 @Document("user_info")
 public class UserInfoPO extends MongoEntity {
 
@@ -42,11 +43,11 @@ public class UserInfoPO extends MongoEntity {
     private String facePhoto;
 
     /**电话*/
-    @Field(name="tel", targetType = FieldType.ARRAY)
+    @Field(name="tel", targetType = FieldType.STRING)
     private String tel;
 
     /**邮箱*/
-    @Field(name="email", targetType = FieldType.ARRAY)
+    @Field(name="email", targetType = FieldType.STRING)
     private String email;
 
     /**账号类型 0一般用户，1高级用户 数字越高级别越高*/
