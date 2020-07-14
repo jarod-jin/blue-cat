@@ -27,7 +27,9 @@ dependencies {
                     'org.springframework.boot:spring-boot-configuration-processor',
                     'org.springframework.boot:spring-boot-starter-data-jpa',
                     'org.springframework.boot:spring-boot-starter-data-mongodb',
+                    'org.springframework.boot:spring-boot-starter-log4j2',
                     'org.springframework.boot:spring-boot-starter-security')
+
 
     runtimeOnly "org.springframework.boot:spring-boot-devtools"
     implementation "com.alibaba:druid-spring-boot-starter:${druidVersion}"

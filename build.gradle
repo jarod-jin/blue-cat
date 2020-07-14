@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.4.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.springframework.boot' version '2.2.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
 apply from: rootProject.rootDir.getAbsolutePath() + "/gradle/ext.gradle"
@@ -45,6 +45,7 @@ subprojects {
     configurations {
         all*.exclude group: "org.slf4j", module: "slf4j-log4j12"
         all*.exclude group: "log4j", module: "log4j"
+        all*.exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
         all*.exclude group: "junit", module: "junit"
     }
 
@@ -67,12 +68,14 @@ allprojects {
 
     repositories {
         mavenLocal()
-        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://maven.aliyun.com/repository/spring/" }
-        maven { url "http://repo.spring.io/snapshot" }
-        maven { url "http://repo.spring.io/milestone" }
-        maven { url 'http://maven.springframework.org/release' }
-        maven { url 'https://projectlombok.org/edge-releases' }
         mavenCentral()
+        maven { url "https://maven.aliyun.com/repository/spring/"}
+        maven { url "https://repo.spring.io/release" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url 'https://maven.springframework.org/release' }
+//        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://projectlombok.org/edge-releases' }
+
     }
 }
