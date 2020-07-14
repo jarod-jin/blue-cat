@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.group.repository;
 
-import cn.jarod.bluecat.access.group.entity.GroupDO;
+import cn.jarod.bluecat.access.group.pojo.entity.GroupDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

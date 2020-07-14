@@ -45,8 +45,8 @@ dependencies {
                     'org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
 
     /** alibaba-cloud */
-    implementation "com.alibaba.cloud:spring-cloud-alibaba-nacos-config"
-    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${springAlibabaVersion}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${springAlibabaVersion}"
 
     /** test */
     testImplementation("org.springframework.boot:spring-boot-starter-test") {

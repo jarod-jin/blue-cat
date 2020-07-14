@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.user.service;
 
-import cn.jarod.bluecat.access.group.entity.GroupDO;
+import cn.jarod.bluecat.access.group.pojo.entity.GroupDO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
 import cn.jarod.bluecat.access.group.service.GroupService;
 import cn.jarod.bluecat.access.BlueCatAccessApplicationTest;

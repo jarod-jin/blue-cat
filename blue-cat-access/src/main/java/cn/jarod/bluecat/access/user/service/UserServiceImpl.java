@@ -1,11 +1,10 @@
 package cn.jarod.bluecat.access.user.service;
 
-import cn.jarod.bluecat.access.user.entity.CredentialDO;
-import cn.jarod.bluecat.access.user.repository.CredHistoryRepository;
-import cn.jarod.bluecat.access.user.repository.CredentialRepository;
+import cn.jarod.bluecat.access.user.pojo.CrudUserBO;
+import cn.jarod.bluecat.access.user.pojo.UpdateCredBO;
+import cn.jarod.bluecat.access.user.pojo.entity.CredentialPO;
+import cn.jarod.bluecat.access.user.pojo.entity.UserInfoPO;
 import cn.jarod.bluecat.access.user.repository.UserInfoRepository;
-import cn.jarod.bluecat.access.user.entity.CredHistoryDO;
-import cn.jarod.bluecat.access.user.entity.UserInfoDO;
 import cn.jarod.bluecat.access.enums.SignType;
 import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
@@ -33,15 +32,11 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service
-public class CredentialServiceImpl implements CredentialService {
+public class UserServiceImpl implements UserService {
 
     public static final int LENGTH = 4;
 
     private final UserInfoRepository userInfoRepository;
-
-    private final CredentialRepository credentialRepository;
-
-    private final CredHistoryRepository credHistoryRepository;
 
     private final StringRedisTemplate redisTemplate;
 
@@ -59,10 +54,8 @@ public class CredentialServiceImpl implements CredentialService {
     @Value("${security.time-out.user:24}")
     private Integer userTimeOut;
 
-    public CredentialServiceImpl(UserInfoRepository userInfoRepository, CredentialRepository credentialRepository, CredHistoryRepository credHistoryRepository, StringRedisTemplate redisTemplate) {
+    public UserServiceImpl(UserInfoRepository userInfoRepository, StringRedisTemplate redisTemplate) {
         this.userInfoRepository = userInfoRepository;
-        this.credentialRepository = credentialRepository;
-        this.credHistoryRepository = credHistoryRepository;
         this.redisTemplate = redisTemplate;
     }
 
@@ -70,27 +63,15 @@ public class CredentialServiceImpl implements CredentialService {
      * 注册账号
      * @param userBO 注册用户
      * @param clearPwd 明文密码
-     * @return UserInfoDO
+     * @return UserInfoPO
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public UserInfoDO registerUser(CrudUserBO userBO, String clearPwd) {
-        UserInfoDO authDO = BeanHelperUtil.createCopyBean(userBO, UserInfoDO.class);
+    public UserInfoPO registerUser(CrudUserBO userBO, String clearPwd) {
+        UserInfoPO authDO = BeanHelperUtil.createCopyBean(userBO, UserInfoPO.class);
         authDO.setCreator(userBO.getUsername());
         authDO.setModifier(userBO.getUsername());
         authDO = userInfoRepository.save(authDO);
-        /*密码保存开始*/
-        CredentialDO credDO = new CredentialDO();
-        credDO.setUsername(authDO.getUsername());
-        /*通过一个10位的随机数获取得到盐值*/
-        String salt = EncryptUtil.getRandomCode(saltLength,Boolean.TRUE);
-        credDO.setPassword(EncryptUtil.encodePassword(clearPwd, salt));
-        credDO.setCreator(authDO.getUsername());
-        credDO.setModifier(authDO.getUsername());
-        credentialRepository.save(credDO);
-        /*密码历史*/
-        CredHistoryDO chDO = new CredHistoryDO(authDO.getUsername(),credDO.getPassword(),authDO.getUsername());
-        credHistoryRepository.save(chDO);
         return authDO;
     }
 
@@ -105,8 +86,6 @@ public class CredentialServiceImpl implements CredentialService {
     public void deleteUser(UserDetailDTO authBO) {
         BaseException userNotFound = ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE, "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> userNotFound));
-        credentialRepository.delete(credentialRepository.findByUsername(authBO.getUsername()).orElseThrow(()-> userNotFound));
-        credHistoryRepository.deleteAll(credHistoryRepository.findAllByUsername(authBO.getUsername()));
     }
 
     /**
@@ -118,7 +97,7 @@ public class CredentialServiceImpl implements CredentialService {
     @Override
     @Transactional(readOnly = true)
     public Boolean validSignUp(SignType type, String text) {
-        UserInfoDO auth = new UserInfoDO();
+        UserInfoPO auth = new UserInfoPO();
         String key = Constant.Redis.SIGN_UP_PREFIX + text.trim();
         switch (type) {
             case tel:
@@ -139,8 +118,8 @@ public class CredentialServiceImpl implements CredentialService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public UserInfoDO modifyUser(CrudUserBO authBO) {
-        UserInfoDO target = BeanHelperUtil.createCopyBean(authBO, UserInfoDO.class);
+    public UserInfoPO modifyUser(CrudUserBO authBO) {
+        UserInfoPO target = BeanHelperUtil.createCopyBean(authBO, UserInfoPO.class);
         userInfoRepository.findByUsername(authBO.getUsername()).ifPresent(s -> BeanHelperUtil.copyNullProperties(s, target));
         return userInfoRepository.save(target);
     }
@@ -153,16 +132,17 @@ public class CredentialServiceImpl implements CredentialService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void modifyPassword(UpdateCredBO credBO) {
-        CredentialDO credentialDO =  findCredentialByUsername(credBO.getUsername());
-        if (!credentialDO.getPassword().equals(credBO.getCurrentPassword())) {
+        UserInfoPO userPO =  findUserByUsername(credBO.getUsername());
+        if (!userPO.getCredential().getPassword().equals(credBO.getCurrentPassword())) {
             throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"原密码错误");
         }
-        if (credHistoryRepository.existsByUsernameAndPassword(credBO.getUsername(), credBO.getModifiedPassword())) {
-            throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"密码不能和前"+ passNumber +"次相同");
+        List<String> list = userPO.getCredential().getHistoryPassword();
+        if (list.size()> passNumber){
+            list.remove(list.get(0));
         }
-        CredHistoryDO chDO = new CredHistoryDO(credBO.getUsername(), credBO.getModifiedPassword(),credBO.getUsername());
-        credHistoryRepository.save(chDO);
-        handleCredPassword(chDO);
+        list.add(credBO.getModifiedPassword());
+        userPO.getCredential().setHistoryPassword(list);
+        userPO.getCredential().setPassword(credBO.getModifiedPassword());
     }
 
 
@@ -170,11 +150,8 @@ public class CredentialServiceImpl implements CredentialService {
      * 如果数据库密码数量超过设定值那么最早的密码被删除
      * @param chDO
      */
-    private void handleCredPassword(CredHistoryDO chDO) {
-        List<CredHistoryDO> list = credHistoryRepository.findAllByUsername(chDO.getUsername());
-        if (list.size()> passNumber){
-            list.stream().min(Comparator.comparing(CredHistoryDO::getGmtCreate)).ifPresent(credHistoryRepository::delete);
-        }
+    private void handleCredPassword(CredentialPO chDO) {
+
     }
 
     /**
@@ -183,8 +160,8 @@ public class CredentialServiceImpl implements CredentialService {
      * @return Optional<CredentialDO>
      */
     @Override
-    public CredentialDO findCredentialByUsername(String username) {
-        return credentialRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("username无效"));
+    public UserInfoPO findUserByUsername(String username) {
+        return userInfoRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("username无效"));
     }
 
     /**
@@ -194,8 +171,8 @@ public class CredentialServiceImpl implements CredentialService {
      */
     @Override
     public UserDetailDTO findUserInfo(String name) {
-        UserInfoDO userInfoDO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.INVALID_REQUEST));
-        return BeanHelperUtil.createCopyBean(userInfoDO,UserDetailDTO.class);
+        UserInfoPO UserInfoPO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.INVALID_REQUEST));
+        return BeanHelperUtil.createCopyBean(UserInfoPO,UserDetailDTO.class);
     }
 
     @Override
@@ -203,7 +180,7 @@ public class CredentialServiceImpl implements CredentialService {
         StringBuilder buffer = new StringBuilder(EncryptUtil.getRandomCode(LENGTH,Boolean.TRUE));
         buffer.append(Constant.Symbol.HYPHEN);
         buffer.append(EncryptUtil.getRandomCode(6,true));
-        if (redisTemplate.hasKey(Constant.Redis.SIGN_UP_PREFIX + buffer.toString()) && userInfoRepository.exists(Example.of(new UserInfoDO(buffer.toString())))){
+        if (redisTemplate.hasKey(Constant.Redis.SIGN_UP_PREFIX + buffer.toString()) && userInfoRepository.exists(Example.of(new UserInfoPO(buffer.toString())))){
             throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);
         }
         return buffer.toString();

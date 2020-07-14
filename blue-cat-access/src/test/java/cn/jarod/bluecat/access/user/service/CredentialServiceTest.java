@@ -1,8 +1,13 @@
 package cn.jarod.bluecat.access.user.service;
 
+import cn.jarod.bluecat.access.BlueCatAccessApplicationTest;
+import cn.jarod.bluecat.access.user.pojo.CrudUserBO;
+import cn.jarod.bluecat.access.user.pojo.UpdateCredBO;
+import cn.jarod.bluecat.access.user.pojo.UpdateCredDTO;
 import cn.jarod.bluecat.core.base.exception.BaseException;
+import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.access.user.entity.UserInfoDO;
+import cn.jarod.bluecat.access.user.pojo.entity.UserInfoPO;
 import cn.jarod.bluecat.access.enums.SignType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +26,7 @@ class CredentialServiceTest extends BlueCatAccessApplicationTest {
 
 
     @Autowired
-    private CredentialService credentialService;
+    private UserService userInfoService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -71,8 +76,8 @@ class CredentialServiceTest extends BlueCatAccessApplicationTest {
     @DisplayName("校验手机，邮箱，用户名为空白")
     void validEmailEmpty() {
         assertAll("检验返回结果",
-                ()->  assertFalse(credentialService.validSignUp(SignType.tel,"")),
-                ()->  assertFalse(credentialService.validSignUp(SignType.email,""))
+                ()->  assertFalse(userInfoService.validSignUp(SignType.tel,"")),
+                ()->  assertFalse(userInfoService.validSignUp(SignType.email,""))
         );
     }
 
@@ -81,24 +86,24 @@ class CredentialServiceTest extends BlueCatAccessApplicationTest {
     @DisplayName("校验Authority为admin")
     void validAuthorityAdmin() {
         assertAll("检验返回结果",
-                ()->  assertTrue(credentialService.validSignUp(SignType.tel,"18158105518")),
-                ()->  assertFalse(credentialService.validSignUp(SignType.email,""))
+                ()->  assertTrue(userInfoService.validSignUp(SignType.tel,"18158105518")),
+                ()->  assertFalse(userInfoService.validSignUp(SignType.email,""))
         );
     }
 
     @Test
     @DisplayName("创建测试账号")
     void register4JunitTest() {
-        UserInfoDO userInfoDO = credentialService.registerUser(tmp,"admin1234");
-        assertNotNull(userInfoDO.getId());
-        credentialService.deleteUser(BeanHelperUtil.createCopyBean(userInfoDO, UserInfoDTO.class));
+        UserInfoPO userInfoPO = userInfoService.registerUser(tmp,"admin1234");
+        assertNotNull(userInfoPO.getId());
+        userInfoService.deleteUser(BeanHelperUtil.createCopyBean(userInfoPO, UserDetailDTO.class));
     }
 
     @Test
     @DisplayName("创建管理员测试账号")
     void registerUserAdmin() {
-        UserInfoDO userInfoDO = credentialService.registerUser(admin,"admin1234");
-        assertNotNull(userInfoDO.getId());
+        UserInfoPO UserInfoPO = userInfoService.registerUser(admin,"admin1234");
+        assertNotNull(UserInfoPO.getId());
     }
 
     @Test
@@ -106,7 +111,7 @@ class CredentialServiceTest extends BlueCatAccessApplicationTest {
     void modifyUser4Admin() {
         userDTO.setEmail("kira277@163.com");
         userDTO.setNickname("超级管理员");
-        UserInfoDO userDO = credentialService.modifyUser(userDTO);
+        UserInfoPO userDO = userInfoService.modifyUser(userDTO);
         assertEquals(userDTO.getNickname(),userDO.getNickname());
     }
 
@@ -114,7 +119,7 @@ class CredentialServiceTest extends BlueCatAccessApplicationTest {
     @DisplayName("修改密码时原始密码错误")
     void modifyPasswordOne() {
         credBO.setCurrentPassword("123456");
-        assertThrows(BaseException.class, ()-> credentialService.modifyPassword(new UpdateCredBO(credBO)),"原密码错误");
+        assertThrows(BaseException.class, ()-> userInfoService.modifyPassword(new UpdateCredBO(credBO)),"原密码错误");
     }
 
 
@@ -122,7 +127,7 @@ class CredentialServiceTest extends BlueCatAccessApplicationTest {
     @DisplayName("修改密码时密码和前次相同")
     void modifyPasswordTwo() {
         credBO.setModifiedPassword("admin123");
-        assertThrows(BaseException.class, ()-> credentialService.modifyPassword(new UpdateCredBO(credBO)),"密码不能和前3次相同");
+        assertThrows(BaseException.class, ()-> userInfoService.modifyPassword(new UpdateCredBO(credBO)),"密码不能和前3次相同");
     }
 
 

@@ -1,7 +1,6 @@
 package cn.jarod.bluecat.access.user.service;
 
-import cn.jarod.bluecat.access.user.entity.CredentialDO;
-import cn.jarod.bluecat.access.user.entity.UserInfoDO;
+import cn.jarod.bluecat.access.user.pojo.entity.UserInfoPO;
 import cn.jarod.bluecat.access.enums.SignType;
 import cn.jarod.bluecat.access.user.pojo.CrudUserBO;
 import cn.jarod.bluecat.access.user.pojo.UpdateCredBO;
@@ -13,15 +12,15 @@ import java.util.Map;
 /**
  * @author jarod.jin 2019/9/9
  */
-public interface CredentialService {
+public interface UserService {
 
     /**
      * 注册一个账号
      * @param userBO 注册用户
      * @param clearPwd 明文密码
-     * @return UserInfoDO
+     * @return UserInfoPO
      */
-    UserInfoDO registerUser(CrudUserBO userBO, String clearPwd) ;
+    UserInfoPO registerUser(CrudUserBO userBO, String clearPwd) ;
 
     /**
      * 删除用户
@@ -32,9 +31,9 @@ public interface CredentialService {
     /**
      * 修改用户基本信息
      * @param authBO 修改用户
-     * @return UserInfoDO
+     * @return UserInfoPO
      */
-    UserInfoDO modifyUser(CrudUserBO authBO);
+    UserInfoPO modifyUser(CrudUserBO authBO);
 
     /**
      * 注册电话 邮箱 校验
@@ -56,7 +55,7 @@ public interface CredentialService {
      * @param username 登录名
      * @return boolean
      */
-    CredentialDO findCredentialByUsername(String username);
+    UserInfoPO findUserByUsername(String username);
 
     /**
      * 根据登录用户名查询用户基本信息

@@ -1,6 +1,7 @@
-package cn.jarod.bluecat.access.user.entity;
+package cn.jarod.bluecat.access.user.pojo.entity;
 
 import cn.jarod.bluecat.core.base.entity.MongoEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -57,6 +58,10 @@ public class UserInfoPO extends MongoEntity {
     /**备注说明*/
     @Field(name="memo", targetType = FieldType.IMPLICIT)
     private String memo;
+
+    /**用户密码*/
+    @Field(name="credential", targetType = FieldType.IMPLICIT)
+    private CredentialPO credential;
 
     public UserInfoPO(){
         super();

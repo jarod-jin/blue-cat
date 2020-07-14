@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.access.role.entity;
+package cn.jarod.bluecat.access.role.pojo.entity;
 
 import cn.jarod.bluecat.core.base.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;

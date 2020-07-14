@@ -1,18 +1,15 @@
 package cn.jarod.bluecat.access.role.service;
 
-import cn.jarod.bluecat.access.role.entity.RoleDO;
+import cn.jarod.bluecat.access.role.pojo.entity.RoleDO;
 import cn.jarod.bluecat.access.role.pojo.CrudRoleBO;
 import cn.jarod.bluecat.access.role.repository.RoleRepository;
 import cn.jarod.bluecat.core.base.model.BaseQuery;
 import cn.jarod.bluecat.core.common.Constant;
 import cn.jarod.bluecat.core.common.ReturnCode;
 import cn.jarod.bluecat.core.base.exception.BaseException;
-import cn.jarod.bluecat.core.model.auth.UserAuthority;
-import cn.jarod.bluecat.core.utils.ApiResultUtil;
 import cn.jarod.bluecat.core.utils.BeanHelperUtil;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

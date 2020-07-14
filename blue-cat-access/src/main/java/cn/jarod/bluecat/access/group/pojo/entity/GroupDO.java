@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.access.group.entity;
+package cn.jarod.bluecat.access.group.pojo.entity;
 
 import cn.jarod.bluecat.core.base.entity.MysqlEntity;
 import lombok.EqualsAndHashCode;

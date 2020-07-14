@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.role.repository;
 
-import cn.jarod.bluecat.access.role.entity.RoleDO;
+import cn.jarod.bluecat.access.role.pojo.entity.RoleDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

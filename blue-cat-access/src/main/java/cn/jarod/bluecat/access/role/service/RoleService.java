@@ -1,11 +1,9 @@
 package cn.jarod.bluecat.access.role.service;
 
-import cn.jarod.bluecat.access.group.pojo.LinkOrgRoleBO;
-import cn.jarod.bluecat.access.role.entity.RoleDO;
+import cn.jarod.bluecat.access.role.pojo.entity.RoleDO;
 
 import cn.jarod.bluecat.access.role.pojo.CrudRoleBO;
 import cn.jarod.bluecat.core.base.model.BaseQuery;
-import cn.jarod.bluecat.core.model.auth.UserAuthority;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

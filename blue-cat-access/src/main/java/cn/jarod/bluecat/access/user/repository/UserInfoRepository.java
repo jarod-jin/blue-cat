@@ -1,7 +1,8 @@
 package cn.jarod.bluecat.access.user.repository;
 
-import cn.jarod.bluecat.access.user.entity.UserInfoDO;
-import org.springframework.data.jpa.repository.JpaRepository;
+import cn.jarod.bluecat.access.user.pojo.entity.UserInfoPO;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
