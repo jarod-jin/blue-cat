@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.user.service;
 
-import cn.jarod.bluecat.access.group.pojo.entity.GroupDO;
+import cn.jarod.bluecat.access.group.pojo.entity.GroupPO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
 import cn.jarod.bluecat.access.group.service.GroupService;
 import cn.jarod.bluecat.access.BlueCatAccessApplicationTest;
@@ -82,7 +82,7 @@ class OrganizationServiceTest extends BlueCatAccessApplicationTest {
     @Test
     @DisplayName("保存新的组织")
     void saveOrganizationNewOne() {
-        GroupDO rOrg = organizationService.saveOrganization(newOrg);
+        GroupPO rOrg = organizationService.saveOrganization(newOrg);
         assertNotNull(rOrg.getId());
         newOrg.setId(rOrg.getId());
         organizationService.delOrganization(newOrg);
@@ -92,7 +92,7 @@ class OrganizationServiceTest extends BlueCatAccessApplicationTest {
     @DisplayName("修改已有的组织")
     void saveOrganizationModifyOne() {
         modifyOrg.setSortOrder(100);
-        GroupDO rOrg = organizationService.saveOrganization(modifyOrg);
+        GroupPO rOrg = organizationService.saveOrganization(modifyOrg);
         assertEquals(modifyOrg.getSortOrder(),rOrg.getSortOrder());
     }
 

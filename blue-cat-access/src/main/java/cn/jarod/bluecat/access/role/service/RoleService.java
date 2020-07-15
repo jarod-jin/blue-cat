@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.role.service;
 
-import cn.jarod.bluecat.access.role.pojo.entity.RoleDO;
+import cn.jarod.bluecat.access.role.pojo.entity.RolePO;
 
 import cn.jarod.bluecat.access.role.pojo.CrudRoleBO;
 import cn.jarod.bluecat.core.base.model.BaseQuery;
@@ -19,7 +19,7 @@ public interface RoleService {
      * @param roleBO 角色对象
      * @return RoleDO
      */
-    RoleDO saveRole(CrudRoleBO roleBO);
+    RolePO saveRole(CrudRoleBO roleBO);
 
     /**
      * 删除角色信息
@@ -33,14 +33,14 @@ public interface RoleService {
      * @param sys 所属系统编号
      * @return Map
      */
-    Map<String,RoleDO> findRoleMapByCodes(List<String> codes, String sys);
+    Map<String, RolePO> findRoleMapByCodes(List<String> codes, String sys);
 
     /**
      * 分页查询角色信息
      * @param qo 查询对象
      * @return Page
      */
-    Page<RoleDO> findRolePage(BaseQuery qo);
+    Page<RolePO> findRolePage(BaseQuery qo);
 
 
 //    /**

@@ -6,6 +6,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+
 import java.time.LocalDateTime;
 
 /**
@@ -20,24 +22,24 @@ public class MongoEntity {
     protected ObjectId id;
 
     /**版本号,乐观锁*/
-    @Field("version")
+    @Field(name = "version",targetType = FieldType.INT32)
     @Version
     private Integer version ;
 
     /**创建时间*/
-    @Field("gmtCreate")
+    @Field(name = "gmtCreate", targetType = FieldType.TIMESTAMP)
     private LocalDateTime gmtCreate;
 
     /**创建者*/
-    @Field("creator")
+    @Field(name = "creator", targetType = FieldType.STRING)
     private String creator;
 
     /**修改时间*/
-    @Field("gmtModified")
+    @Field(name = "gmtModified", targetType = FieldType.TIMESTAMP)
     private LocalDateTime gmtModified;
 
     /**修改者*/
-    @Field("modifier")
+    @Field(name ="modifier",targetType = FieldType.STRING)
     private String modifier;
 
 }

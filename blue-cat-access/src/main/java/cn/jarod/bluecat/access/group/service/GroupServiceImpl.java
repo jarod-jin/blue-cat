@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.group.service;
 
-import cn.jarod.bluecat.access.group.pojo.entity.GroupDO;
+import cn.jarod.bluecat.access.group.pojo.entity.GroupPO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
 import cn.jarod.bluecat.access.group.pojo.LinkOrgRoleBO;
 import cn.jarod.bluecat.access.group.repository.GroupRepository;
@@ -43,9 +43,9 @@ public class GroupServiceImpl implements GroupService {
      * @return
      */
     @Override
-    public GroupDO saveOrganization(CrudOrganizationBO orgBO) {
+    public GroupPO saveOrganization(CrudOrganizationBO orgBO) {
         orgBO.reset();
-        GroupDO orgDO = organizationRepository.findByGroupCode(orgBO.getNodeId()).orElse(new GroupDO());
+        GroupPO orgDO = organizationRepository.findByGroupCode(orgBO.getNodeId()).orElse(new GroupPO());
         orgDO.setGroupCode(orgBO.getNodeId());
         orgDO.setParentCode(orgBO.getParentId());
         orgDO.setModifier(orgBO.getModifier());
@@ -112,8 +112,8 @@ public class GroupServiceImpl implements GroupService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Map<String, GroupDO> findGroupsByCodesAndSys(List<String> codes, String sys) {
-        return organizationRepository.findAllByBelongToInAndOrgCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(GroupDO::getGroupCode, Function.identity()));
+    public Map<String, GroupPO> findGroupsByCodesAndSys(List<String> codes, String sys) {
+        return organizationRepository.findAllByBelongToInAndOrgCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys), codes).stream().collect(Collectors.toMap(GroupPO::getGroupCode, Function.identity()));
     }
 
 }

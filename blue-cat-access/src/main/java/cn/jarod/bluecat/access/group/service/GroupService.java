@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.group.service;
 
-import cn.jarod.bluecat.access.group.pojo.entity.GroupDO;
+import cn.jarod.bluecat.access.group.pojo.entity.GroupPO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
 import cn.jarod.bluecat.access.group.pojo.LinkOrgRoleBO;
 import cn.jarod.bluecat.core.base.model.TreeModel;
@@ -19,7 +19,7 @@ public interface GroupService {
      * @param orgBO 组织crud模型
      * @return GroupDO
      */
-    GroupDO saveOrganization(CrudOrganizationBO orgBO);
+    GroupPO saveOrganization(CrudOrganizationBO orgBO);
 
     /**
      * 删除组织
@@ -47,7 +47,7 @@ public interface GroupService {
      * @param sys 所属系统编号
      * @return Map
      */
-    Map<String, GroupDO> findGroupsByCodesAndSys(List<String> codes, String sys);
+    Map<String, GroupPO> findGroupsByCodesAndSys(List<String> codes, String sys);
 
 
     /**

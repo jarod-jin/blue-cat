@@ -1,10 +1,7 @@
 package cn.jarod.bluecat.access.user.pojo.entity;
 
 import cn.jarod.bluecat.core.base.entity.MongoEntity;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -15,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper=true)
 @Document("user_info")
 public class UserInfoPO extends MongoEntity {

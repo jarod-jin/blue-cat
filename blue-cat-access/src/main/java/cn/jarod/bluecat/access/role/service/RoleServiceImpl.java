@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.role.service;
 
-import cn.jarod.bluecat.access.role.pojo.entity.RoleDO;
+import cn.jarod.bluecat.access.role.pojo.entity.RolePO;
 import cn.jarod.bluecat.access.role.pojo.CrudRoleBO;
 import cn.jarod.bluecat.access.role.repository.RoleRepository;
 import cn.jarod.bluecat.core.base.model.BaseQuery;
@@ -40,13 +40,13 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public RoleDO saveRole(CrudRoleBO roleBO) {
+    public RolePO saveRole(CrudRoleBO roleBO) {
         roleBO.reset();
-        RoleDO roleDO = roleRepository.findByRoleCode(roleBO.getRoleCode()).orElse(new RoleDO());
-        roleDO.setModifier(roleBO.getModifier());
-        roleDO.setCreator(roleBO.getModifier());
-        BeanHelperUtil.copyNotNullProperties(roleBO,roleDO);
-        return roleRepository.save(roleDO);
+        RolePO rolePO = roleRepository.findByRoleCode(roleBO.getRoleCode()).orElse(new RolePO());
+        rolePO.setModifier(roleBO.getModifier());
+        rolePO.setCreator(roleBO.getModifier());
+        BeanHelperUtil.copyNotNullProperties(roleBO, rolePO);
+        return roleRepository.save(rolePO);
     }
 
     /**
@@ -67,8 +67,8 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Map<String,RoleDO> findRoleMapByCodes(List<String> codes, String sys) {
-        return roleRepository.findAllByBelongToInAndRoleCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RoleDO::getRoleCode, Function.identity()));
+    public Map<String, RolePO> findRoleMapByCodes(List<String> codes, String sys) {
+        return roleRepository.findAllByBelongToInAndRoleCodeIn(Lists.newArrayList(Constant.Common.SYS_ROOT,sys),codes).stream().collect(Collectors.toMap(RolePO::getRoleCode, Function.identity()));
     }
 
     /**
@@ -78,7 +78,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<RoleDO> findRolePage(BaseQuery qo) {
+    public Page<RolePO> findRolePage(BaseQuery qo) {
         return roleRepository.findAll(qo.getPageRequest());
     }
 
