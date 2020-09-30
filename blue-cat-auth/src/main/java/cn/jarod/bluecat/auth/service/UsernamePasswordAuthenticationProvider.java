@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 /**
- * @author Jarod Jin E-mail:jin_yibing@dahuatech.com
+ * @author Jarod Jin E-mail:kira277@163.com
  * @version 创建时间：2020/3/9
  */
 @Slf4j

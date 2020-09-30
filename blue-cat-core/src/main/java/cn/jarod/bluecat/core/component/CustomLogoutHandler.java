@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * @author Jarod Jin E-mail:jin_yibing@dahuatech.com
+ * @author Jarod Jin E-mail:kira277@163.com
  * @version 创建时间：2020/3/7
  */
 @Slf4j

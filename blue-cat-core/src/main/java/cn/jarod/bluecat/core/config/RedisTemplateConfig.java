@@ -21,7 +21,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.time.Duration;
 
 /**
- * @author Jarod Jin E-mail:jin_yibing@dahuatech.com
+ * @author Jarod Jin E-mail:kira277@163.com
  * @version 创建时间：3/31/2020
  */
 @EnableCaching

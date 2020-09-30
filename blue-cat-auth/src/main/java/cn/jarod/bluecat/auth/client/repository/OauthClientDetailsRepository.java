@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 /**
- * @author Jarod Jin E-mail:jin_yibing@dahuatech.com
+ * @author Jarod Jin E-mail:kira277@163.com
  * @version 创建时间：2020/3/2
  */
 public interface OauthClientDetailsRepository extends JpaRepository<OauthClientDetailsDO,Long> {

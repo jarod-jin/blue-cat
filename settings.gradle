@@ -6,4 +6,5 @@ include 'blue-cat-estimate'
 include 'blue-cat-analyst'
 include 'blue-cat-resource'
 include 'blue-cat-access'
+include 'blue-cat-es'
 
