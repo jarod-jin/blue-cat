@@ -1,6 +1,0 @@
-//鉴权认证
-mainClassName = 'cn.jarod.bluecat.auth.BlueCatAuthApplication'
-
-dependencies {
-    implementation project(':blue-cat-core')
-}
