@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.entity;
 
-import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
+import cn.jarod.bluecat.core.data.mongo.pojo.MongoPO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,7 +17,7 @@ import java.util.SortedMap;
 @Setter
 @ToString
 @Document("dict")
-public class DictDO extends MongoEntity {
+public class DictDO extends MongoPO {
 
     /**字典*/
     @Field("category")

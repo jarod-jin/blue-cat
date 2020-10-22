@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.access.group.pojo.entity;
 
 
-import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
+import cn.jarod.bluecat.core.data.mongo.pojo.MongoPO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode(callSuper=true)
 @Document("group_role")
-public class GroupRolePO extends MongoEntity {
+public class GroupRolePO extends MongoPO {
 
     /**用户组编码*/
     @Field(name="group_code", targetType = FieldType.STRING)

@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.entity;
 
-import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
+import cn.jarod.bluecat.core.data.mongo.pojo.MongoPO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,7 +18,7 @@ import java.util.Map;
 @Setter
 @ToString
 @Document("application")
-public class ApplicationDO extends MongoEntity {
+public class ApplicationDO extends MongoPO {
 
     /**描述*/
     @Field("description")

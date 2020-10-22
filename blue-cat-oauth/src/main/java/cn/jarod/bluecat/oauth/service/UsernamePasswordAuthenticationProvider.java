@@ -4,7 +4,7 @@ package cn.jarod.bluecat.oauth.service;
 import cn.jarod.bluecat.oauth.client.UserDetailsClient;
 import cn.jarod.bluecat.oauth.model.IntegrationAuthentication;
 import cn.jarod.bluecat.oauth.model.UserAuthentication;
-import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
+import cn.jarod.bluecat.core.security.pojo.UserDetailDO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -38,7 +38,7 @@ public class UsernamePasswordAuthenticationProvider extends AbstractIntegrationA
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getPrincipal().toString();
         String password = passwordEncoder.encode(authentication.getCredentials().toString());
-        UserDetail user = userDetailsClient.loadUserByUsername(username);
+        UserDetailDO user = userDetailsClient.loadUserByUsername(username);
         if (!user.getPassword().equals(password)){
             throw new BadCredentialsException("用户密码不正确");
         }

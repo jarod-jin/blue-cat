@@ -3,7 +3,7 @@ package cn.jarod.bluecat.oauth.client;
 
 import cn.jarod.bluecat.core.api.client.BlueCatUserClient;
 import cn.jarod.bluecat.core.api.pojo.ResultDTO;
-import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
+import cn.jarod.bluecat.core.security.pojo.UserDetailDO;
 import cn.jarod.bluecat.core.common.utils.MapBeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,20 +26,20 @@ public class UserDetailsClient {
         this.blueCatUserClient = blueCatUserClient;
     }
 
-    public UserDetail loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetailDO loadUserByUsername(String username) throws UsernameNotFoundException {
         return loadUserDetail(blueCatUserClient.findUserByName(username));
     }
 
-    public UserDetail loadUserByTel(String tel) throws UsernameNotFoundException {
+    public UserDetailDO loadUserByTel(String tel) throws UsernameNotFoundException {
         return loadUserDetail(blueCatUserClient.findUserByTel(tel));
     }
 
-    private UserDetail loadUserDetail(ResultDTO resultDTO) {
+    private UserDetailDO loadUserDetail(ResultDTO resultDTO) {
         if (resultDTO != null && resultDTO.isSuccessful() && resultDTO.getData() instanceof Map) {
             Assert.isNull(resultDTO.getData(), "用户名不存在");
             @SuppressWarnings("unchecked")
             Map<String, Object> objectMap = (Map<String, Object>) resultDTO.getData();
-            return MapBeanUtil.map2Bean(objectMap, UserDetail.class);
+            return MapBeanUtil.map2Bean(objectMap, UserDetailDO.class);
         }
         throw new UsernameNotFoundException("用户名不存在");
     }

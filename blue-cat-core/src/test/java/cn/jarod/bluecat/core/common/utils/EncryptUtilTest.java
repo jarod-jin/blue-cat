@@ -1,6 +1,7 @@
 package cn.jarod.bluecat.core.common.utils;
 
 import cn.jarod.bluecat.core.common.enums.CommonPattern;
+import cn.jarod.bluecat.core.security.utils.EncryptUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

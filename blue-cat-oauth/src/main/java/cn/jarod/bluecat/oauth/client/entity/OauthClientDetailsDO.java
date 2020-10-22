@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.oauth.client.entity;
 
 
-import cn.jarod.bluecat.core.sql.pojo.MsyqlPO;
+import cn.jarod.bluecat.core.data.sql.pojo.MsyqlPO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

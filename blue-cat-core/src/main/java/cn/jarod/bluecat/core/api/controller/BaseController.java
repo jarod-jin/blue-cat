@@ -2,7 +2,7 @@ package cn.jarod.bluecat.core.api.controller;
 
 import cn.jarod.bluecat.core.api.enums.ReturnCode;
 import cn.jarod.bluecat.core.api.exception.BaseException;
-import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
+import cn.jarod.bluecat.core.security.pojo.UserDetailDO;
 import cn.jarod.bluecat.core.common.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -15,11 +15,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Slf4j
 public class BaseController {
     
-    protected UserDetail findCurrentUserInfo(){
+    protected UserDetailDO findCurrentUserInfo(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.isAuthenticated()){
             String userJson = String.valueOf(auth.getPrincipal());
-            return JsonUtil.parsePojo(userJson, UserDetail.class);
+            return JsonUtil.parsePojo(userJson, UserDetailDO.class);
         }
         log.warn("获取用户：{} 的基本信息失败！请重新登录！", auth.getPrincipal());
         throw new BaseException(ReturnCode.FORBIDDEN);

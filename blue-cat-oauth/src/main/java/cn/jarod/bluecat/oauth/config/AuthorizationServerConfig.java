@@ -110,7 +110,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
                 .allowFormAuthenticationForClients()
-                .tokenKeyAccess(Constant.Auth.PERMIT)
-                .checkTokenAccess(Constant.Auth.AUTHENTICATED);
+                .tokenKeyAccess("isAuthenticated()")
+                .checkTokenAccess("permitAll()");
     }
 }

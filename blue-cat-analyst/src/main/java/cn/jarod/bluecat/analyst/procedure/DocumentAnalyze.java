@@ -8,7 +8,7 @@ import cn.jarod.bluecat.analyst.utils.CandidateUtil;
 import cn.jarod.bluecat.core.api.pojo.ResultDTO;
 import cn.jarod.bluecat.core.api.enums.ReturnCode;
 import cn.jarod.bluecat.core.api.exception.BaseException;
-import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
+import cn.jarod.bluecat.core.security.pojo.UserDetailDO;
 import cn.jarod.bluecat.core.api.util.ApiResultUtil;
 import cn.jarod.bluecat.core.common.utils.PoiUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class DocumentAnalyze {
         this.documentTextRepository = documentTextRepository;
     }
 
-    public ResultDTO uploadResumeFile(MultipartFile file, UserDetail userDTO){
+    public ResultDTO uploadResumeFile(MultipartFile file, UserDetailDO userDTO){
         if (file.isEmpty()){
             throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);
         }

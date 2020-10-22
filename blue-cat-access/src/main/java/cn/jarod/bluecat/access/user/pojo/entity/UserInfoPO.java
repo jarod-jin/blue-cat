@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.user.pojo.entity;
 
-import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
+import cn.jarod.bluecat.core.data.mongo.pojo.MongoPO;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=true)
 @Document("user_info")
-public class UserInfoPO extends MongoEntity {
+public class UserInfoPO extends MongoPO {
 
     /**用户标识*/
     @Field(name="username", targetType = FieldType.STRING)

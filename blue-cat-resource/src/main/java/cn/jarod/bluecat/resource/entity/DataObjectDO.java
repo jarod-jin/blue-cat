@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.entity;
 
-import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
+import cn.jarod.bluecat.core.data.mongo.pojo.MongoPO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Document("data_object")
-public class DataObjectDO extends MongoEntity {
+public class DataObjectDO extends MongoPO {
 
     /**对象名称*/
     @Field("objectName")

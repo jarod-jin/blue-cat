@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.entity;
 
-import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
+import cn.jarod.bluecat.core.data.mongo.pojo.MongoPO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class ReleaseDO extends MongoEntity {
+public class ReleaseDO extends MongoPO {
 
     /**版本号*/
     @Field("releaseVersion")

@@ -10,7 +10,7 @@ import cn.jarod.bluecat.core.api.util.ApiResultUtil;
 import cn.jarod.bluecat.core.common.enums.Constant;
 import cn.jarod.bluecat.core.api.enums.ReturnCode;
 import cn.jarod.bluecat.core.api.exception.BaseException;
-import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
+import cn.jarod.bluecat.core.security.pojo.UserDetailDO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteUser(UserDetail authBO) {
+    public void deleteUser(UserDetailDO authBO) {
         BaseException userNotFound = ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE, "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> userNotFound));
     }
@@ -169,9 +169,9 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UserDetail findUserInfo(String name) {
+    public UserDetailDO findUserInfo(String name) {
         UserInfoPO UserInfoPO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.INVALID_REQUEST));
-        return BeanHelperUtil.createCopyBean(UserInfoPO, UserDetail.class);
+        return BeanHelperUtil.createCopyBean(UserInfoPO, UserDetailDO.class);
     }
 
     @Override
@@ -201,7 +201,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean setUserInfo2Cache(UserDetail userInfoDTO) {
+    public boolean setUserInfo2Cache(UserDetailDO userInfoDTO) {
         try {
             ValueOperations<String, String> operations = redisTemplate.opsForValue();
             operations.set(Constant.Redis.USER_INFO_PREFIX + userInfoDTO.getUsername(), JsonUtil.toJson(userInfoDTO), userTimeOut, TimeUnit.HOURS);

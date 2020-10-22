@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.role.pojo.entity;
 
-import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
+import cn.jarod.bluecat.core.data.mongo.pojo.MongoPO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 @ToString
 @EqualsAndHashCode(callSuper=true)
 @Document("role")
-public class RolePO extends MongoEntity {
+public class RolePO extends MongoPO {
 
     /**角色编码*/
     @Field(name="role_code", targetType = FieldType.STRING)

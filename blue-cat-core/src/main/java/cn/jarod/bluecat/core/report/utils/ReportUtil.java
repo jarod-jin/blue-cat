@@ -2,16 +2,19 @@ package cn.jarod.bluecat.core.report.utils;
 
 
 import cn.jarod.bluecat.core.common.enums.Constant;
-import cn.jarod.bluecat.core.oauth.pojo.DataShareRules;
+import cn.jarod.bluecat.core.security.pojo.DataConditionDO;
+import cn.jarod.bluecat.core.security.pojo.DataShareRuleDO;
 import cn.jarod.bluecat.core.common.utils.ForEachUtil;
-import cn.jarod.bluecat.core.report.pojo.ReportObjectDTO;
+import cn.jarod.bluecat.core.report.pojo.ColumnDO;
+import cn.jarod.bluecat.core.report.pojo.ConditionConfigDO;
+import cn.jarod.bluecat.core.report.pojo.ReportItemDO;
+import cn.jarod.bluecat.core.report.pojo.ReportObjectDO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -22,7 +25,7 @@ public class ReportUtil {
      * @param reportObject
      * @return
      */
-    public static String sqlHandler(ReportObjectDTO reportObject){
+    public static String sqlHandler(ReportObjectDO reportObject){
         StringBuffer sql = new StringBuffer().append("select");
         reportObject.getColumns().forEach(c->
             sql.append(Constant.SqlSymbol.SPACE)
@@ -63,7 +66,7 @@ public class ReportUtil {
      * @param database
      * @return
      */
-        public static String makeConditionSql(DataShareRules s, String database) {
+        public static String makeConditionSql(DataShareRuleDO s, String database) {
         StringBuilder sb = new StringBuilder();
         List<String> strList = s.getConditions().stream().map(r->{
             String dbname = StringUtils.hasText(r.getDatabase())? r.getDatabase(): database;
@@ -147,21 +150,21 @@ public class ReportUtil {
         });
     }
 
-    public static DataShareRules assembleConditions(Set<ColumnDTO> columnSet, List<ConditionDTO> condition, core.reportItemDTO core.reportItemDTO) {
-        if(!StringUtils.isEmpty(core.reportItemDTO.getFilterLogic())){
-            return assembleFilterLogicConditions(columnSet, condition, core.reportItemDTO);
+    public static DataShareRuleDO assembleConditions(Set<ColumnDO> columnSet, List<DataConditionDO> condition, ReportItemDO ReportItemDO) {
+        if(!StringUtils.isEmpty(ReportItemDO.getFilterLogic())){
+            return assembleFilterLogicConditions(columnSet, condition, ReportItemDO);
         }
-        if (!CollectionUtils.isEmpty(core.reportItemDTO.getConditions())) {
-            Map<String, ConditionConfigDTO> map = core.reportItemDTO.getConditions().stream().collect(Collectors.toMap(ConditionConfigDTO::getFieldname, val -> val, (v1, v2) -> v1));
+        if (!CollectionUtils.isEmpty(ReportItemDO.getConditions())) {
+            Map<String, ConditionConfigDO> map = ReportItemDO.getConditions().stream().collect(Collectors.toMap(ConditionConfigDO::getFieldName, val -> val, (v1, v2) -> v1));
             ArrayList<String> keys = new ArrayList<>(map.keySet());
             columnSet.forEach(column -> {
                 if (keys.contains(column.getColumn())) {
-                    ConditionConfigDTO configDTO = map.get(column.getColumn());
-                    condition.add(new ConditionDTO(column.getTable().getDatabase(), column.getTable().getTableName(), configDTO.getFieldname(), null, configDTO.getOperatorName(), configDTO.getFieldValue()));
+                    ConditionConfigDO configDTO = map.get(column.getColumn());
+                    condition.add(new DataConditionDO(column.getTable().getDatabase(), column.getTable().getTableName(), configDTO.getFieldName(), null, configDTO.getOperatorName(), configDTO.getFieldValue()));
                 }
             });
         }
-        DataShareRules queryRules = new DataShareRules();
+        DataShareRuleDO queryRules = new DataShareRuleDO();
         if (!CollectionUtils.isEmpty(condition)) {
             StringBuilder builder = new StringBuilder();
             for (int i = condition.size(); i >= 1; i--) {
@@ -173,15 +176,14 @@ public class ReportUtil {
         return queryRules;
     }
 
-    private static DataShareRules assembleFilterLogicConditions(Set<ColumnDTO> columnSet, List<ConditionDTO> condition, core.reportItemDTO core.reportItemDTO) {
-        DataShareRules queryRules = new DataShareRules();
-
-        List<ConditionDTO> conditions = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(core.reportItemDTO.getConditions())) {
-            core.reportItemDTO.getConditions().forEach(c ->{
+    private static DataShareRuleDO assembleFilterLogicConditions(Set<ColumnDO> columnSet, List<DataConditionDO> condition, ReportItemDO ReportItemDO) {
+        DataShareRuleDO queryRules = new DataShareRuleDO();
+        List<DataConditionDO> conditions = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(ReportItemDO.getConditions())) {
+            ReportItemDO.getConditions().forEach(c ->{
                 columnSet.forEach(column -> {
-                    if (column.getColumn().equals(c.getFieldname())) {
-                        conditions.add(new ConditionDTO(column.getTable().getDatabase(), column.getTable().getTableName(),  c.getFieldname(), null, c.getOperatorName(), c.getFieldValue()));
+                    if (column.getColumn().equals(c.getFieldName())) {
+                        conditions.add(new DataConditionDO(column.getTable().getDatabase(), column.getTable().getTableName(),  c.getFieldName(), null, c.getOperatorName(), c.getFieldValue()));
                         return;
                     }
                 });
@@ -189,7 +191,7 @@ public class ReportUtil {
         }
 
         if (!CollectionUtils.isEmpty(condition)) {
-            StringBuilder builder = new StringBuilder(core.reportItemDTO.getFilterLogic());
+            StringBuilder builder = new StringBuilder(ReportItemDO.getFilterLogic());
             for (int i = 0; i < condition.size(); i++) {
                 builder.append(" ").append("AND").append(" #").append(conditions.size()+1);
                 conditions.add(condition.get(i));

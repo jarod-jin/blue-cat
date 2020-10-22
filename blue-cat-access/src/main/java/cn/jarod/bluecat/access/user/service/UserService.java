@@ -4,7 +4,7 @@ import cn.jarod.bluecat.access.user.pojo.entity.UserInfoPO;
 import cn.jarod.bluecat.access.enums.SignType;
 import cn.jarod.bluecat.access.user.pojo.CrudUserBO;
 import cn.jarod.bluecat.access.user.pojo.UpdateCredBO;
-import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
+import cn.jarod.bluecat.core.security.pojo.UserDetailDO;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Map;
@@ -26,7 +26,7 @@ public interface UserService {
      * 删除用户
      * @param authBO 删除用户
      */
-    void deleteUser(UserDetail authBO);
+    void deleteUser(UserDetailDO authBO);
 
     /**
      * 修改用户基本信息
@@ -62,7 +62,7 @@ public interface UserService {
      * @param name 用户名
      * @return UserInfoDTO
      */
-    UserDetail findUserInfo(String name);
+    UserDetailDO findUserInfo(String name);
 
     /**
      * 返回一个可用的用户名
@@ -83,7 +83,7 @@ public interface UserService {
      * @param userInfoDTO 用户信息
      * @return boolean
      */
-    boolean setUserInfo2Cache(final UserDetail userInfoDTO);
+    boolean setUserInfo2Cache(final UserDetailDO userInfoDTO);
 
     /**
      * 获取刷新Token
