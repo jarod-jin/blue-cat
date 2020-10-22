@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.access.group.pojo.entity;
 
 
-import cn.jarod.bluecat.core.base.entity.MongoEntity;
+import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

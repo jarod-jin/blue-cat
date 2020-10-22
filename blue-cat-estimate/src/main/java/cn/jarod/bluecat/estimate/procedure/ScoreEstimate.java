@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.estimate.procedure;
 
-import cn.jarod.bluecat.core.annotation.TimeDiff;
-import cn.jarod.bluecat.core.common.EntityType;
+import cn.jarod.bluecat.core.log.annotation.TimeDiff;
+import cn.jarod.bluecat.core.common.enums.EntityType;
 import cn.jarod.bluecat.estimate.entity.AnswerDO;
 import cn.jarod.bluecat.estimate.entity.ConditionDO;
 import cn.jarod.bluecat.estimate.model.bo.CrudContractItemBO;

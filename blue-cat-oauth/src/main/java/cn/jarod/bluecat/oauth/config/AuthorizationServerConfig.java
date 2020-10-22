@@ -3,7 +3,7 @@ package cn.jarod.bluecat.oauth.config;
 import cn.jarod.bluecat.oauth.service.IntegrationAuthenticationProvider;
 import cn.jarod.bluecat.core.converter.CustomUserAuthenticationConverter;
 import cn.jarod.bluecat.oauth.exception.CustomOauthException;
-import cn.jarod.bluecat.core.common.Constant;
+import cn.jarod.bluecat.core.common.enums.Constant;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.oauth.client.entity;
 
 
-import cn.jarod.bluecat.core.base.entity.MysqlEntity;
+import cn.jarod.bluecat.core.sql.pojo.MsyqlPO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +28,7 @@ import javax.persistence.Table;
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "oauth_client_details", indexes = {@Index(columnList ="clientId", name="ClientIdIndex", unique = true)})
-public class OauthClientDetailsDO extends MysqlEntity {
+public class OauthClientDetailsDO extends MsyqlPO {
     /**
      * 客户端ID
      * */

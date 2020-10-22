@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.model.bo;
 
-import cn.jarod.bluecat.core.base.model.MysqlModel;
+import cn.jarod.bluecat.core.api.pojo.MysqlDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LinkResourceShareBO extends MysqlModel {
+public class LinkResourceShareBO extends MysqlDO {
 
     private String resourceCode;
 

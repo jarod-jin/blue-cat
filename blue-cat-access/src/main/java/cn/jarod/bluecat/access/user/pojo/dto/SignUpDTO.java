@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.user.pojo;
 
-import cn.jarod.bluecat.core.utils.CommonUtil;
+import cn.jarod.bluecat.core.common.utils.CommonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

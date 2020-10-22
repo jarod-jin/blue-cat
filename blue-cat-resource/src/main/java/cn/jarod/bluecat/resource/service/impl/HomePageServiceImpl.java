@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.resource.service.impl;
 
-import cn.jarod.bluecat.core.utils.BeanHelperUtil;
+import cn.jarod.bluecat.core.common.utils.BeanHelperUtil;
 import cn.jarod.bluecat.resource.entity.HomePageDO;
 import cn.jarod.bluecat.resource.model.bo.element.CrudHomePageBO;
 import cn.jarod.bluecat.resource.model.dto.HomePageQuery;

@@ -26,8 +26,6 @@ ext {
 
     hibernateVersion = "5.3.7.Final"
 
-//    fastdfsVersion = "1.26.4"
-
     poolVersion = "2.6.0"
 
     springBootAdminVersion = "2.1.1"
@@ -55,5 +53,7 @@ ext {
     springbootVersion = "2.2.8.RELEASE"
 
     jasyptVersion = "3.0.2"
+
+    javaMailVersion = "1.6.2"
 
 }

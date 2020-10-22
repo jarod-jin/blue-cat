@@ -6,11 +6,11 @@ import cn.jarod.bluecat.access.user.pojo.entity.CredentialPO;
 import cn.jarod.bluecat.access.user.pojo.entity.UserInfoPO;
 import cn.jarod.bluecat.access.user.repository.UserInfoRepository;
 import cn.jarod.bluecat.access.enums.SignType;
-import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.base.exception.BaseException;
-import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
-import cn.jarod.bluecat.core.utils.*;
+import cn.jarod.bluecat.core.api.util.ApiResultUtil;
+import cn.jarod.bluecat.core.common.enums.Constant;
+import cn.jarod.bluecat.core.api.enums.ReturnCode;
+import cn.jarod.bluecat.core.api.exception.BaseException;
+import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteUser(UserDetailDTO authBO) {
+    public void deleteUser(UserDetail authBO) {
         BaseException userNotFound = ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE, "找不到该用户");
         userInfoRepository.delete(userInfoRepository.findByUsername(authBO.getUsername()).orElseThrow(() -> userNotFound));
     }
@@ -170,9 +169,9 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UserDetailDTO findUserInfo(String name) {
+    public UserDetail findUserInfo(String name) {
         UserInfoPO UserInfoPO = userInfoRepository.findByUsername(name).orElseThrow(()->new BaseException(ReturnCode.INVALID_REQUEST));
-        return BeanHelperUtil.createCopyBean(UserInfoPO,UserDetailDTO.class);
+        return BeanHelperUtil.createCopyBean(UserInfoPO, UserDetail.class);
     }
 
     @Override
@@ -202,7 +201,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean setUserInfo2Cache(UserDetailDTO userInfoDTO) {
+    public boolean setUserInfo2Cache(UserDetail userInfoDTO) {
         try {
             ValueOperations<String, String> operations = redisTemplate.opsForValue();
             operations.set(Constant.Redis.USER_INFO_PREFIX + userInfoDTO.getUsername(), JsonUtil.toJson(userInfoDTO), userTimeOut, TimeUnit.HOURS);

@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.config;
 
-import cn.jarod.bluecat.core.common.Constant;
+import cn.jarod.bluecat.core.common.enums.Constant;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;

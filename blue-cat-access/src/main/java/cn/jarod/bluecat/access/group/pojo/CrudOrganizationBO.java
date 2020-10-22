@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.group.pojo;
 
-import cn.jarod.bluecat.core.base.model.TreeModel;
+import cn.jarod.bluecat.core.api.pojo.TreeDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class CrudOrganizationBO extends TreeModel {
+public class CrudOrganizationBO extends TreeDO {
 
     /**组织名称*/
     private String orgName;

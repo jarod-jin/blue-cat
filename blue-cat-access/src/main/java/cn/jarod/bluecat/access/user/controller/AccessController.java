@@ -1,8 +1,8 @@
 package cn.jarod.bluecat.access.user.controller;
 
 
-import cn.jarod.bluecat.core.annotation.TimeDiff;
-import cn.jarod.bluecat.core.base.controller.BaseController;
+import cn.jarod.bluecat.core.log.annotation.TimeDiff;
+import cn.jarod.bluecat.core.api.controller.BaseController;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;

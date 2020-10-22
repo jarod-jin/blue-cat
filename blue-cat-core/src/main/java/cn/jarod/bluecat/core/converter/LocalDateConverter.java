@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.converter;
 
-import cn.jarod.bluecat.core.common.Constant;
+import cn.jarod.bluecat.core.common.enums.Constant;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apache.commons.lang3.StringUtils;
 

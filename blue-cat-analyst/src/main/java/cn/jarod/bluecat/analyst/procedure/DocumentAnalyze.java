@@ -5,12 +5,12 @@ import cn.jarod.bluecat.analyst.entity.DocumentTextDO;
 import cn.jarod.bluecat.analyst.repository.DocumentTextRepository;
 
 import cn.jarod.bluecat.analyst.utils.CandidateUtil;
-import cn.jarod.bluecat.core.base.model.ResultDTO;
-import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.base.exception.BaseException;
-import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
-import cn.jarod.bluecat.core.utils.ApiResultUtil;
-import cn.jarod.bluecat.core.utils.PoiUtil;
+import cn.jarod.bluecat.core.api.pojo.ResultDTO;
+import cn.jarod.bluecat.core.api.enums.ReturnCode;
+import cn.jarod.bluecat.core.api.exception.BaseException;
+import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
+import cn.jarod.bluecat.core.api.util.ApiResultUtil;
+import cn.jarod.bluecat.core.common.utils.PoiUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class DocumentAnalyze {
         this.documentTextRepository = documentTextRepository;
     }
 
-    public ResultDTO uploadResumeFile(MultipartFile file, UserDetailDTO userDTO){
+    public ResultDTO uploadResumeFile(MultipartFile file, UserDetail userDTO){
         if (file.isEmpty()){
             throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE);
         }

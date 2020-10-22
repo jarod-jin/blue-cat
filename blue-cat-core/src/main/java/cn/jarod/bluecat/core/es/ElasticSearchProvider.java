@@ -1,20 +1,16 @@
 package cn.jarod.bluecat.account.config;
 
-import cn.jarod.bluecat.core.annotation.ContextType;
-import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.common.ReturnCode;
+import cn.jarod.bluecat.core.common.annotation.ContextType;
+import cn.jarod.bluecat.core.api.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
-import cn.jarod.bluecat.core.model.auth.ConditionAnalysis;
-import cn.jarod.bluecat.core.model.auth.ConditionDTO;
-import cn.jarod.bluecat.core.model.auth.DataPermissionsDTO;
-import cn.jarod.bluecat.core.model.auth.ShareRulesDTO;
-import cn.jarod.bluecat.core.utils.ApiResultUtil;
-import cn.jarod.bluecat.core.utils.JsonUtil;
+import cn.jarod.bluecat.core.oauth.pojo.ConditionAnalysis;
+import cn.jarod.bluecat.core.oauth.pojo.DataCondition;
+import cn.jarod.bluecat.core.oauth.pojo.DataPermissions;
+import cn.jarod.bluecat.core.api.util.ApiResultUtil;
+import cn.jarod.bluecat.core.common.utils.JsonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.assertj.core.internal.Conditions;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
@@ -55,7 +51,6 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -310,7 +305,7 @@ public abstract class ElasticSearchProvider {
         return id;
     }
 
-    private void takeDataAccessBuilder(DataPermissionsDTO permissionsDTO, SearchSourceBuilder builder){
+    private void takeDataAccessBuilder(DataPermissions permissionsDTO, SearchSourceBuilder builder){
         ConditionAnalysis conditionAnalysis = new ConditionAnalysis(permissionsDTO.getObjectPerm());
         if (conditionAnalysis.isUpdateAll()||conditionAnalysis.isReadAll()) {
             return;
@@ -342,7 +337,7 @@ public abstract class ElasticSearchProvider {
     }
 
 
-    private QueryBuilder takeMatchPhraseQuery(ConditionDTO condition){
+    private QueryBuilder takeMatchPhraseQuery(DataCondition condition){
         switch (condition.getOperator()) {
             //不等于
             case "!=":

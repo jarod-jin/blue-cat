@@ -4,7 +4,7 @@ import cn.jarod.bluecat.access.group.pojo.entity.GroupPO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
 import cn.jarod.bluecat.access.group.service.GroupService;
 import cn.jarod.bluecat.access.BlueCatAccessApplicationTest;
-import cn.jarod.bluecat.core.base.model.TreeModel;
+import cn.jarod.bluecat.core.api.pojo.TreeDO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -99,7 +99,7 @@ class OrganizationServiceTest extends BlueCatAccessApplicationTest {
     @Test
     @DisplayName("根据给定组织代码查询该组织下的组织树")
     void findOrgTreeByOrgCode() {
-        List<TreeModel> orgList = organizationService.findOrgTreeByFullCode("SYS100001");
+        List<TreeDO> orgList = organizationService.findOrgTreeByFullCode("SYS100001");
         assertFalse(orgList.isEmpty());
         assertFalse(orgList.get(0).getChildren().isEmpty());
     }

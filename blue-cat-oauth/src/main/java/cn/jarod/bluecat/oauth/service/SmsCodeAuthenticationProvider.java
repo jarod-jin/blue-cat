@@ -3,11 +3,8 @@ package cn.jarod.bluecat.oauth.service;
 import cn.jarod.bluecat.oauth.client.UserDetailsClient;
 import cn.jarod.bluecat.oauth.model.IntegrationAuthentication;
 import cn.jarod.bluecat.oauth.model.UserAuthentication;
-import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
-import cn.jarod.bluecat.core.utils.ApiResultUtil;
-import cn.jarod.bluecat.core.utils.HttpUtil;
+import cn.jarod.bluecat.core.common.enums.Constant;
+import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -43,7 +40,7 @@ public class SmsCodeAuthenticationProvider extends AbstractIntegrationAuthentica
         if (redisTemplate.hasKey(key)){
             String redisCode = redisTemplate.opsForValue().get(key).toString();
             if (redisCode.equals(secretCode)){
-                UserDetailDTO user = userDetailsClient.loadUserByTel(tel);
+                UserDetail user = userDetailsClient.loadUserByTel(tel);
                 return new UsernamePasswordAuthenticationToken(new UserAuthentication(), "N/A", user.getRoleList());
             }
             throw new BadCredentialsException("验证码不正确");

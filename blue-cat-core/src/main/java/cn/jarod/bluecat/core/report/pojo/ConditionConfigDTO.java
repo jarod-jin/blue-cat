@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.report.pojo;
+package cn.jarod.bluecat.core.report.pojo;
 
 import lombok.Data;
 

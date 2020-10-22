@@ -1,6 +1,7 @@
-package cn.jarod.bluecat.report.pojo;
+package cn.jarod.bluecat.core.report.pojo;
 
-import cn.jarod.bluecat.core.entity.MysqlEntity;
+
+import cn.jarod.bluecat.core.api.pojo.MysqlDO;
 import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @date 2020/8/5 16:33
  */
 @Data
-public class ReportItemDTO extends MysqlEntity implements Serializable {
+public class ReportItemDTO extends MysqlDO implements Serializable {
 
     private String filterLogic;
 

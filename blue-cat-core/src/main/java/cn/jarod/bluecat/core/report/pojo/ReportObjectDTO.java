@@ -1,5 +1,5 @@
-package cn.jarod.bluecat.report.pojo;
-import cn.jarod.bluecat.core.model.auth.ShareRulesDTO;
+package cn.jarod.bluecat.core.report.pojo;
+import cn.jarod.bluecat.core.oauth.pojo.DataShareRules;
 import lombok.*;
 
 import java.util.List;
@@ -30,11 +30,11 @@ public class ReportObjectDTO {
     /**
      * 权限条件
      */
-    private List<ShareRulesDTO> shareRules;
+    private List<DataShareRules> shareRules;
 
     /**
      * 过滤条件
      */
-    private ShareRulesDTO filterRules;
+    private DataShareRules filterRules;
 
 }

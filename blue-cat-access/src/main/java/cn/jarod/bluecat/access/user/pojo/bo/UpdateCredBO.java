@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.access.user.pojo;
 
 import cn.jarod.bluecat.auth.model.dto.UpdateCredDTO;
-import cn.jarod.bluecat.core.utils.EncryptUtil;
+import cn.jarod.bluecat.core.common.utils.EncryptUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

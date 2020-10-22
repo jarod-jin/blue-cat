@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.access.enums;
 
-import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.utils.ApiResultUtil;
+import cn.jarod.bluecat.core.api.enums.ReturnCode;
+import cn.jarod.bluecat.core.api.util.ApiResultUtil;
 
 import java.util.Arrays;
 

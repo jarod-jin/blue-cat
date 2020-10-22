@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.service;
 
-import cn.jarod.bluecat.core.annotation.AccessLimit;
+import cn.jarod.bluecat.core.common.annotation.AccessLimit;
 
 import javax.servlet.http.HttpServletRequest;
 

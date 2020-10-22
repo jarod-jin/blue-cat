@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.estimate.entity;
 
-import cn.jarod.bluecat.core.base.entity.MysqlEntity;
+import cn.jarod.bluecat.core.sql.pojo.MsyqlPO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @DynamicUpdate
 @EqualsAndHashCode(callSuper=true)
 @Table(name = "contract_sheet", indexes = {@Index(columnList ="serialNo", name="SerialNoIndex", unique = true)})
-public class ContractSheetDO extends MysqlEntity {
+public class ContractSheetDO extends MsyqlPO {
 
     /**合约编号*/
     @Column(nullable = false, columnDefinition=("varchar(20) comment '合约编号'"))

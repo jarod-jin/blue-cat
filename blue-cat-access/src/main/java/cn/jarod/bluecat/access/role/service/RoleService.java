@@ -3,7 +3,7 @@ package cn.jarod.bluecat.access.role.service;
 import cn.jarod.bluecat.access.role.pojo.entity.RolePO;
 
 import cn.jarod.bluecat.access.role.pojo.CrudRoleBO;
-import cn.jarod.bluecat.core.base.model.BaseQuery;
+import cn.jarod.bluecat.core.api.pojo.QueryDO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public interface RoleService {
      * @param qo 查询对象
      * @return Page
      */
-    Page<RolePO> findRolePage(BaseQuery qo);
+    Page<RolePO> findRolePage(QueryDO qo);
 
 
 //    /**

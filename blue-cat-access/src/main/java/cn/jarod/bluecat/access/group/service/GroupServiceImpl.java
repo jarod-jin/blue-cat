@@ -4,13 +4,13 @@ import cn.jarod.bluecat.access.group.pojo.entity.GroupPO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
 import cn.jarod.bluecat.access.group.pojo.LinkOrgRoleBO;
 import cn.jarod.bluecat.access.group.repository.GroupRepository;
-import cn.jarod.bluecat.core.base.model.TreeModel;
-import cn.jarod.bluecat.core.common.Constant;
-import cn.jarod.bluecat.core.common.ReturnCode;
-import cn.jarod.bluecat.core.base.exception.BaseException;
-import cn.jarod.bluecat.core.utils.BeanHelperUtil;
-import cn.jarod.bluecat.core.utils.JsonUtil;
-import cn.jarod.bluecat.core.utils.TreeUtil;
+import cn.jarod.bluecat.core.api.pojo.TreeDO;
+import cn.jarod.bluecat.core.common.enums.Constant;
+import cn.jarod.bluecat.core.api.enums.ReturnCode;
+import cn.jarod.bluecat.core.api.exception.BaseException;
+import cn.jarod.bluecat.core.common.utils.BeanHelperUtil;
+import cn.jarod.bluecat.core.common.utils.JsonUtil;
+import cn.jarod.bluecat.core.common.utils.TreeUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -87,7 +87,7 @@ public class GroupServiceImpl implements GroupService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<TreeModel> findGroupTreeByFullCode(String fullCode) {
+    public List<TreeDO> findGroupTreeByFullCode(String fullCode) {
         List<CrudOrganizationBO> list = organizationRepository.findAllByFullCodeLike(fullCode+ Constant.Symbol.SQL_LIKE).stream().map(e->{
             CrudOrganizationBO orgDTO = new CrudOrganizationBO();
             BeanUtils.copyProperties(e,orgDTO);

@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.resource.service.impl;
 
-import cn.jarod.bluecat.core.utils.ApiResultUtil;
-import cn.jarod.bluecat.core.utils.BeanHelperUtil;
+import cn.jarod.bluecat.core.api.util.ApiResultUtil;
+import cn.jarod.bluecat.core.common.utils.BeanHelperUtil;
 import cn.jarod.bluecat.resource.entity.DictDO;
 import cn.jarod.bluecat.resource.model.bo.dict.CrudDictBO;
 import cn.jarod.bluecat.resource.model.bo.dict.UpdateDictItemBO;

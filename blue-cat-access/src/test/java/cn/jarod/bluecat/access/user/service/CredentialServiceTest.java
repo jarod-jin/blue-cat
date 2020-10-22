@@ -4,9 +4,9 @@ import cn.jarod.bluecat.access.BlueCatAccessApplicationTest;
 import cn.jarod.bluecat.access.user.pojo.CrudUserBO;
 import cn.jarod.bluecat.access.user.pojo.UpdateCredBO;
 import cn.jarod.bluecat.access.user.pojo.UpdateCredDTO;
-import cn.jarod.bluecat.core.base.exception.BaseException;
-import cn.jarod.bluecat.core.model.auth.UserDetailDTO;
-import cn.jarod.bluecat.core.utils.BeanHelperUtil;
+import cn.jarod.bluecat.core.api.exception.BaseException;
+import cn.jarod.bluecat.core.oauth.pojo.UserDetail;
+import cn.jarod.bluecat.core.common.utils.BeanHelperUtil;
 import cn.jarod.bluecat.access.user.pojo.entity.UserInfoPO;
 import cn.jarod.bluecat.access.enums.SignType;
 import org.junit.jupiter.api.AfterEach;
@@ -96,7 +96,7 @@ class CredentialServiceTest extends BlueCatAccessApplicationTest {
     void register4JunitTest() {
         UserInfoPO userInfoPO = userInfoService.registerUser(tmp,"admin1234");
         assertNotNull(userInfoPO.getId());
-        userInfoService.deleteUser(BeanHelperUtil.createCopyBean(userInfoPO, UserDetailDTO.class));
+        userInfoService.deleteUser(BeanHelperUtil.createCopyBean(userInfoPO, UserDetail.class));
     }
 
     @Test

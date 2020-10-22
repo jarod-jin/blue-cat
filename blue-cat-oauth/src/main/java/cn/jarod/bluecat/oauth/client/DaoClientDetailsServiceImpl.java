@@ -2,7 +2,7 @@ package cn.jarod.bluecat.oauth.client;
 
 import cn.jarod.bluecat.oauth.client.entity.OauthClientDetailsDO;
 import cn.jarod.bluecat.oauth.client.repository.OauthClientDetailsRepository;
-import cn.jarod.bluecat.core.common.Constant;
+import cn.jarod.bluecat.core.common.enums.Constant;
 import com.google.common.collect.Sets;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;

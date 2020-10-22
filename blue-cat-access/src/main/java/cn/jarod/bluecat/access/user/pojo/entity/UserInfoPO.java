@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.access.user.pojo.entity;
 
-import cn.jarod.bluecat.core.base.entity.MongoEntity;
+import cn.jarod.bluecat.core.sql.pojo.MongoEntity;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

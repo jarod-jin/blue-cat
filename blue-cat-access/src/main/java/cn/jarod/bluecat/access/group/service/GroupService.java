@@ -3,7 +3,7 @@ package cn.jarod.bluecat.access.group.service;
 import cn.jarod.bluecat.access.group.pojo.entity.GroupPO;
 import cn.jarod.bluecat.access.group.pojo.CrudOrganizationBO;
 import cn.jarod.bluecat.access.group.pojo.LinkOrgRoleBO;
-import cn.jarod.bluecat.core.base.model.TreeModel;
+import cn.jarod.bluecat.core.api.pojo.TreeDO;
 
 import java.util.List;
 import java.util.Map;
@@ -39,7 +39,7 @@ public interface GroupService {
      * @param fullCode 组织代码
      * @return List
      */
-    List<TreeModel> findGroupTreeByFullCode(String fullCode);
+    List<TreeDO> findGroupTreeByFullCode(String fullCode);
 
     /**
      * 根据组织代码查询相关组织信息，返回散列表
