@@ -56,4 +56,8 @@ ext {
 
     javaMailVersion = "1.6.2"
 
+    rocketmqVersion = "2.1.1"
+
+    restHighLevelClientVersion = "7.9.3"
+
 }

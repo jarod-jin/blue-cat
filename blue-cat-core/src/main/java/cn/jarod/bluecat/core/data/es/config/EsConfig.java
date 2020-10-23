@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.data.es.config;
 
+import cn.jarod.bluecat.core.data.es.component.EsClientProperties;
 import com.amazonaws.auth.AWS4Signer;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
@@ -15,9 +16,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EsConfig  {
 
-    private final AwsEsClientProperties awsEsClientProperties;
+    private final EsClientProperties awsEsClientProperties;
 
-    public AwsEsConfig(AwsEsClientProperties awsEsClientProperties) {
+    public EsConfig(EsClientProperties awsEsClientProperties) {
         this.awsEsClientProperties = awsEsClientProperties;
     }
 

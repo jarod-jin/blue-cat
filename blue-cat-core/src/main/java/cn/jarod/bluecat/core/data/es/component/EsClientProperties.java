@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 @ConfigurationProperties(prefix = "aws.es")
-public class AwsEsClientProperties {
+public class EsClientProperties {
 
     private String serviceName;
 
