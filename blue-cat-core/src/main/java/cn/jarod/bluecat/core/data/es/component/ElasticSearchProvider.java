@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.data.es.component;
 
+import cn.jarod.bluecat.core.api.exception.BaseException;
 import cn.jarod.bluecat.core.security.annotation.ContextType;
 import cn.jarod.bluecat.core.api.enums.ReturnCode;
 import cn.jarod.bluecat.core.exception.BaseException;
