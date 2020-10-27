@@ -3,7 +3,7 @@ package cn.jarod.bluecat.access.role.service;
 import cn.jarod.bluecat.access.role.pojo.entity.RolePO;
 import cn.jarod.bluecat.access.role.pojo.CrudRoleBO;
 import cn.jarod.bluecat.access.role.repository.RoleRepository;
-import cn.jarod.bluecat.core.api.pojo.QueryDO;
+import cn.jarod.bluecat.core.api.pojo.PageRequestDTO;
 import cn.jarod.bluecat.core.common.enums.Constant;
 import cn.jarod.bluecat.core.api.enums.ReturnCode;
 import cn.jarod.bluecat.core.api.exception.BaseException;
@@ -78,7 +78,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<RolePO> findRolePage(QueryDO qo) {
+    public Page<RolePO> findRolePage(PageRequestDTO qo) {
         return roleRepository.findAll(qo.getPageRequest());
     }
 

@@ -47,6 +47,9 @@ public class Constant {
 
         String GMT_CREATE = "gmtCreate";
 
+        String BASE_REPOSITORY = "cn.jarod.*";
+
+
     }
 
     public interface Authentication{
@@ -81,6 +84,8 @@ public class Constant {
     }
 
     public interface SqlSymbol {
+
+        String NULL = "null";
 
         String ON = " on ";
 

@@ -1,19 +1,18 @@
 package cn.jarod.bluecat.core.data.es.component;
 
 import cn.jarod.bluecat.core.api.exception.BaseException;
-import cn.jarod.bluecat.core.security.annotation.ContextType;
 import cn.jarod.bluecat.core.api.enums.ReturnCode;
-import cn.jarod.bluecat.core.exception.BaseException;
+
+import cn.jarod.bluecat.core.common.enums.Constant;
+import cn.jarod.bluecat.core.data.es.annotation.ContextType;
 import cn.jarod.bluecat.core.security.pojo.DataConditionDO;
 import cn.jarod.bluecat.core.security.pojo.DataPermissionDO;
 import cn.jarod.bluecat.core.api.util.ApiResultUtil;
 import cn.jarod.bluecat.core.common.utils.JsonUtil;
+import cn.jarod.bluecat.core.security.utils.ShareRuleUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.assertj.core.internal.Conditions;
-import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
-import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -32,7 +31,6 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
@@ -48,21 +46,28 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Slf4j
-public abstract class ElasticSearchProvider {
+public abstract class ElasticSearchProvider<T> {
 
     private final RestHighLevelClient esClient;
-    
+
+    private final Class<T> entityClass;
+
     private static final int retryLimit = 3;
+
 
     public ElasticSearchProvider(RestHighLevelClient esClient) {
         this.esClient = esClient;
+        Type genType = getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        entityClass = (Class<T>) params[0];
     }
 
 
@@ -71,20 +76,17 @@ public abstract class ElasticSearchProvider {
      *
      * @param index
      * @param searchSourceBuilder
-     * @param clazz 需要封装的obj
      * @param pageable
      * @return Page<T>
      */
-    public <T> Page<T> search(String index, SearchSourceBuilder searchSourceBuilder, Class<T> clazz,
-                              Pageable pageable){
-
+    public Page<T> search(String index, SearchSourceBuilder searchSourceBuilder, Pageable pageable){
         SearchRequest searchRequest = new SearchRequest(index);
         searchRequest.source(searchSourceBuilder);
         log.info("DSL语句为：{}",searchRequest.source().toString());
         try {
             SearchResponse response = esClient.search(searchRequest, RequestOptions.DEFAULT);
             List<T> dataList = new LinkedList<>();
-            Arrays.stream(response.getHits().getHits()).forEach(hit-> dataList.add(JsonUtil.parseObject(hit.getSourceAsString(), clazz)));
+            Arrays.stream(response.getHits().getHits()).forEach(hit-> dataList.add(JsonUtil.parseObject(hit.getSourceAsString(), entityClass)));
             return new PageImpl<>(dataList,pageable,response.getHits().getTotalHits().value);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -131,7 +133,7 @@ public abstract class ElasticSearchProvider {
      * @param index
      * @return
      */
-    public <T>  Boolean saveDocToEs(Object obj, String index){
+    public Boolean saveDocToEs(Object obj, String index){
         try {
             String str= JsonUtil.toJson(obj);
             IndexRequest indexRequest = new IndexRequest(index).id(getESId(obj))
@@ -171,41 +173,41 @@ public abstract class ElasticSearchProvider {
 
 
     /**
-     * 创建索引
+     * 创建索引(创建新的数据表)
      * @param indexName
      * Class<T> tClass
      * @throws IOException
      */
-    public <T> void  createIndex(String indexName,Class<T> tClass) throws IOException {
-        Field[] fields = tClass.getDeclaredFields();
+    public void createIndex(String indexName) throws IOException {
+        Field[] fields = entityClass.getDeclaredFields();
         // 标识开始设置值
         XContentBuilder builder = XContentFactory.jsonBuilder()
                 .startObject()
-                    .startObject("mappings")
-                        .startObject("properties");
-                            for(Field field : fields) {
-                                field.setAccessible(true);
-                                builder.startObject(field.getName());
-                                ContextType contextType = field.getAnnotation(ContextType.class);
-                                String index = contextType.analyzer();
-                                builder.field("type", contextType.value());
-                                if (StringUtils.hasText(index)){
-                                    builder.field("analyzer", index);
-                                }
-                                if (field.getType().equals(Date.class)||field.getType().equals(LocalDate.class)||field.getType().equals(LocalDateTime.class)){
-                                    builder.field("format", contextType.format());
-                                }
-                                builder.endObject();
-                            }
-                        builder.endObject()
-                    .endObject();
-                    builder.startObject("settings")
-                            //设置主分片个数，默认值是 `5`
-                        .field("number_of_shards",5)
-                            //设置主分片的复制分片个数，默认是 `1`
-                        .field("number_of_replicas",1)
-                    .endObject();
-                builder.endObject();
+                .startObject("mappings")
+                .startObject("properties");
+        for(Field field : fields) {
+            field.setAccessible(true);
+            builder.startObject(field.getName());
+            ContextType contextType = field.getAnnotation(ContextType.class);
+            String index = contextType.analyzer();
+            builder.field("type", contextType.value());
+            if (StringUtils.hasText(index)){
+                builder.field("analyzer", index);
+            }
+            if (field.getType().equals(Date.class)||field.getType().equals(LocalDate.class)||field.getType().equals(LocalDateTime.class)){
+                builder.field("format", contextType.format());
+            }
+            builder.endObject();
+        }
+        builder.endObject()
+                .endObject();
+        builder.startObject("settings")
+                //设置主分片个数，默认值是 `5`
+                .field("number_of_shards",5)
+                //设置主分片的复制分片个数，默认是 `1`
+                .field("number_of_replicas",1)
+                .endObject();
+        builder.endObject();
         //版本不一样注意这个方法不一样，有些版本是source方法
         CreateIndexRequest request = new CreateIndexRequest(indexName).source(builder);
         CreateIndexResponse createIndexResponse = esClient.indices().create(request, RequestOptions.DEFAULT);
@@ -250,8 +252,7 @@ public abstract class ElasticSearchProvider {
      * @param index
      * @return
      */
-    public <T> Boolean batchAddOrUptToEs(List<T> array, String index) {
-
+    public Boolean batchAddOrUptToEs(List<T> array, String index) {
         try {
             BulkRequest request = new BulkRequest();
             for (Object obj : array) {
@@ -305,35 +306,49 @@ public abstract class ElasticSearchProvider {
         return id;
     }
 
-    private void takeDataAccessBuilder(DataPermissionDO permissionsDTO, SearchSourceBuilder builder){
-        ConditionAnalysis conditionAnalysis = new ConditionAnalysis(permissionsDTO.getObjectPerm());
-        if (conditionAnalysis.isUpdateAll()||conditionAnalysis.isReadAll()) {
-            return;
+    /**
+     * 根据权限数据获取QueryBuilder
+     * @param permissionDO
+     * @return
+     */
+    public BoolQueryBuilder takeDataAccessBuilder(DataPermissionDO permissionDO){
+        BoolQueryBuilder dataAccessQueryBuilder = new BoolQueryBuilder();
+        if (permissionDO.isUpdateAll()||permissionDO.isReadAll()) {
+            return dataAccessQueryBuilder;
         }
-        if (!conditionAnalysis.isRead()){
+        if (!permissionDO.isRead()){
             throw ApiResultUtil.fail4BadParameter(ReturnCode.NOT_ACCEPTABLE,"no such search authentication for this data");
         }
-        /*
-         *         SearchSourceBuilder builder = SearchSourceBuilder.searchSource()
-         *                 .fetchSource(new String[]{"id","originalId","content","title"}, new String[]{});
-         *         WildcardQueryBuilder matchPhraseQueryBuilder = QueryBuilders.wildcardQuery("title", "*acc*");
-         *         BoolQueryBuilder childBoolQueryBuilder = new BoolQueryBuilder().must(matchPhraseQueryBuilder);
-         *         builder.query(childBoolQueryBuilder);
-         */
-        List<BoolQueryBuilder> listBuilder = permissionsDTO.getShareRules().stream().map(s->{
-            BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
-            List<QueryBuilder> matchQueryBuilders = s.getConditions().stream()
-                    .map(this::takeMatchPhraseQuery).collect(Collectors.toList());
+        permissionDO.getShareRules().forEach(s->{
             if (StringUtils.hasText(s.getFilter())){
-                //todo
-
+                //调整的权限es赋值代码
+                String filter = ShareRuleUtil.convertToPostfix(s.getFilter());
+                Stack<QueryBuilder> stack = new Stack<>();
+                for (char c : filter.toCharArray()) {
+                    switch (c) {
+                        case 'a':
+                            BoolQueryBuilder andQueryBuilder = new BoolQueryBuilder()
+                                    .must(stack.pop())
+                                    .must(stack.pop());
+                            stack.push(andQueryBuilder);
+                            break;
+                        case 'o':
+                            BoolQueryBuilder orQueryBuilder = new BoolQueryBuilder()
+                                    .should(stack.pop())
+                                    .should(stack.pop());
+                            stack.push(orQueryBuilder);
+                            break;
+                        default:
+                            DataConditionDO condition = s.getConditions().get(Integer.parseInt(String.valueOf(c)) - 1);
+                            stack.push(takeMatchPhraseQuery(condition));
+                    }
+                }
+                dataAccessQueryBuilder.should(stack.pop());
             }else{
-                matchQueryBuilders.forEach(boolQueryBuilder::must);
+                s.getConditions().forEach(e-> dataAccessQueryBuilder.should(takeMatchPhraseQuery(e)));
             }
-            return boolQueryBuilder;
-        }).collect(Collectors.toList());
-
-
+        });
+        return dataAccessQueryBuilder;
     }
 
 
@@ -344,10 +359,10 @@ public abstract class ElasticSearchProvider {
                 return QueryBuilders.boolQuery().mustNot(QueryBuilders.termQuery(condition.getFieldName(), condition.getFieldValue()));
             //包含
             case "in":
-                return QueryBuilders.termQuery(condition.getFieldName(), condition.getFieldValue().split(","));
+                return QueryBuilders.termQuery(condition.getFieldName(), condition.getFieldValue().split(Constant.Symbol.COMMA));
             //包含
             case "not in":
-                return QueryBuilders.boolQuery().mustNot(QueryBuilders.termQuery(condition.getFieldName(), condition.getFieldValue().split(",")));
+                return QueryBuilders.boolQuery().mustNot(QueryBuilders.termQuery(condition.getFieldName(), condition.getFieldValue().split(Constant.Symbol.COMMA)));
             //小于
             case "<":
                 return QueryBuilders.rangeQuery(condition.getFieldName()).lt(condition.getFieldValue());
@@ -371,14 +386,13 @@ public abstract class ElasticSearchProvider {
                 return QueryBuilders.boolQuery().mustNot(QueryBuilders.fuzzyQuery(condition.getFieldName(), condition.getFieldValue()));
             //为空
             case "null":
-                return QueryBuilders.termQuery(condition.getFieldName(), "null");
+                return QueryBuilders.termQuery(condition.getFieldName(), Constant.SqlSymbol.NULL);
             //不为空
             case "not null":
-                return QueryBuilders.boolQuery().mustNot(QueryBuilders.termQuery(condition.getFieldName(), "null"));
+                return QueryBuilders.boolQuery().mustNot(QueryBuilders.termQuery(condition.getFieldName(), Constant.SqlSymbol.NULL));
             //等于
             default:
                 return QueryBuilders.termQuery(condition.getFieldName(), condition.getFieldValue());
         }
     }
-
 }

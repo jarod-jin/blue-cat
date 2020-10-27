@@ -73,7 +73,7 @@ public class ApiResultUtil {
      * @return new BaseException(ReturnCode.UNAUTHORIZED.
      */
     public static BaseException fail4Existed(){
-        return new BaseException(ReturnCode.ALREADY_EXISTED);
+        return new BaseException(ReturnCode.ENTITY_EXISTED);
     }
 
     /**

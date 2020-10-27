@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.common.utils;
 
-import cn.jarod.bluecat.core.api.pojo.QueryDO;
+import cn.jarod.bluecat.core.api.pojo.PageRequestDTO;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ class BeanHelperUtilTest {
 
     @Test
     void getPropertiesEmptyValue() {
-        QueryDO queryDO = new QueryDO();
+        PageRequestDTO queryDO = new PageRequestDTO();
         queryDO.setPageNum(1);
         String[] nullStr = BeanHelperUtil.getEmptyValueProperties(queryDO);
         assertFalse(Arrays.asList(nullStr).contains("pageNum"));

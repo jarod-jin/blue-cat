@@ -36,4 +36,6 @@ class EncryptUtilTest {
         String result = EncryptUtil.getRandomCode(6,true);
         assertTrue(result.matches(CommonPattern.LETTER_DIGIT.getPattern()));
     }
+
+
 }

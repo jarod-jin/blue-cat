@@ -33,6 +33,9 @@ public enum ReturnCode {
     /**Not Acceptable - [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）*/
     INVALID_REQUEST(40006,"用户请求的格式错误,请注意请求的Content-type"),
 
+    /**ENTITY EXISTED - 当创建一个对象时，数据已存在。*/
+    ENTITY_EXISTED(40021,"数据已存在"),
+
     /**Unprocessable entity - [POST/PUT/PATCH] 当创建一个对象时，发生一个验证错误。*/
     UNPROCESSABLE_ENTITY(40022,"请求参数验证错误"),
 

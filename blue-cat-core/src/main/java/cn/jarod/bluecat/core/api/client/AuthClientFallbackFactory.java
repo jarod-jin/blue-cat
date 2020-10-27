@@ -17,7 +17,7 @@ public class AuthClientFallbackFactory implements FallbackFactory<BlueCatAuthCli
     @Override
     public BlueCatAuthClient create(Throwable throwable) {
         return () -> {
-            log.error(Constant.Common.ERROR_HEAD, throwable.getMessage());
+            log.error(throwable.getMessage());
             return "Execute raw fallback: access service fail , req= " + LocalDateTime.now() + " reason = " + throwable.getCause();
         };
     }

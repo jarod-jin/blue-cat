@@ -1,5 +1,6 @@
 package cn.jarod.bluecat.core.api.config;
 
+import cn.jarod.bluecat.core.common.enums.Constant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +22,8 @@ public class FeignConfig  implements RequestInterceptor {
         if (attributes != null) {
             HttpServletRequest request = attributes.getRequest();
             //添加token
-            if (!template.headers().containsKey(Constant.Common.ACCESS_TOKEN)){
-                template.header(Constant.Common.ACCESS_TOKEN, request.getHeader(Constant.Common.ACCESS_TOKEN));
+            if (!template.headers().containsKey(Constant.Common.AUTHORIZATION)){
+                template.header(Constant.Common.AUTHORIZATION, request.getHeader(Constant.Common.AUTHORIZATION));
             }
         }
     }

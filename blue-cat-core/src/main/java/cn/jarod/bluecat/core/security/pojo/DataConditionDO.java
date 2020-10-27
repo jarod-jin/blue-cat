@@ -29,12 +29,12 @@ public class DataConditionDO {
     private String fieldName;
 
     /**
-     * 数据库名
+     * 字段类别
      */
     private String dataType;
 
     /**
-     * 数据类型名
+     * 查询方式
      */
     private String operator;
 

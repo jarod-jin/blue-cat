@@ -6,7 +6,7 @@ import cn.jarod.bluecat.access.role.pojo.CrudRoleBO;
 import cn.jarod.bluecat.access.role.service.RoleService;
 import cn.jarod.bluecat.core.api.exception.BaseException;
 import cn.jarod.bluecat.access.role.pojo.entity.RolePO;
-import cn.jarod.bluecat.core.api.pojo.QueryDO;
+import cn.jarod.bluecat.core.api.pojo.PageRequestDTO;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -101,7 +101,7 @@ class RoleServiceTest extends BlueCatAccessApplicationTest {
     @Test
     @DisplayName("分页查询所有角色")
     void queryRolePage() {
-        Page<RolePO> page = roleService.findRolePage(new QueryDO());
+        Page<RolePO> page = roleService.findRolePage(new PageRequestDTO());
         assertAll("检验返回结果",
                 ()-> assertFalse(page.isEmpty()),
                 ()-> assertEquals("admin",page.getContent().get(0).getRoleCode())

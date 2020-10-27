@@ -37,7 +37,7 @@ import java.util.Objects;
 @ConditionalOnClass({DataSource.class, EmbeddedDatabaseType.class})
 @EnableConfigurationProperties({DataSourceProperties.class})
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {Constant.DataSource.BASE_REPOSITORY})
+@EnableJpaRepositories(basePackages = {Constant.Entity.BASE_REPOSITORY})
 public class DataSourceConfig {
 
     private static final String MASTER = "master";
