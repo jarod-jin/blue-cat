@@ -10,7 +10,7 @@
 3. 默认使用MariaDB作为主要数据库，使用redis作为默认缓存，MongoDB作为用户权限相关的存储数据库;
 4. 由于文件分析和处理的文件结构的不确定性，目前使用mongo作为文件分析的数据库；
 5. 使用spring cloud gateway作为网关；
-6. docker-compose文件夹下为本系统使用的docker编译文件；
+6. docker-compose文件夹下为本系统使用的docker编译文件，运行命令为docker-compose -f xxx.yml up -d；
 
 ### 模块说明
 

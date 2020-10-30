@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.component;
+package cn.jarod.bluecat.core.security.service;
 
 import cn.jarod.bluecat.core.api.pojo.ResultDTO;
 import cn.jarod.bluecat.core.common.utils.JsonUtil;

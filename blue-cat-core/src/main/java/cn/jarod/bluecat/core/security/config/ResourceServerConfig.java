@@ -1,6 +1,5 @@
 package cn.jarod.bluecat.core.security.config;
 
-import cn.jarod.bluecat.core.component.CustomSecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;

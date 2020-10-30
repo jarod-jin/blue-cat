@@ -56,9 +56,6 @@ logging:
     console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
 
 security:
-  expirationTime: 28800000
-  tokenSalt: jarod.jin
-  tokenPrefix: Bearer
   loginUrl: /auth/api/login
   permitAllUrl:
     - /monitor/*

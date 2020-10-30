@@ -1,4 +1,4 @@
-package cn.jarod.bluecat.core.component;
+package cn.jarod.bluecat.core.security.config;
 
 import lombok.Getter;
 import lombok.Setter;

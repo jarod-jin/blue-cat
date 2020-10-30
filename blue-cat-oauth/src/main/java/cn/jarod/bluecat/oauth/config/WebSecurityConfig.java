@@ -1,7 +1,7 @@
 package cn.jarod.bluecat.oauth.config;
 
-import cn.jarod.bluecat.core.component.CustomLogoutHandler;
-import cn.jarod.bluecat.core.component.CustomSecurityProperties;
+import cn.jarod.bluecat.core.security.service.CustomLogoutHandler;
+import cn.jarod.bluecat.core.security.config.CustomSecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

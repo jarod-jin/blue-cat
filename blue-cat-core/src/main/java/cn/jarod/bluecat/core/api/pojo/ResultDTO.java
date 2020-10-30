@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
-public class ResultDTO implements Serializable {
+public class ResultDTO<T> implements Serializable {
     private static final long serialVersionUID = -5288702993752277282L;
 
     private Integer code;

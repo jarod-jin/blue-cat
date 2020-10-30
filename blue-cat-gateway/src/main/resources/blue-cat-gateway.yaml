@@ -49,6 +49,12 @@ spring:
             - StripPrefix=1
             - AddResponseHeader=X-Response-Default-Foo, Default-Bar
 
+security:
+  login-url: /auth/api/login
+  resource-id: gateway
+  permit-all:
+    - /monitor/*
+    - /**
 
 management:
   endpoints:

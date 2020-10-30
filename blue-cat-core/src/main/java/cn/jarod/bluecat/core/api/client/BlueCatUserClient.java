@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * @author jarod.jin 2019/9/5
  */
-@FeignClient(value="blue-cat-user", fallbackFactory = UserClientFallbackFactory.class)
+@FeignClient(value="blue-cat-user")
 public interface BlueCatUserClient {
     /**
      * 根据Name查询User
