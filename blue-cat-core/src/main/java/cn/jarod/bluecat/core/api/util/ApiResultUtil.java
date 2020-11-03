@@ -13,45 +13,6 @@ import cn.jarod.bluecat.core.api.exception.NoDataFoundException;
 public class ApiResultUtil {
 
     /**
-     * 查询成功
-     * @param obj 返回数据
-     * @return ResultDTO
-     */
-    public static ResultDTO getSuccess(Object obj){
-        return new ResultDTO(ReturnCode.GET_SUCCESS.getCode(),ReturnCode.GET_SUCCESS.getMsg(),obj);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getSuccess(false));
-    }
-
-    /**
-     * 修改成功
-     * @param obj 返回数据
-     * @return ResultDTO
-     */
-    public static ResultDTO saveSuccess(Object obj){
-        return new ResultDTO(ReturnCode.SAVE_SUCCESS.getCode(),ReturnCode.SAVE_SUCCESS.getMsg(),obj);
-    }
-
-    /**
-     * 未找到数据
-     * @return BaseException
-     */
-    public static ResultDTO fail4ServerDown(){
-        return new ResultDTO(ReturnCode.FORBIDDEN.getCode(),"服务器过载触发熔断",null);
-    }
-
-
-    /**
-     * 删除成功
-     * @return ResultDTO
-     */
-    public static ResultDTO delSuccess(){
-        return new ResultDTO(ReturnCode.DEL_SUCCESS.getCode(),ReturnCode.DEL_SUCCESS.getMsg(),"");
-    }
-
-    /**
      * 验证不通过
      * @param msg 错误信息
      * @return BaseException

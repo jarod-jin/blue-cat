@@ -8,16 +8,10 @@ public enum ReturnCode {
     /**成功返回
      * OK - [GET]：服务器成功返回用户请求的数据，该操作是幂等的（Idempotent）
      */
-    GET_SUCCESS(20010,"查询成功"),
-
-    /**CREATED - [POST/PUT/PATCH]：用户新建或修改数据成功。*/
-    SAVE_SUCCESS(20020,"保存成功"),
+    REQUEST_SUCCESS(20000,"请求返回成功"),
 
     /**Accepted - [*]：表示一个请求已经进入后台排队（异步任务）*/
-    REQUEST_ACCEPT(20030,"请求已接受"),
-
-    /**NO CONTENT - [DELETE]：用户删除数据成功。*/
-    DEL_SUCCESS(20040,"删除成功"),
+    REQUEST_ACCEPT(20010,"请求已接受"),
 
     /**请求问题返回
      * Unauthorized - [*]：表示用户没有权限（令牌、用户名、密码错误）。
