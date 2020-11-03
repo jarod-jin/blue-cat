@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.api.client;
 
-import cn.jarod.bluecat.core.api.pojo.ResultDTO;
+import cn.jarod.bluecat.core.api.pojo.ResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public interface BlueCatUserClient {
      * @return ResultDTO
      */
     @RequestMapping(value = "/info/username/{name}", method = RequestMethod.GET)
-    ResultDTO findUserByName(@PathVariable("name") String name);
+    ResponseDTO findUserByName(@PathVariable("name") String name);
 
 
     /**
@@ -26,5 +26,5 @@ public interface BlueCatUserClient {
      * @return ResultDTO
      */
     @RequestMapping(value ="/info/tel/{tel}", method = RequestMethod.GET)
-    ResultDTO findUserByTel(@PathVariable("tel") String tel);
+    ResponseDTO findUserByTel(@PathVariable("tel") String tel);
 }

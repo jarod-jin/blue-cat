@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.oauth.endpoint;
 
-import cn.jarod.bluecat.core.api.pojo.ResultDTO;
+import cn.jarod.bluecat.core.api.pojo.ResponseDTO;
 import cn.jarod.bluecat.core.security.service.SecurityService;
 import cn.jarod.bluecat.core.api.util.ApiResultUtil;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
@@ -19,7 +19,7 @@ public class AccessTokenEndpoint {
     }
 
     @ReadOperation()
-    public ResultDTO takeToken() {
+    public ResponseDTO takeToken() {
         return ApiResultUtil.getSuccess(securityService.createToken());
     }
 

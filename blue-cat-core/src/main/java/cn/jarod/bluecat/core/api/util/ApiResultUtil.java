@@ -1,6 +1,5 @@
 package cn.jarod.bluecat.core.api.util;
 
-import cn.jarod.bluecat.core.api.pojo.ResultDTO;
 import cn.jarod.bluecat.core.api.enums.ReturnCode;
 import cn.jarod.bluecat.core.api.exception.BadParameterException;
 import cn.jarod.bluecat.core.api.exception.BaseException;

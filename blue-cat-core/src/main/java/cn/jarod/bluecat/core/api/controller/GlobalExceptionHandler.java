@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.api.controller;
 
-import cn.jarod.bluecat.core.api.pojo.ResultDTO;
+import cn.jarod.bluecat.core.api.pojo.ResponseDTO;
 import cn.jarod.bluecat.core.common.enums.Constant;
 import cn.jarod.bluecat.core.api.enums.ReturnCode;
 import cn.jarod.bluecat.core.api.exception.BaseException;
@@ -25,23 +25,23 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResultDTO validErrorHandler(HttpServletRequest req, MethodArgumentNotValidException e) {
+    public ResponseDTO validErrorHandler(HttpServletRequest req, MethodArgumentNotValidException e) {
         log.warn("数据校验不通过: " + logMsgPrefix, req.getRequestURI(), e.getMessage(), JsonUtil.toJson(traceExceptionLastLocation(e)));
-        return new ResultDTO(ReturnCode.UNPROCESSABLE_ENTITY.getCode(), ReturnCode.UNPROCESSABLE_ENTITY.getMsg(), e.getMessage());
+        return new ResponseDTO(ReturnCode.UNPROCESSABLE_ENTITY.getCode(), ReturnCode.UNPROCESSABLE_ENTITY.getMsg(), e.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(value = BaseException.class)
-    public ResultDTO defaultErrorHandler(HttpServletRequest req, BaseException e) {
+    public ResponseDTO defaultErrorHandler(HttpServletRequest req, BaseException e) {
         log.warn("参数异常："+ logMsgPrefix, req.getRequestURI(), e.getMsg(), JsonUtil.toJson(traceExceptionLastLocation(e)));
-        return new ResultDTO(ReturnCode.UNPROCESSABLE_ENTITY.getCode(), e.getMsg(), traceExceptionLastLocation(e));
+        return new ResponseDTO(ReturnCode.UNPROCESSABLE_ENTITY.getCode(), e.getMsg(), traceExceptionLastLocation(e));
     }
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ResultDTO errorHandler(HttpServletRequest req, Exception e) {
+    public ResponseDTO errorHandler(HttpServletRequest req, Exception e) {
         log.error("接口异常："+ logMsgPrefix , req.getRequestURI(), e.getMessage(), JsonUtil.toJson(traceExceptionLastLocation(e)));
-        return new ResultDTO(ReturnCode.SERVER_ERROR.getCode(), ReturnCode.SERVER_ERROR.getMsg(), e.getMessage());
+        return new ResponseDTO(ReturnCode.SERVER_ERROR.getCode(), ReturnCode.SERVER_ERROR.getMsg(), e.getMessage());
     }
 
     /**

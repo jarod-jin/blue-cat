@@ -2,6 +2,7 @@ package cn.jarod.bluecat.core.api.pojo;
 
 import cn.jarod.bluecat.core.security.pojo.DataConditionDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +16,8 @@ import java.util.List;
  * @author jarod.jin 2019/9/4
  */
 @Data
-public class PageRequestDTO {
+@EqualsAndHashCode(callSuper = true)
+public class PageRequestDTO extends RequestDTO{
 
     @NotNull
     private Integer pageNo;
@@ -28,11 +30,7 @@ public class PageRequestDTO {
 
     private String[] orderProperty;
 
-    private List<DataConditionDO> conditionList;
-
-
     public PageRequestDTO(int pageNo, int size) {
-
         if (pageNo < 0) {
             throw new IllegalArgumentException("Page index must not be less than zero!");
         }
@@ -40,7 +38,6 @@ public class PageRequestDTO {
         if (size < 1) {
             throw new IllegalArgumentException("Page size must not be less than one!");
         }
-
         this.pageNo = pageNo;
         this.pageSize = size;
     }

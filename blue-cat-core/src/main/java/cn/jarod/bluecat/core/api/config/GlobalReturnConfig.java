@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.api.config;
 
-import cn.jarod.bluecat.core.api.pojo.ResultDTO;
+import cn.jarod.bluecat.core.api.pojo.ResponseDTO;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -36,10 +36,10 @@ public class GlobalReturnConfig {
         @Override
         public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass,
                                       ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-            if (body instanceof ResultDTO) {
+            if (body instanceof ResponseDTO) {
                 return body;
             }
-            return new ResultDTO(body);
+            return new ResponseDTO(body);
         }
     }
 }

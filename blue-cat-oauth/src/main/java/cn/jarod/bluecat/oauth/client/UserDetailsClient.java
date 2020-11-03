@@ -2,7 +2,7 @@ package cn.jarod.bluecat.oauth.client;
 
 
 import cn.jarod.bluecat.core.api.client.BlueCatUserClient;
-import cn.jarod.bluecat.core.api.pojo.ResultDTO;
+import cn.jarod.bluecat.core.api.pojo.ResponseDTO;
 import cn.jarod.bluecat.core.security.pojo.UserDetailDO;
 import cn.jarod.bluecat.core.common.utils.MapBeanUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -34,11 +34,11 @@ public class UserDetailsClient {
         return loadUserDetail(blueCatUserClient.findUserByTel(tel));
     }
 
-    private UserDetailDO loadUserDetail(ResultDTO resultDTO) {
-        if (resultDTO != null && resultDTO.isSuccessful() && resultDTO.getData() instanceof Map) {
-            Assert.isNull(resultDTO.getData(), "用户名不存在");
+    private UserDetailDO loadUserDetail(ResponseDTO responseDTO) {
+        if (responseDTO != null && responseDTO.isSuccessful() && responseDTO.getData() instanceof Map) {
+            Assert.isNull(responseDTO.getData(), "用户名不存在");
             @SuppressWarnings("unchecked")
-            Map<String, Object> objectMap = (Map<String, Object>) resultDTO.getData();
+            Map<String, Object> objectMap = (Map<String, Object>) responseDTO.getData();
             return MapBeanUtil.map2Bean(objectMap, UserDetailDO.class);
         }
         throw new UsernameNotFoundException("用户名不存在");

@@ -13,20 +13,20 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
-public class ResultDTO<T> implements Serializable {
+public class ResponseDTO<T> implements Serializable {
     private static final long serialVersionUID = -5288702993752277282L;
 
     private Integer code;
     private String msg;
     private T data;
 
-    private ResultDTO(T data) {
+    private ResponseDTO(T data) {
         this.code = ReturnCode.REQUEST_SUCCESS.getCode();
         this.msg = ReturnCode.REQUEST_SUCCESS.getMsg();
         this.data = data;
     }
 
-    private ResultDTO(ReturnCode returnCode) {
+    private ResponseDTO(ReturnCode returnCode) {
         if(returnCode == null){
             return;
         }
@@ -34,7 +34,7 @@ public class ResultDTO<T> implements Serializable {
         this.msg = returnCode.getMsg();
     }
 
-    private ResultDTO(ReturnCode returnCode, String msg) {
+    private ResponseDTO(ReturnCode returnCode, String msg) {
         if(returnCode == null){
             return;
         }
@@ -45,33 +45,33 @@ public class ResultDTO<T> implements Serializable {
      * 成功时候的调用
      * @return
      */
-    public static <T> ResultDTO<T> success(T data){
-        return new ResultDTO<T>(data);
+    public static <T> ResponseDTO<T> success(T data){
+        return new ResponseDTO<T>(data);
     }
     /**
      * 成功，不需要传入参数
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static <T> ResultDTO<T> success(){
-        return (ResultDTO<T>) success("");
+    public static <T> ResponseDTO<T> success(){
+        return (ResponseDTO<T>) success("");
     }
 
     /**
      * 成功时候的调用
      * @return
      */
-    public static <T> ResultDTO<T> accept(T data){
-        ResultDTO<T> resultDTO = new ResultDTO(ReturnCode.REQUEST_ACCEPT);
-        resultDTO.setData(data);
-        return resultDTO;
+    public static <T> ResponseDTO<T> accept(T data){
+        ResponseDTO<T> responseDTO = new ResponseDTO(ReturnCode.REQUEST_ACCEPT);
+        responseDTO.setData(data);
+        return responseDTO;
     }
     /**
      * 失败时候的调用
      * @return
      */
-    public static <T> ResultDTO<T> error(ReturnCode returnCode){
-        return new ResultDTO<T>(returnCode);
+    public static <T> ResponseDTO<T> error(ReturnCode returnCode){
+        return new ResponseDTO<T>(returnCode);
     }
     /**
      * 失败时候的调用,扩展消息参数
@@ -79,8 +79,8 @@ public class ResultDTO<T> implements Serializable {
      * @param msg
      * @return
      */
-    public static <T> ResultDTO<T> error(ReturnCode returnCode, String msg){
-        return new ResultDTO<T>(returnCode, msg);
+    public static <T> ResponseDTO<T> error(ReturnCode returnCode, String msg){
+        return new ResponseDTO<T>(returnCode, msg);
     }
 
     public boolean isSuccessful(){

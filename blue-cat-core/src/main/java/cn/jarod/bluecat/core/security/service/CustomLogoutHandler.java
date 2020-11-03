@@ -1,6 +1,6 @@
 package cn.jarod.bluecat.core.security.service;
 
-import cn.jarod.bluecat.core.api.pojo.ResultDTO;
+import cn.jarod.bluecat.core.api.pojo.ResponseDTO;
 import cn.jarod.bluecat.core.common.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -47,7 +47,7 @@ public class CustomLogoutHandler implements LogoutSuccessHandler {
                 }
             }
             httpServletResponse.setContentType("application/json;charset=UTF-8");
-            httpServletResponse.getWriter().write(Objects.requireNonNull(JsonUtil.toJson(new ResultDTO(200,"sign out success",""))));
+            httpServletResponse.getWriter().write(Objects.requireNonNull(JsonUtil.toJson(new ResponseDTO(200,"sign out success",""))));
         } catch (IOException e) {
             log.error("logout error, cause by {}, the message is {}",e.getCause(), e.getMessage());
         }
